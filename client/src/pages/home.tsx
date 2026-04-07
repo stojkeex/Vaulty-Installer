@@ -71,12 +71,36 @@ const HOME_SHORTCUTS = [
   }
 ];
 
+const FINANCE_NEWS = [
+  {
+    kicker: "Markets",
+    title: "Stocks open mixed as traders wait for fresh inflation data",
+    summary: "Investors are staying cautious as rate-cut expectations keep shifting across global markets."
+  },
+  {
+    kicker: "Crypto",
+    title: "Bitcoin holds key support while altcoins trade in a narrow range",
+    summary: "Momentum is cooling, but traders still expect a breakout if volume returns later this week."
+  },
+  {
+    kicker: "Forex",
+    title: "Dollar steadies after central bank comments calm volatility",
+    summary: "Currency desks are watching policy signals closely as risk appetite improves slightly."
+  },
+  {
+    kicker: "Commodities",
+    title: "Gold edges higher as investors look for safer positioning",
+    summary: "A softer risk tone and uncertain macro signals are pushing defensive assets back in focus."
+  }
+];
+
 export default function Home() {
   const { user, userData } = useAuth();
   const { unreadCount } = useNotifications();
   const [location, setLocation] = useLocation();
   
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
 
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
   const badges = [badgeProImage];
@@ -97,6 +121,14 @@ export default function Home() {
     }, 5000); 
     return () => clearInterval(interval);
   }, [badges.length]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCurrentNewsIndex(prev => (prev + 1) % FINANCE_NEWS.length);
+    }, 30000 + Math.floor(Math.random() * 30000));
+
+    return () => clearTimeout(timeout);
+  }, [currentNewsIndex]);
 
   if (!user) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Redirecting...</div>;
 
@@ -217,7 +249,7 @@ export default function Home() {
             <div className="space-y-6">
               
               {/* Rotating Banner */}
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 p-6 sm:p-8 flex items-center justify-between cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
+              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <AnimatePresence mode="wait">
                   <motion.div 
@@ -226,19 +258,14 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="flex items-center gap-5 w-full relative z-10"
+                    className="flex items-center justify-between gap-4 w-full relative z-10"
                   >
-                    <div className={`w-14 h-14 rounded-full bg-gradient-to-br ${BANNERS[currentBannerIndex].color} flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.2)] group-hover:scale-110 transition-transform duration-500`}>
-                      {(() => {
-                        const Icon = BANNERS[currentBannerIndex].icon;
-                        return <Icon className="text-white w-7 h-7" />;
-                      })()}
+                    <div className="flex-1 min-w-0 text-left pl-0">
+                      <p className="mb-2 text-[10px] font-black uppercase tracking-[0.24em] text-gray-500">Vaulty Picks</p>
+                      <h3 className="text-[1.7rem] leading-[1.05] font-black text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
+                      <p className="text-sm text-gray-400 font-medium max-w-[240px]">{BANNERS[currentBannerIndex].subtitle}</p>
                     </div>
-                    <div className="flex-1">
-                      <h3 className="text-xl font-black text-white mb-1 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
-                      <p className="text-sm text-gray-400 font-medium">{BANNERS[currentBannerIndex].subtitle}</p>
-                    </div>
-                    <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10">
+                    <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10">
                       <ChevronRight className="w-5 h-5 text-white transition-transform group-hover:translate-x-1" />
                     </div>
                   </motion.div>
@@ -320,6 +347,46 @@ export default function Home() {
                     <span>4,500€</span>
                     <span>Goal: 10,000€</span>
                   </div>
+                </div>
+              </div>
+
+              {/* Finance News Card */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.04] to-black p-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)]" />
+                <div className="relative z-10">
+                  <div className="mb-4 flex items-center justify-between">
+                    <div>
+                      <p className="text-[10px] font-black uppercase tracking-[0.26em] text-gray-500">Live finance news</p>
+                      <h3 className="mt-1 text-lg font-bold tracking-tight text-white">Market Pulse</h3>
+                    </div>
+                    <div className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                      Simulated
+                    </div>
+                  </div>
+
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentNewsIndex}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -12 }}
+                      transition={{ duration: 0.45, ease: "easeOut" }}
+                      className="rounded-[20px] border border-white/10 bg-black/40 p-4"
+                    >
+                      <div className="mb-3 flex items-center justify-between gap-3">
+                        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
+                          {FINANCE_NEWS[currentNewsIndex].kicker}
+                        </span>
+                        <span className="text-[11px] text-gray-500">Updates every 30–60s</span>
+                      </div>
+                      <h4 className="text-lg font-bold leading-tight text-white">
+                        {FINANCE_NEWS[currentNewsIndex].title}
+                      </h4>
+                      <p className="mt-3 text-sm leading-relaxed text-gray-400">
+                        {FINANCE_NEWS[currentNewsIndex].summary}
+                      </p>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
               </div>
             </div>
