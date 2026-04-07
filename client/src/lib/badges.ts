@@ -1,5 +1,6 @@
 
 import verifiedBadge from "@assets/IMG_1076_1775576984427.png";
+import badgePro from "@assets/IMG_1085_1775581026902.png";
 
 export interface Badge {
   id: string;
@@ -36,7 +37,7 @@ export const BADGES: Badge[] = [
   {
     id: "premium-pro",
     name: "PRO Plan",
-    image: "/assets/badges/badge-pro.png",
+    image: badgePro,
     description: "PRO Plan Subscriber"
   },
   {

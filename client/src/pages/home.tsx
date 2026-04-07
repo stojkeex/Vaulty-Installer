@@ -20,8 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
-import badgeProImage from "@assets/image_1766097473552.png";
-import badgeUltraImage from "@assets/image_1766097497589.png";
+import badgeProImage from "@assets/IMG_1085_1775581026902.png";
 import badgeMaxImage from "@assets/image_1766097506015.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
 

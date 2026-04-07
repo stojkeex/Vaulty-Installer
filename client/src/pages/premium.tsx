@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { usePremiumThanks } from "@/components/premium-thanks-modal";
 
 // Import badge images
-import badgePro from "/assets/badges/badge-pro.png";
+import badgePro from "@assets/IMG_1085_1775581026902.png";
 import badgeUltra from "/assets/badges/badge-ultra.png";
 import badgeMax from "/assets/badges/badge-max.png";
 
@@ -222,6 +222,12 @@ export default function Premium() {
     }
   };
 
+  const tierBadges = {
+    pro: badgePro,
+    max: badgeMax,
+    team: badgeUltra,
+  };
+
   const basePrice = tiers[selectedTier].price[billingCycle];
   let currentPrice = basePrice;
   let displayDiscount = appliedDiscount;
@@ -301,8 +307,18 @@ export default function Premium() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="space-y-1 mb-8"
+          className="space-y-4 mb-8"
         >
+          <div className="flex justify-center">
+            <div className="relative rounded-[28px] border border-white/12 bg-white/5 px-5 py-4 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+              <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-white/12 via-transparent to-white/4" />
+              <img
+                src={tierBadges[selectedTier]}
+                alt={`${tiers[selectedTier].name} badge`}
+                className="relative z-10 h-20 w-auto object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.35)]"
+              />
+            </div>
+          </div>
           <h1 className="text-5xl font-bold tracking-tight">{tiers[selectedTier].name}</h1>
           <p className="text-lg text-gray-300 font-medium max-w-[280px] mx-auto leading-tight">
             Vaulty 1.0: the smartest and most conversational version of Vaulty
