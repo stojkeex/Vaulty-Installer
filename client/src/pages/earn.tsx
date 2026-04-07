@@ -438,14 +438,17 @@ export default function EarnPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
+                  className="h-[320px]"
                 >
-                  <Card className="bg-zinc-900/50 border-white/10 overflow-hidden hover:border-gray-500/30 transition-colors">
-                    {offer.image && (
-                      <div className="h-32 w-full overflow-hidden relative">
+                  <Card className="h-full min-h-[320px] bg-zinc-900/50 border-white/10 overflow-hidden hover:border-gray-500/30 transition-colors flex flex-col">
+                    <div className="h-32 w-full overflow-hidden relative bg-zinc-800/80">
+                      {offer.image ? (
                         <img src={offer.image} alt={offer.title} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />
-                      </div>
-                    )}
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-zinc-800 via-zinc-900 to-black" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />
+                    </div>
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-start">
                         <div className="flex items-center gap-2">
@@ -466,10 +469,10 @@ export default function EarnPage() {
                       </div>
                       <CardTitle className="text-lg mt-2 text-white">{offer.title}</CardTitle>
                     </CardHeader>
-                    <CardContent className="pb-3">
+                    <CardContent className="flex-1 pb-3">
                       <p className="text-sm text-gray-400 line-clamp-3">{offer.description}</p>
                     </CardContent>
-                    <CardFooter className="pt-0 flex justify-between items-center border-t border-white/5 p-4 bg-white/2">
+                    <CardFooter className="mt-auto pt-0 flex justify-between items-center border-t border-white/5 p-4 bg-white/2">
                       <div className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-500 hover:text-red-400 hover:bg-red-500/10">
                           <AlertTriangle size={16} />
@@ -506,9 +509,9 @@ export default function EarnPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   onClick={() => setLocation(`/course/${course.id}`)}
-                  className="cursor-pointer"
+                  className="h-[360px] cursor-pointer"
                 >
-                  <Card className="bg-zinc-900/50 border-white/10 overflow-hidden hover:border-gray-500/30 transition-colors group">
+                  <Card className="h-full min-h-[360px] bg-zinc-900/50 border-white/10 overflow-hidden hover:border-gray-500/30 transition-colors group flex flex-col">
                     <div className="h-40 w-full overflow-hidden relative">
                         {course.image ? (
                             <img src={course.image} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
@@ -542,7 +545,7 @@ export default function EarnPage() {
                       <CardTitle className="text-lg text-white leading-tight group-hover:text-gray-400 transition-colors">{course.title}</CardTitle>
                     </CardHeader>
                     
-                    <CardContent className="pb-3">
+                    <CardContent className="flex-1 pb-3">
                         <p className="text-sm text-gray-400 line-clamp-2">{course.description}</p>
                         <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
                             <div className="flex items-center gap-1">
@@ -552,7 +555,7 @@ export default function EarnPage() {
                         </div>
                     </CardContent>
 
-                    <CardFooter className="pt-0 border-t border-white/5 p-3 bg-white/2 flex justify-between items-center">
+                    <CardFooter className="mt-auto pt-0 border-t border-white/5 p-3 bg-white/2 flex justify-between items-center">
                         <span className="text-sm font-bold text-white">${course.price} <span className="text-xs font-normal text-gray-500">/mo</span></span>
                         <Button size="sm" variant="ghost" className="h-8 text-gray-400 hover:text-gray-300 hover:bg-gray-500/10">
                             View Details
