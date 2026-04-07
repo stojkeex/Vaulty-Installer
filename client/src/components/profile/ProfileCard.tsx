@@ -106,14 +106,8 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
       borderColor: isCustomLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)"
   };
 
-  // Sort badges: Premium badges go last
-  const sortedBadges = user?.badges ? [...user.badges].sort((a, b) => {
-      const isAPremium = a.includes("premium");
-      const isBPremium = b.includes("premium");
-      if (isAPremium && !isBPremium) return 1;
-      if (!isAPremium && isBPremium) return -1;
-      return 0;
-  }) : [];
+  const hasVaultyPlusBadge = user?.badges?.some((badgeId: string) => badgeId.includes("premium"));
+  const visibleBadges = hasVaultyPlusBadge ? ["premium-pro"] : [];
 
   return (
     <div className="w-full flex justify-center">
@@ -179,9 +173,9 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             </p>
 
             {/* Badges */}
-            {sortedBadges.length > 0 && (
+            {visibleBadges.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-2 mb-4 z-10 relative">
-                {sortedBadges.map((badgeId: string) => {
+                {visibleBadges.map((badgeId: string) => {
                     const badge = BADGES.find(b => b.id === badgeId);
                     if (!badge) return null;
                     return (
