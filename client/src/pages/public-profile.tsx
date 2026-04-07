@@ -100,7 +100,7 @@ export default function PublicProfile() {
   const customStyle = userData?.cardStyle ? {
       color: userData.cardStyle.color,
       scale: (userData.cardStyle.size || 100) / 100,
-      animation: userData.cardStyle.animation
+      gradientTo: userData.cardStyle.gradientTo
   } : undefined;
 
   return (

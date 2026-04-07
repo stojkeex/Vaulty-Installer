@@ -21,27 +21,25 @@ interface ProfileCardProps {
   hideControls?: boolean;
   customStyle?: {
       color?: string;
-      pattern?: string;
-      animation?: string;
-      borderColor?: string;
+      gradientTo?: string;
   };
 }
 
-// Function to determine if a color is light
-const isLightColor = (color: string) => {
-  if (!color || color === "default") return false;
-  
-  // Convert hex to RGB
+const getColorLuminance = (color: string) => {
+  if (!color || color === "default") return 0;
+
   const hex = color.replace("#", "");
   const r = parseInt(hex.substring(0, 2), 16);
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
-  
-  // Calculate luminance
-  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  
-  // Return true if luminance is high (light color)
-  return luminance > 0.6; // Increased threshold for better contrast
+
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+};
+
+const isLightColor = (color: string) => getColorLuminance(color) > 0.6;
+
+const isLightGradient = (from: string, to: string) => {
+  return (getColorLuminance(from) + getColorLuminance(to)) / 2 > 0.58;
 };
 
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
@@ -71,51 +69,19 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
     addNotification(badge.name, badge.description, 'info', 5000);
   };
 
-  // Custom styles logic
   const cardStyle: React.CSSProperties = {};
   let isCustomLight = false;
-  
+
   if (customStyle?.color && customStyle.color !== 'default') {
-      cardStyle.background = customStyle.color;
-      isCustomLight = isLightColor(customStyle.color);
-      
-      // Reset animation if a solid color is picked unless animation is forced
-      if (customStyle.animation === 'none') {
-          cardStyle.animation = 'none';
+      if (customStyle.gradientTo) {
+          cardStyle.background = `linear-gradient(135deg, ${customStyle.color}, ${customStyle.gradientTo})`;
+          isCustomLight = isLightGradient(customStyle.color, customStyle.gradientTo);
+      } else {
+          cardStyle.background = customStyle.color;
+          isCustomLight = isLightColor(customStyle.color);
       }
   } else if (currentRank.id === 'silver' || currentRank.id === 'gold' || currentRank.id === 'master') {
-      // Check if rank default colors are light (Silver, Gold, Master are usually light)
-      // Master is rainbow but mostly light, Gold/Silver are light
       isCustomLight = true;
-  }
-
-  // Animation classes
-  let animClass = "";
-  if (customStyle?.animation) {
-      switch (customStyle.animation) {
-          case 'shimmer': animClass = "animate-shimmer bg-[length:200%_200%]"; break;
-          case 'rainbow': animClass = "animate-rainbow bg-[length:200%_100%]"; break;
-          case 'pulse': animClass = "animate-pulse"; break;
-          case 'bounce': animClass = "animate-bounce"; break;
-          case 'glow': 
-              // Glow uses inline style now
-              break;
-          case 'border-beam':
-              // Border beam handled separately
-              break;
-      }
-  }
-
-  // Pattern Class
-  let patternClass = "";
-  if (customStyle?.pattern && customStyle.pattern !== 'none') {
-      patternClass = `pattern-${customStyle.pattern}`;
-  }
-
-  // Special Effects (Glow)
-  if (customStyle?.animation === 'glow') {
-      const glowColor = customStyle.color !== 'default' ? customStyle.color : currentRank.color;
-      cardStyle.boxShadow = `0 0 30px ${glowColor || 'rgba(255,255,255,0.5)'}`;
   }
 
   const hasLinks = user?.links && Object.values(user.links).some(link => link && link !== "");
@@ -162,9 +128,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             <div 
                 className={cn(
                     "absolute w-full h-full backface-hidden rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-start p-6 text-center border-4",
-                    rankClass,
-                    animClass,
-                    patternClass
+                    rankClass
                 )}
                 style={{...cardStyle, borderColor: borderColor}}
             >
@@ -179,25 +143,6 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                  </span>
              </div>
             
-            {/* Border Beam Effect */}
-            {customStyle?.animation === 'border-beam' && (
-                <div 
-                    className="absolute inset-0 rounded-[2.5rem] pointer-events-none z-0 overflow-hidden"
-                    style={{
-                        padding: '4px' // Match border width
-                    }}
-                >
-                    <div 
-                        className="absolute inset-[-50%] w-[200%] h-[200%] animate-[spin_4s_linear_infinite]"
-                        style={{
-                            background: `conic-gradient(from 0deg, transparent 0 340deg, ${customStyle.borderColor || '#fff'} 360deg)`,
-                            top: '-50%',
-                            left: '-50%'
-                        }}
-                    />
-                </div>
-            )}
-
             {/* Rank Icon */}
             <div className="mt-8 mb-4 relative z-10">
                 <RankIcon rank={currentRank} size="lg" className="w-14 h-14" />
@@ -284,9 +229,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             <div 
                 className={cn(
                     "absolute w-full h-full backface-hidden rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-center p-6 text-center border-4 rotate-y-180 z-[100]",
-                    rankClass,
-                    animClass,
-                    patternClass
+                    rankClass
                 )}
                 style={{...cardStyle, borderColor: borderColor}}
             >

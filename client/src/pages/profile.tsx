@@ -66,7 +66,7 @@ export default function Profile() {
   const customStyle = userData?.cardStyle ? {
       color: userData.cardStyle.color,
       scale: (userData.cardStyle.size || 100) / 100,
-      animation: userData.cardStyle.animation
+      gradientTo: userData.cardStyle.gradientTo
   } : undefined;
 
   const horizontalItems = [
