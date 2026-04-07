@@ -115,26 +115,26 @@ export function BottomNav() {
                   ) : item.hasSearch ? (
                     <Search 
                       className={cn(
-                        "relative z-10 w-6 h-6", 
-                        isActive 
-                          ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" 
-                          : "text-white/50 group-hover:text-white/80"
+                        "relative z-10 w-6 h-6",
+                        isActive ? "drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "group-hover:opacity-80"
                       )}
                       style={{
-                        transition: "color 150ms ease-in-out, filter 150ms ease-in-out"
+                        color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.55)",
+                        stroke: "currentColor",
+                        transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
                       }}
                     />
                   ) : (
                     item.icon && (
                       <item.icon 
                         className={cn(
-                          "relative z-10 w-6 h-6", 
-                          isActive 
-                            ? "text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" 
-                            : "text-white/50 group-hover:text-white/80"
+                          "relative z-10 w-6 h-6",
+                          isActive ? "drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "group-hover:opacity-80"
                         )}
                         style={{
-                          transition: "color 150ms ease-in-out, filter 150ms ease-in-out"
+                          color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.55)",
+                          stroke: "currentColor",
+                          transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
                         }}
                       />
                     )
