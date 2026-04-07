@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-import { Check, ChevronLeft, Link as LinkIcon, MapPin, Sparkles, User, Wallet, Palette, Target } from "lucide-react";
+import { Check, Link as LinkIcon, Sparkles, User, Wallet, Palette, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useAuth } from "@/contexts/auth-context";
@@ -36,7 +36,6 @@ export function CompleteProfileWidget() {
     const photoDone = hasCustomProfilePhoto(userData?.photoURL || user?.photoURL);
     const usernameDone = Boolean(userData?.username && String(userData.username).trim().length >= 3);
     const bioDone = Boolean(userData?.bio && String(userData.bio).trim().length >= 8);
-    const locationDone = Boolean(userData?.location && String(userData.location).trim().length >= 2);
     const links = userData?.links || {};
     const socialDone = Boolean(
       (links.website && String(links.website).trim().length >= 4) ||
@@ -45,7 +44,6 @@ export function CompleteProfileWidget() {
     );
     const customizationDone = Boolean(userData?.cardStyle);
     const walletDone = Boolean(userData?.walletPin);
-    const goalsDone = goalsCount > 0;
 
     return [
       {
@@ -76,15 +74,6 @@ export function CompleteProfileWidget() {
         onClick: photoDone ? undefined : () => setLocation("/edit-profile"),
       },
       {
-        id: "location",
-        title: "Add your location",
-        description: "Show where you are from",
-        done: locationDone,
-        icon: MapPin,
-        actionLabel: locationDone ? "Done" : "Open",
-        onClick: locationDone ? undefined : () => setLocation("/edit-profile"),
-      },
-      {
         id: "social",
         title: "Add one link",
         description: "Website or social profile",
@@ -92,15 +81,6 @@ export function CompleteProfileWidget() {
         icon: LinkIcon,
         actionLabel: socialDone ? "Done" : "Open",
         onClick: socialDone ? undefined : () => setLocation("/edit-profile"),
-      },
-      {
-        id: "customization",
-        title: "Customize profile card",
-        description: "Give your profile its own look",
-        done: customizationDone,
-        icon: Palette,
-        actionLabel: customizationDone ? "Done" : "Open",
-        onClick: customizationDone ? undefined : () => setLocation("/customization"),
       },
       {
         id: "wallet",
@@ -111,17 +91,8 @@ export function CompleteProfileWidget() {
         actionLabel: walletDone ? "Done" : "Open",
         onClick: walletDone ? undefined : () => setLocation("/wallet"),
       },
-      {
-        id: "goal",
-        title: "Set your first goal",
-        description: "Start planning your next move",
-        done: goalsDone,
-        icon: Target,
-        actionLabel: goalsDone ? "Done" : "Go home",
-        onClick: goalsDone ? undefined : () => setLocation("/home"),
-      },
     ];
-  }, [goalsCount, setLocation, user?.photoURL, userData?.bio, userData?.cardStyle, userData?.links, userData?.location, userData?.photoURL, userData?.username, userData?.walletPin]);
+  }, [setLocation, user?.photoURL, userData?.bio, userData?.links, userData?.photoURL, userData?.username, userData?.walletPin]);
 
   const completedCount = tasks.filter((task) => task.done).length;
   const isComplete = tasks.length > 0 && completedCount === tasks.length;
@@ -163,7 +134,7 @@ export function CompleteProfileWidget() {
               setIsOpen(true);
               setShowBubble(false);
             }}
-            className="fixed bottom-56 right-4 z-[9999] rounded-full border border-white/15 bg-black/92 px-4 py-3 text-left text-white shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
+            className="fixed bottom-44 right-4 z-[9999] rounded-full border border-white/15 bg-black/92 px-4 py-3 text-left text-white shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
             data-testid="button-complete-profile-bubble"
           >
             <div className="flex items-center gap-3">
@@ -179,18 +150,30 @@ export function CompleteProfileWidget() {
         )}
       </AnimatePresence>
 
-      <div className="fixed bottom-36 right-4 z-[9999]">
+      <div className="fixed bottom-24 right-4 z-[9999]">
         <AnimatePresence initial={false} mode="wait">
           {isOpen ? (
-            <motion.div
-              key="panel"
-              initial={{ opacity: 0, y: 16, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 16, scale: 0.98 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="w-[320px] rounded-[28px] border border-white/12 bg-black/92 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.65)] backdrop-blur-3xl"
-              data-testid="panel-complete-profile"
-            >
+            <>
+              <motion.button
+                key="overlay"
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm"
+                data-testid="overlay-complete-profile"
+              />
+              <motion.div
+                key="panel"
+                initial={{ opacity: 0, y: 24, scale: 0.96 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 24, scale: 0.96 }}
+                transition={{ duration: 0.22, ease: "easeOut" }}
+                className="fixed left-1/2 top-1/2 z-[9999] w-[calc(100vw-32px)] max-w-[360px] -translate-x-1/2 -translate-y-1/2 rounded-[28px] border border-white/12 bg-black/94 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.7)] backdrop-blur-3xl"
+                data-testid="panel-complete-profile"
+              >
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.24em] text-white/40">Profile</p>
@@ -203,7 +186,7 @@ export function CompleteProfileWidget() {
                   className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/75 transition hover:bg-white/10 hover:text-white"
                   data-testid="button-close-complete-profile"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                 </button>
               </div>
 
@@ -252,7 +235,8 @@ export function CompleteProfileWidget() {
                   );
                 })}
               </div>
-            </motion.div>
+              </motion.div>
+            </>
           ) : (
             <motion.button
               key="toggle"
