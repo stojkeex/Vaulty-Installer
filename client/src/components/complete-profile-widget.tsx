@@ -34,6 +34,8 @@ export function CompleteProfileWidget() {
 
   const tasks = useMemo(() => {
     const photoDone = hasCustomProfilePhoto(userData?.photoURL || user?.photoURL);
+    const usernameDone = Boolean(userData?.username && String(userData.username).trim().length >= 3);
+    const bioDone = Boolean(userData?.bio && String(userData.bio).trim().length >= 8);
     const customizationDone = Boolean(userData?.cardStyle);
     const walletDone = Boolean(userData?.walletPin);
     const goalsDone = goalsCount > 0;
@@ -47,6 +49,24 @@ export function CompleteProfileWidget() {
         icon: User,
         actionLabel: "Done",
         onClick: undefined,
+      },
+      {
+        id: "username",
+        title: "Add username",
+        description: "Pick your @name",
+        done: usernameDone,
+        icon: User,
+        actionLabel: usernameDone ? "Done" : "Open",
+        onClick: usernameDone ? undefined : () => setLocation("/edit-profile"),
+      },
+      {
+        id: "bio",
+        title: "Write short bio",
+        description: "Tell people who you are",
+        done: bioDone,
+        icon: Sparkles,
+        actionLabel: bioDone ? "Done" : "Open",
+        onClick: bioDone ? undefined : () => setLocation("/edit-profile"),
       },
       {
         id: "photo",
@@ -85,10 +105,11 @@ export function CompleteProfileWidget() {
         onClick: goalsDone ? undefined : () => setLocation("/home"),
       },
     ];
-  }, [goalsCount, setLocation, user?.photoURL, userData?.cardStyle, userData?.photoURL, userData?.walletPin]);
+  }, [goalsCount, setLocation, user?.photoURL, userData?.bio, userData?.cardStyle, userData?.photoURL, userData?.username, userData?.walletPin]);
 
   const completedCount = tasks.filter((task) => task.done).length;
-  const isComplete = completedCount === tasks.length;
+  const requiredTaskCount = tasks.length - 1;
+  const isComplete = completedCount >= tasks.length && requiredTaskCount > 0;
 
   useEffect(() => {
     if (isComplete) {
@@ -111,7 +132,7 @@ export function CompleteProfileWidget() {
     };
   }, [isComplete]);
 
-  if (!user || !userData || isComplete) return null;
+  if (!user || isComplete) return null;
 
   return (
     <>
@@ -143,7 +164,7 @@ export function CompleteProfileWidget() {
         )}
       </AnimatePresence>
 
-      <div className="fixed right-3 top-1/2 z-[91] -translate-y-1/2">
+      <div className="fixed right-0 top-[58%] z-[9999] -translate-y-1/2">
         <AnimatePresence initial={false} mode="wait">
           {isOpen ? (
             <motion.div
@@ -226,18 +247,18 @@ export function CompleteProfileWidget() {
               exit={{ opacity: 0, x: 28 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
               onClick={() => setIsOpen(true)}
-              className="group mr-0 flex min-h-16 items-center gap-3 rounded-l-full border border-r-0 border-white/14 bg-black/92 py-3 pl-4 pr-3 text-white shadow-[0_20px_60px_rgba(0,0,0,0.58)] backdrop-blur-3xl"
+              className="group mr-0 flex items-center gap-3 rounded-l-[28px] border border-r-0 border-white/18 bg-black/95 py-3 pl-3 pr-3 text-white shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-3xl"
               data-testid="button-open-complete-profile"
             >
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/10">
-                <Check className="h-5 w-5 text-white" />
-                <div className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full border border-black/50 bg-white px-1 text-[10px] font-bold text-black">
+              <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white text-black shadow-[0_0_0_1px_rgba(255,255,255,0.12)]">
+                <Check className="h-5 w-5" />
+                <div className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full border border-black/50 bg-black px-1 text-[10px] font-bold text-white">
                   {completedCount}/{tasks.length}
                 </div>
               </div>
-              <div className="pr-1">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-white/40">Profile</p>
-                <p className="text-sm font-semibold leading-none">Complete</p>
+              <div className="pr-1 text-left">
+                <p className="text-[10px] uppercase tracking-[0.22em] text-white/45">Complete</p>
+                <p className="text-sm font-semibold leading-none text-white">Your profile</p>
               </div>
             </motion.button>
           )}
