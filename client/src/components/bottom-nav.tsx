@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 
-import VAULTY_AI_LOGO from "@assets/IMG_1036_1775418773775.png";
+import VAULTY_AI_LOGO from "@assets/IMG_1067_1775569221193.png";
 
 export function BottomNav() {
   const [location] = useLocation();

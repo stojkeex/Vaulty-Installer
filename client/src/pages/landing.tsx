@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { ArrowRight, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import { motion } from "framer-motion";
-import vaultyLogo from "@/assets/IMG_1036_1775418773775.png";
+import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
 
 export default function Landing() {
   const [, setLocation] = useLocation();

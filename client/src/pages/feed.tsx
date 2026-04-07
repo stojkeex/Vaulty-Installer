@@ -25,7 +25,7 @@ import {
 } from "firebase/firestore";
 import { formatDistanceToNow } from "date-fns";
 
-import LOGO from "@/assets/IMG_1036_1775418773775.png";
+import LOGO from "@assets/IMG_1067_1775569221193.png";
 
 interface Comment {
   id: string;

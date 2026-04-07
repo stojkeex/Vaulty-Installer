@@ -18,7 +18,7 @@ import { isAdmin, isSuperAdmin } from "@/lib/admins";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Assets
-import vaultyChristmasLogo from "@assets/IMG_1036_1775418773775.png";
+import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
 import badgeProImage from "@assets/image_1766097473552.png";
 import badgeUltraImage from "@assets/image_1766097497589.png";
 import badgeMaxImage from "@assets/image_1766097506015.png";

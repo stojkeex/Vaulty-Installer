@@ -4,7 +4,7 @@ import { useLocation, Link } from "wouter";
 import { Loader2, Mail, Lock, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import loginBg from "@assets/starfield_background.jpeg";
-import vaultyLogo from "@assets/IMG_1036_1775418773775.png";
+import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
 
 const sentences = [
   "Master your financial future with Vaulty.",
