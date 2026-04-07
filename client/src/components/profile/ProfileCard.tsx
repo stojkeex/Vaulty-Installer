@@ -90,13 +90,14 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
 
   // Text color class based on background brightness
   // Use explicit styles to override potentially conflicting utility classes
+  const hasCustomCardColor = !!customStyle?.color && customStyle.color !== 'default';
   const textStyle = { color: isCustomLight ? "black" : "white" };
-  const borderColor = isCustomLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
-  const profileBorderColor = isCustomLight ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)";
+  const borderColor = hasCustomCardColor ? "rgba(5,5,8,0.92)" : isCustomLight ? "rgba(0,0,0,0.1)" : "rgba(255,255,255,0.1)";
+  const profileBorderColor = hasCustomCardColor ? "rgba(255,255,255,0.18)" : isCustomLight ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)";
   
   const badgeStyle = { 
       backgroundColor: isCustomLight ? "rgba(255,255,255,0.4)" : "rgba(0,0,0,0.4)",
-      borderColor: isCustomLight ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)"
+      borderColor: hasCustomCardColor ? "rgba(255,255,255,0.12)" : isCustomLight ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.2)"
   };
 
   const buttonStyle = {
