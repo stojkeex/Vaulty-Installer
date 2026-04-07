@@ -55,7 +55,6 @@ import { ActiveCallModal } from "@/components/active-call-modal";
 import { LoadingScreen } from "@/components/loading-screen";
 import { GlobalNotificationDisplay } from "@/components/global-notification-display";
 import { useState, useEffect } from "react";
-import { HeadsUpNotification } from "@/components/heads-up-notification";
 import { RatingProvider } from "@/components/rating-provider";
 
 import EarnPage from "@/pages/earn";
@@ -190,7 +189,6 @@ function App() {
                           <>
                             <ChristmasOfferModal />
                             <GlobalNotificationDisplay />
-                            <HeadsUpNotification />
                             <Router />
                             <BottomNav />
                             <Toaster />

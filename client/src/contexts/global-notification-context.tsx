@@ -30,7 +30,14 @@ export function GlobalNotificationProvider({ children }: { children: React.React
         limit(1)
       );
 
+      let isInitialSnapshot = true;
+
       const unsubscribe = onSnapshot(q, (snapshot) => {
+        if (isInitialSnapshot) {
+          isInitialSnapshot = false;
+          return;
+        }
+
         snapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             const data = change.doc.data();
