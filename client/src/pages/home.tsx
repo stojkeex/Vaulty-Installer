@@ -252,6 +252,39 @@ export default function Home() {
       <div className={cn("relative z-10 p-6 max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
             <div className="space-y-6">
+              {/* Inline Premium Banner */}
+              <div className="w-full bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-4 relative shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:bg-white/10 transition-colors">
+                   <Link href="/premium">
+                       <div className="flex items-center justify-between cursor-pointer group">
+                          <div className="flex items-center gap-4 flex-1">
+                              <div className="relative">
+                                <div className="absolute inset-0 bg-white/20 blur-xl rounded-full" />
+                                <motion.img 
+                                  key={currentBadgeIndex}
+                                  src={badges[currentBadgeIndex]} 
+                                  alt={badgeLabels[currentBadgeIndex]}
+                                  className="w-12 h-12 shrink-0 group-hover:scale-110 relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                                  initial={{ opacity: 0, scale: 0.8 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  exit={{ opacity: 0, scale: 0.8 }}
+                                  transition={{ duration: 0.5 }}
+                                />
+                              </div>
+                              <div className="space-y-0.5">
+                                <p className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+                                    Unlock Vaulty+ <Sparkles size={14} className="text-gray-400" />
+                                </p>
+                                <p className="text-xs font-medium text-gray-400">
+                                    All premium features in one plan
+                                </p>
+                              </div>
+                          </div>
+                          <div className="px-4 py-2 rounded-full bg-white text-black text-xs font-black uppercase tracking-tighter group-hover:bg-gray-300 transition-colors shadow-lg">
+                              Upgrade
+                          </div>
+                       </div>
+                   </Link>
+              </div>
               
               {/* Rotating Banner */}
               <div className="relative h-[176px] overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
@@ -339,40 +372,6 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-
-              {/* Inline Premium Banner */}
-              <div className="w-full bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-4 relative shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:bg-white/10 transition-colors">
-                   <Link href="/premium">
-                       <div className="flex items-center justify-between cursor-pointer group">
-                          <div className="flex items-center gap-4 flex-1">
-                              <div className="relative">
-                                <div className="absolute inset-0 bg-white/20 blur-xl rounded-full" />
-                                <motion.img 
-                                  key={currentBadgeIndex}
-                                  src={badges[currentBadgeIndex]} 
-                                  alt={badgeLabels[currentBadgeIndex]}
-                                  className="w-12 h-12 shrink-0 group-hover:scale-110 relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.8 }}
-                                  transition={{ duration: 0.5 }}
-                                />
-                              </div>
-                              <div className="space-y-0.5">
-                                <p className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
-                                    Unlock Vaulty+ <Sparkles size={14} className="text-gray-400" />
-                                </p>
-                                <p className="text-xs font-medium text-gray-400">
-                                    All premium features in one plan
-                                </p>
-                              </div>
-                          </div>
-                          <div className="px-4 py-2 rounded-full bg-white text-black text-xs font-black uppercase tracking-tighter group-hover:bg-gray-300 transition-colors shadow-lg">
-                              Upgrade
-                          </div>
-                       </div>
-                   </Link>
-              </div>
 
               {/* Goals Card (Full Width) */}
               <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/20 p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
