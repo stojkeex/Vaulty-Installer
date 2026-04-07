@@ -130,9 +130,8 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 style={{...cardStyle, borderColor: borderColor}}
             >
 
-             {/* Follow / Heart Icon (Glass Style) */}
-             <div className="absolute top-6 right-6 z-20 flex flex-col items-center gap-1 group">
-                 <div className="glass-card p-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 shadow-lg group-hover:scale-110 transition-transform">
+             <div className="absolute top-6 left-6 z-20 flex flex-col items-center gap-1 group">
+                 <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
                      <Heart size={20} className="text-white opacity-80" />
                  </div>
                  <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
