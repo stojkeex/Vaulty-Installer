@@ -249,27 +249,29 @@ export default function Home() {
             <div className="space-y-6">
               
               {/* Rotating Banner */}
-              <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
+              <div className="relative h-[176px] overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                <AnimatePresence mode="wait">
-                  <motion.div 
-                    key={currentBannerIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="flex items-center justify-between gap-4 w-full relative z-10"
-                  >
-                    <div className="flex-1 min-w-0 text-left pl-0">
-                      <p className="mb-2 text-[10px] font-black uppercase tracking-[0.24em] text-gray-500">Vaulty Picks</p>
-                      <h3 className="text-[1.7rem] leading-[1.05] font-black text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
-                      <p className="text-sm text-gray-400 font-medium max-w-[240px]">{BANNERS[currentBannerIndex].subtitle}</p>
-                    </div>
-                    <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10">
-                      <ChevronRight className="w-5 h-5 text-white transition-transform group-hover:translate-x-1" />
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                <div className="relative z-10 h-full">
+                  <AnimatePresence mode="wait">
+                    <motion.div 
+                      key={currentBannerIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="flex h-full w-full items-center justify-between gap-4"
+                    >
+                      <div className="flex-1 min-w-0 text-left pl-0">
+                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.24em] text-gray-500">Vaulty Picks</p>
+                        <h3 className="text-[1.7rem] leading-[1.05] font-black text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
+                        <p className="text-sm text-gray-400 font-medium max-w-[240px]">{BANNERS[currentBannerIndex].subtitle}</p>
+                      </div>
+                      <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10">
+                        <ChevronRight className="w-5 h-5 text-white transition-transform group-hover:translate-x-1" />
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
               </div>
 
               {/* Glass Cards Carousel */}
