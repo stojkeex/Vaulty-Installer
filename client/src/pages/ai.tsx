@@ -66,14 +66,16 @@ const LIMITS: Record<string, number> = {
   free: 10,
   pro: 30,
   ultra: 100,
-  max: Infinity
+  max: Infinity,
+  plus: 100
 };
 
 const MEMORY_LIMITS: Record<string, number> = {
-  free: 0.1,      // 0.1 GB = 100 MB
-  pro: 1,         // 1 GB
-  ultra: 5,       // 5 GB
-  max: 20         // 20 GB
+  free: 0.1,
+  pro: 1,
+  ultra: 5,
+  max: 20,
+  plus: 5
 };
 
 const SUGGESTIONS_POOL = [
