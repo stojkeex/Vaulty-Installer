@@ -98,8 +98,8 @@ const SUGGESTIONS_POOL = [
 // 1 memory unit = 0.5-2 KB
 const MEMORY_UNIT_KB = 1; // Using 1KB as default memory unit
 
-// Konfiguracija za API (apiKey se vbrizga samodejno)
-const apiKey = "AIzaSyBDKu5u6ffhOJn4W_IaPlQyxf09duT5vY4";
+// Konfiguracija za API
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 const appId = typeof (window as any).__app_id !== 'undefined' ? (window as any).__app_id : 'default-app-id';
 
 export default function Ai() {
@@ -202,6 +202,10 @@ export default function Ai() {
     
     const apiCall = async () => {
       try {
+        if (!apiKey) {
+          throw new Error("Missing Gemini API key");
+        }
+
         const response = await fetch(
           `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
           {
