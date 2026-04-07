@@ -1,13 +1,11 @@
 import { Link, useLocation } from "wouter";
-import { Home, MessageSquare, User, Compass, Sparkles } from "lucide-react";
+import { Home, MessageSquare, User, Compass, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-
-import VAULTY_AI_LOGO from "@assets/IMG_1067_1775569221193.png";
 
 export function BottomNav() {
   const [location] = useLocation();
@@ -21,24 +19,22 @@ export function BottomNav() {
     }
 
     const chatsQuery = query(collection(db, "chats"), orderBy("updatedAt", "desc"));
-    const chatsUnsubscribe = onSnapshot(chatsQuery, (chatsSnapshot) => {
-      // Mocking unread count logic
+    const chatsUnsubscribe = onSnapshot(chatsQuery, () => {
     }, (error) => {
       console.log("Error fetching chats:", error);
     });
-    
+
     return () => chatsUnsubscribe();
   }, [user]);
 
   const items = useMemo(() => [
-    { href: "/home", label: "HOME", icon: Home },
-    { href: "/demo-trading", label: "MARKETS", icon: Compass },
-    { href: "/ai", label: "AI", icon: Sparkles, isAI: true },
-    { href: "/academy", label: "LEARN", icon: MessageSquare },
+    { href: "/demo-trading", label: "DEMO", icon: TrendingUp },
+    { href: "/discover", label: "DISCOVER", icon: Compass },
+    { href: "/home", label: "HOME", icon: Home, isCenter: true },
+    { href: "/messages", label: "CHAT", icon: MessageSquare },
     { href: "/profile", label: "PROFILE", icon: User },
   ], []);
 
-  // Check if we should hide the nav
   const shouldHide = location === "/login" || 
                      location === "/register" || 
                      location.startsWith("/demo-trading/") ||
@@ -57,7 +53,7 @@ export function BottomNav() {
 
   return (
     <div 
-      className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 w-auto pointer-events-none"
+      className="pointer-events-none fixed bottom-10 left-1/2 z-50 w-auto -translate-x-1/2"
       style={{
         opacity: shouldHide ? 0 : 1,
         pointerEvents: shouldHide ? "none" : "auto",
@@ -65,12 +61,10 @@ export function BottomNav() {
         visibility: shouldHide ? "hidden" : "visible"
       }}
     >
-      <div
-        className="pointer-events-auto relative flex items-center justify-center p-2 rounded-full bg-black/80 backdrop-blur-3xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.5)] gap-1"
-      >
+      <div className="pointer-events-auto relative flex items-end justify-center gap-1 rounded-full border border-white/15 bg-black/80 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-3xl">
         {items.map((item) => {
           let isActive = false;
-          
+
           if (item.href === "/home") {
             isActive = location === "/home" || location === "/";
           } else if (item.href === "/messages") {
@@ -78,60 +72,61 @@ export function BottomNav() {
           } else {
             isActive = location.startsWith(item.href);
           }
-          
+
           return (
             <Link key={item.href} href={item.href}>
               <motion.div
-                whileTap={{ scale: 0.85 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                className="relative flex flex-col items-center justify-center w-16 h-14 rounded-full cursor-pointer group"
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 14 }}
+                className={cn(
+                  "group relative flex cursor-pointer flex-col items-center justify-center rounded-full",
+                  item.isCenter ? "h-16 w-[4.6rem] -translate-y-1.5" : "h-14 w-16"
+                )}
+                data-testid={`link-bottom-nav-${item.label.toLowerCase()}`}
               >
                 <AnimatePresence mode="wait">
                   {isActive && (
                     <motion.div
                       key="bubble"
-                      initial={{ opacity: 0, scale: 0.8 }}
+                      initial={{ opacity: 0, scale: 0.82 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
+                      exit={{ opacity: 0, scale: 0.82 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute inset-0 m-auto w-14 h-14 rounded-full bg-gradient-to-b from-white/25 to-white/5 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_4px_10px_rgba(0,0,0,0.3)] backdrop-blur-md"
+                      className={cn(
+                        "absolute inset-0 m-auto rounded-full border border-white/20 backdrop-blur-md",
+                        item.isCenter
+                          ? "h-16 w-[4.6rem] bg-gradient-to-b from-sky-400 to-blue-600 shadow-[inset_0_1px_1px_rgba(255,255,255,0.35),0_12px_24px_rgba(37,99,235,0.35)]"
+                          : "h-14 w-14 bg-gradient-to-b from-white/25 to-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_4px_10px_rgba(0,0,0,0.3)]"
+                      )}
                     />
                   )}
                 </AnimatePresence>
-                
+
                 <motion.div
-                  whileTap={{ scale: 1.15, y: -2 }}
+                  whileTap={{ scale: 1.08, y: -1 }}
                   transition={{ type: "spring", stiffness: 500, damping: 12 }}
-                  className={cn("flex items-center justify-center")}
+                  className="relative z-10 flex items-center justify-center"
                 >
-                  {item.isAI ? (
-                    <img 
-                      src={VAULTY_AI_LOGO} 
-                      alt="Vaulty AI" 
-                      className={cn(
-                        "relative z-10 w-12 h-12 object-contain",
-                        isActive ? "opacity-100 scale-110" : "opacity-80 scale-100"
-                      )}
-                    />
-                  ) : (
-                    item.icon && (
-                      <item.icon 
-                        className={cn(
-                          "relative z-10 w-6 h-6",
-                          isActive ? "drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "group-hover:opacity-80"
-                        )}
-                        style={{
-                          color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.55)",
-                          stroke: "currentColor",
-                          transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
-                        }}
-                      />
-                    )
-                  )}
+                  <item.icon
+                    className={cn(item.isCenter ? "h-6 w-6" : "h-5.5 w-5.5")}
+                    style={{
+                      color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.58)",
+                      stroke: "currentColor",
+                      transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
+                    }}
+                  />
                 </motion.div>
 
+                <span className={cn(
+                  "relative z-10 mt-1 text-[9px] font-bold uppercase tracking-[0.18em] transition-colors",
+                  isActive ? "text-white" : "text-white/45",
+                  item.isCenter && "mt-1.5"
+                )}>
+                  {item.label}
+                </span>
+
                 {item.href === "/messages" && unreadCount > 0 && (
-                  <div className="absolute top-0 right-0 bg-red-500 text-white text-[9px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  <div className="absolute right-2 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-sky-500 px-1.5 text-[9px] font-bold text-slate-950">
                     {unreadCount > 99 ? "99+" : unreadCount}
                   </div>
                 )}
