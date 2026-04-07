@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
-import { Check, ChevronLeft, Sparkles, User, Wallet, Palette, Target } from "lucide-react";
+import { Check, ChevronLeft, Link as LinkIcon, MapPin, Sparkles, User, Wallet, Palette, Target } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import { useAuth } from "@/contexts/auth-context";
@@ -36,20 +36,18 @@ export function CompleteProfileWidget() {
     const photoDone = hasCustomProfilePhoto(userData?.photoURL || user?.photoURL);
     const usernameDone = Boolean(userData?.username && String(userData.username).trim().length >= 3);
     const bioDone = Boolean(userData?.bio && String(userData.bio).trim().length >= 8);
+    const locationDone = Boolean(userData?.location && String(userData.location).trim().length >= 2);
+    const links = userData?.links || {};
+    const socialDone = Boolean(
+      (links.website && String(links.website).trim().length >= 4) ||
+      (links.instagram && String(links.instagram).trim().length >= 2) ||
+      (links.twitter && String(links.twitter).trim().length >= 2)
+    );
     const customizationDone = Boolean(userData?.cardStyle);
     const walletDone = Boolean(userData?.walletPin);
     const goalsDone = goalsCount > 0;
 
     return [
-      {
-        id: "account",
-        title: "Create account",
-        description: "Your account is ready",
-        done: true,
-        icon: User,
-        actionLabel: "Done",
-        onClick: undefined,
-      },
       {
         id: "username",
         title: "Add username",
@@ -76,6 +74,24 @@ export function CompleteProfileWidget() {
         icon: User,
         actionLabel: photoDone ? "Done" : "Open",
         onClick: photoDone ? undefined : () => setLocation("/edit-profile"),
+      },
+      {
+        id: "location",
+        title: "Add your location",
+        description: "Show where you are from",
+        done: locationDone,
+        icon: MapPin,
+        actionLabel: locationDone ? "Done" : "Open",
+        onClick: locationDone ? undefined : () => setLocation("/edit-profile"),
+      },
+      {
+        id: "social",
+        title: "Add one link",
+        description: "Website or social profile",
+        done: socialDone,
+        icon: LinkIcon,
+        actionLabel: socialDone ? "Done" : "Open",
+        onClick: socialDone ? undefined : () => setLocation("/edit-profile"),
       },
       {
         id: "customization",
@@ -105,11 +121,10 @@ export function CompleteProfileWidget() {
         onClick: goalsDone ? undefined : () => setLocation("/home"),
       },
     ];
-  }, [goalsCount, setLocation, user?.photoURL, userData?.bio, userData?.cardStyle, userData?.photoURL, userData?.username, userData?.walletPin]);
+  }, [goalsCount, setLocation, user?.photoURL, userData?.bio, userData?.cardStyle, userData?.links, userData?.location, userData?.photoURL, userData?.username, userData?.walletPin]);
 
   const completedCount = tasks.filter((task) => task.done).length;
-  const requiredTaskCount = tasks.length - 1;
-  const isComplete = completedCount >= tasks.length && requiredTaskCount > 0;
+  const isComplete = tasks.length > 0 && completedCount === tasks.length;
 
   useEffect(() => {
     if (isComplete) {
@@ -140,15 +155,15 @@ export function CompleteProfileWidget() {
         {showBubble && !isOpen && (
           <motion.button
             type="button"
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 24 }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             onClick={() => {
               setIsOpen(true);
               setShowBubble(false);
             }}
-            className="fixed right-24 top-1/2 z-[90] -translate-y-1/2 rounded-full border border-white/15 bg-black/88 px-4 py-3 text-left text-white shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
+            className="fixed bottom-56 right-4 z-[9999] rounded-full border border-white/15 bg-black/92 px-4 py-3 text-left text-white shadow-[0_16px_48px_rgba(0,0,0,0.55)] backdrop-blur-2xl"
             data-testid="button-complete-profile-bubble"
           >
             <div className="flex items-center gap-3">
@@ -164,16 +179,16 @@ export function CompleteProfileWidget() {
         )}
       </AnimatePresence>
 
-      <div className="fixed right-0 top-[58%] z-[9999] -translate-y-1/2">
+      <div className="fixed bottom-36 right-4 z-[9999]">
         <AnimatePresence initial={false} mode="wait">
           {isOpen ? (
             <motion.div
               key="panel"
-              initial={{ opacity: 0, x: 28 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 28 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              className="w-[320px] rounded-[28px] border border-white/12 bg-black/88 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-3xl"
+              initial={{ opacity: 0, y: 16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="w-[320px] rounded-[28px] border border-white/12 bg-black/92 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.65)] backdrop-blur-3xl"
               data-testid="panel-complete-profile"
             >
               <div className="mb-4 flex items-start justify-between gap-3">
@@ -242,23 +257,19 @@ export function CompleteProfileWidget() {
             <motion.button
               key="toggle"
               type="button"
-              initial={{ opacity: 0, x: 28 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 28 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
               onClick={() => setIsOpen(true)}
-              className="group mr-0 flex items-center gap-3 rounded-l-[28px] border border-r-0 border-white/18 bg-black/95 py-3 pl-3 pr-3 text-white shadow-[0_24px_80px_rgba(0,0,0,0.7)] backdrop-blur-3xl"
+              className="group flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white text-black shadow-[0_16px_50px_rgba(0,0,0,0.65)]"
               data-testid="button-open-complete-profile"
             >
-              <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-white text-black shadow-[0_0_0_1px_rgba(255,255,255,0.12)]">
-                <Check className="h-5 w-5" />
-                <div className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full border border-black/50 bg-black px-1 text-[10px] font-bold text-white">
-                  {completedCount}/{tasks.length}
+              <div className="relative flex h-full w-full items-center justify-center">
+                <Check className="h-6 w-6" />
+                <div className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-full bg-black px-1 text-[10px] font-bold text-white shadow-[0_6px_18px_rgba(0,0,0,0.4)]">
+                  {tasks.length - completedCount}
                 </div>
-              </div>
-              <div className="pr-1 text-left">
-                <p className="text-[10px] uppercase tracking-[0.22em] text-white/45">Complete</p>
-                <p className="text-sm font-semibold leading-none text-white">Your profile</p>
               </div>
             </motion.button>
           )}
