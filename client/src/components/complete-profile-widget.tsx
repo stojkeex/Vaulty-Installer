@@ -14,7 +14,7 @@ function hasCustomProfilePhoto(photoURL?: string | null) {
 
 export function CompleteProfileWidget() {
   const { user, userData } = useAuth();
-  const [, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
   const [goalsCount, setGoalsCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
@@ -89,9 +89,10 @@ export function CompleteProfileWidget() {
 
   const completedCount = tasks.filter((task) => task.done).length;
   const isComplete = completedCount === tasks.length;
+  const isHomePage = location === "/home" || location === "/";
 
   useEffect(() => {
-    if (isComplete) {
+    if (isComplete || !isHomePage) {
       setShowBubble(false);
       setIsOpen(false);
       return;
@@ -109,9 +110,9 @@ export function CompleteProfileWidget() {
       window.clearTimeout(showTimer);
       window.clearTimeout(hideTimer);
     };
-  }, [isComplete]);
+  }, [isComplete, isHomePage]);
 
-  if (!user || !userData || isComplete) return null;
+  if (!user || !userData || isComplete || !isHomePage) return null;
 
   return (
     <>
@@ -127,7 +128,7 @@ export function CompleteProfileWidget() {
               setIsOpen(true);
               setShowBubble(false);
             }}
-            className="fixed right-20 top-1/2 z-[70] -translate-y-1/2 rounded-full border border-white/15 bg-black/80 px-4 py-3 text-left text-white shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
+            className="fixed right-24 top-1/2 z-[90] -translate-y-1/2 rounded-full border border-white/15 bg-black/88 px-4 py-3 text-left text-white shadow-[0_12px_40px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
             data-testid="button-complete-profile-bubble"
           >
             <div className="flex items-center gap-3">
@@ -143,7 +144,7 @@ export function CompleteProfileWidget() {
         )}
       </AnimatePresence>
 
-      <div className="fixed right-0 top-1/2 z-[71] -translate-y-1/2">
+      <div className="fixed right-3 top-1/2 z-[91] -translate-y-1/2">
         <AnimatePresence initial={false} mode="wait">
           {isOpen ? (
             <motion.div
@@ -152,7 +153,7 @@ export function CompleteProfileWidget() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 28 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="mr-4 w-[320px] rounded-[28px] border border-white/12 bg-black/80 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-3xl"
+              className="w-[320px] rounded-[28px] border border-white/12 bg-black/88 p-4 text-white shadow-[0_18px_60px_rgba(0,0,0,0.55)] backdrop-blur-3xl"
               data-testid="panel-complete-profile"
             >
               <div className="mb-4 flex items-start justify-between gap-3">
