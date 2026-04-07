@@ -5,6 +5,8 @@ import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 import { useCurrency } from "@/contexts/currency-context";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
+const formatUsd = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
 interface DemoBalanceCardProps {
   coins?: Array<{ id: string; current_price: number }>;
 }
@@ -38,11 +40,12 @@ export function DemoBalanceCard({ coins = [] }: DemoBalanceCardProps) {
                 <Wallet className="w-3 h-3" />
                 Demo Portfolio
               </h2>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-end justify-between gap-3">
                 <span className="text-3xl font-bold text-white tracking-tight flex items-center gap-1">
                   <VaultyIcon size={24} />
                   {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
+                <span className="text-xs font-semibold text-zinc-400">{formatUsd(balance + portfolioValueUsd)}</span>
               </div>
               <div className={`text-xs font-bold mt-1 flex items-center gap-1 ${isPositive ? "text-green-400" : "text-red-400"}`}>
                 {isPositive ? "+" : "-"}

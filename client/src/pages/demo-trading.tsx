@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import { useCurrency } from "@/contexts/currency-context";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
+const formatUsd = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
 export default function DemoTrading() {
   const { balance, holdings, transactions, resetAccount, isHydrated } = useDemoStore();
   const { convert } = useCurrency();
@@ -146,9 +148,14 @@ export default function DemoTrading() {
           <div className="relative z-10 space-y-5">
             <div>
               <p className="text-gray-400 text-sm mb-1">Total Demo Balance</p>
-              <div className="text-4xl font-bold text-white tracking-tight flex items-center gap-2" data-testid="text-demo-total-balance">
-                <VaultyIcon size={34} />
-                {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              <div className="flex items-end justify-between gap-4" data-testid="text-demo-total-balance">
+                <div className="text-4xl font-bold text-white tracking-tight flex items-center gap-2">
+                  <VaultyIcon size={34} />
+                  {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+                <div className="text-sm font-semibold text-zinc-400 text-right">
+                  {formatUsd(totalBalanceUsd)}
+                </div>
               </div>
               <div className={cn("mt-2 text-sm font-semibold flex items-center gap-1", totalProfitUsd >= 0 ? "text-green-400" : "text-red-400")} data-testid="text-demo-profit-summary">
                 {totalProfitUsd >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
@@ -204,7 +211,6 @@ export default function DemoTrading() {
               {enrichedHoldings.map(({ holding, coin, currentValueUsd, profitUsd, profitPercent, currentPriceUsd }) => {
                 const displayValue = convert(currentValueUsd);
                 const displayProfit = convert(profitUsd);
-                const displayPrice = convert(currentPriceUsd);
 
                 return (
                   <Link key={holding.coinId} href={`/demo-trading/${holding.coinId}`}>
@@ -220,8 +226,7 @@ export default function DemoTrading() {
                         <div className="min-w-0">
                           <p className="font-bold text-lg uppercase truncate">{coin?.symbol || holding.coinId}</p>
                           <p className="text-sm text-gray-500 truncate">
-                            {holding.amount.toFixed(6)} · <VaultyIcon size={10} className="inline-block mr-1" />
-                            {displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            {holding.amount.toFixed(6)} · {formatUsd(currentPriceUsd)}
                           </p>
                         </div>
                       </div>
@@ -273,8 +278,6 @@ export default function DemoTrading() {
               <div className="text-center py-12 text-gray-500">No coins found</div>
             ) : (
               coins.map((coin) => {
-                const displayPrice = convert(coin.current_price);
-
                 return (
                   <Link key={coin.id} href={`/demo-trading/${coin.id}`}>
                     <div className="flex justify-between items-center p-4 rounded-[2rem] bg-black hover:bg-[#111] transition-colors cursor-pointer group" data-testid={`card-market-coin-${coin.id}`}>
@@ -286,9 +289,8 @@ export default function DemoTrading() {
                         </div>
                       </div>
                       <div className="text-right shrink-0">
-                        <div className="font-bold text-base flex items-center justify-end gap-1">
-                          <VaultyIcon size={14} />
-                          {displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        <div className="font-bold text-base">
+                          {formatUsd(coin.current_price)}
                         </div>
                         <div className={cn("text-xs flex items-center justify-end gap-1", coin.price_change_percentage_24h >= 0 ? "text-green-400" : "text-red-400")}>
                           {coin.price_change_percentage_24h >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}

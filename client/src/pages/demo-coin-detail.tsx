@@ -11,6 +11,8 @@ import { useCurrency, type CurrencyCode } from "@/contexts/currency-context";
 import { format as formatDate } from "date-fns";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
+const formatUsd = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
 const TIMEFRAMES = [
   { label: "1D", days: 1 },
   { label: "7D", days: 7 },
@@ -58,7 +60,6 @@ export default function DemoCoinDetail() {
 
   const holding = useMemo(() => holdings.find((item) => item.coinId === coin?.id), [holdings, coin?.id]);
 
-  const currentPriceDisplay = coin ? convert(coin.current_price) : 0;
   const holdingValueDisplay = coin && holding ? convert(holding.amount * coin.current_price) : 0;
   const averageBuyPriceDisplay = holding ? convert(holding.averageBuyPrice) : 0;
   const costBasisDisplay = holding ? convert(holding.amount * holding.averageBuyPrice) : 0;
@@ -153,9 +154,8 @@ export default function DemoCoinDetail() {
             </div>
           </div>
           <div className="text-right shrink-0">
-            <div className="font-bold text-lg flex items-center justify-end gap-1">
-              <VaultyIcon size={14} />
-              {currentPriceDisplay.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <div className="font-bold text-lg">
+              {formatUsd(coin.current_price)}
             </div>
             <div className={cn("text-xs font-bold flex items-center justify-end gap-1", isPositive ? "text-green-500" : "text-red-400")}>
               {isPositive ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
@@ -195,9 +195,8 @@ export default function DemoCoinDetail() {
             </div>
             <div className="text-right text-xs text-zinc-500">
               <div>Avg Entry</div>
-              <div className="text-white font-semibold flex items-center justify-end gap-1 mt-1">
-                <VaultyIcon size={12} />
-                {averageBuyPriceDisplay.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              <div className="text-white font-semibold mt-1">
+                {formatUsd(averageBuyPriceDisplay)}
               </div>
             </div>
           </div>
@@ -258,7 +257,7 @@ export default function DemoCoinDetail() {
                 <Tooltip
                   contentStyle={{ backgroundColor: "#111", border: "1px solid #333", borderRadius: "16px" }}
                   labelFormatter={(label) => new Date(label).toLocaleString()}
-                  formatter={(value: number) => [convert(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), "Price"]}
+                  formatter={(value: number) => [formatUsd(value), "Price"]}
                 />
                 <Area type="monotone" dataKey="y" stroke={chartColor} strokeWidth={2} fill={`url(#demoChartGradient)`} />
               </AreaChart>
@@ -288,7 +287,7 @@ export default function DemoCoinDetail() {
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs text-gray-500 ml-1">Amount in {currency}</label>
+              <label className="text-xs text-gray-500 ml-1">Amount in Vaulty Credits</label>
               <div className="relative bg-black rounded-2xl border border-white/10 flex items-center px-4 py-4 gap-3">
                 <input
                   type="number"
@@ -367,7 +366,7 @@ export default function DemoCoinDetail() {
                 <Tooltip
                   contentStyle={{ backgroundColor: "#111", border: "1px solid #333", borderRadius: "12px" }}
                   labelFormatter={(label) => new Date(label).toLocaleString()}
-                  formatter={(value: number) => [convert(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }), "Price"]}
+                  formatter={(value: number) => [formatUsd(value), "Price"]}
                 />
                 <Area type="monotone" dataKey="y" stroke={chartColor} strokeWidth={2} fill="url(#demoChartFullscreenGradient)" />
               </AreaChart>

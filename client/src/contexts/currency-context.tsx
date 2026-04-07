@@ -19,7 +19,7 @@ const CurrencyContext = createContext<CurrencyContextType>({
   format: (amount) => amount.toString(),
   symbol: "",
   convert: (amount) => amount,
-  rate: 100 // Default rate 100
+  rate: 1
 });
 
 const currencySymbols: Record<CurrencyCode, string> = {
@@ -40,7 +40,7 @@ const exchangeRates: Record<CurrencyCode, number> = {
   JPY: 150.25,
   AUD: 1.52,
   CAD: 1.35,
-  VC: 100 // 1 USD = 100 VC
+  VC: 1
 };
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
