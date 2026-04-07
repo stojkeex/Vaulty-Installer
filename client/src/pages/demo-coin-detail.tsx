@@ -1,82 +1,72 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Link, useRoute } from "wouter";
+import { useQuery } from "@tanstack/react-query";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { ArrowDownRight, ArrowUpRight, Maximize2, X } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown, Activity, Layers, Calendar, DollarSign, BarChart3, Maximize2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useDemoStore } from "@/hooks/use-demo-store";
-import { getCoinDetail, getMarketChart, type Coin } from "@/lib/coingecko";
 import { cn } from "@/lib/utils";
 import { useCurrency, type CurrencyCode } from "@/contexts/currency-context";
 import { format as formatDate } from "date-fns";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
-const formatUsd = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+const formatCompactNumber = (number: number) => {
+  if (!number) return "N/A";
+  const formatter = Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 2 });
+  return formatter.format(number);
+};
 
 const TIMEFRAMES = [
-  { label: "1D", days: 1 },
-  { label: "7D", days: 7 },
-  { label: "30D", days: 30 },
+  { label: "1H", value: "1h", days: "1" },
+  { label: "24H", value: "24h", days: "1" },
+  { label: "7D", value: "7d", days: "7" },
+  { label: "1M", value: "30d", days: "30" },
+  { label: "3M", value: "90d", days: "90" },
+  { label: "1Y", value: "365d", days: "365" },
 ];
 
 export default function DemoCoinDetail() {
   const [, params] = useRoute("/demo-trading/:id");
+  const coinId = params?.id || "bitcoin";
   const { balance, holdings, buyCoin, sellCoin } = useDemoStore();
   const { currency, convert } = useCurrency();
-  const [coin, setCoin] = useState<Coin | null>(null);
-  const [chartData, setChartData] = useState<{ x: number; y: number }[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [amount, setAmount] = useState("");
-  const [tradeType, setTradeType] = useState<"buy" | "sell">("buy");
-  const [selectedTimeframe, setSelectedTimeframe] = useState(TIMEFRAMES[0]);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const { toast } = useToast();
 
-  const id = params?.id;
+  const [selectedTimeframe, setSelectedTimeframe] = useState(TIMEFRAMES[1]);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [tradeType, setTradeType] = useState<"buy" | "sell">("buy");
+
   const isVaultyCredits = currency === "VC";
 
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
+  const { data: coin, isLoading: loadingCoin } = useQuery({
+    queryKey: ["demoCoinDetail", coinId],
+    queryFn: async () => {
+      const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`);
+      if (!res.ok) throw new Error("Failed to fetch coin data");
+      return res.json();
+    },
+  });
 
-    const loadCoin = async () => {
-      setLoading(true);
+  const { data: chartData, isLoading: loadingChart } = useQuery({
+    queryKey: ["demoCoinChart", coinId, selectedTimeframe.days, currency],
+    queryFn: async () => {
+      const vsCurrency = currency === "VC" ? "usd" : currency.toLowerCase();
+      const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${vsCurrency}&days=${selectedTimeframe.days}`);
+      if (!res.ok) throw new Error("Failed to fetch chart data");
+      const data = await res.json();
+      return data.prices.map(([timestamp, price]: [number, number]) => ({
+        date: timestamp,
+        price: price,
+      }));
+    },
+  });
 
-      try {
-        const [coinData, marketChart] = await Promise.all([
-          getCoinDetail(id, "usd"),
-          getMarketChart(id, selectedTimeframe.days, "usd"),
-        ]);
-
-        setCoin(coinData);
-        setChartData(marketChart);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadCoin();
-  }, [id, selectedTimeframe.days]);
-
-  const holding = useMemo(() => holdings.find((item) => item.coinId === coin?.id), [holdings, coin?.id]);
-
-  const holdingValueDisplay = coin && holding ? convert(holding.amount * coin.current_price) : 0;
-  const averageBuyPriceDisplay = holding ? convert(holding.averageBuyPrice) : 0;
-  const costBasisDisplay = holding ? convert(holding.amount * holding.averageBuyPrice) : 0;
-  const profitDisplay = holding && coin ? convert(holding.amount * (coin.current_price - holding.averageBuyPrice)) : 0;
-  const profitPercent = holding && coin && holding.averageBuyPrice > 0
-    ? ((coin.current_price - holding.averageBuyPrice) / holding.averageBuyPrice) * 100
-    : 0;
-
-  const availableTradeValueDisplay = tradeType === "buy"
-    ? convert(balance)
-    : coin && holding
-      ? convert(holding.amount * coin.current_price)
-      : 0;
-
-  const tradeValueUsd = amount ? convert(Number(amount) || 0, currency as CurrencyCode, "USD") : 0;
-  const estimatedCoinAmount = coin && tradeValueUsd > 0 ? tradeValueUsd / coin.current_price : 0;
+  const holding = useMemo(
+    () => holdings.find((item) => item.coinId === coinId),
+    [holdings, coinId],
+  );
 
   const formatSelectedAmount = (amountToFormat: number) => {
     if (isVaultyCredits) {
@@ -104,12 +94,46 @@ export default function DemoCoinDetail() {
     return formatSelectedAmount(amountToFormat);
   };
 
-  const formatSelectedPriceFromUsd = (usdAmount: number) => formatSelectedAmount(convert(usdAmount));
+  if (loadingCoin) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-sky-400"></div>
+      </div>
+    );
+  }
+
+  if (!coin) {
+    return <div className="min-h-screen bg-black text-white p-6">Coin not found</div>;
+  }
+
+  const priceChange = coin.market_data.price_change_percentage_24h ?? 0;
+  const isPositive = priceChange >= 0;
+  const currentPriceUsd = coin.market_data.current_price.usd;
+  const currentPriceDisplay = currency === "VC" ? convert(currentPriceUsd, "USD", "VC") : coin.market_data.current_price[currency.toLowerCase()] ?? convert(currentPriceUsd);
+  const marketCapDisplay = currency === "VC" ? convert(coin.market_data.market_cap.usd, "USD", "VC") : coin.market_data.market_cap[currency.toLowerCase()] ?? convert(coin.market_data.market_cap.usd);
+  const totalVolumeDisplay = currency === "VC" ? convert(coin.market_data.total_volume.usd, "USD", "VC") : coin.market_data.total_volume[currency.toLowerCase()] ?? convert(coin.market_data.total_volume.usd);
+  const high24hDisplay = currency === "VC" ? convert(coin.market_data.high_24h.usd, "USD", "VC") : coin.market_data.high_24h[currency.toLowerCase()] ?? convert(coin.market_data.high_24h.usd);
+  const low24hDisplay = currency === "VC" ? convert(coin.market_data.low_24h.usd, "USD", "VC") : coin.market_data.low_24h[currency.toLowerCase()] ?? convert(coin.market_data.low_24h.usd);
+
+  const holdingAmount = holding?.amount ?? 0;
+  const averageBuyPriceUsd = holding?.averageBuyPrice ?? 0;
+  const holdingValueDisplay = convert(holdingAmount * currentPriceUsd, "USD", currency);
+  const averageBuyPriceDisplay = convert(averageBuyPriceUsd, "USD", currency);
+  const costBasisDisplay = convert(holdingAmount * averageBuyPriceUsd, "USD", currency);
+  const profitDisplay = convert(holdingAmount * (currentPriceUsd - averageBuyPriceUsd), "USD", currency);
+  const profitPercent = holding && averageBuyPriceUsd > 0
+    ? ((currentPriceUsd - averageBuyPriceUsd) / averageBuyPriceUsd) * 100
+    : 0;
+
+  const availableTradeValueDisplay = tradeType === "buy"
+    ? convert(balance, "USD", currency)
+    : convert(holdingAmount * currentPriceUsd, "USD", currency);
+
+  const tradeValueUsd = amount ? convert(Number(amount) || 0, currency as CurrencyCode, "USD") : 0;
+  const estimatedCoinAmount = tradeValueUsd > 0 ? tradeValueUsd / currentPriceUsd : 0;
 
   const handleTrade = () => {
-    if (!coin || !amount) {
-      return;
-    }
+    if (!amount) return;
 
     try {
       const displayAmount = Number(amount);
@@ -119,20 +143,20 @@ export default function DemoCoinDetail() {
       }
 
       const usdTradeValue = convert(displayAmount, currency as CurrencyCode, "USD");
-      const coinsToTrade = usdTradeValue / coin.current_price;
+      const coinsToTrade = usdTradeValue / currentPriceUsd;
 
       if (!Number.isFinite(coinsToTrade) || coinsToTrade <= 0) {
         throw new Error("Unable to calculate trade size");
       }
 
       if (tradeType === "buy") {
-        buyCoin(coin.id, coin.symbol, coinsToTrade, coin.current_price);
+        buyCoin(coin.id, coin.symbol, coinsToTrade, currentPriceUsd);
         toast({
           title: "Buy order filled",
           description: `Bought ${coinsToTrade.toFixed(6)} ${coin.symbol.toUpperCase()}`,
         });
       } else {
-        sellCoin(coin.id, coin.symbol, coinsToTrade, coin.current_price);
+        sellCoin(coin.id, coin.symbol, coinsToTrade, currentPriceUsd);
         toast({
           title: "Sell order filled",
           description: `Sold ${coinsToTrade.toFixed(6)} ${coin.symbol.toUpperCase()}`,
@@ -153,61 +177,50 @@ export default function DemoCoinDetail() {
     setAmount(availableTradeValueDisplay.toFixed(2));
   };
 
-  if (loading) {
-    return <div className="min-h-screen bg-black flex items-center justify-center text-white"><div className="text-sky-400 font-bold text-sm animate-pulse">LOADING...</div></div>;
-  }
-
-  if (!coin) {
-    return <div className="min-h-screen bg-black text-white p-8">Coin not found</div>;
-  }
-
-  const isPositive = coin.price_change_percentage_24h >= 0;
-  const chartColor = "#60a5fa";
-  const secondaryBlue = "#93c5fd";
+  const chartTone = "#60a5fa";
 
   return (
-    <div className="min-h-screen overflow-y-auto bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.12),transparent_28%),linear-gradient(180deg,#05070b_0%,#000_100%)] pb-10 font-sans text-white">
-      <div className="sticky top-0 z-50 border-b border-white/5 bg-black/80 px-4 pb-3 pt-4 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-md items-center justify-between gap-4">
-          <div className="flex min-w-0 items-center gap-4">
-            <Link href="/demo-trading">
-              <button className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-white/10" data-testid="button-back-demo-trading">
-                {"<"} BACK
-              </button>
-            </Link>
-            <div className="flex min-w-0 items-center gap-3">
-              <img src={coin.image} alt={coin.name} className="h-11 w-11 rounded-full ring-1 ring-white/10" />
-              <div className="min-w-0">
-                <h1 className="truncate text-lg font-black leading-tight">{coin.name}</h1>
-                <p className="text-[10px] font-bold tracking-[0.22em] text-zinc-500">DEMO TRADING</p>
-              </div>
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(96,165,250,0.14),transparent_28%),linear-gradient(180deg,#05070b_0%,#000_100%)] pb-10 text-white">
+      <div className="sticky top-0 z-20 border-b border-white/10 bg-black/80 px-4 py-4 backdrop-blur-md">
+        <div className="mx-auto flex max-w-md items-center gap-4">
+          <Link href="/demo-trading">
+            <button
+              className="rounded-full bg-white/5 p-2 transition-colors hover:bg-white/10"
+              data-testid="button-back-demo-coin-detail"
+            >
+              <ArrowLeft size={20} />
+            </button>
+          </Link>
+          <div className="flex items-center gap-3 min-w-0">
+            <img src={coin.image.small} alt={coin.name} className="h-9 w-9 rounded-full" />
+            <div>
+              <h1 className="font-bold text-lg leading-none">{coin.name}</h1>
+              <span className="text-xs text-gray-400 uppercase">{coin.symbol}</span>
             </div>
           </div>
-          <div className="shrink-0 text-right">
-            <div className="text-lg font-black text-white">
-              {formatSelectedPriceFromUsd(coin.current_price)}
-            </div>
-            <div className="flex items-center justify-end gap-1 text-xs font-bold text-sky-300">
-              {isPositive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
-              {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
-            </div>
+          <div className="ml-auto flex flex-col items-end">
+            <span className="font-bold text-lg">{formatSelectedAmount(currentPriceDisplay)}</span>
+            <span className={cn("text-xs flex items-center", isPositive ? "text-sky-300" : "text-sky-200")}>
+              {isPositive ? <TrendingUp size={12} className="mr-1" /> : <TrendingDown size={12} className="mr-1" />}
+              {Math.abs(priceChange).toFixed(2)}%
+            </span>
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-md space-y-5 px-4 pt-4">
+      <div className="p-6 space-y-6 max-w-md mx-auto">
         <div className="grid grid-cols-3 gap-3">
-          <div className="rounded-[26px] border border-white/8 bg-white/[0.05] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
             <div className="text-[11px] uppercase tracking-wide text-zinc-500">Holding</div>
-            <div className="mt-2 text-sm font-bold" data-testid="text-demo-holding-amount">{holding ? holding.amount.toFixed(6) : "0.000000"}</div>
+            <div className="mt-2 text-sm font-bold" data-testid="text-demo-holding-amount">{holdingAmount.toFixed(6)}</div>
           </div>
-          <div className="rounded-[26px] border border-white/8 bg-white/[0.05] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
             <div className="text-[11px] uppercase tracking-wide text-zinc-500">Value</div>
-            <div className="mt-2 flex items-center gap-1 text-sm font-bold text-white" data-testid="text-demo-holding-value">
+            <div className="mt-2 flex items-center gap-1 text-sm font-bold" data-testid="text-demo-holding-value">
               {renderSelectedAmount(holdingValueDisplay, 12)}
             </div>
           </div>
-          <div className="rounded-[26px] border border-white/8 bg-white/[0.05] p-4 shadow-[0_10px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-xl">
             <div className="text-[11px] uppercase tracking-wide text-zinc-500">P/L</div>
             <div className="mt-2 flex items-center gap-1 text-sm font-bold text-sky-300" data-testid="text-demo-holding-profit">
               {renderSelectedAmount(Math.abs(profitDisplay), 12)}
@@ -215,100 +228,66 @@ export default function DemoCoinDetail() {
           </div>
         </div>
 
-        <div className="rounded-[30px] border border-white/8 bg-white/[0.05] p-5 shadow-[0_18px_45px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-          <div className="mb-4 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Tracking</p>
-              <h2 className="text-[1.75rem] font-black leading-none tracking-tight">Position overview</h2>
-            </div>
-            <div className="text-right text-xs text-zinc-500">
-              <div>Avg Entry</div>
-              <div className="mt-1 font-semibold text-white">
-                {formatSelectedAmount(averageBuyPriceDisplay)}
-              </div>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="rounded-[24px] border border-white/6 bg-black/30 p-4">
-              <div className="text-xs uppercase tracking-wide text-zinc-500">Cost basis</div>
-              <div className="mt-2 flex items-center gap-1 font-bold text-white">
-                {renderSelectedAmount(costBasisDisplay, 12)}
-              </div>
-            </div>
-            <div className="rounded-[24px] border border-white/6 bg-black/30 p-4">
-              <div className="text-xs uppercase tracking-wide text-zinc-500">Return</div>
-              <div className="mt-2 font-bold text-sky-300">
-                {profitPercent >= 0 ? "+" : "-"}
-                {Math.abs(profitPercent).toFixed(2)}%
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="rounded-[30px] border border-white/8 bg-white/[0.05] p-5 shadow-[0_18px_45px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Market</p>
-              <h2 className="text-xl font-black">Live chart</h2>
-            </div>
+        <div className="space-y-4 rounded-[28px] border border-white/10 bg-white/[0.05] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.24)]">
+          <div className="h-[250px] w-full -mx-2 relative group">
             <button
               onClick={() => setIsFullscreen(true)}
-              className="rounded-full border border-white/10 bg-white/5 p-2 text-white transition-colors hover:bg-white/10"
+              className="absolute top-2 right-2 z-10 rounded-lg bg-black/50 p-2 text-white transition-opacity hover:bg-black/70 opacity-0 group-hover:opacity-100"
               data-testid="button-demo-chart-fullscreen"
             >
               <Maximize2 size={16} />
             </button>
+            {loadingChart ? (
+              <div className="h-full flex items-center justify-center text-gray-500 text-sm">Loading Chart...</div>
+            ) : (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="demoTradeChartColor" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor={chartTone} stopOpacity={0.35} />
+                      <stop offset="95%" stopColor={chartTone} stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="date" hide type="number" domain={["dataMin", "dataMax"]} />
+                  <YAxis hide domain={["auto", "auto"]} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "#111", border: "1px solid #333", borderRadius: "8px" }}
+                    labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                    formatter={(value: number) => [formatSelectedAmount(value), "Price"]}
+                  />
+                  <Area type="monotone" dataKey="price" stroke={chartTone} strokeWidth={2} fillOpacity={1} fill="url(#demoTradeChartColor)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
           </div>
 
-          <div className="mb-4 flex justify-between rounded-2xl border border-white/6 bg-black/35 p-1.5">
-            {TIMEFRAMES.map((timeframe) => (
+          <div className="flex justify-between rounded-xl bg-white/5 p-1">
+            {TIMEFRAMES.map((tf) => (
               <button
-                key={timeframe.label}
-                onClick={() => setSelectedTimeframe(timeframe)}
+                key={tf.label}
+                onClick={() => setSelectedTimeframe(tf)}
                 className={cn(
-                  "flex-1 rounded-xl py-2.5 text-xs font-bold transition-all",
-                  selectedTimeframe.label === timeframe.label
-                    ? "bg-sky-500 text-slate-950 shadow-[0_8px_24px_rgba(96,165,250,0.35)]"
-                    : "text-zinc-400 hover:text-white"
+                  "px-3 py-1.5 rounded-lg text-xs font-medium transition-all",
+                  selectedTimeframe.value === tf.value
+                    ? "bg-sky-400 text-slate-950 shadow-sm"
+                    : "text-gray-500 hover:text-gray-300"
                 )}
-                data-testid={`button-demo-timeframe-${timeframe.label.toLowerCase()}`}
+                data-testid={`button-demo-timeframe-${tf.label.toLowerCase()}`}
               >
-                {timeframe.label}
+                {tf.label}
               </button>
             ))}
           </div>
-
-          <div className="h-[300px] w-full overflow-hidden rounded-[26px] border border-white/6 bg-[linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.92))] p-3">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="demoChartGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={chartColor} stopOpacity={0.35} />
-                    <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="x" type="number" domain={["dataMin", "dataMax"]} hide />
-                <YAxis domain={["auto", "auto"]} hide />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#020617", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "16px" }}
-                  labelFormatter={(label) => new Date(label).toLocaleString()}
-                  formatter={(value: number) => [formatSelectedPriceFromUsd(value), "Price"]}
-                />
-                <Area type="monotone" dataKey="y" stroke={chartColor} strokeWidth={2.5} fill="url(#demoChartGradient)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
         </div>
 
-        <div className="rounded-[30px] border border-white/8 bg-white/[0.05] p-5 shadow-[0_18px_45px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+        <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.24)]">
           <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs uppercase tracking-[0.24em] text-zinc-500">Trade panel</p>
+              <p className="text-[11px] uppercase tracking-[0.18em] text-zinc-500">Demo trading</p>
               <h2 className="text-xl font-black">Buy or sell {coin.symbol.toUpperCase()}</h2>
             </div>
             <div className="rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-sky-300">
-              Scroll enabled
+              Paper trades
             </div>
           </div>
 
@@ -339,10 +318,29 @@ export default function DemoCoinDetail() {
             </button>
           </div>
 
+          <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+            <div className="rounded-2xl bg-black/30 border border-white/5 p-4">
+              <div className="text-xs uppercase tracking-wide text-zinc-500">Avg entry</div>
+              <div className="mt-2 font-bold text-white">{formatSelectedAmount(averageBuyPriceDisplay)}</div>
+            </div>
+            <div className="rounded-2xl bg-black/30 border border-white/5 p-4">
+              <div className="text-xs uppercase tracking-wide text-zinc-500">Return</div>
+              <div className="mt-2 font-bold text-sky-300">{profitPercent >= 0 ? "+" : "-"}{Math.abs(profitPercent).toFixed(2)}%</div>
+            </div>
+            <div className="rounded-2xl bg-black/30 border border-white/5 p-4 col-span-2">
+              <div className="flex items-center justify-between text-xs uppercase tracking-wide text-zinc-500">
+                <span>Cost basis</span>
+                <span className="text-sky-300">Live holding</span>
+              </div>
+              <div className="mt-2 flex items-center justify-between gap-3">
+                <span className="font-bold text-white">{formatSelectedAmount(costBasisDisplay)}</span>
+                <span className="font-bold text-white">{renderSelectedAmount(holdingValueDisplay, 12)}</span>
+              </div>
+            </div>
+          </div>
+
           <div className="space-y-3">
-            <label className="ml-1 text-xs text-gray-400">
-              Amount in {isVaultyCredits ? "Vaulty Credits" : currency}
-            </label>
+            <label className="ml-1 text-xs text-gray-400">Amount in {isVaultyCredits ? "Vaulty Credits" : currency}</label>
             <div className="flex items-center gap-3 rounded-[24px] border border-white/8 bg-black/35 px-4 py-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
               <input
                 type="number"
@@ -384,46 +382,130 @@ export default function DemoCoinDetail() {
             {tradeType === "buy" ? `Buy ${coin.symbol.toUpperCase()}` : `Sell ${coin.symbol.toUpperCase()}`}
           </Button>
         </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+              <Activity size={14} /> Market Cap
+            </div>
+            <div className="font-bold text-lg">{formatCompactNumber(marketCapDisplay)}</div>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+              <BarChart3 size={14} /> Volume (24h)
+            </div>
+            <div className="font-bold text-lg">{formatCompactNumber(totalVolumeDisplay)}</div>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+              <TrendingUp size={14} /> 24h High
+            </div>
+            <div className="font-bold text-lg">{formatSelectedAmount(high24hDisplay)}</div>
+          </div>
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+            <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
+              <TrendingDown size={14} /> 24h Low
+            </div>
+            <div className="font-bold text-lg">{formatSelectedAmount(low24hDisplay)}</div>
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="font-bold text-lg">About {coin.name}</h3>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3">
+              <span className="flex items-center gap-2 text-sm text-gray-400">
+                <Layers size={16} /> Rank
+              </span>
+              <span className="font-bold">#{coin.market_cap_rank}</span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3">
+              <span className="flex items-center gap-2 text-sm text-gray-400">
+                <Calendar size={16} /> Created
+              </span>
+              <span className="font-bold">
+                {coin.genesis_date ? new Date(coin.genesis_date).toLocaleDateString() : "N/A"}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3">
+              <span className="flex items-center gap-2 text-sm text-gray-400">
+                <DollarSign size={16} /> Website
+              </span>
+              <a
+                href={coin.links.homepage[0]}
+                target="_blank"
+                rel="noreferrer"
+                className="max-w-[150px] truncate text-sm text-sky-300 hover:underline"
+                data-testid="link-demo-coin-website"
+              >
+                {coin.links.homepage[0]?.replace("https://", "") || "N/A"}
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/5 bg-white/5 p-4">
+            <h4 className="mb-2 flex items-center gap-2 text-sm font-bold">
+              <DollarSign size={16} className="text-sky-300" /> Supported Chains
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {Object.keys(coin.platforms).length > 0 ? (
+                Object.keys(coin.platforms).slice(0, 5).map((chain) => (
+                  chain ? (
+                    <span key={chain} className="rounded-md bg-white/10 px-2 py-1 text-xs capitalize text-gray-300">
+                      {chain}
+                    </span>
+                  ) : null
+                ))
+              ) : (
+                <span className="text-xs text-gray-500">Native Chain ({coin.name})</span>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       {isFullscreen && (
-        <div className="fixed inset-0 z-[60] animate-in fade-in duration-200 bg-black p-4 flex flex-col">
-          <div className="mb-4 flex items-center justify-between">
+        <div className="fixed inset-0 z-[60] bg-black flex flex-col p-4 animate-in fade-in duration-200">
+          <div className="flex justify-between items-center mb-4">
             <div>
-              <h2 className="text-xl font-black">{coin.name}</h2>
-              <span className="text-sm uppercase text-gray-400">{coin.symbol}</span>
+              <h2 className="text-xl font-bold">{coin.name}</h2>
+              <span className="text-sm text-gray-400 uppercase">{coin.symbol}</span>
             </div>
-            <button onClick={() => setIsFullscreen(false)} className="rounded-full bg-white/10 p-2 text-white hover:bg-white/20" data-testid="button-close-demo-chart-fullscreen">
+            <button onClick={() => setIsFullscreen(false)} className="p-2 bg-white/10 rounded-full text-white hover:bg-white/20" data-testid="button-close-demo-chart-fullscreen">
               <X size={24} />
             </button>
           </div>
-          <div className="relative flex-1 rounded-[28px] border border-white/8 bg-slate-950/90 p-4">
+          <div className="flex-1 bg-zinc-900/50 rounded-2xl border border-white/5 p-4 relative">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="demoChartFullscreenGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={secondaryBlue} stopOpacity={0.35} />
-                    <stop offset="95%" stopColor={secondaryBlue} stopOpacity={0} />
+                    <stop offset="5%" stopColor={chartTone} stopOpacity={0.35} />
+                    <stop offset="95%" stopColor={chartTone} stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
-                  dataKey="x"
+                  dataKey="date"
                   type="number"
                   domain={["dataMin", "dataMax"]}
-                  tickFormatter={(value) => formatDate(new Date(value), selectedTimeframe.days > 1 ? "MMM d" : "HH:mm")}
+                  tickFormatter={(val) => formatDate(new Date(val), selectedTimeframe.days === "1" ? "HH:mm" : "MMM d")}
                   stroke="#64748b"
                 />
                 <YAxis
+                  domain={["auto", "auto"]}
                   stroke="#64748b"
+                  tickFormatter={(val) => formatSelectedAmount(val).replace(/\.00$/, "")}
                   width={72}
-                  tickFormatter={(value) => formatSelectedAmount(convert(value)).replace(/\.00$/, "")}
                 />
                 <Tooltip
-                  contentStyle={{ backgroundColor: "#020617", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "12px" }}
+                  contentStyle={{ backgroundColor: "#111", border: "1px solid #333", borderRadius: "8px" }}
                   labelFormatter={(label) => new Date(label).toLocaleString()}
-                  formatter={(value: number) => [formatSelectedPriceFromUsd(value), "Price"]}
+                  formatter={(value: number) => [formatSelectedAmount(value), "Price"]}
                 />
-                <Area type="monotone" dataKey="y" stroke={secondaryBlue} strokeWidth={2.5} fill="url(#demoChartFullscreenGradient)" />
+                <Area type="monotone" dataKey="price" stroke={chartTone} strokeWidth={2} fillOpacity={1} fill="url(#demoChartFullscreenGradient)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>

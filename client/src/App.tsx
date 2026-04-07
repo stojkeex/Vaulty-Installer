@@ -32,6 +32,7 @@ import CardCustomization from "@/pages/card-customization";
 import WalletPage from "@/pages/wallet";
 import WalletSettingsPage from "@/pages/wallet-settings";
 import Discover from "@/pages/discover";
+import GoalsPage from "@/pages/goals";
 import CreateCompanion from "@/pages/create-companion";
 import CompanionChat from "@/pages/companion-chat";
 import ImageSave from "@/pages/image-save";
@@ -84,6 +85,7 @@ function Router() {
         
         {/* Home is now just Feed, no tabs param needed, but we keep /home for compatibility */}
         <Route path="/home" component={() => <ProtectedRoute component={Home} />} />
+        <Route path="/goals" component={() => <ProtectedRoute component={GoalsPage} hideNav={true} />} />
         {/* Support old route but redirect to home */}
         <Route path="/home/:tab" component={() => <Redirect to="/home" />} />
         <Route path="/create-post" component={() => <ProtectedRoute component={CreatePost} />} />

@@ -70,7 +70,7 @@ export default function Profile() {
   } : undefined;
 
   const horizontalItems = [
-      { label: "Goals", icon: goalsIcon, href: "/home/goals" },
+      { label: "Goals", icon: goalsIcon, href: "/goals" },
       { label: "Shop", icon: shopIcon, href: "/shop" },
       { label: "Academy", icon: academyIcon, href: "/academy" },
       { label: "Leaderboard", icon: leaderboardIcon, href: "/home/leaderboard" },

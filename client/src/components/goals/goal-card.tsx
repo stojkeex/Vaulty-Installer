@@ -73,9 +73,8 @@ export function GoalCard({ goal }: GoalCardProps) {
 
   return (
     <>
-      <div className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:bg-white/10 transition-all">
-        {/* Header Image */}
-        <div className="h-32 w-full bg-gradient-to-r from-gray-900/40 to-gray-900/40 relative">
+      <div className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.12),transparent_26%),linear-gradient(145deg,rgba(15,23,42,0.82),rgba(2,6,23,0.92))] shadow-[0_14px_36px_rgba(0,0,0,0.24)] transition-all hover:border-sky-400/20 hover:shadow-[0_18px_42px_rgba(37,99,235,0.18)]">
+        <div className="h-32 w-full bg-gradient-to-r from-slate-950/40 to-slate-900/20 relative">
           {goal.imageUrl ? (
             <img src={goal.imageUrl} alt={goal.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" />
           ) : (
@@ -87,13 +86,13 @@ export function GoalCard({ goal }: GoalCardProps) {
           <div className="absolute top-2 right-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-1.5 rounded-full bg-black/40 text-white hover:bg-black/60 transition-colors">
+                <button className="rounded-full bg-black/45 p-1.5 text-white transition-colors hover:bg-black/65" data-testid={`button-goal-menu-${goal.id}`}>
                   <MoreVertical size={16} />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-[#111] border-white/10 text-white">
-                <DropdownMenuItem onClick={handleAnalyze} className="cursor-pointer hover:bg-white/10">
-                  <Sparkles className="mr-2 h-4 w-4 text-purple-400" />
+              <DropdownMenuContent className="border-white/10 bg-[#111827]/95 text-white backdrop-blur-xl">
+                <DropdownMenuItem onClick={handleAnalyze} className="cursor-pointer hover:bg-white/10 focus:bg-white/10">
+                  <Sparkles className="mr-2 h-4 w-4 text-sky-300" />
                   <span>AI Analyze</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={handleDelete} className="cursor-pointer text-red-400 hover:bg-red-500/10 hover:text-red-400">
@@ -106,22 +105,22 @@ export function GoalCard({ goal }: GoalCardProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4 space-y-4">
+        <div className="space-y-4 p-5">
           <div className="flex justify-between items-start">
             <div>
-              <h3 className="font-bold text-lg leading-tight">{goal.title}</h3>
-              <div className="flex items-center gap-1.5 text-xs text-gray-400 mt-1">
+              <h3 className="text-lg font-black leading-tight text-white">{goal.title}</h3>
+              <div className="mt-1 flex items-center gap-1.5 text-xs text-gray-400">
                 <Calendar size={12} />
                 <span>{daysLeft > 0 ? `${daysLeft} days left` : "Expired"}</span>
               </div>
             </div>
             <div className="text-right">
-              <div className="font-bold text-gray-400">{Math.round(progress)}%</div>
+              <div className="font-black text-sky-300">{Math.round(progress)}%</div>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Progress value={progress} className="h-2 bg-white/10" indicatorClassName={cn("bg-gradient-to-r from-gray-500 to-gray-500", progress >= 100 && "from-green-500 to-emerald-500")} />
+            <Progress value={progress} className="h-2.5 bg-white/10" indicatorClassName={cn("bg-gradient-to-r from-sky-400 to-blue-500", progress >= 100 && "from-green-400 to-emerald-500")} />
             <div className="flex justify-between text-xs">
               <span className="text-gray-400 flex items-center gap-1">
                 Current: 
@@ -142,10 +141,10 @@ export function GoalCard({ goal }: GoalCardProps) {
 
       {/* AI Analysis Dialog */}
       <Dialog open={analysisOpen} onOpenChange={setAnalysisOpen}>
-        <DialogContent className="bg-[#111] border-white/10 text-white sm:max-w-[425px]">
+        <DialogContent className="rounded-[28px] border-white/10 bg-[linear-gradient(180deg,#10131c_0%,#070a11_100%)] text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Sparkles className="text-purple-400" size={20} />
+              <Sparkles className="text-sky-300" size={20} />
               AI Goal Analysis
             </DialogTitle>
             <DialogDescription className="text-gray-400">
@@ -156,18 +155,18 @@ export function GoalCard({ goal }: GoalCardProps) {
           <div className="py-4">
             {analyzing ? (
               <div className="flex flex-col items-center justify-center py-8 space-y-4">
-                <Loader2 className="h-8 w-8 text-purple-400 animate-spin" />
+                <Loader2 className="h-8 w-8 text-sky-300 animate-spin" />
                 <p className="text-sm text-gray-400 animate-pulse">Analyzing financial data...</p>
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-purple-500/10 border border-purple-500/20 rounded-xl p-4">
+                <div className="rounded-xl border border-sky-400/20 bg-sky-400/10 p-4">
                   <p className="text-sm leading-relaxed text-gray-200">
                     {analysisResult}
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={() => setAnalysisOpen(false)} className="w-full bg-white/10 hover:bg-white/20">
+                  <Button onClick={() => setAnalysisOpen(false)} className="w-full bg-white/10 hover:bg-white/20" data-testid={`button-close-goal-analysis-${goal.id}`}>
                     Close
                   </Button>
                 </div>

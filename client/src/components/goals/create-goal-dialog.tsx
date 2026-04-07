@@ -71,7 +71,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
   if (isLimitReached && open) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="bg-[#111] border-white/10 text-white sm:max-w-[425px]">
+        <DialogContent className="rounded-[28px] border-white/10 bg-[linear-gradient(180deg,#10131c_0%,#070a11_100%)] text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Limit Reached</DialogTitle>
           </DialogHeader>
@@ -80,7 +80,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
               You have reached the limit of 3 goals for the Free plan. 
               Upgrade to Premium for unlimited goals!
             </p>
-            <Button onClick={() => onOpenChange(false)} className="bg-gradient-to-r from-gray-500 to-gray-500 w-full">
+            <Button onClick={() => onOpenChange(false)} className="w-full bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-slate-950 hover:from-sky-400 hover:to-blue-400" data-testid="button-goal-upgrade-now">
               Upgrade Now
             </Button>
           </div>
@@ -91,7 +91,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-[#111] border-white/10 text-white sm:max-w-[425px]">
+      <DialogContent className="rounded-[28px] border-white/10 bg-[linear-gradient(180deg,#10131c_0%,#070a11_100%)] text-white shadow-[0_24px_80px_rgba(0,0,0,0.45)] sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create New Goal</DialogTitle>
         </DialogHeader>
@@ -102,7 +102,8 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
             <Input 
               id="title" 
               placeholder="e.g. Dream Car" 
-              className="bg-white/5 border-white/10"
+              className="border-white/10 bg-white/5"
+              data-testid="input-goal-title"
               {...form.register("title")} 
             />
             {form.formState.errors.title && (
@@ -117,7 +118,8 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
                 id="targetAmount" 
                 type="number" 
                 placeholder="10000" 
-                className="bg-white/5 border-white/10"
+                className="border-white/10 bg-white/5"
+                data-testid="input-goal-target-amount"
                 {...form.register("targetAmount")} 
               />
             </div>
@@ -127,7 +129,8 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
                 id="currentAmount" 
                 type="number" 
                 placeholder="0" 
-                className="bg-white/5 border-white/10"
+                className="border-white/10 bg-white/5"
+                data-testid="input-goal-current-amount"
                 {...form.register("currentAmount")} 
               />
             </div>
@@ -140,7 +143,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "w-full justify-start text-left font-normal bg-white/5 border-white/10 hover:bg-white/10 hover:text-white",
+                    "w-full justify-start border-white/10 bg-white/5 text-left font-normal hover:bg-white/10 hover:text-white",
                     !form.watch("deadline") && "text-muted-foreground"
                   )}
                 >
@@ -169,7 +172,8 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
               <Input 
                 id="imageUrl" 
                 placeholder="https://..." 
-                className="bg-white/5 border-white/10"
+                className="border-white/10 bg-white/5"
+                data-testid="input-goal-image-url"
                 {...form.register("imageUrl")} 
               />
             </div>
@@ -178,8 +182,9 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
 
           <Button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-gray-500 to-gray-500 hover:from-gray-600 hover:to-gray-600 text-white font-bold"
+            className="w-full bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-slate-950 hover:from-sky-400 hover:to-blue-400"
             disabled={loading}
+            data-testid="button-submit-goal"
           >
             {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Create Goal"}
           </Button>
