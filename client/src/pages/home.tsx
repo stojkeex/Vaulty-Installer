@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { collection, query, where, getDocs, addDoc, orderBy, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { PostCard } from "@/components/post-card";
+import { CompleteProfileWidget } from "@/components/complete-profile-widget";
 import { isAdmin, isSuperAdmin } from "@/lib/admins";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -76,6 +77,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-32 bg-black text-white selection:bg-gray-500/30">
+      <CompleteProfileWidget />
       
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center">

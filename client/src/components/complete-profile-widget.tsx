@@ -14,7 +14,7 @@ function hasCustomProfilePhoto(photoURL?: string | null) {
 
 export function CompleteProfileWidget() {
   const { user, userData } = useAuth();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const [goalsCount, setGoalsCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [showBubble, setShowBubble] = useState(false);
@@ -89,10 +89,9 @@ export function CompleteProfileWidget() {
 
   const completedCount = tasks.filter((task) => task.done).length;
   const isComplete = completedCount === tasks.length;
-  const isHomePage = location === "/home" || location === "/";
 
   useEffect(() => {
-    if (isComplete || !isHomePage) {
+    if (isComplete) {
       setShowBubble(false);
       setIsOpen(false);
       return;
@@ -110,9 +109,9 @@ export function CompleteProfileWidget() {
       window.clearTimeout(showTimer);
       window.clearTimeout(hideTimer);
     };
-  }, [isComplete, isHomePage]);
+  }, [isComplete]);
 
-  if (!user || !userData || isComplete || !isHomePage) return null;
+  if (!user || !userData || isComplete) return null;
 
   return (
     <>
@@ -227,7 +226,7 @@ export function CompleteProfileWidget() {
               exit={{ opacity: 0, x: 28 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
               onClick={() => setIsOpen(true)}
-              className="group mr-0 flex items-center gap-3 rounded-l-full border border-r-0 border-white/12 bg-black/85 py-3 pl-4 pr-3 text-white shadow-[0_16px_48px_rgba(0,0,0,0.5)] backdrop-blur-3xl"
+              className="group mr-0 flex min-h-16 items-center gap-3 rounded-l-full border border-r-0 border-white/14 bg-black/92 py-3 pl-4 pr-3 text-white shadow-[0_20px_60px_rgba(0,0,0,0.58)] backdrop-blur-3xl"
               data-testid="button-open-complete-profile"
             >
               <div className="relative flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/10">
