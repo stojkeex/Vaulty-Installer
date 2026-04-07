@@ -140,7 +140,6 @@ function Router() {
   );
 }
 
-import { ChristmasOfferModal } from "@/components/christmas-offer-modal";
 import { PremiumThanksProvider } from "@/components/premium-thanks-modal";
 
 function App() {
@@ -187,7 +186,6 @@ function App() {
                         )}
                         {!showSplash && (
                           <>
-                            <ChristmasOfferModal />
                             <GlobalNotificationDisplay />
                             <Router />
                             <BottomNav />

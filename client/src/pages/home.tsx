@@ -46,6 +46,33 @@ const BANNERS = [
   }
 ];
 
+const HOME_SHORTCUTS = [
+  {
+    title: "Finance Analysis",
+    description: "Overview of your portfolio",
+    href: "/wallet",
+    icon: LineChart,
+  },
+  {
+    title: "Learning",
+    description: "Academy and courses",
+    href: "/academy",
+    icon: GraduationCap,
+  },
+  {
+    title: "Demo Trading",
+    description: "Trade without risk",
+    href: "/demo-trading",
+    icon: TrendingUp,
+  },
+  {
+    title: "Collect Points",
+    description: "Complete tasks and earn",
+    href: "/quests",
+    icon: Coins,
+  }
+];
+
 export default function Home() {
   const { user, userData } = useAuth();
   const { unreadCount } = useNotifications();
@@ -220,55 +247,28 @@ export default function Home() {
                 </AnimatePresence>
               </div>
 
-              {/* Glass Cards Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                {/* Finance Analysis Card */}
-                <Link href="/wallet" className="w-full">
-                  <div className="relative overflow-hidden rounded-[24px] bg-white/5 backdrop-blur-xl border border-white/20 p-6 flex flex-col items-center text-center group cursor-pointer hover:bg-white/10 transition-all duration-500 h-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 border border-white/20 shadow-inner">
-                      <LineChart className="text-white w-7 h-7" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-1 tracking-tight">Finance Analysis</h3>
-                    <p className="text-[10px] sm:text-xs text-gray-400">Overview of your portfolio</p>
-                  </div>
-                </Link>
+              {/* Glass Cards Carousel */}
+              <div className="-mx-6 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex snap-x snap-mandatory gap-4">
+                  {HOME_SHORTCUTS.map((item) => {
+                    const Icon = item.icon;
 
-                {/* Academy/Learning Card */}
-                <Link href="/academy" className="w-full">
-                  <div className="relative overflow-hidden rounded-[24px] bg-white/5 backdrop-blur-xl border border-white/20 p-6 flex flex-col items-center text-center group cursor-pointer hover:bg-white/10 transition-all duration-500 h-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 border border-white/20 shadow-inner">
-                      <GraduationCap className="text-white w-7 h-7" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-1 tracking-tight">Learning</h3>
-                    <p className="text-[10px] sm:text-xs text-gray-400">Academy and courses</p>
-                  </div>
-                </Link>
-
-                {/* Demo Trading Card */}
-                <Link href="/demo-trading" className="w-full">
-                  <div className="relative overflow-hidden rounded-[24px] bg-white/5 backdrop-blur-xl border border-white/20 p-6 flex flex-col items-center text-center group cursor-pointer hover:bg-white/10 transition-all duration-500 h-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 border border-white/20 shadow-inner">
-                      <TrendingUp className="text-white w-7 h-7" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-1 tracking-tight">Demo Trading</h3>
-                    <p className="text-[10px] sm:text-xs text-gray-400">Trade without risk</p>
-                  </div>
-                </Link>
-
-                {/* Points Collection Card */}
-                <Link href="/quests" className="w-full">
-                  <div className="relative overflow-hidden rounded-[24px] bg-white/5 backdrop-blur-xl border border-white/20 p-6 flex flex-col items-center text-center group cursor-pointer hover:bg-white/10 transition-all duration-500 h-full shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 border border-white/20 shadow-inner">
-                      <Coins className="text-white w-7 h-7" />
-                    </div>
-                    <h3 className="text-base sm:text-lg font-bold text-white mb-1 tracking-tight">Collect Points</h3>
-                    <p className="text-[10px] sm:text-xs text-gray-400">Complete tasks and earn</p>
-                  </div>
-                </Link>
+                    return (
+                      <Link key={item.title} href={item.href} className="block w-[calc(50%-8px)] min-w-[calc(50%-8px)] snap-start">
+                        <div className="relative h-full overflow-hidden rounded-[24px] bg-white/5 p-6 text-center backdrop-blur-xl border border-white/20 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className="relative z-10 flex flex-col items-center">
+                            <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-inner transition-transform duration-500 group-hover:scale-110">
+                              <Icon className="h-7 w-7 text-white" />
+                            </div>
+                            <h3 className="mb-1 text-base font-bold tracking-tight text-white sm:text-lg">{item.title}</h3>
+                            <p className="text-[10px] text-gray-400 sm:text-xs">{item.description}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* Inline Premium Banner */}
