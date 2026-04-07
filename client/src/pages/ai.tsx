@@ -130,9 +130,11 @@ export default function Ai() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [expandedThinking, setExpandedThinking] = useState<number | null>(null);
   const [typingMessages, setTypingMessages] = useState<Set<number>>(new Set());
+  const [shouldAutoScroll, setShouldAutoScroll] = useState(true);
   const longPressTimer = useRef<NodeJS.Timeout | null>(null);
    
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const handleImageLongPress = (imageUrl: string) => {
     setLocation(`/image-save?url=${encodeURIComponent(imageUrl)}`);
@@ -207,7 +209,7 @@ export default function Ai() {
         }
 
         const response = await fetch(
-          `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -263,9 +265,11 @@ export default function Ai() {
 
       return { text, thinking };
     } catch (err: any) {
-      console.warn("API failed, using demo mode:", err.message);
-      // Use mock response as fallback
-      return getMockResponse(message);
+      console.error("API failed:", err.message);
+      if (String(err?.message || "").includes("quota") || String(err?.message || "").includes("429")) {
+        throw new Error("Gemini quota is currently exceeded. Check billing or rate limits for this key.");
+      }
+      throw new Error(err?.message || "Failed to connect to Gemini API.");
     }
   };
 
@@ -283,8 +287,9 @@ export default function Ai() {
   }, [chatId, user]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (!shouldAutoScroll) return;
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [messages, shouldAutoScroll]);
 
   useEffect(() => {
     const tier = contextSubscription || "free";
@@ -358,6 +363,13 @@ export default function Ai() {
   const handleTouchEnd = (e: React.TouchEvent, chatId: string) => {
     setTouchEnd(e.changedTouches[0].clientX);
     handleSwipe(touchStart, e.changedTouches[0].clientX, chatId);
+  };
+
+  const handleMessagesScroll = () => {
+    const container = messagesContainerRef.current;
+    if (!container) return;
+    const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
+    setShouldAutoScroll(distanceFromBottom < 120);
   };
 
   const handleSwipe = (start: number, end: number, chatId: string) => {
@@ -497,6 +509,7 @@ export default function Ai() {
     setMessages(prev => [...prev, newUserMessage]);
     setInput("");
     setIsLoading(true);
+    setShouldAutoScroll(true);
 
     try {
       const startTime = Date.now();
@@ -815,7 +828,7 @@ export default function Ai() {
         </header>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
+        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-700">
               <div className="w-32 h-32 mb-8 relative">
