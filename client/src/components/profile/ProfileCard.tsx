@@ -73,6 +73,8 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
   let isCustomLight = false;
 
   if (customStyle?.color && customStyle.color !== 'default') {
+      cardStyle.backgroundClip = 'padding-box';
+
       if (customStyle.gradientTo) {
           cardStyle.background = `linear-gradient(135deg, ${customStyle.color}, ${customStyle.gradientTo})`;
           isCustomLight = isLightGradient(customStyle.color, customStyle.gradientTo);
