@@ -36,20 +36,8 @@ export const BADGES: Badge[] = [
   },
   {
     id: "premium-pro",
-    name: "PRO Plan",
+    name: "Vaulty+",
     image: badgePro,
-    description: "PRO Plan Subscriber"
-  },
-  {
-    id: "premium-team",
-    name: "TEAM Plan",
-    image: "/assets/badges/badge-ultra.png",
-    description: "TEAM Plan Subscriber (Up to 5 users)"
-  },
-  {
-    id: "premium-max",
-    name: "MAX Plan",
-    image: "/assets/badges/badge-max.png",
-    description: "MAX Plan Subscriber"
+    description: "Vaulty+ member"
   }
 ];

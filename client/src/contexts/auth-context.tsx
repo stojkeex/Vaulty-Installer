@@ -146,31 +146,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             // This ensures badges persist if subscription is active
             // Check both new premiumPlan and old subscription fields
             const userPlan = data.premiumPlan || data.subscription;
+            const normalizedPlan = typeof userPlan === "string" ? userPlan.toLowerCase() : "";
             
-            if (userPlan === "PRO" && !badges.includes("premium-pro")) {
-                 badges.push("premium-pro");
+            if (["pro", "max", "team", "plus", "ultra"].includes(normalizedPlan)) {
+                 const hadLegacyPremiumBadges = badges.includes("premium-max") || badges.includes("premium-team");
                  badges = badges.filter((b: string) => b !== "premium-max" && b !== "premium-team");
-                 needsUpdate = true;
-            } else if (userPlan === "MAX" && !badges.includes("premium-max")) {
-                 badges.push("premium-max");
-                 badges = badges.filter((b: string) => b !== "premium-pro" && b !== "premium-team");
-                 needsUpdate = true;
-            } else if (userPlan === "TEAM" && !badges.includes("premium-team")) {
-                 badges.push("premium-team");
-                 badges = badges.filter((b: string) => b !== "premium-pro" && b !== "premium-max");
-                 needsUpdate = true;
-            } else if (userPlan === "pro" && !badges.includes("premium-pro")) {
-                 badges.push("premium-pro");
-                 badges = badges.filter((b: string) => b !== "premium-max" && b !== "premium-team");
-                 needsUpdate = true;
-            } else if (userPlan === "max" && !badges.includes("premium-max")) {
-                 badges.push("premium-max");
-                 badges = badges.filter((b: string) => b !== "premium-pro" && b !== "premium-team");
-                 needsUpdate = true;
-            } else if (userPlan === "team" && !badges.includes("premium-team")) {
-                 badges.push("premium-team");
-                 badges = badges.filter((b: string) => b !== "premium-pro" && b !== "premium-max");
-                 needsUpdate = true;
+                 if (!badges.includes("premium-pro")) {
+                    badges.push("premium-pro");
+                 }
+                 if (!data.badges?.includes("premium-pro") || hadLegacyPremiumBadges) {
+                    needsUpdate = true;
+                 }
             } else if (!userPlan || userPlan === "none") {
                  // Remove all premium badges
                  badges = badges.filter((b: string) => !b.includes("premium"));

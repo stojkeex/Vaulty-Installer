@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-type SubscriptionTier = "free" | "pro" | "ultra" | "max";
+type SubscriptionTier = "free" | "plus";
 
 interface PremiumContextType {
   subscription: SubscriptionTier;
@@ -23,11 +23,9 @@ const PremiumContext = createContext<PremiumContextType>({
 
 export const usePremium = () => useContext(PremiumContext);
 
-const tierHierarchy: Record<SubscriptionTier, number> = {
-  free: 0,
-  pro: 1,
-  ultra: 2,
-  max: 3,
+const normalizePlan = (plan: unknown): SubscriptionTier => {
+  if (typeof plan !== "string") return "free";
+  return ["pro", "max", "team", "ultra", "plus"].includes(plan.toLowerCase()) ? "plus" : "free";
 };
 
 export const PremiumProvider = ({ children }: { children: React.ReactNode }) => {
@@ -46,13 +44,8 @@ export const PremiumProvider = ({ children }: { children: React.ReactNode }) => 
       try {
         const userDoc = await getDoc(doc(db, "users", user.uid));
         const userData = userDoc.data();
-        // Check new premiumPlan field first, fall back to old subscription field
-        let plan = userData?.premiumPlan || userData?.subscription || "free";
-        // Normalize to lowercase
-        if (typeof plan === "string") {
-          plan = plan.toLowerCase();
-        }
-        setSubscription((plan as SubscriptionTier) || "free");
+        const plan = userData?.premiumPlan || userData?.subscription || "free";
+        setSubscription(normalizePlan(plan));
       } catch (error) {
         console.error("Error fetching subscription:", error);
         setSubscription("free");
@@ -65,17 +58,18 @@ export const PremiumProvider = ({ children }: { children: React.ReactNode }) => 
   }, [user]);
 
   const hasAccess = (requiredTier: SubscriptionTier) => {
-    return tierHierarchy[subscription] >= tierHierarchy[requiredTier];
+    if (requiredTier === "free") return true;
+    return subscription === "plus";
   };
 
   return (
-    <PremiumContext.Provider 
-      value={{ 
-        subscription, 
-        loading, 
-        hasAccess, 
-        isPremium: subscription !== "free",
-        tier: subscription 
+    <PremiumContext.Provider
+      value={{
+        subscription,
+        loading,
+        hasAccess,
+        isPremium: subscription === "plus",
+        tier: subscription
       }}
     >
       {children}

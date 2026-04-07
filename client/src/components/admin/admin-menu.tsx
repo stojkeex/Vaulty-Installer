@@ -363,15 +363,15 @@ export function AdminMenu() {
         
         if (plan === "none") {
             updateData.premiumPlan = null;
+            updateData.subscription = "free";
             updateData.premiumExpiry = null;
         } else {
-            updateData.premiumPlan = plan;
+            updateData.premiumPlan = "PLUS";
+            updateData.subscription = "plus";
             const expiryDate = new Date();
             expiryDate.setDate(expiryDate.getDate() + 30);
             updateData.premiumExpiry = expiryDate;
-            if (plan === "PRO") newBadges.push("premium-pro");
-            else if (plan === "MAX") newBadges.push("premium-max");
-            else if (plan === "TEAM") newBadges.push("premium-team");
+            newBadges.push("premium-pro");
         }
         
         updateData.badges = newBadges;
@@ -493,7 +493,7 @@ export function AdminMenu() {
           createdAt: serverTimestamp(),
           badges: u.xp > 2000 ? ["verified"] : [],
           isVerified: u.xp > 2000,
-          premiumPlan: u.xp > 3000 ? "PRO" : "none"
+          premiumPlan: u.xp > 3000 ? "PLUS" : "none"
         }, { merge: true });
 
         // Seed some posts for each user
@@ -839,9 +839,7 @@ export function AdminMenu() {
                         <select value={selectedPlan} onChange={(e) => { setSelectedPlan(e.target.value); if (e.target.value) handleSetPlan(e.target.value); }} onKeyDown={(e) => e.stopPropagation()} className="w-full bg-[#111] border border-white/10 text-white rounded-xl p-2 h-10 focus:border-[#a0a0a0]/50 text-xs">
                           <option value="">Select...</option>
                           <option value="none">Free Tier (Remove)</option>
-                          <option value="PRO">PRO Plan</option>
-                          <option value="MAX">MAX Plan</option>
-                          <option value="TEAM">TEAM Plan</option>
+                          <option value="PLUS">Vaulty+ Plan</option>
                         </select>
                       </div>
                     </div>

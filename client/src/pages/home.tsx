@@ -21,7 +21,6 @@ import { motion, AnimatePresence } from "framer-motion";
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
 import badgeProImage from "@assets/IMG_1085_1775581026902.png";
-import badgeMaxImage from "@assets/image_1766097506015.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
 
 const BANNERS = [
@@ -80,8 +79,8 @@ export default function Home() {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
 
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
-  const badges = [badgeProImage, badgeMaxImage];
-  const badgeLabels = ["PRO", "MAX"];
+  const badges = [badgeProImage];
+  const badgeLabels = ["Vaulty+"];
 
   // Auto-rotate banners
   useEffect(() => {
@@ -290,10 +289,10 @@ export default function Home() {
                               </div>
                               <div className="space-y-0.5">
                                 <p className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
-                                    Unlock Premium <Sparkles size={14} className="text-gray-400" />
+                                    Unlock Vaulty+ <Sparkles size={14} className="text-gray-400" />
                                 </p>
                                 <p className="text-xs font-medium text-gray-400">
-                                    Get {badgeLabels[currentBadgeIndex]} plan access
+                                    All premium features in one plan
                                 </p>
                               </div>
                           </div>

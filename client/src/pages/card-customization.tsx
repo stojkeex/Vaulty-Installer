@@ -67,7 +67,7 @@ export default function CardCustomization() {
 
   if (loading) return null;
 
-  const hasPro = userData?.badges?.includes("premium-pro") || userData?.badges?.includes("premium-max");
+  const hasPro = userData?.badges?.includes("premium-pro") || userData?.badges?.includes("premium-max") || userData?.badges?.includes("premium-team");
 
   if (!hasPro) {
     return (
@@ -77,7 +77,7 @@ export default function CardCustomization() {
         </div>
         <h1 className="text-2xl font-bold mb-2">Customization Locked</h1>
         <p className="text-gray-400 mb-8 max-w-sm">
-          Card customization is available exclusively for PRO and MAX members.
+          Card customization is available exclusively for Vaulty+ members.
         </p>
         <div className="flex gap-4">
           <button

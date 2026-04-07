@@ -62,7 +62,7 @@ export default function Profile() {
 
   if (!user) return null;
 
-  const hasPro = userData?.badges?.includes("premium-pro") || userData?.badges?.includes("premium-ultra") || userData?.badges?.includes("premium-max");
+  const hasPro = userData?.badges?.includes("premium-pro") || userData?.badges?.includes("premium-ultra") || userData?.badges?.includes("premium-max") || userData?.badges?.includes("premium-team");
   const customStyle = userData?.cardStyle ? {
       color: userData.cardStyle.color,
       scale: (userData.cardStyle.size || 100) / 100,

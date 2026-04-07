@@ -1,35 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useLocation } from "wouter";
-import { ChevronLeft, Check, Sparkles, Headset, Gift, Lock, Zap, MessageSquare, Mic, Star, X } from "lucide-react";
+import { Check, Sparkles, Headset, Gift, Lock, Zap, MessageSquare, Mic, Star, X } from "lucide-react";
 import { db } from "@/lib/firebase";
-import { doc, updateDoc, increment, collection, getDocs, query, where } from "firebase/firestore";
-import { Input } from "@/components/ui/input";
-import { addMonths } from "date-fns";
+import { doc, updateDoc, increment } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { usePremiumThanks } from "@/components/premium-thanks-modal";
-
-// Import badge images
 import badgePro from "@assets/IMG_1085_1775581026902.png";
-import badgeUltra from "/assets/badges/badge-ultra.png";
-import badgeMax from "/assets/badges/badge-max.png";
-
-// Placeholder for generated asset
 import heroImage from "@assets/generated_images/futuristic_ethereal_silhouetted_figure_in_cosmic_space_background.png";
 
-// Initialize Stripe with the LIVE key
 const stripePromise = loadStripe("pk_live_51SbQJ9HChlVvIks4OVBZysQhGeehAbwISpcSDuxNYy64nTJu780uJcvR0afAzKUZhpnVkFVHPv7iUPlcIYjEIDLh00GF5Z3JoY");
 
-const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: { 
-  tier: string, 
-  price: number, 
-  billingCycle: string, 
-  onSuccess: () => void, 
-  onCancel: () => void 
+const CheckoutForm = ({ price, billingCycle, onSuccess, onCancel }: {
+  price: number,
+  billingCycle: string,
+  onSuccess: () => void,
+  onCancel: () => void
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -59,7 +49,6 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
         setError(submitError.message || "Payment failed");
         setProcessing(false);
       } else {
-        // Payment successful
         onSuccess();
       }
     } catch (err: any) {
@@ -73,7 +62,7 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
       <div className="space-y-4">
         <div className="p-4 rounded-lg bg-white/5 border border-white/10">
           <div className="flex justify-between items-center mb-2">
-            <span className="font-medium capitalize">{tier} Plan</span>
+            <span className="font-medium">Vaulty+ Plan</span>
             <span className="font-bold">${price}/{billingCycle === "monthly" ? "mo" : "yr"}</span>
           </div>
           <div className="text-sm text-gray-400">
@@ -83,7 +72,7 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="p-4 rounded-lg bg-white/5 border border-white/10">
-            <PaymentElement 
+            <PaymentElement
               options={{
                 layout: "tabs",
                 paymentMethodOrder: ["apple_pay", "google_pay", "card"],
@@ -98,16 +87,16 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
           )}
 
           <div className="flex gap-3">
-            <Button 
-              type="button" 
-              variant="outline" 
+            <Button
+              type="button"
+              variant="outline"
               onClick={onCancel}
               className="flex-1 border-white/10 hover:bg-white/5"
             >
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={!stripe || processing}
               className="flex-1 bg-white text-black font-bold hover:bg-gray-200"
             >
@@ -116,7 +105,7 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
           </div>
         </form>
       </div>
-      
+
       <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
         <Lock size={12} />
         <span>Secured by Stripe (Live Mode)</span>
@@ -125,8 +114,7 @@ const CheckoutForm = ({ tier, price, billingCycle, onSuccess, onCancel }: {
   );
 };
 
-const PaymentWrapper = ({ tier, price, billingCycle, onSuccess, onCancel }: {
-  tier: string,
+const PaymentWrapper = ({ price, billingCycle, onSuccess, onCancel }: {
   price: number,
   billingCycle: string,
   onSuccess: () => void,
@@ -136,11 +124,10 @@ const PaymentWrapper = ({ tier, price, billingCycle, onSuccess, onCancel }: {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the component loads
     fetch("/api/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: price, tier, billingCycle }),
+      body: JSON.stringify({ amount: price, tier: "plus", billingCycle }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -151,7 +138,7 @@ const PaymentWrapper = ({ tier, price, billingCycle, onSuccess, onCancel }: {
         console.error("Error:", error);
         setLoading(false);
       });
-  }, [price, tier, billingCycle]);
+  }, [price, billingCycle]);
 
   if (loading || !clientSecret) {
     return (
@@ -163,9 +150,8 @@ const PaymentWrapper = ({ tier, price, billingCycle, onSuccess, onCancel }: {
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <CheckoutForm 
-        tier={tier} 
-        price={price} 
+      <CheckoutForm
+        price={price}
         billingCycle={billingCycle}
         onSuccess={onSuccess}
         onCancel={onCancel}
@@ -176,80 +162,60 @@ const PaymentWrapper = ({ tier, price, billingCycle, onSuccess, onCancel }: {
 
 export default function Premium() {
   const { user, userData } = useAuth();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const { showPremiumThanks } = usePremiumThanks();
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
-  const [selectedTier, setSelectedTier] = useState<"pro" | "max" | "team">("pro");
-  const [redeemCode, setRedeemCode] = useState("");
-  const [redeemLoading, setRedeemLoading] = useState(false);
   const [appliedDiscount, setAppliedDiscount] = useState<any>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  
-  const tiers = {
-    pro: {
-      name: "Vaulty Pro",
-      price: { monthly: 9.99, yearly: 99.99 },
-      features: [
-        { icon: <Zap size={20} />, text: "Higher usage on Fast & Expert", check: true },
-        { icon: <Star size={20} />, text: "Basic AI Insights & Budgeting", check: true },
-        { icon: <MessageSquare size={20} />, text: "Community Access", check: true },
-        { icon: <Gift size={20} />, text: "Exclusive Profile Badge", check: true }
-      ],
-      points: 1000
-    },
-    max: {
-      name: "Vaulty Max",
-      price: { monthly: 39.99, yearly: 399.99 },
-      features: [
-        { icon: <Zap size={20} />, text: "Unlimited usage on Fast & Expert", check: true },
-        { icon: <Star size={20} />, text: "Advanced AI Predictions & Coach", check: true },
-        { icon: <Mic size={20} />, text: "Voice Mode & Smart Companions", check: true },
-        { icon: <Sparkles size={20} />, text: "Early access to new features", check: true }
-      ],
-      points: 3500
-    },
-    team: {
-      name: "Vaulty Team",
-      price: { monthly: 139.99, yearly: 1399.99 },
-      features: [
-        { icon: <Zap size={20} />, text: "Enterprise usage for up to 5 users", check: true },
-        { icon: <Star size={20} />, text: "Team Analytics & Shared Vault", check: true },
-        { icon: <Headset size={20} />, text: "Dedicated Account Manager", check: true },
-        { icon: <Lock size={20} />, text: "Audit Logs & Security Controls", check: true }
-      ],
-      points: 10000,
-      pointsLabel: "3000 VC/user"
-    }
-  };
 
-  const tierBadges = {
-    pro: badgePro,
-    max: badgeMax,
-    team: badgeUltra,
-  };
+  const plan = {
+    name: "Vaulty+",
+    price: { monthly: 12.99, yearly: 89.99 },
+    features: [
+      { icon: <Zap size={20} />, text: "Unlimited Fast & Expert usage" },
+      { icon: <Star size={20} />, text: "Advanced AI insights, budgeting and predictions" },
+      { icon: <Mic size={20} />, text: "Voice mode and smart companions" },
+      { icon: <MessageSquare size={20} />, text: "Full community access and premium conversations" },
+      { icon: <Gift size={20} />, text: "Exclusive Vaulty+ badge and member drops" },
+      { icon: <Sparkles size={20} />, text: "Early access to every upcoming feature" },
+      { icon: <Headset size={20} />, text: "Priority support and premium account care" },
+      { icon: <Lock size={20} />, text: "Advanced security controls and shared vault tools" },
+    ],
+    points: 5000,
+  } as const;
 
-  const basePrice = tiers[selectedTier].price[billingCycle];
+  const monthlyTotal = plan.price.monthly * 12;
+  const yearlySavings = monthlyTotal - plan.price.yearly;
+  const yearlyDiscount = Math.round((yearlySavings / monthlyTotal) * 100);
+
+  const basePrice = plan.price[billingCycle];
   let currentPrice = basePrice;
   let displayDiscount = appliedDiscount;
-  
+
   if (appliedDiscount && appliedDiscount.plan) {
-    if (appliedDiscount.plan !== "All" && appliedDiscount.plan.toLowerCase() !== selectedTier.toLowerCase()) {
+    const discountPlan = appliedDiscount.plan.toLowerCase();
+    if (discountPlan !== "all" && discountPlan !== "plus") {
       displayDiscount = null;
     }
   }
-  
+
   if (displayDiscount && displayDiscount.discount) {
     const discountAmount = (basePrice * displayDiscount.discount) / 100;
     currentPrice = Math.round((basePrice - discountAmount) * 100) / 100;
   }
 
-  const currentPlan = userData?.premiumPlan || userData?.subscription || "free";
-  const currentSubscription = currentPlan.toLowerCase();
+  const currentPlan = (userData?.premiumPlan || userData?.subscription || "free").toString().toLowerCase();
+  const currentSubscription = ["pro", "max", "team", "plus", "ultra"].includes(currentPlan) ? "plus" : currentPlan;
+  const isCurrentPlan = currentSubscription === "plus";
 
   useEffect(() => {
     const stored = sessionStorage.getItem("appliedDiscount");
     if (stored) {
-      try { setAppliedDiscount(JSON.parse(stored)); } catch (e) { setAppliedDiscount(null); }
+      try {
+        setAppliedDiscount(JSON.parse(stored));
+      } catch (e) {
+        setAppliedDiscount(null);
+      }
     }
   }, []);
 
@@ -260,21 +226,23 @@ export default function Premium() {
 
   const handlePaymentSuccess = async () => {
     if (!user) return;
+
     try {
-      const points = tiers[selectedTier].points;
       const expiryDate = new Date();
       expiryDate.setDate(expiryDate.getDate() + 30);
+
       await updateDoc(doc(db, "users", user.uid), {
-        premiumPlan: selectedTier.toUpperCase(),
-        subscription: selectedTier,
+        premiumPlan: "PLUS",
+        subscription: "plus",
         subscriptionDate: new Date(),
         premiumExpiry: expiryDate,
-        vaultyPoints: increment(points)
+        vaultyPoints: increment(plan.points)
       });
+
       setShowPaymentModal(false);
       sessionStorage.removeItem("appliedDiscount");
       setAppliedDiscount(null);
-      showPremiumThanks(selectedTier);
+      showPremiumThanks("Vaulty+");
     } catch (error) {
       console.error("Error updating profile", error);
     }
@@ -282,29 +250,27 @@ export default function Premium() {
 
   return (
     <div className="min-h-screen bg-black text-white relative flex flex-col items-center overflow-x-hidden">
-      {/* Background Image / Ethereal Figure */}
       <div className="absolute top-0 left-0 w-full h-[60vh] z-0 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black z-10" />
-        <img 
-          src={heroImage} 
-          alt="Premium background" 
+        <img
+          src={heroImage}
+          alt="Premium background"
           className="w-full h-full object-cover opacity-80"
         />
       </div>
 
-      {/* Top Controls */}
       <div className="relative z-20 w-full flex justify-between p-6">
-        <button 
+        <button
           onClick={() => setLocation("/")}
           className="p-2 bg-white/10 backdrop-blur-md rounded-full hover:bg-white/20 transition-colors"
+          data-testid="button-close-premium"
         >
           <X size={20} />
         </button>
       </div>
 
-      <div className="relative z-20 flex flex-col items-center w-full max-w-md px-6 pt-16 pb-20 text-center flex-1 justify-center">
-        {/* Title Section */}
-        <motion.div 
+      <div className="relative z-20 flex flex-col items-center w-full max-w-md px-6 pt-12 pb-20 text-center flex-1">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="space-y-4 mb-8"
@@ -313,91 +279,124 @@ export default function Premium() {
             <div className="relative rounded-[28px] border border-white/12 bg-white/5 px-5 py-4 backdrop-blur-xl shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
               <div className="absolute inset-0 rounded-[28px] bg-gradient-to-br from-white/12 via-transparent to-white/4" />
               <img
-                src={tierBadges[selectedTier]}
-                alt={`${tiers[selectedTier].name} badge`}
+                src={badgePro}
+                alt="Vaulty+ badge"
                 className="relative z-10 h-20 w-auto object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,0.35)]"
               />
             </div>
           </div>
-          <h1 className="text-5xl font-bold tracking-tight">{tiers[selectedTier].name}</h1>
-          <p className="text-lg text-gray-300 font-medium max-w-[280px] mx-auto leading-tight">
-            Vaulty 1.0: the smartest and most conversational version of Vaulty
-          </p>
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-bold uppercase tracking-[0.24em] text-gray-300">
+              <Sparkles size={14} className="text-white" />
+              One plan. Everything unlocked.
+            </div>
+            <h1 className="text-5xl font-bold tracking-tight">{plan.name}</h1>
+            <p className="text-lg text-gray-300 font-medium max-w-[320px] mx-auto leading-tight">
+              All Pro, Max and Team perks combined into one cleaner premium membership.
+            </p>
+          </div>
         </motion.div>
 
-        {/* Features List */}
-        <div className="w-full space-y-4 mb-10 px-4">
-          {tiers[selectedTier].features.map((feature, idx) => (
-            <motion.div 
+        <div className="w-full rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-2xl p-3 mb-8 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+          <div className="grid grid-cols-2 gap-2 mb-4">
+            <button
+              onClick={() => setBillingCycle("monthly")}
+              className={`rounded-2xl px-4 py-3 text-left transition-all ${billingCycle === "monthly" ? "bg-white text-black shadow-lg" : "bg-white/5 text-white hover:bg-white/10"}`}
+              data-testid="button-monthly-plan"
+            >
+              <div className="text-xs uppercase tracking-[0.2em] font-bold opacity-70">Monthly</div>
+              <div className="text-2xl font-black">$12.99</div>
+            </button>
+            <button
+              onClick={() => setBillingCycle("yearly")}
+              className={`rounded-2xl px-4 py-3 text-left transition-all ${billingCycle === "yearly" ? "bg-white text-black shadow-lg" : "bg-white/5 text-white hover:bg-white/10"}`}
+              data-testid="button-yearly-plan"
+            >
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-xs uppercase tracking-[0.2em] font-bold opacity-70">Yearly</span>
+                <span className={`rounded-full px-2 py-1 text-[10px] font-black ${billingCycle === "yearly" ? "bg-black text-white" : "bg-emerald-400/15 text-emerald-300"}`}>
+                  {yearlyDiscount}% OFF
+                </span>
+              </div>
+              <div className="text-2xl font-black">$89.99</div>
+            </button>
+          </div>
+
+          <div className="rounded-[24px] border border-white/10 bg-black/30 px-5 py-5 text-left">
+            <div className="flex items-end justify-between gap-4">
+              <div>
+                <p className="text-sm font-medium text-gray-400">{billingCycle === "monthly" ? "Flexible billing" : "Best value yearly plan"}</p>
+                <div className="flex items-end gap-2 mt-1">
+                  <span className="text-5xl font-black tracking-tight">${currentPrice}</span>
+                  <span className="text-sm text-gray-400 pb-2">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                </div>
+              </div>
+              {billingCycle === "yearly" && (
+                <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-right">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-300">Huge save</p>
+                  <p className="text-sm font-semibold text-white">Save ${yearlySavings.toFixed(2)}</p>
+                </div>
+              )}
+            </div>
+            <p className="mt-3 text-sm text-gray-400">
+              {billingCycle === "yearly"
+                ? `That's ${yearlyDiscount}% off compared with paying monthly for a full year.`
+                : "Switch to yearly if you want the biggest deal."}
+            </p>
+          </div>
+        </div>
+
+        <div className="w-full space-y-4 mb-10 px-1">
+          {plan.features.map((feature, idx) => (
+            <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: idx * 0.1 }}
-              key={idx} 
-              className="flex items-center justify-between"
+              transition={{ delay: idx * 0.06 }}
+              key={feature.text}
+              className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-4"
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 pr-4 text-left">
                 <span className="text-white/80">{feature.icon}</span>
-                <span className="text-base font-medium text-white">{feature.text}</span>
+                <span className="text-base font-medium text-white leading-tight">{feature.text}</span>
               </div>
-              <Check size={18} className="text-white" />
+              <Check size={18} className="text-white shrink-0" />
             </motion.div>
           ))}
         </div>
 
-        {/* Plan Selector */}
-        <div className="w-full bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-1 mb-6 flex">
-          {(Object.keys(tiers) as Array<keyof typeof tiers>).map((tier) => (
-            <button
-              key={tier}
-              onClick={() => setSelectedTier(tier)}
-              className={`flex-1 py-3 px-2 rounded-xl flex flex-col items-center justify-center transition-all ${
-                selectedTier === tier 
-                  ? "bg-white/10 ring-1 ring-white/30 shadow-[0_0_20px_rgba(255,255,255,0.05)]" 
-                  : "text-gray-500"
-              }`}
-            >
-              <span className="text-[10px] font-bold uppercase tracking-wider mb-0.5">
-                {tiers[tier].name.split(' ')[1]}
-              </span>
-              <span className={`text-base font-bold ${selectedTier === tier ? "text-white" : ""}`}>
-                {tier === currentSubscription ? "Active" : `${tiers[tier].price[billingCycle]}€`}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        {/* Action Button */}
         <button
           onClick={handleSubscribeClick}
-          disabled={currentSubscription === selectedTier.toLowerCase()}
-          className="w-full py-4 rounded-xl bg-white text-black font-extrabold text-lg mb-6 active:scale-[0.98] transition-transform disabled:opacity-50"
+          disabled={isCurrentPlan}
+          className="w-full py-4 rounded-xl bg-white text-black font-extrabold text-lg mb-4 active:scale-[0.98] transition-transform disabled:opacity-50"
+          data-testid="button-upgrade-premium"
         >
-          {currentSubscription === selectedTier.toLowerCase() ? "Current Plan" : "Upgrade Now"}
+          {isCurrentPlan ? "Current Plan" : `Upgrade to Vaulty+ for $${currentPrice}`}
         </button>
 
-        {/* Footer Links */}
+        <p className="text-sm text-gray-400 mb-6 max-w-[300px]">
+          Premium access, exclusive badge, better AI and the strongest yearly discount in the app.
+        </p>
+
         <div className="flex gap-4 text-xs text-gray-500 font-medium">
-          <button onClick={() => setLocation("/tos")}>Terms & Conditions</button>
+          <button onClick={() => setLocation("/tos")} data-testid="button-premium-terms">Terms & Conditions</button>
           <span>|</span>
-          <button>Privacy Policy</button>
+          <button data-testid="button-premium-privacy">Privacy Policy</button>
           <span>|</span>
-          <button>Restore Purchases</button>
+          <button data-testid="button-premium-restore">Restore Purchases</button>
         </div>
       </div>
 
-      {/* Payment Modal */}
       <Dialog open={showPaymentModal} onOpenChange={setShowPaymentModal}>
         <DialogContent className="bg-black/90 backdrop-blur-2xl border-white/10 text-white sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">Secure Checkout</DialogTitle>
             <DialogDescription className="text-gray-400">
-              Complete your upgrade to {tiers[selectedTier].name}
+              Complete your upgrade to Vaulty+
             </DialogDescription>
           </DialogHeader>
-          
+
           <PaymentWrapper
-            tier={selectedTier} 
-            price={currentPrice} 
+            price={currentPrice}
             billingCycle={billingCycle}
             onSuccess={handlePaymentSuccess}
             onCancel={() => setShowPaymentModal(false)}
