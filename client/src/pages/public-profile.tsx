@@ -109,8 +109,6 @@ export default function PublicProfile() {
     });
   };
 
-  if (!userId) return null;
-
   const customStyle = userData?.cardStyle ? {
     color: userData.cardStyle.color,
     scale: (userData.cardStyle.size || 100) / 100,
@@ -123,6 +121,8 @@ export default function PublicProfile() {
       .map((badgeId) => BADGES.find((badge) => badge.id === badgeId))
       .filter(Boolean);
   }, [userData?.badges]);
+
+  if (!userId) return null;
 
   return (
     <div className="min-h-screen bg-black pb-24 text-white">
