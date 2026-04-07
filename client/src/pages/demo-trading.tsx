@@ -1,260 +1,346 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "wouter";
-import { useDemoStore } from "@/hooks/use-demo-store";
-import { getTopCoins, searchCoins, type Coin } from "@/lib/coingecko";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, TrendingUp, TrendingDown, Wallet, ArrowUpRight, ArrowDownRight, ChevronLeft, Loader2, RefreshCcw, LayoutGrid, Sparkles, FileText, User } from "lucide-react";
+import { RefreshCcw, Search, Wallet, PieChart, Activity, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { format } from "date-fns";
+import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
+import { getCoinsByIds, getTopCoins, searchCoins, type Coin } from "@/lib/coingecko";
 import { cn } from "@/lib/utils";
 import { useCurrency } from "@/contexts/currency-context";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
 export default function DemoTrading() {
-  const { balance, holdings, transactions } = useDemoStore();
-  const { currency, symbol: currencySymbol, convert } = useCurrency();
+  const { balance, holdings, transactions, resetAccount, isHydrated } = useDemoStore();
+  const { convert } = useCurrency();
   const [coins, setCoins] = useState<Coin[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [portfolioValue, setPortfolioValue] = useState(0);
+  const [error, setError] = useState("");
+  const [resetting, setResetting] = useState(false);
+
+  const holdingIds = useMemo(() => holdings.map((holding) => holding.coinId), [holdings]);
+
+  const loadCoins = async (query: string = "") => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const marketCoins = query.trim() ? await searchCoins(query, "usd") : await getTopCoins("usd");
+      const knownIds = new Set(marketCoins.map((coin) => coin.id));
+      const missingHoldingIds = holdingIds.filter((id) => !knownIds.has(id));
+      const holdingCoins = missingHoldingIds.length ? await getCoinsByIds(missingHoldingIds, "usd") : [];
+      const mergedCoins = [...marketCoins, ...holdingCoins].filter(
+        (coin, index, array) => array.findIndex((item) => item.id === coin.id) === index,
+      );
+
+      setCoins(mergedCoins);
+    } catch (loadError) {
+      console.error(loadError);
+      setError("Market data is temporarily unavailable.");
+      setCoins([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     loadCoins();
-  }, [currency]);
+  }, []);
 
   useEffect(() => {
-    const calculatePortfolio = async () => {
-      let total = 0;
-      for (const holding of holdings) {
-        const coin = coins.find(c => c.id === holding.coinId);
-        if (coin) {
-          total += holding.amount * coin.current_price;
-        } else {
-             // Fallback for mock coins (Magnetix) - convert stored price (USD) to current currency
-             const convertedPrice = convert(holding.averageBuyPrice);
-             total += holding.amount * convertedPrice;
-        }
-      }
-      setPortfolioValue(total);
-    };
-    calculatePortfolio();
-  }, [holdings, coins, currency, convert]);
+    if (!holdingIds.length) {
+      return;
+    }
 
-  const loadCoins = async () => {
-    setLoading(true);
-    const data = await getTopCoins(currency.toLowerCase());
-    setCoins(data);
-    setLoading(false);
+    loadCoins(searchQuery);
+  }, [holdingIds.join(",")]);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      loadCoins(searchQuery);
+    }, 60000);
+
+    return () => window.clearInterval(intervalId);
+  }, [searchQuery, holdingIds.join(",")]);
+
+  const enrichedHoldings = useMemo(() => {
+    return holdings
+      .map((holding) => {
+        const coin = coins.find((item) => item.id === holding.coinId);
+        const currentPriceUsd = coin?.current_price ?? holding.averageBuyPrice;
+        const currentValueUsd = holding.amount * currentPriceUsd;
+        const costBasisUsd = holding.amount * holding.averageBuyPrice;
+        const profitUsd = currentValueUsd - costBasisUsd;
+        const profitPercent = costBasisUsd > 0 ? (profitUsd / costBasisUsd) * 100 : 0;
+
+        return {
+          holding,
+          coin,
+          currentPriceUsd,
+          currentValueUsd,
+          costBasisUsd,
+          profitUsd,
+          profitPercent,
+        };
+      })
+      .sort((a, b) => b.currentValueUsd - a.currentValueUsd);
+  }, [holdings, coins]);
+
+  const portfolioValueUsd = useMemo(
+    () => enrichedHoldings.reduce((total, item) => total + item.currentValueUsd, 0),
+    [enrichedHoldings],
+  );
+
+  const totalBalanceUsd = balance + portfolioValueUsd;
+  const totalProfitUsd = totalBalanceUsd - INITIAL_DEMO_BALANCE;
+  const totalProfitPercent = (totalProfitUsd / INITIAL_DEMO_BALANCE) * 100;
+  const totalBalance = convert(totalBalanceUsd);
+  const cashBalance = convert(balance);
+  const investedBalance = convert(portfolioValueUsd);
+  const totalProfit = convert(totalProfitUsd);
+
+  const handleSearch = async (event: React.FormEvent) => {
+    event.preventDefault();
+    await loadCoins(searchQuery);
   };
 
-  const handleSearch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!searchQuery) return loadCoins();
-    
-    setLoading(true);
-    const results = await searchCoins(searchQuery, currency.toLowerCase());
-    setCoins(results);
-    setLoading(false);
+  const handleReset = () => {
+    setResetting(true);
+    resetAccount();
+    setTimeout(() => setResetting(false), 300);
   };
-
-  // Convert stored balance (USD) to current currency
-  const displayBalance = convert(balance);
-  const totalBalance = displayBalance + portfolioValue;
-  const investedAmount = portfolioValue;
 
   return (
     <div className="min-h-screen bg-black text-white pb-32 font-sans selection:bg-purple-500/30">
-      {/* Header */}
-      <div className="sticky top-0 z-50 bg-black/90 backdrop-blur-md">
-        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="sticky top-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
+          <div>
             <h1 className="text-lg font-bold">Demo Trading</h1>
-            <button className="p-2 rounded-full hover:bg-white/10 transition-colors text-gray-400 text-sm font-bold" onClick={loadCoins}>
-                <RefreshCcw className="w-5 h-5" />
+            <p className="text-xs text-zinc-500">Live prices, paper trades, tracked holdings.</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              className="p-2 rounded-full hover:bg-white/10 transition-colors text-gray-400"
+              onClick={() => loadCoins(searchQuery)}
+              data-testid="button-refresh-demo-trading"
+            >
+              <RefreshCcw className={cn("w-5 h-5", loading && "animate-spin")} />
             </button>
+            <button
+              className="px-3 py-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-xs font-semibold text-zinc-300"
+              onClick={handleReset}
+              disabled={resetting}
+              data-testid="button-reset-demo-account"
+            >
+              Reset
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-md mx-auto p-4 space-y-8">
-        {/* Balance Card - Matching Screenshot 1 */}
-        <div className="relative overflow-hidden rounded-[2rem] p-6 bg-gradient-to-br from-[#2a1b3d] to-[#1a1025] border border-white/5 shadow-2xl">
-            {/* Background Wallet Text Faded */}
-            <div className="absolute right-[-20px] top-[20px] text-white/[0.03] rotate-[-10deg] font-bold text-9xl">
-                <VaultyIcon size={180} className="opacity-10" />
+      <div className="max-w-md mx-auto p-4 space-y-6">
+        <div className="relative overflow-hidden rounded-[2rem] p-6 bg-gradient-to-br from-[#2a1b3d] to-[#120d1a] border border-white/5 shadow-2xl">
+          <div className="absolute -right-6 -top-4 opacity-10">
+            <VaultyIcon size={160} />
+          </div>
+
+          <div className="relative z-10 space-y-5">
+            <div>
+              <p className="text-gray-400 text-sm mb-1">Total Demo Balance</p>
+              <div className="text-4xl font-bold text-white tracking-tight flex items-center gap-2" data-testid="text-demo-total-balance">
+                <VaultyIcon size={34} />
+                {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+              <div className={cn("mt-2 text-sm font-semibold flex items-center gap-1", totalProfitUsd >= 0 ? "text-green-400" : "text-red-400")} data-testid="text-demo-profit-summary">
+                {totalProfitUsd >= 0 ? <ArrowUpRight className="w-4 h-4" /> : <ArrowDownRight className="w-4 h-4" />}
+                <VaultyIcon size={10} />
+                {Math.abs(totalProfit).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                <span>({Math.abs(totalProfitPercent).toFixed(2)}%)</span>
+              </div>
             </div>
-            
-            <div className="relative z-10 space-y-6">
-                <div>
-                    <p className="text-gray-400 text-sm mb-1">Total Demo Balance</p>
-                    <div className="text-4xl font-bold text-white tracking-tight flex items-center gap-2">
-                        <VaultyIcon size={36} />
-                        {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-8">
-                    <div>
-                        <p className="text-gray-400 text-xs mb-1">Cash Available</p>
-                        <p className="text-lg font-mono text-white flex items-center gap-1">
-                            <VaultyIcon size={16} />
-                            {displayBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </p>
-                    </div>
-                    <div>
-                         <p className="text-gray-400 text-xs mb-1">Invested</p>
-                         <p className="text-lg font-mono text-white flex items-center gap-1">
-                            <VaultyIcon size={16} />
-                            {investedAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                        </p>
-                    </div>
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded-2xl bg-white/5 border border-white/5 p-3">
+                <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
+                  <Wallet className="w-3 h-3" /> Cash
                 </div>
+                <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-cash-balance">
+                  <VaultyIcon size={12} />
+                  {cashBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-white/5 border border-white/5 p-3">
+                <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
+                  <PieChart className="w-3 h-3" /> Holdings
+                </div>
+                <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-invested-balance">
+                  <VaultyIcon size={12} />
+                  {investedBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+              </div>
+              <div className="rounded-2xl bg-white/5 border border-white/5 p-3">
+                <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
+                  <Activity className="w-3 h-3" /> Trades
+                </div>
+                <div className="mt-2 text-sm font-bold" data-testid="text-demo-trade-count">{transactions.length}</div>
+              </div>
             </div>
-        </div>
-
-        {/* Holdings Section */}
-        <div className="space-y-4">
-            <h2 className="font-bold text-xl px-1">Your Holdings</h2>
-            {holdings.length === 0 ? (
-                <div className="text-center py-10 rounded-[2rem] bg-[#111] border border-white/5">
-                    <p className="text-gray-500 text-sm">No active holdings</p>
-                </div>
-            ) : (
-                <div className="space-y-3">
-                    {holdings.map((holding) => {
-                        const coin = coins.find(c => c.id === holding.coinId);
-                        // Convert average buy price from USD to current currency
-                        const avgBuyPrice = convert(holding.averageBuyPrice);
-                        
-                        // If coin exists (CoinGecko), current_price is already converted. 
-                        // If not (Magnetix), convert stored averageBuyPrice as proxy for current price (or use stored current price if we had it)
-                        const currentPrice = coin ? coin.current_price : avgBuyPrice;
-                        
-                        const currentValue = holding.amount * currentPrice;
-                        const costBasis = holding.amount * avgBuyPrice;
-                        const profit = currentValue - costBasis;
-                        const profitPercent = costBasis > 0 ? (profit / costBasis) * 100 : 0;
-
-                        return (
-                            <Link key={holding.coinId} href={`/demo-trading/${holding.coinId}`}>
-                                <div className="flex items-center justify-between p-5 rounded-[2rem] bg-[#111] border border-white/5 active:scale-[0.98] transition-transform cursor-pointer">
-                                    <div className="flex items-center gap-4">
-                                        <div className="h-12 w-12 rounded-full bg-white/5 p-2 flex items-center justify-center">
-                                            {coin ? (
-                                                <img src={coin.image} alt={coin.name} className="w-full h-full rounded-full object-cover" />
-                                            ) : (
-                                                <span className="font-bold text-xs">{holding.coinId.substring(0, 2).toUpperCase()}</span>
-                                            )}
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-lg uppercase">{coin?.symbol || holding.coinId}</p>
-                                            <p className="text-sm text-gray-500">{holding.amount.toFixed(4)} {coin?.symbol?.toUpperCase()}</p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="font-bold text-lg flex items-center justify-end gap-1">
-                                            <VaultyIcon size={14} />
-                                            {currentValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                        </p>
-                                        <p className={cn("text-sm font-medium", profit >= 0 ? "text-[#ff6b6b]" : "text-[#ff6b6b]")}>
-                                            <span className={profit >= 0 ? "text-green-500 flex items-center justify-end gap-1" : "text-[#ff6b6b] flex items-center justify-end gap-1"}>
-                                                 {profit >= 0 ? '+' : ''}
-                                                 <VaultyIcon size={10} />
-                                                 {Math.abs(profit).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ({profitPercent.toFixed(2)}%)
-                                            </span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </Link>
-                        );
-                    })}
-                </div>
-            )}
+          </div>
         </div>
 
         <div className="space-y-4">
-            <h2 className="font-bold text-xl px-1">Market</h2>
-            
-            <form onSubmit={handleSearch} className="relative">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-xs">SEARCH</div>
-                <input 
-                    type="text"
-                    placeholder="Search coins..." 
-                    className="w-full bg-[#111] border border-white/5 rounded-full py-4 pl-20 pr-6 text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-all"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                />
-            </form>
+          <div className="flex items-center justify-between px-1">
+            <h2 className="font-bold text-xl">Your Holdings</h2>
+            <span className="text-xs text-zinc-500">{enrichedHoldings.length} positions</span>
+          </div>
 
+          {!isHydrated ? (
+            <div className="text-center py-10 rounded-[2rem] bg-[#111] border border-white/5 text-gray-500">Loading portfolio...</div>
+          ) : enrichedHoldings.length === 0 ? (
+            <div className="text-center py-10 rounded-[2rem] bg-[#111] border border-white/5">
+              <p className="text-gray-500 text-sm">No active holdings yet.</p>
+            </div>
+          ) : (
             <div className="space-y-3">
-                {loading ? (
-                    <div className="flex justify-center py-12">
-                        <div className="text-purple-500 font-bold text-sm animate-pulse">LOADING...</div>
+              {enrichedHoldings.map(({ holding, coin, currentValueUsd, profitUsd, profitPercent, currentPriceUsd }) => {
+                const displayValue = convert(currentValueUsd);
+                const displayProfit = convert(profitUsd);
+                const displayPrice = convert(currentPriceUsd);
+
+                return (
+                  <Link key={holding.coinId} href={`/demo-trading/${holding.coinId}`}>
+                    <div className="flex items-center justify-between p-5 rounded-[2rem] bg-[#111] border border-white/5 active:scale-[0.98] transition-transform cursor-pointer" data-testid={`card-demo-holding-${holding.coinId}`}>
+                      <div className="flex items-center gap-4 min-w-0">
+                        <div className="h-12 w-12 rounded-full bg-white/5 p-2 flex items-center justify-center shrink-0">
+                          {coin ? (
+                            <img src={coin.image} alt={coin.name} className="w-full h-full rounded-full object-cover" />
+                          ) : (
+                            <span className="font-bold text-xs">{holding.coinId.substring(0, 2).toUpperCase()}</span>
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-lg uppercase truncate">{coin?.symbol || holding.coinId}</p>
+                          <p className="text-sm text-gray-500 truncate">
+                            {holding.amount.toFixed(6)} · <VaultyIcon size={10} className="inline-block mr-1" />
+                            {displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <p className="font-bold text-lg flex items-center justify-end gap-1">
+                          <VaultyIcon size={14} />
+                          {displayValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </p>
+                        <p className={cn("text-sm font-medium flex items-center justify-end gap-1", profitUsd >= 0 ? "text-green-500" : "text-red-400")}>
+                          {profitUsd >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                          <VaultyIcon size={10} />
+                          {Math.abs(displayProfit).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          <span>({Math.abs(profitPercent).toFixed(2)}%)</span>
+                        </p>
+                      </div>
                     </div>
-                ) : coins.length === 0 ? (
-                    <div className="text-center py-12 text-gray-500">No coins found</div>
-                ) : (
-                    coins.map((coin) => (
-                        <Link key={coin.id} href={`/demo-trading/${coin.id}`}>
-                            <div className="flex justify-between items-center p-4 rounded-[2rem] bg-black hover:bg-[#111] transition-colors cursor-pointer group">
-                                <div className="flex gap-4 items-center">
-                                    <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full object-cover" />
-                                    <div>
-                                        <div className="font-bold text-base">{coin.name}</div>
-                                    </div>
-                                </div>
-                                <div className="text-right">
-                                    <div className="font-bold text-base flex items-center justify-end gap-1">
-                                        <VaultyIcon size={14} />
-                                        {coin.current_price.toLocaleString()}
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-                    ))
-                )}
+                  </Link>
+                );
+              })}
             </div>
+          )}
         </div>
 
-        {/* Transactions Section */}
-        {transactions.length > 0 && (
-            <div className="space-y-4">
-                <h2 className="font-bold text-xl px-1">Recent Activity</h2>
-                <div className="space-y-3">
-                    {transactions.slice(0, 5).map((tx) => {
-                        // Convert stored transaction values (USD) to current currency
-                        const convertedTotal = convert(tx.totalValue);
-                        const convertedPrice = convert(tx.priceAtTransaction);
-                        
-                        return (
-                        <div key={tx.id} className="flex items-center justify-between p-4 rounded-[2rem] bg-[#111] border border-white/5">
-                            <div className="flex items-center gap-4">
-                                <div className={cn("h-10 w-10 flex items-center justify-center font-bold text-2xl", tx.type === 'buy' ? 'text-green-500' : 'text-red-500')}>
-                                    {tx.type === 'buy' ? '+' : '-'}
-                                </div>
-                                <div>
-                                    <p className="font-bold text-base text-white">
-                                        {tx.type === 'buy' ? 'Bought' : 'Sold'} {tx.coinSymbol.toUpperCase()}
-                                    </p>
-                                    <p className="text-xs text-gray-500">{format(new Date(tx.date), 'MMM d, HH:mm')}</p>
-                                </div>
-                            </div>
-                            <div className="text-right">
-                                <p className="font-bold text-base text-white flex items-center justify-end gap-1">
-                                    <VaultyIcon size={14} />
-                                    {convertedTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </p>
-                                <p className="text-xs text-gray-500 flex items-center justify-end gap-1">
-                                    {tx.amount.toFixed(4)} @ <VaultyIcon size={10} />
-                                    {convertedPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                                </p>
-                            </div>
+        <div className="space-y-4">
+          <h2 className="font-bold text-xl px-1">Market</h2>
+
+          <form onSubmit={handleSearch} className="relative">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+            <input
+              type="text"
+              placeholder="Search coins..."
+              className="w-full bg-[#111] border border-white/5 rounded-full py-4 pl-12 pr-6 text-white placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500/50 transition-all"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              data-testid="input-demo-coin-search"
+            />
+          </form>
+
+          {error ? (
+            <div className="text-center py-8 text-red-400 text-sm rounded-[2rem] bg-[#111] border border-red-500/20">{error}</div>
+          ) : null}
+
+          <div className="space-y-3">
+            {loading ? (
+              <div className="flex justify-center py-12">
+                <div className="text-purple-500 font-bold text-sm animate-pulse">LOADING MARKET...</div>
+              </div>
+            ) : coins.length === 0 ? (
+              <div className="text-center py-12 text-gray-500">No coins found</div>
+            ) : (
+              coins.map((coin) => {
+                const displayPrice = convert(coin.current_price);
+
+                return (
+                  <Link key={coin.id} href={`/demo-trading/${coin.id}`}>
+                    <div className="flex justify-between items-center p-4 rounded-[2rem] bg-black hover:bg-[#111] transition-colors cursor-pointer group" data-testid={`card-market-coin-${coin.id}`}>
+                      <div className="flex gap-4 items-center min-w-0">
+                        <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full object-cover" />
+                        <div className="min-w-0">
+                          <div className="font-bold text-base truncate">{coin.name}</div>
+                          <div className="text-xs uppercase text-zinc-500">{coin.symbol}</div>
                         </div>
-                    )})}
-                </div>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <div className="font-bold text-base flex items-center justify-end gap-1">
+                          <VaultyIcon size={14} />
+                          {displayPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </div>
+                        <div className={cn("text-xs flex items-center justify-end gap-1", coin.price_change_percentage_24h >= 0 ? "text-green-400" : "text-red-400")}>
+                          {coin.price_change_percentage_24h >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
+                          {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })
+            )}
+          </div>
+        </div>
+
+        {transactions.length > 0 && (
+          <div className="space-y-4">
+            <h2 className="font-bold text-xl px-1">Recent Activity</h2>
+            <div className="space-y-3">
+              {transactions.slice(0, 8).map((transaction) => {
+                const convertedTotal = convert(transaction.totalValue);
+                const convertedPrice = convert(transaction.priceAtTransaction);
+
+                return (
+                  <div key={transaction.id} className="flex items-center justify-between p-4 rounded-[2rem] bg-[#111] border border-white/5" data-testid={`row-demo-transaction-${transaction.id}`}>
+                    <div className="flex items-center gap-4">
+                      <div className={cn("h-10 w-10 flex items-center justify-center font-bold text-2xl", transaction.type === "buy" ? "text-green-500" : "text-red-500")}>
+                        {transaction.type === "buy" ? "+" : "-"}
+                      </div>
+                      <div>
+                        <p className="font-bold text-base text-white">
+                          {transaction.type === "buy" ? "Bought" : "Sold"} {transaction.coinSymbol.toUpperCase()}
+                        </p>
+                        <p className="text-xs text-gray-500">{format(new Date(transaction.date), "MMM d, HH:mm")}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-bold text-base text-white flex items-center justify-end gap-1">
+                        <VaultyIcon size={14} />
+                        {convertedTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </p>
+                      <p className="text-xs text-gray-500 flex items-center justify-end gap-1">
+                        {transaction.amount.toFixed(6)} @ <VaultyIcon size={10} />
+                        {convertedPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+          </div>
         )}
-
       </div>
-
     </div>
   );
 }
