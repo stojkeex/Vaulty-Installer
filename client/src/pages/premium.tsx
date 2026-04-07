@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useLocation } from "wouter";
-import { Check, Sparkles, Headset, Gift, Lock, Zap, MessageSquare, Mic, Star, X } from "lucide-react";
+import { Check, Sparkles, Headset, Gift, Lock, Zap, MessageSquare, Mic, Star, X, ChevronDown } from "lucide-react";
 import { db } from "@/lib/firebase";
 import { doc, updateDoc, increment } from "firebase/firestore";
 import { loadStripe } from "@stripe/stripe-js";
@@ -167,6 +167,7 @@ export default function Premium() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
   const [appliedDiscount, setAppliedDiscount] = useState<any>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showAllFeatures, setShowAllFeatures] = useState(false);
 
   const plan = {
     name: "Vaulty+",
@@ -207,6 +208,8 @@ export default function Premium() {
   const currentPlan = (userData?.premiumPlan || userData?.subscription || "free").toString().toLowerCase();
   const currentSubscription = ["pro", "max", "team", "plus", "ultra"].includes(currentPlan) ? "plus" : currentPlan;
   const isCurrentPlan = currentSubscription === "plus";
+  const visibleFeatures = showAllFeatures ? plan.features : plan.features.slice(0, 3);
+  const hiddenFeaturesCount = Math.max(plan.features.length - 3, 0);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("appliedDiscount");
@@ -298,45 +301,61 @@ export default function Premium() {
         </motion.div>
 
         <div className="w-full rounded-[28px] border border-white/10 bg-white/5 backdrop-blur-2xl p-3 mb-8 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-          <div className="grid grid-cols-2 gap-2 mb-4">
+          <div className="grid grid-cols-2 gap-3 mb-4">
             <button
               onClick={() => setBillingCycle("monthly")}
-              className={`rounded-2xl px-4 py-3 text-left transition-all ${billingCycle === "monthly" ? "bg-white text-black shadow-lg" : "bg-white/5 text-white hover:bg-white/10"}`}
+              className={`min-h-[132px] rounded-[24px] border px-4 py-4 text-left transition-all flex flex-col justify-between ${billingCycle === "monthly" ? "border-white/70 bg-white text-black shadow-[0_18px_40px_rgba(255,255,255,0.18)]" : "border-white/10 bg-white/5 text-white hover:bg-white/10"}`}
               data-testid="button-monthly-plan"
             >
-              <div className="text-xs uppercase tracking-[0.2em] font-bold opacity-70">Monthly</div>
-              <div className="text-2xl font-black">$12.99</div>
+              <div className="space-y-2">
+                <div className="inline-flex w-fit rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] opacity-80">
+                  Monthly
+                </div>
+                <div className="text-3xl font-black tracking-tight">$12.99</div>
+              </div>
+              <p className={`text-xs font-medium ${billingCycle === "monthly" ? "text-black/70" : "text-gray-400"}`}>
+                Flexible billing, cancel anytime.
+              </p>
             </button>
             <button
               onClick={() => setBillingCycle("yearly")}
-              className={`rounded-2xl px-4 py-3 text-left transition-all ${billingCycle === "yearly" ? "bg-white text-black shadow-lg" : "bg-white/5 text-white hover:bg-white/10"}`}
+              className={`min-h-[132px] rounded-[24px] border px-4 py-4 text-left transition-all flex flex-col justify-between ${billingCycle === "yearly" ? "border-white/70 bg-white text-black shadow-[0_18px_40px_rgba(255,255,255,0.18)]" : "border-emerald-400/20 bg-emerald-400/10 text-white hover:bg-emerald-400/15"}`}
               data-testid="button-yearly-plan"
             >
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-xs uppercase tracking-[0.2em] font-bold opacity-70">Yearly</span>
-                <span className={`rounded-full px-2 py-1 text-[10px] font-black ${billingCycle === "yearly" ? "bg-black text-white" : "bg-emerald-400/15 text-emerald-300"}`}>
-                  {yearlyDiscount}% OFF
-                </span>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="inline-flex rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] opacity-80">
+                    Yearly
+                  </span>
+                  <span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${billingCycle === "yearly" ? "bg-black text-white" : "bg-emerald-400/15 text-emerald-300"}`}>
+                    {yearlyDiscount}% OFF
+                  </span>
+                </div>
+                <div className="text-3xl font-black tracking-tight">$89.99</div>
               </div>
-              <div className="text-2xl font-black">$89.99</div>
+              <p className={`text-xs font-medium ${billingCycle === "yearly" ? "text-black/70" : "text-emerald-200/80"}`}>
+                Best deal for long-term access.
+              </p>
             </button>
           </div>
 
-          <div className="rounded-[24px] border border-white/10 bg-black/30 px-5 py-5 text-left">
-            <div className="flex items-end justify-between gap-4">
+          <div className="rounded-[24px] border border-white/10 bg-black/35 px-5 py-5 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+            <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-gray-400">{billingCycle === "monthly" ? "Flexible billing" : "Best value yearly plan"}</p>
-                <div className="flex items-end gap-2 mt-1">
+                <div className="mt-1 flex items-end gap-2">
                   <span className="text-5xl font-black tracking-tight">${currentPrice}</span>
-                  <span className="text-sm text-gray-400 pb-2">/{billingCycle === "monthly" ? "month" : "year"}</span>
+                  <span className="pb-2 text-sm text-gray-400">/{billingCycle === "monthly" ? "month" : "year"}</span>
                 </div>
               </div>
-              {billingCycle === "yearly" && (
-                <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-right">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-emerald-300">Huge save</p>
-                  <p className="text-sm font-semibold text-white">Save ${yearlySavings.toFixed(2)}</p>
-                </div>
-              )}
+            </div>
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3">
+              <span className="text-sm font-medium text-gray-300">
+                {billingCycle === "yearly" ? "You will save" : "Better value option"}
+              </span>
+              <span className={`text-sm font-black ${billingCycle === "yearly" ? "text-emerald-300" : "text-white"}`}>
+                {billingCycle === "yearly" ? `$${yearlySavings.toFixed(2)} per year` : `Save ${yearlyDiscount}% with yearly`}
+              </span>
             </div>
             <p className="mt-3 text-sm text-gray-400">
               {billingCycle === "yearly"
@@ -346,22 +365,45 @@ export default function Premium() {
           </div>
         </div>
 
-        <div className="w-full space-y-4 mb-10 px-1">
-          {plan.features.map((feature, idx) => (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: idx * 0.06 }}
-              key={feature.text}
-              className="flex items-center justify-between rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-4"
+        <div className="w-full mb-10 px-1">
+          <div className="mb-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">What you get</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight text-white">Top premium benefits</h2>
+            </div>
+            <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-bold text-gray-300">
+              {plan.points.toLocaleString()} bonus points
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {visibleFeatures.map((feature, idx) => (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.06 }}
+                key={feature.text}
+                className="flex items-center justify-between rounded-[24px] border border-white/8 bg-white/[0.04] px-4 py-4 shadow-[0_12px_30px_rgba(0,0,0,0.18)]"
+              >
+                <div className="flex items-center gap-3 pr-4 text-left">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/90">{feature.icon}</span>
+                  <span className="text-base font-semibold leading-tight text-white">{feature.text}</span>
+                </div>
+                <Check size={18} className="text-white shrink-0" />
+              </motion.div>
+            ))}
+          </div>
+
+          {hiddenFeaturesCount > 0 && (
+            <button
+              onClick={() => setShowAllFeatures((prev) => !prev)}
+              className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-bold text-white transition-colors hover:bg-white/10"
+              data-testid="button-toggle-premium-features"
             >
-              <div className="flex items-center gap-3 pr-4 text-left">
-                <span className="text-white/80">{feature.icon}</span>
-                <span className="text-base font-medium text-white leading-tight">{feature.text}</span>
-              </div>
-              <Check size={18} className="text-white shrink-0" />
-            </motion.div>
-          ))}
+              <span>{showAllFeatures ? "Show less" : `View more benefits (${hiddenFeaturesCount})`}</span>
+              <ChevronDown className={`h-4 w-4 transition-transform ${showAllFeatures ? "rotate-180" : ""}`} />
+            </button>
+          )}
         </div>
 
         <button
