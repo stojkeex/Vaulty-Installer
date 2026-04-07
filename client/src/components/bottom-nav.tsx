@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, MessageSquare, User, Compass, Search, Film, Sparkles } from "lucide-react";
+import { Home, MessageSquare, User, Compass, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useState, useMemo } from "react";
 import { useAuth } from "@/contexts/auth-context";
@@ -45,6 +45,7 @@ export function BottomNav() {
                      location === "/ai" ||
                      location.startsWith("/messages") ||
                      location.startsWith("/course/") ||
+                     location.startsWith("/academy/") ||
                      location === "/tos" ||
                      location === "/premium" ||
                      location.startsWith("/chat/private/") ||
@@ -111,18 +112,6 @@ export function BottomNav() {
                         "relative z-10 w-12 h-12 object-contain",
                         isActive ? "opacity-100 scale-110" : "opacity-80 scale-100"
                       )}
-                    />
-                  ) : item.hasSearch ? (
-                    <Search 
-                      className={cn(
-                        "relative z-10 w-6 h-6",
-                        isActive ? "drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" : "group-hover:opacity-80"
-                      )}
-                      style={{
-                        color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.55)",
-                        stroke: "currentColor",
-                        transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
-                      }}
                     />
                   ) : (
                     item.icon && (
