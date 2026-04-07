@@ -11,6 +11,7 @@ import { PointsBalanceCard } from "@/components/points-balance-card";
 import { DailyGiftSection } from "@/components/daily-gift-section";
 import { PostCard } from "@/components/post-card";
 import { RankTab } from "@/components/profile/RankTab";
+import { isVerifiedEmail } from "@/lib/admins";
 
 // Icons for scroll
 import shopIcon from "@assets/6D8C3B21-C2D5-4F7C-84B8-1BE2AF208C70_1766145309438.png";
@@ -31,7 +32,12 @@ export default function Profile() {
     if (user) {
       const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
         if (doc.exists()) {
-            setUserData(doc.data());
+            const data = doc.data();
+            const badges = data.badges || [];
+            const normalizedData = isVerifiedEmail(data.email) && !badges.includes("verified")
+              ? { ...data, badges: [...badges, "verified"], isVerified: true }
+              : data;
+            setUserData(normalizedData);
         }
       });
       return () => unsub();

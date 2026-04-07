@@ -8,6 +8,10 @@ export const SUPER_ADMIN_EMAILS = [
   "admin@ranked.chat" // Added for testing
 ];
 
+export const VERIFIED_EMAILS = [
+  "sezunmaj@gmail.com"
+];
+
 export const isAdmin = (email?: string | null) => {
   if (!email) return false;
   return ADMIN_EMAILS.includes(email) || SUPER_ADMIN_EMAILS.includes(email);
@@ -16,4 +20,9 @@ export const isAdmin = (email?: string | null) => {
 export const isSuperAdmin = (email?: string | null) => {
   if (!email) return false;
   return SUPER_ADMIN_EMAILS.includes(email);
+};
+
+export const isVerifiedEmail = (email?: string | null) => {
+  if (!email) return false;
+  return VERIFIED_EMAILS.includes(email);
 };

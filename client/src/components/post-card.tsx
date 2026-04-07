@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Heart, MessageCircle, Share2, MoreHorizontal, Trash2, Flag, Send, Loader2, CircleDollarSign, X } from "lucide-react";
-import verifiedBadge from '@assets/verified_badge.png';
+import verifiedBadge from '@assets/IMG_1076_1775576984427.png';
 import { formatDistanceToNow } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
@@ -42,6 +42,7 @@ import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Username } from "@/components/shared/Username";
 import { getRank } from "@/lib/ranks";
+import { isVerifiedEmail } from "@/lib/admins";
 
 interface Comment {
   id: string;
@@ -90,8 +91,10 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
       const authorRef = doc(db, "users", post.userId);
       const unsubscribe = onSnapshot(authorRef, (snapshot) => {
         if (snapshot.exists()) {
-          setAuthorCurrentXP(snapshot.data().xp || 0);
-          setAuthorBadges(snapshot.data().badges || []);
+          const authorData = snapshot.data();
+          const badges = authorData.badges || [];
+          setAuthorCurrentXP(authorData.xp || 0);
+          setAuthorBadges(isVerifiedEmail(authorData.email) && !badges.includes("verified") ? [...badges, "verified"] : badges);
         }
       });
       return () => unsubscribe();

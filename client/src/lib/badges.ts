@@ -1,4 +1,6 @@
 
+import verifiedBadge from "@assets/IMG_1076_1775576984427.png";
+
 export interface Badge {
   id: string;
   name: string;
@@ -18,6 +20,12 @@ export const BADGES: Badge[] = [
     name: "Admin",
     image: "/assets/badges/admin.png",
     description: "Community Administrator."
+  },
+  {
+    id: "verified",
+    name: "Verified",
+    image: verifiedBadge,
+    description: "Officially verified profile."
   },
   {
     id: "bug-hunter",

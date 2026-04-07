@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRoute, useLocation } from "wouter";
 import { useAuth } from "@/contexts/auth-context";
 import { ChevronLeft, Image as ImageIcon, Send, Smile, X, MoreVertical } from "lucide-react";
-import verifiedBadge from '@assets/verified_badge.png';
+import verifiedBadge from '@assets/IMG_1076_1775576984427.png';
 import { motion, AnimatePresence } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { 

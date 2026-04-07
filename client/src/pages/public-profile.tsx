@@ -5,7 +5,7 @@ import { ChevronLeft, Grid, Heart, Loader2, Ghost, Flag, MoreVertical, MessageCi
 import { db } from "@/lib/firebase";
 import { doc, collection, query, where, orderBy, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment, addDoc } from "firebase/firestore";
 import { ProfileCard } from "@/components/profile/ProfileCard";
-import { isSuperAdmin } from "@/lib/admins";
+import { isSuperAdmin, isVerifiedEmail } from "@/lib/admins";
 import { useToast } from "@/hooks/use-toast";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 
@@ -27,7 +27,11 @@ export default function PublicProfile() {
     const unsub = onSnapshot(doc(db, "users", userId), (doc) => {
       if (doc.exists()) {
         const data = doc.data();
-        setUserData(data);
+        const badges = data.badges || [];
+        const normalizedData = isVerifiedEmail(data.email) && !badges.includes("verified")
+          ? { ...data, badges: [...badges, "verified"], isVerified: true }
+          : data;
+        setUserData(normalizedData);
         // Check if current user is in the followers list
         if (currentUser && data.followers && data.followers.includes(currentUser.uid)) {
           setIsFollowing(true);

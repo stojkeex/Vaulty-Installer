@@ -11,7 +11,7 @@ import {
 } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, setDoc, serverTimestamp, onSnapshot, type DocumentSnapshot, updateDoc, getDoc, getDocs, collection } from "firebase/firestore";
-import { isAdmin, isSuperAdmin } from "@/lib/admins";
+import { isAdmin, isSuperAdmin, isVerifiedEmail } from "@/lib/admins";
 
 interface AuthContextType {
   user: User | null;
@@ -120,10 +120,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             }
 
             // Verified Badge persistence
-            if (data.isVerified && !badges.includes("verified")) {
+            const userShouldBeVerified = !!data.isVerified || isVerifiedEmail(user.email);
+            if (userShouldBeVerified && !badges.includes("verified")) {
                 badges.push("verified");
                 needsUpdate = true;
-            } else if (!data.isVerified && badges.includes("verified")) {
+            } else if (!userShouldBeVerified && badges.includes("verified")) {
                 badges = badges.filter((b: string) => b !== "verified");
                 needsUpdate = true;
             }

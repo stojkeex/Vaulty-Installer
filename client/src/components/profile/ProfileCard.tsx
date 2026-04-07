@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { QRCodeSVG } from "qrcode.react";
 import { Twitter, Instagram, Globe, X, Heart } from "lucide-react";
-import verifiedBadge from '@assets/verified_badge.png';
 import { RankIcon } from "@/components/shared/RankIcon";
 import { BADGES } from "@/lib/badges";
 import { getRank } from "@/lib/ranks";
@@ -225,9 +224,6 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 <h1 className="text-2xl font-bold drop-shadow-md z-10 relative" style={textStyle}>
                     {user?.displayName || "User"}
                 </h1>
-                {user?.badges?.includes("verified") && (
-                    <img src={verifiedBadge} alt="Verified" className="w-7 h-7" />
-                )}
             </div>
             
             <p className="text-sm opacity-80 font-medium mb-3 drop-shadow-sm z-10 relative" style={textStyle}>

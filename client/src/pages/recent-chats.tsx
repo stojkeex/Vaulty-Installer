@@ -8,7 +8,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { differenceInDays, differenceInMinutes } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import verifiedBadge from '@assets/verified_badge.png';
+import verifiedBadge from '@assets/IMG_1076_1775576984427.png';
 
 interface ChatPreview {
   id: string;
