@@ -148,12 +148,12 @@ export default function DemoTrading() {
           <div className="relative z-10 space-y-5">
             <div>
               <p className="text-gray-400 text-sm mb-1">Total Demo Balance</p>
-              <div className="flex items-end justify-between gap-4" data-testid="text-demo-total-balance">
+              <div data-testid="text-demo-total-balance">
                 <div className="text-4xl font-bold text-white tracking-tight flex items-center gap-2">
                   <VaultyIcon size={34} />
                   {totalBalance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </div>
-                <div className="text-sm font-semibold text-zinc-400 text-right">
+                <div className="mt-2 pl-11 text-sm font-semibold text-zinc-400">
                   {formatUsd(totalBalanceUsd)}
                 </div>
               </div>
