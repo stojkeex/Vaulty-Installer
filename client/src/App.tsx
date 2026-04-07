@@ -54,6 +54,7 @@ import { ActiveCallModal } from "@/components/active-call-modal";
 
 import { LoadingScreen } from "@/components/loading-screen";
 import { GlobalNotificationDisplay } from "@/components/global-notification-display";
+import { CompleteProfileWidget } from "@/components/complete-profile-widget";
 import { useState, useEffect } from "react";
 import { RatingProvider } from "@/components/rating-provider";
 
@@ -189,6 +190,7 @@ function App() {
                           <>
                             <ChristmasOfferModal />
                             <GlobalNotificationDisplay />
+                            <CompleteProfileWidget />
                             <Router />
                             <BottomNav />
                             <Toaster />

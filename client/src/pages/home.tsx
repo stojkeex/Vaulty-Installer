@@ -218,68 +218,6 @@ export default function Home() {
                 </AnimatePresence>
               </div>
 
-              {/* Profile Completion Tasks */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-white tracking-tight">Complete your profile</h3>
-                  <span className="text-xs text-gray-400 font-medium">1/5 completed</span>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-4 py-3 opacity-50">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0 relative">
-                      <User className="w-5 h-5 text-white" />
-                      <div className="absolute -right-1 -top-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                        <Check className="w-3 h-3 text-white" />
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Create Account</p>
-                      <p className="text-xs text-gray-500">Done and ready</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-3 border-t border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 flex items-center justify-center shrink-0">
-                      <ImageIcon className="w-5 h-5 text-blue-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Upload Profile</p>
-                      <p className="text-xs text-gray-400">Add your photo</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-3 border-t border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 flex items-center justify-center shrink-0">
-                      <Settings className="w-5 h-5 text-purple-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Customization</p>
-                      <p className="text-xs text-gray-400">Set preferences</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-3 border-t border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 flex items-center justify-center shrink-0">
-                      <Wallet className="w-5 h-5 text-emerald-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Connect Wallet</p>
-                      <p className="text-xs text-gray-400">Link your funds</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 py-3 border-t border-white/5">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center shrink-0">
-                      <Target className="w-5 h-5 text-amber-400" />
-                    </div>
-                    <div>
-                      <p className="text-sm font-bold text-white">Set First Goal</p>
-                      <p className="text-xs text-gray-400">Start planning</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
               {/* Glass Cards Grid */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Finance Analysis Card */}
