@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export interface Transaction {
@@ -85,6 +85,8 @@ const getLocalKeys = (uid: string) => [
   `vaulty_demo_store_${uid}`,
 ];
 
+const getLocalStorageKey = (uid: string) => `vaulty_demo_store_${uid}_v3`;
+
 const readLocalStore = (uid: string) => {
   for (const key of getLocalKeys(uid)) {
     const value = localStorage.getItem(key);
@@ -107,15 +109,31 @@ export function useDemoStore() {
   const { user } = useAuth();
   const [store, setStore] = useState<DemoStore>(createInitialStore());
   const [isHydrated, setIsHydrated] = useState(false);
+  const lastSyncedStoreRef = useRef("");
 
   useEffect(() => {
     if (!user) {
       setStore(createInitialStore());
       setIsHydrated(false);
+      lastSyncedStoreRef.current = "";
       return;
     }
 
     let isCancelled = false;
+    const localStorageKey = getLocalStorageKey(user.uid);
+    const nextDocRef = doc(db, "users", user.uid, "features", "demo_trading_v3");
+    const legacyDocRef = doc(db, "users", user.uid, "features", "demo_trading_v2");
+    let unsubscribeSnapshot = () => {};
+
+    const applyStore = (nextStore: DemoStore) => {
+      const serializedStore = JSON.stringify(nextStore);
+      lastSyncedStoreRef.current = serializedStore;
+      localStorage.setItem(localStorageKey, serializedStore);
+
+      if (!isCancelled) {
+        setStore(nextStore);
+      }
+    };
 
     const loadData = async () => {
       setIsHydrated(false);
@@ -127,9 +145,6 @@ export function useDemoStore() {
       }
 
       try {
-        const nextDocRef = doc(db, "users", user.uid, "features", "demo_trading_v3");
-        const legacyDocRef = doc(db, "users", user.uid, "features", "demo_trading_v2");
-
         const [nextSnapshot, legacySnapshot] = await Promise.all([getDoc(nextDocRef), getDoc(legacyDocRef)]);
 
         const remoteStore = nextSnapshot.exists()
@@ -138,12 +153,31 @@ export function useDemoStore() {
             ? sanitizeStore(legacySnapshot.data())
             : localStore ?? createInitialStore();
 
-        if (!isCancelled) {
-          setStore(remoteStore);
+        applyStore(remoteStore);
+
+        if (!nextSnapshot.exists()) {
+          await setDoc(nextDocRef, remoteStore);
         }
 
-        localStorage.setItem(`vaulty_demo_store_${user.uid}_v3`, JSON.stringify(remoteStore));
-        await setDoc(nextDocRef, remoteStore);
+        unsubscribeSnapshot = onSnapshot(nextDocRef, (snapshot) => {
+          if (!snapshot.exists()) {
+            return;
+          }
+
+          const syncedStore = sanitizeStore(snapshot.data());
+          const serializedStore = JSON.stringify(syncedStore);
+
+          if (serializedStore === lastSyncedStoreRef.current) {
+            return;
+          }
+
+          lastSyncedStoreRef.current = serializedStore;
+          localStorage.setItem(localStorageKey, serializedStore);
+
+          if (!isCancelled) {
+            setStore(syncedStore);
+          }
+        });
       } catch (error) {
         console.error("Error loading demo trading data:", error);
       } finally {
@@ -157,6 +191,7 @@ export function useDemoStore() {
 
     return () => {
       isCancelled = true;
+      unsubscribeSnapshot();
     };
   }, [user]);
 
@@ -165,7 +200,14 @@ export function useDemoStore() {
       return;
     }
 
-    localStorage.setItem(`vaulty_demo_store_${user.uid}_v3`, JSON.stringify(store));
+    const serializedStore = JSON.stringify(store);
+    localStorage.setItem(getLocalStorageKey(user.uid), serializedStore);
+
+    if (serializedStore === lastSyncedStoreRef.current) {
+      return;
+    }
+
+    lastSyncedStoreRef.current = serializedStore;
 
     const timeoutId = setTimeout(async () => {
       try {
