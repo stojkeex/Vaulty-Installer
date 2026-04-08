@@ -13,6 +13,7 @@ import { format as formatDate } from "date-fns";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
 const formatCompactNumber = (number: number) => {
+  if (number === 0) return "0";
   if (!number) return "N/A";
   const formatter = Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 2 });
   return formatter.format(number);
@@ -63,7 +64,7 @@ export default function DemoCoinDetail() {
 
   const isVaultyCredits = currency === "VC";
 
-  const { data: coin, isLoading: loadingCoin } = useQuery({
+  const { data: coin, isLoading: loadingCoin, refetch: refetchCoin } = useQuery({
     queryKey: ["demoCoinDetail", coinId],
     queryFn: async () => {
       if (coinId === VAULTY_COIN_ID) {
@@ -76,7 +77,7 @@ export default function DemoCoinDetail() {
     },
   });
 
-  const { data: chartData, isLoading: loadingChart } = useQuery({
+  const { data: chartData, isLoading: loadingChart, refetch: refetchChart } = useQuery({
     queryKey: ["demoCoinChart", coinId, selectedTimeframe.days, currency],
     queryFn: async () => {
       const vsCurrency = currency === "VC" ? "usd" : currency.toLowerCase();
@@ -195,6 +196,11 @@ export default function DemoCoinDetail() {
           title: "Sell order filled",
           description: `Sold ${coinsToTrade.toFixed(6)} ${coin.symbol.toUpperCase()}`,
         });
+      }
+
+      if (coin.id === VAULTY_COIN_ID) {
+        void refetchCoin();
+        void refetchChart();
       }
 
       setAmount("");
