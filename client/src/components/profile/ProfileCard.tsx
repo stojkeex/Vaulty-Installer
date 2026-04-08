@@ -131,7 +131,12 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 )}
                 style={{...cardStyle, borderColor: borderColor}}
             >
-            <div className="absolute left-6 top-6 z-20 flex flex-col items-center gap-1 pointer-events-none">
+            <div
+                className={cn(
+                    "absolute left-6 top-6 z-20 flex flex-col items-center gap-1 pointer-events-none transition-opacity duration-200",
+                    isFlipped ? "opacity-0" : "opacity-100"
+                )}
+            >
                 <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md">
                     <Heart size={20} className="text-white opacity-80" />
                 </div>
@@ -141,7 +146,13 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             </div>
 
             {topRightAccessory && (
-                <div className="absolute right-6 top-6 z-20" onClick={(e) => e.stopPropagation()}>
+                <div
+                    className={cn(
+                        "absolute right-6 top-6 z-20 transition-opacity duration-200",
+                        isFlipped ? "pointer-events-none opacity-0" : "opacity-100"
+                    )}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     {topRightAccessory}
                 </div>
             )}
