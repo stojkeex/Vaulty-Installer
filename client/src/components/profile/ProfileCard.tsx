@@ -329,6 +329,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             </DialogContent>
         </Dialog>
         </div>
+      </div>
     </div>
   );
 }
