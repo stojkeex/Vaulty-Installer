@@ -390,8 +390,8 @@ export default function DemoCoinDetail() {
                 <AreaChart data={chartData}>
                   <defs>
                     <linearGradient id="demoTradeChartColor" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#ffffff" stopOpacity={0.28} />
-                      <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+                      <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <XAxis dataKey="date" hide type="number" domain={["dataMin", "dataMax"]} />
@@ -401,7 +401,7 @@ export default function DemoCoinDetail() {
                     labelFormatter={(label) => new Date(label).toLocaleDateString()}
                     formatter={(value: number) => [formatSelectedAmount(value), "Price"]}
                   />
-                  <Area type="monotone" dataKey="price" stroke="#f5f5f5" strokeWidth={2.25} fillOpacity={1} fill="url(#demoTradeChartColor)" />
+                  <Area type="monotone" dataKey="price" stroke="#06b6d4" strokeWidth={2.25} fillOpacity={1} fill="url(#demoTradeChartColor)" />
                 </AreaChart>
               </ResponsiveContainer>
             )}
@@ -636,8 +636,8 @@ export default function DemoCoinDetail() {
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="demoChartFullscreenGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#ffffff" stopOpacity={0.28} />
-                    <stop offset="95%" stopColor="#ffffff" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -658,7 +658,7 @@ export default function DemoCoinDetail() {
                   labelFormatter={(label) => new Date(label).toLocaleString()}
                   formatter={(value: number) => [formatSelectedAmount(value), "Price"]}
                 />
-                <Area type="monotone" dataKey="price" stroke="#f5f5f5" strokeWidth={2.25} fillOpacity={1} fill="url(#demoChartFullscreenGradient)" />
+                <Area type="monotone" dataKey="price" stroke="#06b6d4" strokeWidth={2.25} fillOpacity={1} fill="url(#demoChartFullscreenGradient)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
