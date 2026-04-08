@@ -137,6 +137,30 @@ export default function DemoTrading() {
 
   const formatSelectedPrice = (amount: number) => formatSelectedAmount(convert(amount));
 
+  const formatSelectedCompactAmount = (amount: number) => {
+    if (amount === 0) {
+      return isVaultyCredits ? "0" : new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 0 }).format(0);
+    }
+
+    if (Math.abs(amount) < 1000) {
+      return formatSelectedAmount(amount);
+    }
+
+    if (isVaultyCredits) {
+      return new Intl.NumberFormat("en-US", {
+        notation: "compact",
+        maximumFractionDigits: 2,
+      }).format(amount);
+    }
+
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
+
   const renderSelectedAmount = (amount: number, iconSize: number) => {
     if (isVaultyCredits) {
       return (
@@ -148,6 +172,19 @@ export default function DemoTrading() {
     }
 
     return formatSelectedAmount(amount);
+  };
+
+  const renderSelectedCompactAmount = (amount: number, iconSize: number) => {
+    if (isVaultyCredits) {
+      return (
+        <>
+          <VaultyIcon size={iconSize} />
+          {formatSelectedCompactAmount(amount)}
+        </>
+      );
+    }
+
+    return formatSelectedCompactAmount(amount);
   };
 
   const handleSearch = async (event: React.FormEvent) => {
@@ -248,7 +285,7 @@ export default function DemoTrading() {
                   <Wallet className="w-3 h-3" /> Cash
                 </div>
                 <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-cash-balance">
-                  {renderSelectedAmount(cashBalance, 12)}
+                  {renderSelectedCompactAmount(cashBalance, 12)}
                 </div>
               </div>
               <div className="rounded-2xl bg-white/5 border border-white/5 p-3">
@@ -256,7 +293,7 @@ export default function DemoTrading() {
                   <PieChart className="w-3 h-3" /> Holdings
                 </div>
                 <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-invested-balance">
-                  {renderSelectedAmount(investedBalance, 12)}
+                  {renderSelectedCompactAmount(investedBalance, 12)}
                 </div>
               </div>
               <div className="rounded-2xl bg-white/5 border border-white/5 p-3">
