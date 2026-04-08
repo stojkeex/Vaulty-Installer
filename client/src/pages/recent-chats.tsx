@@ -1,14 +1,25 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useLocation } from "wouter";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot, doc, getDoc } from "firebase/firestore";
-import { ChevronLeft, Edit, Search, Plus } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { differenceInDays, differenceInMinutes } from "date-fns";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Edit3,
+  Inbox,
+  MessageSquare,
+  Plus,
+  Search,
+  Shield,
+  Sparkles,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { differenceInDays } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import verifiedBadge from '@assets/IMG_1076_1775576984427.png';
+import verifiedBadge from "@assets/IMG_1076_1775576984427.png";
+import { cn } from "@/lib/utils";
 
 interface ChatPreview {
   id: string;
@@ -21,14 +32,12 @@ interface ChatPreview {
 
 export default function RecentChats() {
   const { user, loading: authLoading } = useAuth();
-  const [location, setLocation] = useLocation();
+  const [, setLocation] = useLocation();
   const [chats, setChats] = useState<ChatPreview[]>([]);
   const [loading, setLoading] = useState(true);
   const [requestCount, setRequestCount] = useState(0);
   const [showTab, setShowTab] = useState<"chats" | "requests">("chats");
   const [searchQuery, setSearchQuery] = useState("");
-  
-  // Companions state
   const [companions, setCompanions] = useState<any[]>([]);
 
   useEffect(() => {
@@ -36,11 +45,11 @@ export default function RecentChats() {
       const stored = JSON.parse(localStorage.getItem("vaulty_companions") || "[]");
       setCompanions(stored);
     };
-    
+
     loadCompanions();
     window.addEventListener("storage", loadCompanions);
     window.addEventListener("focus", loadCompanions);
-    
+
     return () => {
       window.removeEventListener("storage", loadCompanions);
       window.removeEventListener("focus", loadCompanions);
@@ -55,12 +64,12 @@ export default function RecentChats() {
 
     setLoading(true);
 
-    const q = query(collection(db, "chats"), orderBy("updatedAt", "desc"));
+    const chatsQuery = query(collection(db, "chats"), orderBy("updatedAt", "desc"));
 
-    const unsubscribe = onSnapshot(q, async (snapshot) => {
+    const unsubscribe = onSnapshot(chatsQuery, async (snapshot) => {
       try {
-        const userChats = snapshot.docs.filter((doc) => {
-          const data = doc.data();
+        const userChats = snapshot.docs.filter((chatDoc) => {
+          const data = chatDoc.data();
           return data.participants && data.participants.includes(user.uid);
         });
 
@@ -68,7 +77,7 @@ export default function RecentChats() {
           userChats.map(async (chatDoc) => {
             const data = chatDoc.data();
             const otherUserId = data.participants.find((uid: string) => uid !== user.uid);
-            
+
             let otherUser = null;
             if (otherUserId && otherUserId !== "global") {
               try {
@@ -76,8 +85,8 @@ export default function RecentChats() {
                 if (userDoc.exists()) {
                   otherUser = userDoc.data();
                 }
-              } catch (err) {
-                console.error("Error fetching user:", err);
+              } catch (error) {
+                console.error("Error fetching user:", error);
               }
             } else if (data.participants.includes("global")) {
               otherUser = { displayName: "Global Chat", photoURL: "", isGlobal: true };
@@ -86,26 +95,23 @@ export default function RecentChats() {
             return {
               id: chatDoc.id,
               ...data,
-              otherUser
+              otherUser,
             } as ChatPreview;
-          })
+          }),
         );
 
         setChats(chatData);
         setLoading(false);
-      } catch (err) {
-        console.error("Error processing chats:", err);
+      } catch (error) {
+        console.error("Error processing chats:", error);
         setLoading(false);
       }
     });
 
-    const requestsQuery = query(
-      collection(db, "messageRequests"),
-      orderBy("timestamp", "desc")
-    );
+    const requestsQuery = query(collection(db, "messageRequests"), orderBy("timestamp", "desc"));
 
     const requestsUnsub = onSnapshot(requestsQuery, (snapshot) => {
-      const count = snapshot.docs.filter(doc => doc.data().recipientId === user.uid).length;
+      const count = snapshot.docs.filter((requestDoc) => requestDoc.data().recipientId === user.uid).length;
       setRequestCount(count);
     });
 
@@ -115,199 +121,289 @@ export default function RecentChats() {
     };
   }, [user, authLoading]);
 
-  const filteredChats = chats.filter(chat => 
-    chat.otherUser?.displayName?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredChats = useMemo(
+    () => chats.filter((chat) => chat.otherUser?.displayName?.toLowerCase().includes(searchQuery.toLowerCase())),
+    [chats, searchQuery],
   );
 
-  const filteredCompanions = companions.filter(comp => 
-    comp.name?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCompanions = useMemo(
+    () => companions.filter((companion) => companion.name?.toLowerCase().includes(searchQuery.toLowerCase())),
+    [companions, searchQuery],
   );
 
   const getStatusText = (timestamp: any, isMe: boolean) => {
-    if (!timestamp?.toDate) return isMe ? "sent" : "seen";
+    if (!timestamp?.toDate) return isMe ? "Sent recently" : "Open conversation";
     const date = timestamp.toDate();
     const days = differenceInDays(new Date(), date);
-    const prefix = isMe ? "sent" : "seen";
-    
-    if (days < 1) return `${prefix} today`;
-    if (days < 7) return `${prefix} ${days}d ago`;
-    return prefix;
+
+    if (days < 1) return isMe ? "Sent today" : "Active today";
+    if (days < 7) return isMe ? `Sent ${days}d ago` : `Active ${days}d ago`;
+    return isMe ? "Earlier message" : "Quiet lately";
   };
 
   if (authLoading || loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-[#050505] text-white">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-[#a0a0a0] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-zinc-400">Loading chats...</p>
+          <div className="mx-auto mb-4 h-9 w-9 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+          <p className="text-sm text-zinc-400">Loading messages...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4 pt-6 bg-black/80 backdrop-blur-md sticky top-0 z-10">
-        <div className="flex items-center gap-2">
-          <button onClick={() => setLocation("/")} className="text-white hover:text-zinc-300 transition-colors">
-            <ChevronLeft size={24} />
-          </button>
-          <h1 className="text-xl font-bold">Vaulty Creator</h1>
-        </div>
-        <button className="text-white hover:text-zinc-300 transition-colors">
-          <Edit size={22} />
-        </button>
-      </div>
-
-      {/* Tabs */}
-      <div className="flex gap-6 px-4 py-2 border-b border-white/5 sticky top-[68px] z-10 bg-black/80 backdrop-blur-md">
-        <button
-          onClick={() => setShowTab("chats")}
-          className={`font-bold text-sm transition-all pb-2 relative ${
-            showTab === "chats" ? "text-white" : "text-zinc-500"
-          }`}
-        >
-          Messages
-          {showTab === "chats" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-500 to-gray-700" />
-          )}
-        </button>
-        <button
-          onClick={() => setShowTab("requests")}
-          className={`font-bold text-sm transition-all pb-2 relative ${
-            showTab === "requests" ? "text-white" : "text-zinc-500"
-          }`}
-        >
-          Requests
-          {requestCount > 0 && (
-            <span className="ml-1.5 text-[10px] bg-red-500 text-white rounded-full px-1.5 py-0.5 min-w-[18px]">
-              {requestCount}
-            </span>
-          )}
-          {showTab === "requests" && (
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-gray-500 to-gray-700" />
-          )}
-        </button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="px-4 py-3">
-        <div className="relative group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500 group-focus-within:text-gray-400 transition-colors" />
-          <Input 
-            placeholder="Search messages" 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-[#111] border-none pl-10 h-10 rounded-xl focus-visible:ring-1 focus-visible:ring-[#a0a0a0]/30"
-          />
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex-1 px-4 py-2 pb-24 overflow-y-auto">
-        {showTab === "chats" ? (
-          <div className="space-y-1">
-            {/* AI Companions */}
-            {filteredCompanions.map(comp => (
-              <div 
-                key={comp.id} 
-                onClick={() => setLocation(`/messages/${comp.id}`)}
-                className="flex items-center gap-3 p-2 rounded-xl hover:bg-zinc-900 transition-colors cursor-pointer"
+    <div className="min-h-screen bg-[#050505] pb-28 text-white">
+      <div className="sticky top-0 z-30 border-b border-white/10 bg-black/70 px-4 pb-4 pt-5 backdrop-blur-2xl">
+        <div className="mx-auto max-w-md space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setLocation("/home")}
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-colors hover:bg-white/10"
+                data-testid="button-back-messages"
               >
-                <Avatar className="w-12 h-12 border border-[#a0a0a0]/20">
-                  <AvatarImage src={`/${comp.avatar}`} className="object-cover" />
-                  <AvatarFallback>{comp.name[0]}</AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-white font-bold text-[15px] truncate">{comp.name}</h3>
-                    <span className="text-[10px] text-zinc-500">Companion</span>
-                  </div>
-                  <p className="text-zinc-500 text-xs truncate">AI Companion active</p>
-                </div>
+                <ChevronLeft size={20} />
+              </button>
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.28em] text-zinc-500">Vaulty Messages</p>
+                <h1 className="text-2xl font-semibold tracking-tight">Inbox</h1>
               </div>
-            ))}
+            </div>
 
-            {/* Regular Chats */}
-            {filteredChats.map((chat) => {
-              if (!chat.otherUser && !chat.participants.includes("global")) return null;
-              
-              const isMe = chat.lastMessageSender === user?.uid;
-              const statusText = getStatusText(chat.lastMessageTimestamp, isMe);
-              const lastSeenDate = chat.otherUser?.lastSeen?.toDate();
-              const isOnline = lastSeenDate && (new Date().getTime() - lastSeenDate.getTime()) < 45000;
-              
-              return (
-                <div 
-                  key={chat.id} 
-                  onClick={() => 
-                    setLocation(
-                      chat.otherUser?.isGlobal 
-                        ? `/messages/global` 
-                        : `/messages/user/${chat.participants.find((p: string) => p !== user?.uid)}`
-                    )
-                  }
-                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-zinc-900 transition-colors cursor-pointer"
-                >
-                  <div className="relative">
-                    <Avatar className="w-12 h-12 border border-white/5">
-                      <AvatarImage src={chat.otherUser?.photoURL} className="object-cover" />
-                      <AvatarFallback>{chat.otherUser?.displayName?.[0] || "?"}</AvatarFallback>
-                    </Avatar>
-                    {isOnline && (
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-black"></div>
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 truncate">
-                        <h3 className="text-white font-bold text-[15px] truncate">{chat.otherUser?.displayName || "Unknown"}</h3>
-                        {chat.otherUser?.badges?.includes("verified") && (
-                          <img src={verifiedBadge} alt="Verified" className="w-5 h-5 flex-shrink-0" />
-                        )}
+            <button
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-colors hover:bg-white/10"
+              data-testid="button-edit-messages"
+            >
+              <Edit3 size={18} />
+            </button>
+          </div>
+
+          <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03),rgba(255,255,255,0.01))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
+            <div className="absolute" />
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.22em] text-zinc-500">Overview</p>
+                <h2 className="mt-2 text-xl font-semibold text-white">Clean, fast, private chats</h2>
+                <p className="mt-2 max-w-xs text-sm leading-6 text-zinc-400">
+                  Your direct conversations, global chat, and AI companions now live in one polished space.
+                </p>
+              </div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-lg">
+                <Sparkles className="h-5 w-5 text-white" />
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-3 gap-3">
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-chats">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Chats</p>
+                <p className="mt-2 text-lg font-semibold text-white">{filteredChats.length}</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-companions">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">AI</p>
+                <p className="mt-2 text-lg font-semibold text-white">{filteredCompanions.length}</p>
+              </div>
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-requests">
+                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Requests</p>
+                <p className="mt-2 text-lg font-semibold text-white">{requestCount}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-1.5">
+            <button
+              onClick={() => setShowTab("chats")}
+              className={cn(
+                "rounded-[18px] px-4 py-3 text-sm font-semibold transition-all",
+                showTab === "chats"
+                  ? "bg-white text-black shadow-[0_10px_30px_rgba(255,255,255,0.18)]"
+                  : "text-zinc-400 hover:text-white",
+              )}
+              data-testid="button-tab-chats"
+            >
+              Messages
+            </button>
+            <button
+              onClick={() => setShowTab("requests")}
+              className={cn(
+                "rounded-[18px] px-4 py-3 text-sm font-semibold transition-all",
+                showTab === "requests"
+                  ? "bg-white text-black shadow-[0_10px_30px_rgba(255,255,255,0.18)]"
+                  : "text-zinc-400 hover:text-white",
+              )}
+              data-testid="button-tab-requests"
+            >
+              Requests {requestCount > 0 ? `(${requestCount})` : ""}
+            </button>
+          </div>
+
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
+            <Input
+              placeholder="Search messages"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              className="h-12 rounded-2xl border-white/10 bg-white/[0.04] pl-11 text-white placeholder:text-zinc-500 focus-visible:ring-1 focus-visible:ring-white/20"
+              data-testid="input-search-messages"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-md px-4 py-5">
+        {showTab === "chats" ? (
+          <div className="space-y-6">
+            {filteredCompanions.length > 0 && (
+              <section className="space-y-3">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-zinc-500">AI Companions</h2>
+                  <span className="text-xs text-zinc-600">{filteredCompanions.length}</span>
+                </div>
+
+                <div className="space-y-3">
+                  {filteredCompanions.map((companion) => (
+                    <button
+                      key={companion.id}
+                      onClick={() => setLocation(`/messages/${companion.id}`)}
+                      className="w-full rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-4 text-left shadow-[0_18px_50px_rgba(0,0,0,0.32)] transition-all hover:border-white/20 hover:bg-white/[0.08]"
+                      data-testid={`button-open-companion-${companion.id}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <Avatar className="h-14 w-14 border border-white/10 bg-black/30">
+                          <AvatarImage src={`/${companion.avatar}`} className="object-cover" />
+                          <AvatarFallback>{companion.name?.[0] || "A"}</AvatarFallback>
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="truncate text-base font-semibold text-white" data-testid={`text-companion-name-${companion.id}`}>
+                                {companion.name}
+                              </p>
+                              <p className="mt-1 truncate text-sm text-zinc-400">AI companion active</p>
+                            </div>
+                            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300">
+                              <ChevronRight size={16} />
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            <section className="space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-zinc-500">Conversations</h2>
+                <span className="text-xs text-zinc-600">{filteredChats.length}</span>
+              </div>
+
+              <div className="space-y-3">
+                {filteredChats.map((chat) => {
+                  if (!chat.otherUser && !chat.participants.includes("global")) return null;
+
+                  const isMe = chat.lastMessageSender === user?.uid;
+                  const statusText = getStatusText(chat.lastMessageTimestamp, isMe);
+                  const lastSeenDate = chat.otherUser?.lastSeen?.toDate?.();
+                  const isOnline = lastSeenDate && new Date().getTime() - lastSeenDate.getTime() < 45000;
+                  const destination = chat.otherUser?.isGlobal
+                    ? "/messages/global"
+                    : `/messages/user/${chat.participants.find((participant: string) => participant !== user?.uid)}`;
+
+                  return (
+                    <button
+                      key={chat.id}
+                      onClick={() => setLocation(destination)}
+                      className="w-full rounded-[28px] border border-white/10 bg-white/[0.04] p-4 text-left shadow-[0_18px_50px_rgba(0,0,0,0.28)] transition-all hover:border-white/20 hover:bg-white/[0.07]"
+                      data-testid={`button-open-chat-${chat.id}`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="relative shrink-0">
+                          <Avatar className="h-14 w-14 border border-white/10 bg-black/30">
+                            <AvatarImage src={chat.otherUser?.photoURL} className="object-cover" />
+                            <AvatarFallback>{chat.otherUser?.displayName?.[0] || "?"}</AvatarFallback>
+                          </Avatar>
+                          {isOnline && <div className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#050505] bg-emerald-400" />}
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-3">
+                            <div className="flex min-w-0 items-center gap-1.5">
+                              <p className="truncate text-base font-semibold text-white" data-testid={`text-chat-name-${chat.id}`}>
+                                {chat.otherUser?.displayName || "Unknown"}
+                              </p>
+                              {chat.otherUser?.badges?.includes("verified") && (
+                                <img src={verifiedBadge} alt="Verified" className="h-4 w-4 shrink-0" />
+                              )}
+                            </div>
+                            <span className="shrink-0 text-[11px] uppercase tracking-[0.16em] text-zinc-600">
+                              {chat.otherUser?.isGlobal ? "GLOBAL" : isOnline ? "LIVE" : "DM"}
+                            </span>
+                          </div>
+
+                          <p className="mt-1 truncate text-sm text-zinc-400" data-testid={`text-chat-preview-${chat.id}`}>
+                            {chat.lastMessage || "Open the conversation"}
+                          </p>
+
+                          <div className="mt-3 flex items-center justify-between gap-3 text-xs text-zinc-500">
+                            <span>{statusText}</span>
+                            <span className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-black/20 px-2.5 py-1">
+                              <Shield className="h-3 w-3" /> Private
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+
+                {filteredChats.length === 0 && filteredCompanions.length === 0 && (
+                  <div className="rounded-[32px] border border-dashed border-white/10 bg-white/[0.03] px-6 py-14 text-center">
+                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
+                      <Inbox className="h-6 w-6 text-zinc-500" />
                     </div>
-                    <p className="text-zinc-500 text-xs truncate">
-                      {statusText}
+                    <h3 className="mt-5 text-lg font-semibold text-white">No conversations yet</h3>
+                    <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-zinc-400">
+                      Start chatting with people from Vaulty or create a companion to keep your message space alive.
                     </p>
                   </div>
-                </div>
-              );
-            })}
-
-            {filteredChats.length === 0 && filteredCompanions.length === 0 && (
-              <div className="text-center text-zinc-600 py-20 text-sm">
-                No conversations found
+                )}
               </div>
-            )}
+            </section>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-             <div className="w-16 h-16 bg-[#111] rounded-full flex items-center justify-center border border-white/5">
-                <Plus className="text-zinc-500" size={24} />
-             </div>
-             <p className="text-zinc-500 text-sm">No new requests</p>
-             <Button
-                variant="outline"
-                onClick={() => setLocation("/message-requests")}
-                className="border-white/10 text-xs h-8 rounded-full"
-              >
-                View all requests
-              </Button>
+          <div className="rounded-[32px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.03))] px-6 py-14 text-center shadow-[0_24px_80px_rgba(0,0,0,0.35)]">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-black/20">
+              <MessageSquare className="h-6 w-6 text-zinc-500" />
+            </div>
+            <h3 className="mt-5 text-lg font-semibold text-white">Requests inbox</h3>
+            <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-zinc-400">
+              {requestCount > 0
+                ? `${requestCount} pending request${requestCount === 1 ? "" : "s"} waiting for your review.`
+                : "No new requests right now. Your inbox is clean."}
+            </p>
+            <Button
+              variant="outline"
+              onClick={() => setLocation("/message-requests")}
+              className="mt-6 h-11 rounded-2xl border-white/10 bg-white/5 px-5 text-white hover:bg-white/10"
+              data-testid="button-view-message-requests"
+            >
+              View all requests
+            </Button>
           </div>
         )}
       </div>
 
-      {/* Floating Bottom Button */}
-      <div className="fixed bottom-6 left-0 right-0 px-4 z-20 pointer-events-none">
-        <Button 
+      <div className="fixed bottom-6 left-0 right-0 z-20 mx-auto max-w-md px-4">
+        <button
           onClick={() => setLocation("/create-companion")}
-          className="w-full h-12 rounded-2xl bg-gradient-to-r from-gray-500 to-gray-700 text-black font-black uppercase tracking-widest shadow-[0_8px_30px_rgba(0,211,253,0.3)] pointer-events-auto active:scale-95 transition-all border-none"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-[24px] border border-white/10 bg-white text-black shadow-[0_24px_60px_rgba(255,255,255,0.16)] transition-all hover:bg-zinc-100 active:scale-[0.99]"
+          data-testid="button-create-companion"
         >
-          <Plus className="mr-2" size={20} strokeWidth={3} />
-          Create Companion
-        </Button>
+          <Plus size={18} />
+          <span className="font-semibold">Create Companion</span>
+        </button>
       </div>
     </div>
   );

@@ -6,12 +6,10 @@ import { useAuth } from "@/contexts/auth-context";
 import { motion, AnimatePresence } from "framer-motion";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { useToast } from "@/hooks/use-toast";
 
 export function BottomNav() {
   const [location] = useLocation();
   const { user } = useAuth();
-  const { toast } = useToast();
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
@@ -33,7 +31,7 @@ export function BottomNav() {
     { href: "/demo-trading", label: "DEMO", icon: TrendingUp },
     { href: "/discover", label: "DISCOVER", icon: Compass },
     { href: "/home", label: "HOME", icon: Home },
-    { href: "/messages", label: "CHAT", icon: MessageSquare, isComingSoon: true },
+    { href: "/messages", label: "CHAT", icon: MessageSquare },
     { href: "/profile", label: "PROFILE", icon: User },
   ], []);
 
@@ -119,32 +117,13 @@ export function BottomNav() {
                 {item.label}
               </span>
 
-              {!item.isComingSoon && item.href === "/messages" && unreadCount > 0 && (
+              {item.href === "/messages" && unreadCount > 0 && (
                 <div className="absolute right-2 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-sky-500 px-1.5 text-[9px] font-bold text-slate-950">
                   {unreadCount > 99 ? "99+" : unreadCount}
                 </div>
               )}
             </motion.div>
           );
-
-          if (item.isComingSoon) {
-            return (
-              <button
-                key={item.href}
-                type="button"
-                onClick={() => {
-                  toast({
-                    title: "Message System coming soon",
-                    description: "This part of Vaulty is still being finished.",
-                  });
-                }}
-                className="pointer-events-auto"
-                data-testid="button-bottom-nav-chat-coming-soon"
-              >
-                {content}
-              </button>
-            );
-          }
 
           return (
             <Link key={item.href} href={item.href}>
