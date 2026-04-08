@@ -65,12 +65,14 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, currentUser, currentUserData, onDelete, onReport, isDetailView = false, isAdmin = false }: PostCardProps) {
+  const postId = typeof post?.id === "string" ? post.id : "";
+  const authorId = typeof post?.userId === "string" ? post.userId : "";
   const [commentsOpen, setCommentsOpen] = useState(isDetailView);
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [commentLoading, setCommentLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
-  const [authorCurrentXP, setAuthorCurrentXP] = useState<number>(post.userXP || 0);
+  const [authorCurrentXP, setAuthorCurrentXP] = useState<number>(post?.userXP || 0);
   const [authorBadges, setAuthorBadges] = useState<string[]>([]);
   const [isFlipped, setIsFlipped] = useState(false);
   
@@ -83,12 +85,14 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
   const { toast } = useToast();
   const [_, setLocation] = useLocation();
 
-  const isLiked = post.likes?.includes(currentUser?.uid);
+  const isLiked = Array.isArray(post?.likes) && !!currentUser?.uid ? post.likes.includes(currentUser.uid) : false;
 
   // Fetch author's current XP and badges to show correct rank
   useEffect(() => {
+    if (!authorId) return;
+
     try {
-      const authorRef = doc(db, "users", post.userId);
+      const authorRef = doc(db, "users", authorId);
       const unsubscribe = onSnapshot(authorRef, (snapshot) => {
         if (snapshot.exists()) {
           const authorData = snapshot.data();
@@ -101,7 +105,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
     } catch (error) {
       console.error("Error fetching author XP:", error);
     }
-  }, [post.userId]);
+  }, [authorId]);
 
   // Calculate rank for post author to determine if we should show icon
   const authorRank = getRank(authorCurrentXP);
@@ -109,10 +113,10 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
 
   // Load comments if open
   useEffect(() => {
-    if (!commentsOpen) return;
+    if (!commentsOpen || !postId) return;
 
     const q = query(
-      collection(db, "posts", post.id, "comments"), 
+      collection(db, "posts", postId, "comments"), 
       orderBy("timestamp", "asc")
     );
     
@@ -124,13 +128,18 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
     });
 
     return () => unsubscribe();
-  }, [commentsOpen, post.id]);
+  }, [commentsOpen, postId]);
 
   // Load total tips for this post
   useEffect(() => {
+    if (!postId) {
+      setTotalTipped(0);
+      return;
+    }
+
     const loadTotalTips = async () => {
       try {
-        const tipsQuery = query(collection(db, "posts", post.id, "tips"));
+        const tipsQuery = query(collection(db, "posts", postId, "tips"));
         const tipsSnap = await getDocs(tipsQuery);
         const total = tipsSnap.docs.reduce((sum, doc) => sum + (doc.data().amount || 0), 0);
         setTotalTipped(total);
@@ -139,11 +148,11 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
       }
     };
     loadTotalTips();
-  }, [post.id]);
+  }, [postId]);
 
   const handleLike = async () => {
-    if (!currentUser) return;
-    const postRef = doc(db, "posts", post.id);
+    if (!currentUser || !postId) return;
+    const postRef = doc(db, "posts", postId);
     if (isLiked) {
       await updateDoc(postRef, { likes: arrayRemove(currentUser.uid) });
     } else {
@@ -156,10 +165,10 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
   };
 
   const handlePostComment = async () => {
-    if (!newComment.trim() || !currentUser) return;
+    if (!newComment.trim() || !currentUser || !postId) return;
     setCommentLoading(true);
     try {
-      await addDoc(collection(db, "posts", post.id, "comments"), {
+      await addDoc(collection(db, "posts", postId, "comments"), {
         userId: currentUser.uid,
         userName: currentUser.displayName || "User",
         userPhoto: currentUser.photoURL || "",
@@ -181,7 +190,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
   };
 
   const handleTip = async () => {
-    if (!currentUser || !currentUserData) {
+    if (!currentUser || !currentUserData || !postId) {
       toast({ title: "Error", description: "You must be logged in to tip.", variant: "destructive" });
       return;
     }
@@ -200,7 +209,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
     
     try {
       // Add tip to Firebase
-      await addDoc(collection(db, "posts", post.id, "tips"), {
+      await addDoc(collection(db, "posts", postId, "tips"), {
         userId: currentUser.uid,
         userName: currentUser.displayName || "User",
         userPhoto: currentUser.photoURL || "",
@@ -391,7 +400,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                   )}
                 >
                   <Heart size={18} className={cn("transition-transform group-active:scale-75", isLiked ? "fill-current" : "")} />
-                  <span>{post.likes?.length || 0}</span>
+                  <span>{Array.isArray(post?.likes) ? post.likes.length : 0}</span>
                 </button>
                 
                 <button 

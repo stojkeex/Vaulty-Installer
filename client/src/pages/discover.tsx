@@ -68,10 +68,18 @@ export default function Discover() {
   // Search Posts from Feed Context
   const filteredPosts = useMemo(() => {
     if (!debouncedSearch || debouncedSearch.length < 2) return [];
-    return posts.filter(post => 
-      post.title.toLowerCase().includes(debouncedSearch.toLowerCase()) || 
-      post.hashtags.some(tag => tag.toLowerCase().includes(debouncedSearch.toLowerCase()))
-    );
+
+    const normalizedQuery = debouncedSearch.toLowerCase();
+
+    return posts.filter((post) => {
+      const title = typeof post?.title === "string" ? post.title : "";
+      const hashtags = Array.isArray(post?.hashtags) ? post.hashtags : [];
+
+      return (
+        title.toLowerCase().includes(normalizedQuery) ||
+        hashtags.some((tag) => String(tag).toLowerCase().includes(normalizedQuery))
+      );
+    });
   }, [posts, debouncedSearch]);
 
 
@@ -83,12 +91,13 @@ export default function Discover() {
       if (debouncedSearch && debouncedSearch.length > 2) {
         const res = await fetch(`https://api.coingecko.com/api/v3/search?query=${debouncedSearch}`);
         const data = await res.json();
-        
-        const coinIds = data.coins.slice(0, 20).map((c: any) => c.id).join(",");
+        const searchCoins = Array.isArray(data?.coins) ? data.coins : [];
+
+        const coinIds = searchCoins.slice(0, 20).map((c: any) => c.id).join(",");
         if (!coinIds) return [];
-        
+
         const marketRes = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.toLowerCase()}&ids=${coinIds}&order=market_cap_desc&sparkline=false&price_change_percentage=24h`);
-        if (!marketRes.ok) return []; // Fallback or empty
+        if (!marketRes.ok) return [];
         return marketRes.json();
       }
       

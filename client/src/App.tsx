@@ -55,7 +55,7 @@ import { ActiveCallModal } from "@/components/active-call-modal";
 
 import { LoadingScreen } from "@/components/loading-screen";
 import { GlobalNotificationDisplay } from "@/components/global-notification-display";
-import { useState, useEffect } from "react";
+import { Component, useState, useEffect, type ErrorInfo, type ReactNode } from "react";
 import { RatingProvider } from "@/components/rating-provider";
 
 import EarnPage from "@/pages/earn";
@@ -144,6 +144,53 @@ function Router() {
 
 import { PremiumThanksProvider } from "@/components/premium-thanks-modal";
 
+class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    console.error("Route render error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
+          <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-white/5 p-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+            <p className="text-[11px] uppercase tracking-[0.22em] text-white/45">Vaulty</p>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight">Something on this page broke.</h2>
+            <p className="mt-2 text-sm leading-relaxed text-white/65">
+              I kept the app alive, but this screen needs a refresh.
+            </p>
+            <div className="mt-5 flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="w-full rounded-full bg-white px-4 py-3 text-sm font-bold text-black transition hover:bg-zinc-200"
+                data-testid="button-route-error-reload"
+              >
+                Reload page
+              </button>
+              <Link
+                href="/home"
+                className="w-full rounded-full border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+                data-testid="link-route-error-home"
+              >
+                Go to home
+              </Link>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
   const [showSplash, setShowSplash] = useState(true);
 
@@ -189,7 +236,9 @@ function App() {
                         {!showSplash && (
                           <>
                             <GlobalNotificationDisplay />
-                            <Router />
+                            <RouteErrorBoundary>
+                              <Router />
+                            </RouteErrorBoundary>
                             <BottomNav />
                             <Toaster />
                           </>
