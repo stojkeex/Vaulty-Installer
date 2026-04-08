@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { QRCodeSVG } from "qrcode.react";
 import { Twitter, Instagram, Globe, X, Heart } from "lucide-react";
@@ -19,6 +19,7 @@ interface ProfileCardProps {
   onBack?: () => void;
   onReport?: () => void;
   hideControls?: boolean;
+  topRightAccessory?: ReactNode;
   customStyle?: {
       color?: string;
       gradientTo?: string;
@@ -44,7 +45,7 @@ const isLightGradient = (from: string, to: string) => {
 
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
-export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onReport, hideControls = false, customStyle }: ProfileCardProps) {
+export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onReport, hideControls = false, topRightAccessory, customStyle }: ProfileCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
   const [isLinksOpen, setIsLinksOpen] = useState(false);
@@ -130,14 +131,18 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 style={{...cardStyle, borderColor: borderColor}}
             >
 
-             {!isFlipped && (
-                 <div className="absolute top-6 left-6 z-20 flex flex-col items-center gap-1 group">
-                     <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
-                         <Heart size={20} className="text-white opacity-80" />
-                     </div>
-                     <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
-                         {user?.followers?.length || 0}
-                     </span>
+             <div className="absolute top-6 left-6 z-20 flex flex-col items-center gap-1 group">
+                 <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
+                     <Heart size={20} className="text-white opacity-80" />
+                 </div>
+                 <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
+                     {user?.followers?.length || 0}
+                 </span>
+             </div>
+
+             {topRightAccessory && (
+                 <div className="absolute right-6 top-6 z-20" onClick={(e) => e.stopPropagation()}>
+                     {topRightAccessory}
                  </div>
              )}
             

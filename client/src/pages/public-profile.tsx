@@ -149,43 +149,42 @@ export default function PublicProfile() {
 
       <div className="p-4 pt-2">
         <div className="relative mx-auto mb-6 w-full max-w-[340px]">
-          {currentUser?.uid !== userId && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  className="absolute right-6 top-6 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white backdrop-blur-xl transition-all hover:bg-white/10"
-                  data-testid="button-public-profile-menu"
-                >
-                  <UserPlus size={18} />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56 rounded-2xl border border-white/10 bg-black/90 p-2 text-white backdrop-blur-xl">
-                <DropdownMenuItem onClick={handleMessageRequest} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
-                  <MessageCircle className="mr-2 h-4 w-4 text-sky-300" />
-                  Message Request
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setIsBadgesOpen(true)} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
-                  <BadgeCheck className="mr-2 h-4 w-4 text-sky-300" />
-                  Badges
-                </DropdownMenuItem>
-                <DropdownMenuSeparator className="my-1 bg-white/10" />
-                <DropdownMenuItem onClick={handleBlock} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
-                  <ShieldBan className="mr-2 h-4 w-4 text-orange-300" />
-                  Block User
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleReport} className="cursor-pointer rounded-xl px-3 py-3 text-red-400 focus:bg-white/10 focus:text-red-400">
-                  <Flag className="mr-2 h-4 w-4" />
-                  Report User
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-
           <ProfileCard
             user={userData}
             isOwner={false}
             hideControls={true}
             customStyle={customStyle}
+            topRightAccessory={currentUser?.uid !== userId ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white backdrop-blur-xl transition-all hover:bg-white/10"
+                    data-testid="button-public-profile-menu"
+                  >
+                    <UserPlus size={18} />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 rounded-2xl border border-white/10 bg-black/90 p-2 text-white backdrop-blur-xl">
+                  <DropdownMenuItem onClick={handleMessageRequest} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
+                    <MessageCircle className="mr-2 h-4 w-4 text-sky-300" />
+                    Message Request
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setIsBadgesOpen(true)} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
+                    <BadgeCheck className="mr-2 h-4 w-4 text-sky-300" />
+                    Badges
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator className="my-1 bg-white/10" />
+                  <DropdownMenuItem onClick={handleBlock} className="cursor-pointer rounded-xl px-3 py-3 focus:bg-white/10">
+                    <ShieldBan className="mr-2 h-4 w-4 text-orange-300" />
+                    Block User
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleReport} className="cursor-pointer rounded-xl px-3 py-3 text-red-400 focus:bg-white/10 focus:text-red-400">
+                    <Flag className="mr-2 h-4 w-4" />
+                    Report User
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : undefined}
           />
         </div>
       </div>
