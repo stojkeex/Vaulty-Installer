@@ -1,241 +1,351 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useLocation } from "wouter";
-import { ChevronLeft, Loader2 } from "lucide-react";
-import { formatPoints } from "@/lib/utils";
+import { Brain, ChevronLeft, Coins, Loader2, Sparkles } from "lucide-react";
+import { cn, formatPoints } from "@/lib/utils";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { db } from "@/lib/firebase";
 import { doc, updateDoc } from "firebase/firestore";
+import { useDemoStore } from "@/hooks/use-demo-store";
 
-import appleLogo from "@assets/IMG_7663_1765467955491.png";
-import googlePlayLogo from "@assets/IMG_7664_1765467955492.png";
-import paypalLogo from "@assets/IMG_7666_1765467967536.png";
-
-interface PaymentProvider {
+type ShopItem = {
   id: string;
   name: string;
-  image: string;
   description: string;
+  vcCost: number;
+  rewardAmount: number;
+  rewardLabel: string;
+  badge: string;
+  kind: "demo" | "ai";
+};
+
+const DEMO_MONEY_PACKAGES: ShopItem[] = [
+  {
+    id: "demo-10k",
+    name: "Demo Boost I",
+    description: "Perfect for a quick account top-up before your next trade.",
+    vcCost: 1000,
+    rewardAmount: 10000,
+    rewardLabel: "10K Demo Cash",
+    badge: "Starter",
+    kind: "demo",
+  },
+  {
+    id: "demo-25k",
+    name: "Demo Boost II",
+    description: "A stronger cash refill for bigger demo positions.",
+    vcCost: 2000,
+    rewardAmount: 25000,
+    rewardLabel: "25K Demo Cash",
+    badge: "Best value",
+    kind: "demo",
+  },
+  {
+    id: "demo-30k",
+    name: "Demo Boost III",
+    description: "Every next tier adds 5K more demo money for testing ideas.",
+    vcCost: 3000,
+    rewardAmount: 30000,
+    rewardLabel: "30K Demo Cash",
+    badge: "+5K",
+    kind: "demo",
+  },
+  {
+    id: "demo-35k",
+    name: "Demo Boost IV",
+    description: "More room to practice, scale, and reset your strategy.",
+    vcCost: 4000,
+    rewardAmount: 35000,
+    rewardLabel: "35K Demo Cash",
+    badge: "+5K",
+    kind: "demo",
+  },
+  {
+    id: "demo-40k",
+    name: "Demo Boost V",
+    description: "The largest demo refill for high-volume paper trading.",
+    vcCost: 5000,
+    rewardAmount: 40000,
+    rewardLabel: "40K Demo Cash",
+    badge: "+5K",
+    kind: "demo",
+  },
+];
+
+const AI_CREDIT_PACKAGES: ShopItem[] = [
+  {
+    id: "ai-100",
+    name: "AI Pack I",
+    description: "Unlock extra Vaulty AI usage for quick questions and ideas.",
+    vcCost: 10000,
+    rewardAmount: 100,
+    rewardLabel: "100 AI Credits",
+    badge: "Starter",
+    kind: "ai",
+  },
+  {
+    id: "ai-250",
+    name: "AI Pack II",
+    description: "A bigger bundle for deeper sessions and more prompts.",
+    vcCost: 20000,
+    rewardAmount: 250,
+    rewardLabel: "250 AI Credits",
+    badge: "Best value",
+    kind: "ai",
+  },
+  {
+    id: "ai-300",
+    name: "AI Pack III",
+    description: "From here, every next tier adds 50 more AI credits.",
+    vcCost: 30000,
+    rewardAmount: 300,
+    rewardLabel: "300 AI Credits",
+    badge: "+50",
+    kind: "ai",
+  },
+  {
+    id: "ai-350",
+    name: "AI Pack IV",
+    description: "Built for frequent analysis, planning, and market questions.",
+    vcCost: 40000,
+    rewardAmount: 350,
+    rewardLabel: "350 AI Credits",
+    badge: "+50",
+    kind: "ai",
+  },
+  {
+    id: "ai-400",
+    name: "AI Pack V",
+    description: "The largest AI top-up for power users inside Vaulty AI.",
+    vcCost: 50000,
+    rewardAmount: 400,
+    rewardLabel: "400 AI Credits",
+    badge: "+50",
+    kind: "ai",
+  },
+];
+
+function ShopSection({
+  title,
+  subtitle,
+  icon,
+  packages,
+  accentClass,
+  purchasingId,
+  userPoints,
+  onPurchase,
+}: {
+  title: string;
+  subtitle: string;
+  icon: ReactNode;
+  packages: ShopItem[];
+  accentClass: string;
+  purchasingId: string | null;
+  userPoints: number;
+  onPurchase: (item: ShopItem) => void;
+}) {
+  return (
+    <section className="space-y-4">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-lg font-semibold text-white">{title}</h2>
+          <p className="mt-1 text-sm leading-relaxed text-gray-400">{subtitle}</p>
+        </div>
+        <div className={cn("flex h-12 w-12 items-center justify-center rounded-2xl border text-white shadow-lg", accentClass)}>
+          {icon}
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {packages.map((item) => {
+          const isDisabled = purchasingId !== null || userPoints < item.vcCost;
+          const isLoading = purchasingId === item.id;
+
+          return (
+            <div
+              key={item.id}
+              className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+              data-testid={`card-shop-item-${item.id}`}
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_38%)]" />
+
+              <div className="relative z-10 flex items-start justify-between gap-3">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base font-semibold text-white">{item.name}</h3>
+                    <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-300">
+                      {item.badge}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-400">{item.description}</p>
+                </div>
+
+                <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2 text-right">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Reward</p>
+                  <p className="mt-1 text-sm font-semibold text-white">{item.rewardLabel}</p>
+                </div>
+              </div>
+
+              <div className="relative z-10 mt-5 flex items-center justify-between gap-4 border-t border-white/10 pt-4">
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Price</p>
+                  <p className="mt-1 flex items-center gap-2 text-base font-semibold text-white" data-testid={`text-shop-price-${item.id}`}>
+                    <VaultyIcon size={16} />
+                    {formatPoints(item.vcCost)} VC
+                  </p>
+                </div>
+
+                <Button
+                  onClick={() => onPurchase(item)}
+                  disabled={isDisabled}
+                  className="h-11 rounded-2xl bg-white text-black hover:bg-white/90 disabled:bg-white/10 disabled:text-gray-500"
+                  data-testid={`button-buy-${item.id}`}
+                >
+                  {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Buy now"}
+                </Button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
 }
-
-const PAYMENT_PROVIDERS: PaymentProvider[] = [
-  {
-    id: "paypal",
-    name: "PayPal",
-    image: paypalLogo,
-    description: "Redeem PayPal Gift Cards"
-  },
-  {
-    id: "appstore",
-    name: "App Store",
-    image: appleLogo,
-    description: "Redeem Apple App Store Gift Cards"
-  },
-  {
-    id: "googleplay",
-    name: "Google Play",
-    image: googlePlayLogo,
-    description: "Redeem Google Play Store Gift Cards"
-  }
-];
-
-const PACKAGE_OPTIONS = [
-  { usd: 5, vc: 500 },
-  { usd: 10, vc: 1000 },
-  { usd: 20, vc: 2000 },
-  { usd: 50, vc: 5000 }
-];
 
 export default function Shop() {
   const { user, userData } = useAuth();
-  const [location, setLocation] = useLocation();
-  const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedProvider, setSelectedProvider] = useState<PaymentProvider | null>(null);
-  const [selectedPackage, setSelectedPackage] = useState<typeof PACKAGE_OPTIONS[0] | null>(null);
-  const [isRedeeming, setIsRedeeming] = useState(false);
+  const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { balance, addFunds } = useDemoStore();
+  const [purchasingId, setPurchasingId] = useState<string | null>(null);
 
-  const handleProviderClick = (provider: PaymentProvider) => {
-    setSelectedProvider(provider);
-    setDialogOpen(true);
-  };
+  const userPoints = userData?.vaultyPoints || 0;
+  const currentAiCredits = userData?.aiCredits || 0;
 
-  const handleRedeem = async (packageOption: typeof PACKAGE_OPTIONS[0]) => {
-    if (!selectedProvider || !user || !userData) return;
+  const handlePurchase = async (item: ShopItem) => {
+    if (!user || !userData) return;
 
-    // Check if user has enough credits
-    if ((userData?.vaultyPoints || 0) < packageOption.vc) {
+    if (userPoints < item.vcCost) {
       toast({
-        title: "Insufficient Credits",
-        description: `You need ${packageOption.vc.toLocaleString()} VC but only have ${formatPoints(userData?.vaultyPoints)}`,
+        title: "Not enough Vaulty Credits",
+        description: `You need ${formatPoints(item.vcCost)} VC, but you currently have ${formatPoints(userPoints)} VC.`,
         variant: "destructive",
       });
       return;
     }
 
-    setIsRedeeming(true);
-    setSelectedPackage(packageOption);
+    setPurchasingId(item.id);
 
     try {
-      // Deduct credits from user
       const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        vaultyPoints: (userData?.vaultyPoints || 0) - packageOption.vc
-      });
+      const nextVaultyPoints = userPoints - item.vcCost;
 
-      toast({
-        title: "Redeemed!",
-        description: `You redeemed a $${packageOption.usd} ${selectedProvider.name} Gift Card for ${packageOption.vc.toLocaleString()} VC`,
-      });
+      if (item.kind === "demo") {
+        await updateDoc(userRef, {
+          vaultyPoints: nextVaultyPoints,
+        });
+        addFunds(item.rewardAmount);
 
-      setDialogOpen(false);
-      setSelectedProvider(null);
-      setSelectedPackage(null);
+        toast({
+          title: "Demo money added",
+          description: `${formatPoints(item.rewardAmount)} demo cash has been added to your account.`,
+        });
+      } else {
+        const nextAiCredits = currentAiCredits + item.rewardAmount;
+        await updateDoc(userRef, {
+          vaultyPoints: nextVaultyPoints,
+          aiCredits: nextAiCredits,
+        });
+
+        toast({
+          title: "AI credits added",
+          description: `${formatPoints(item.rewardAmount)} Vaulty AI credits are now in your balance.`,
+        });
+      }
     } catch (error) {
-      console.error("Error redeeming gift card:", error);
+      console.error("Error purchasing shop item:", error);
       toast({
-        title: "Error",
-        description: "Failed to redeem gift card. Please try again.",
+        title: "Purchase failed",
+        description: "Something went wrong while processing your purchase. Please try again.",
         variant: "destructive",
       });
     } finally {
-      setIsRedeeming(false);
+      setPurchasingId(null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white pb-24">
-      {/* Header */}
-      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10 p-4">
-        <div className="flex items-center gap-3 mb-4">
+    <div className="min-h-screen bg-[#050505] pb-24 text-white">
+      <div className="sticky top-0 z-20 border-b border-white/10 bg-black/75 px-4 pb-5 pt-4 backdrop-blur-2xl">
+        <div className="mb-4 flex items-center gap-3">
           <button
             onClick={() => setLocation("/home/overview")}
-            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+            className="rounded-full border border-white/10 bg-white/5 p-2 transition-colors hover:bg-white/10"
+            data-testid="button-back-shop"
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={22} />
           </button>
-          <h1 className="text-xl font-bold">Gift Card Shop</h1>
-        </div>
-
-        {/* User Balance */}
-        <div className="bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 rounded-2xl p-4 flex justify-between items-center">
           <div>
-            <p className="text-yellow-500 text-xs font-bold uppercase tracking-wider mb-1">Your Balance</p>
-            <h2 className="text-3xl font-bold text-white flex items-center gap-2">
-              {formatPoints(userData?.vaultyPoints)} <VaultyIcon size={24} />
-            </h2>
-          </div>
-          <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center border border-yellow-500/30">
-            <VaultyIcon size={32} />
+            <p className="text-[11px] uppercase tracking-[0.28em] text-gray-500">Vaulty Store</p>
+            <h1 className="text-2xl font-semibold tracking-tight">Point Shop</h1>
           </div>
         </div>
-      </div>
 
-      {/* Gift Cards Grid */}
-      <div className="p-4">
-        <div className="space-y-2 mb-6">
-          <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Redeem Gift Cards</h2>
-          <p className="text-sm text-gray-500">Select a provider to redeem gift cards using your Vaulty Credits</p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-4">
-          {PAYMENT_PROVIDERS.map((provider) => (
-            <button
-              key={provider.id}
-              onClick={() => handleProviderClick(provider)}
-              className="group bg-gradient-to-br from-white/10 to-white/5 border border-white/20 rounded-3xl p-6 hover:border-gray-500/50 hover:from-white/15 hover:to-white/10 transition-all duration-300 text-left relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-500/0 via-gray-500/0 to-purple-500/0 group-hover:from-gray-500/10 group-hover:to-purple-500/10 transition-all duration-500" />
-
-              <div className="relative z-10 flex items-center gap-6">
-                {/* Logo */}
-                <div className="w-20 h-20 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform p-2">
-                  <img src={provider.image} alt={provider.name} className="w-full h-full object-contain" />
-                </div>
-
-                {/* Content */}
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white mb-1">{provider.name}</h3>
-                  <p className="text-sm text-gray-400">{provider.description}</p>
-                </div>
-
-                {/* Arrow */}
-                <div className="text-gray-400 group-hover:translate-x-1 transition-transform">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
+        <div className="overflow-hidden rounded-[30px] border border-yellow-500/20 bg-[linear-gradient(135deg,rgba(250,204,21,0.16),rgba(249,115,22,0.08),rgba(255,255,255,0.03))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-yellow-300/80">Available balance</p>
+              <div className="mt-2 flex items-center gap-2 text-3xl font-bold text-white" data-testid="text-shop-vc-balance">
+                {formatPoints(userPoints)} <VaultyIcon size={24} />
               </div>
-            </button>
-          ))}
+              <p className="mt-3 max-w-xs text-sm text-yellow-50/70">
+                Spend your Vaulty Credits on extra demo money and more Vaulty AI credits.
+              </p>
+            </div>
+
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-yellow-400/20 bg-black/20">
+              <Sparkles className="h-7 w-7 text-yellow-300" />
+            </div>
+          </div>
+
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-4" data-testid="card-demo-balance">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-gray-500">Demo balance</p>
+              <p className="mt-2 text-lg font-semibold text-white">${formatPoints(Math.round(balance))}</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/20 p-4" data-testid="card-ai-balance">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-gray-500">AI credits</p>
+              <p className="mt-2 text-lg font-semibold text-white">{formatPoints(currentAiCredits)}</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Redeem Dialog */}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="bg-zinc-950 border-white/20 text-white sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold">
-              {selectedProvider?.name}
-            </DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Select the gift card amount you want to redeem
-            </DialogDescription>
-          </DialogHeader>
+      <div className="space-y-8 px-4 py-6">
+        <ShopSection
+          title="Demo Money Packages"
+          subtitle="1000 VC gets you 10K demo cash, 2000 VC gets you 25K, and every next tier adds 5K more."
+          icon={<Coins className="h-6 w-6" />}
+          packages={DEMO_MONEY_PACKAGES}
+          accentClass="border-emerald-400/20 bg-emerald-500/10"
+          purchasingId={purchasingId}
+          userPoints={userPoints}
+          onPurchase={handlePurchase}
+        />
 
-          <div className="space-y-3 py-4">
-            {PACKAGE_OPTIONS.map((option) => (
-              <button
-                key={option.usd}
-                onClick={() => handleRedeem(option)}
-                disabled={isRedeeming || (userData?.vaultyPoints || 0) < option.vc}
-                className="w-full group bg-gradient-to-r from-white/10 to-white/5 border border-white/20 rounded-xl p-4 hover:border-gray-500/50 hover:from-gray-500/20 hover:to-gray-500/10 transition-all flex items-center justify-between disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <div className="text-left">
-                  <p className="text-lg font-bold text-white">${option.usd}</p>
-                  <p className="text-xs text-gray-500">Gift Card</p>
-                </div>
-
-                <div className="text-right">
-                  <p className="text-lg font-bold text-gray-400 flex items-center gap-1">
-                    <VaultyIcon size={16} />
-                    {option.vc.toLocaleString()} VC
-                  </p>
-                  <p className="text-xs text-gray-500">Cost</p>
-                </div>
-
-                {isRedeeming && selectedPackage?.usd === option.usd ? (
-                  <div className="ml-4 text-gray-400">
-                    <Loader2 className="w-5 h-5 animate-spin" />
-                  </div>
-                ) : (
-                  <div className="ml-4 text-gray-400 group-hover:translate-x-1 transition-transform group-disabled:opacity-50">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-
-          <div className="border-t border-white/10 pt-4 mt-4">
-            <p className="text-xs text-gray-500 text-center">
-              Gift cards will be delivered to your account after redeeming
-            </p>
-          </div>
-        </DialogContent>
-      </Dialog>
+        <ShopSection
+          title="Vaulty AI Credit Packages"
+          subtitle="10K VC gets you 100 AI credits, 20K VC gets you 250, and every next tier adds 50 more."
+          icon={<Brain className="h-6 w-6" />}
+          packages={AI_CREDIT_PACKAGES}
+          accentClass="border-fuchsia-400/20 bg-fuchsia-500/10"
+          purchasingId={purchasingId}
+          userPoints={userPoints}
+          onPurchase={handlePurchase}
+        />
+      </div>
     </div>
   );
 }

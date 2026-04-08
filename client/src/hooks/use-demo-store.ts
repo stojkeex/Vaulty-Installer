@@ -277,6 +277,20 @@ export function useDemoStore() {
     });
   };
 
+  const addFunds = (amount: number) => {
+    const safeAmount = sanitizeNumber(amount);
+
+    if (safeAmount <= 0) {
+      throw new Error("Invalid funds amount");
+    }
+
+    setStore((prev) => ({
+      ...prev,
+      version: STORE_VERSION,
+      balance: prev.balance + safeAmount,
+    }));
+  };
+
   const resetAccount = () => {
     setStore(createInitialStore());
   };
@@ -288,6 +302,7 @@ export function useDemoStore() {
     isHydrated,
     buyCoin,
     sellCoin,
+    addFunds,
     resetAccount,
   };
 }
