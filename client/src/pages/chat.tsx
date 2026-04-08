@@ -7,8 +7,6 @@ import {
   Paperclip,
   Send,
   Smile,
-  Phone,
-  Video,
 } from "lucide-react";
 import verifiedBadge from "@assets/IMG_1076_1775576984427.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -282,12 +280,6 @@ export default function Chat() {
           </div>
 
           <div className="flex items-center gap-2">
-            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1c1f] text-zinc-300 transition-colors hover:bg-[#26262a]" data-testid="button-chat-call">
-              <Phone size={16} />
-            </button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1c1f] text-zinc-300 transition-colors hover:bg-[#26262a]" data-testid="button-chat-video">
-              <Video size={16} />
-            </button>
             <div className="relative">
               <button
                 onClick={() => setShowInfoMenu((current) => !current)}
@@ -371,14 +363,14 @@ export default function Chat() {
                       animate={{ opacity: 1, y: 0 }}
                       className={cn("flex", isMe ? "justify-end" : "justify-start")}
                     >
-                      <div className={cn("max-w-[82%]", isMe ? "items-end" : "items-start")}>
+                      <div className={cn("flex max-w-[82%] flex-col", isMe ? "items-end" : "items-start")}>
                         {message.imageURL ? (
                           <div
                             className={cn(
-                              "overflow-hidden rounded-[24px] border shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl",
+                              "w-fit overflow-hidden rounded-[22px] border shadow-[0_18px_48px_rgba(0,0,0,0.24)] backdrop-blur-xl",
                               isMe
-                                ? "border-white/10 bg-[linear-gradient(135deg,rgba(82,136,255,0.95),rgba(47,109,246,0.86))]"
-                                : "border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]",
+                                ? "border-sky-300/20 bg-[linear-gradient(135deg,rgba(38,92,255,0.96),rgba(82,136,255,0.82))]"
+                                : "border-white/10 bg-[linear-gradient(135deg,rgba(44,44,52,0.9),rgba(24,24,29,0.78))]",
                             )}
                           >
                             <img
@@ -395,14 +387,14 @@ export default function Chat() {
                         ) : (
                           <div
                             className={cn(
-                              "rounded-[24px] border px-4 py-3.5 shadow-[0_18px_48px_rgba(0,0,0,0.22)] backdrop-blur-xl",
+                              "inline-block w-fit max-w-full rounded-[22px] border px-3.5 py-2.5 shadow-[0_18px_48px_rgba(0,0,0,0.2)] backdrop-blur-xl",
                               isMe
-                                ? "rounded-br-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(82,136,255,0.96),rgba(47,109,246,0.86))] text-white"
-                                : "rounded-bl-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04))] text-white",
+                                ? "rounded-br-[8px] border-sky-300/20 bg-[linear-gradient(135deg,rgba(38,92,255,0.96),rgba(82,136,255,0.82))] text-white"
+                                : "rounded-bl-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(44,44,52,0.9),rgba(24,24,29,0.78))] text-white",
                             )}
                             data-testid={`bubble-chat-message-${message.id}`}
                           >
-                            <p className="whitespace-pre-wrap break-words text-[15px] leading-6">{message.text}</p>
+                            <p className="whitespace-pre-wrap break-words text-[15px] leading-[1.5]">{message.text}</p>
                           </div>
                         )}
 
