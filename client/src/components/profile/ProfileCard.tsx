@@ -113,12 +113,6 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
   return (
     <div className="w-full flex justify-center">
         <div className="w-full max-w-[340px] h-[520px] relative">
-        {!isFlipped && topRightAccessory && (
-            <div className="absolute right-6 top-6 z-30" onClick={(e) => e.stopPropagation()}>
-                {topRightAccessory}
-            </div>
-        )}
-
         <div className="perspective-1000 h-full relative">
         
         {/* The 3D Card */}
@@ -145,6 +139,12 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                     {user?.followers?.length || 0}
                 </span>
             </div>
+
+            {topRightAccessory && (
+                <div className="absolute right-6 top-6 z-20" onClick={(e) => e.stopPropagation()}>
+                    {topRightAccessory}
+                </div>
+            )}
 
             {/* Rank Icon */}
             <div className="mt-8 mb-4 relative z-10">
