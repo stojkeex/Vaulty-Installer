@@ -84,6 +84,7 @@ export default function Chat() {
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (!user || !targetUserId) return;
@@ -145,6 +146,12 @@ export default function Chat() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (!textareaRef.current) return;
+    textareaRef.current.style.height = "0px";
+    textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
+  }, [inputText]);
 
   const onlineState = useMemo(() => {
     if (targetUser?.isGlobal) {
@@ -226,20 +233,23 @@ export default function Chat() {
 
   return (
     <div className="relative flex h-screen flex-col overflow-hidden bg-[#050505] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08),transparent_32%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.05),transparent_28%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-40" style={chatData?.background ? {
-        background: chatData.background.type === "image"
-          ? `url(${chatData.background.value}) center/cover no-repeat`
-          : chatData.background.value,
-      } : undefined} />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.25),rgba(5,5,5,0.9)_22%,rgba(5,5,5,0.9)_78%,rgba(0,0,0,0.28))]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_30%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_26%)]" />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-30"
+        style={chatData?.background ? {
+          background: chatData.background.type === "image"
+            ? `url(${chatData.background.value}) center/cover no-repeat`
+            : chatData.background.value,
+        } : undefined}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(5,5,5,0.92)_18%,rgba(5,5,5,0.92)_80%,rgba(0,0,0,0.4))]" />
 
-      <div className="relative z-20 border-b border-white/10 bg-black/60 px-4 pb-4 pt-5 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-md items-center justify-between gap-3">
+      <div className="relative z-20 shrink-0 border-b border-white/8 bg-black/85 backdrop-blur-2xl">
+        <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 pb-3 pt-4">
           <div className="flex min-w-0 items-center gap-3">
             <button
               onClick={() => setLocation("/messages")}
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-white/5 transition-colors hover:bg-white/10"
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1c1c1f] text-white transition-colors hover:bg-[#26262a]"
               data-testid="button-back-chat"
             >
               <ChevronLeft size={20} />
@@ -251,38 +261,38 @@ export default function Chat() {
               data-testid="button-open-chat-user-info"
             >
               <div className="relative shrink-0">
-                <Avatar className="h-12 w-12 border border-white/10 bg-black/30">
+                <Avatar className="h-12 w-12 ring-1 ring-white/10">
                   <AvatarImage src={targetUser?.photoURL} className="object-cover" />
                   <AvatarFallback>{targetUser?.displayName?.[0] || "?"}</AvatarFallback>
                 </Avatar>
-                {onlineState.active && <div className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#050505] bg-emerald-400" />}
+                {onlineState.active && <div className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-black bg-[#31d158]" />}
               </div>
 
               <div className="min-w-0">
                 <div className="flex items-center gap-1.5">
-                  <h1 className="truncate text-base font-semibold text-white" data-testid="text-chat-user-name">
+                  <h1 className="truncate text-[1rem] font-semibold text-white" data-testid="text-chat-user-name">
                     {targetUser?.displayName || "Loading..."}
                   </h1>
                   {targetUser?.badges?.includes("verified") && <img src={verifiedBadge} alt="Verified" className="h-4 w-4 shrink-0" />}
                 </div>
-                <p className="mt-0.5 truncate text-sm text-zinc-400" data-testid="text-chat-user-status">
+                <p className="mt-0.5 truncate text-[13px] text-zinc-400" data-testid="text-chat-user-status">
                   {onlineState.label}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-1">
-            <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:bg-white/10" data-testid="button-chat-call">
+          <div className="flex items-center gap-2">
+            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1c1f] text-zinc-300 transition-colors hover:bg-[#26262a]" data-testid="button-chat-call">
               <Phone size={16} />
             </button>
-            <button className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:bg-white/10" data-testid="button-chat-video">
+            <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1c1f] text-zinc-300 transition-colors hover:bg-[#26262a]" data-testid="button-chat-video">
               <Video size={16} />
             </button>
             <div className="relative">
               <button
                 onClick={() => setShowInfoMenu((current) => !current)}
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 transition-colors hover:bg-white/10"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-[#1c1c1f] text-zinc-300 transition-colors hover:bg-[#26262a]"
                 data-testid="button-chat-more"
               >
                 <MoreVertical size={16} />
@@ -294,7 +304,7 @@ export default function Chat() {
                     initial={{ opacity: 0, y: -8, scale: 0.96 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8, scale: 0.96 }}
-                    className="absolute right-0 top-full z-40 mt-2 w-48 overflow-hidden rounded-2xl border border-white/10 bg-black/85 p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
+                    className="absolute right-0 top-full z-40 mt-2 w-48 overflow-hidden rounded-2xl border border-white/10 bg-[#111113]/95 p-1.5 shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl"
                   >
                     {!isGlobal && (
                       <button
@@ -320,30 +330,18 @@ export default function Chat() {
             </div>
           </div>
         </div>
-
-        <div className="mx-auto mt-4 max-w-md rounded-[24px] border border-white/10 bg-white/[0.04] px-4 py-3 shadow-[0_12px_36px_rgba(0,0,0,0.28)]">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-2 text-sm text-zinc-300">
-              <Shield className="h-4 w-4 text-white" />
-              <span data-testid="text-chat-security">Private conversation secured inside Vaulty</span>
-            </div>
-            <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-zinc-500">
-              {isGlobal ? "GLOBAL" : "DIRECT"}
-            </span>
-          </div>
-        </div>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto px-4 pb-28 pt-5">
-        <div className="mx-auto flex max-w-md flex-col gap-3">
+      <div className="relative z-10 flex-1 overflow-y-auto">
+        <div className="mx-auto flex max-w-md flex-col gap-3 px-4 pb-28 pt-5">
           {messages.length === 0 && (
-            <div className="rounded-[32px] border border-dashed border-white/10 bg-white/[0.03] px-6 py-14 text-center shadow-[0_20px_60px_rgba(0,0,0,0.32)]">
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
+            <div className="rounded-[30px] bg-[#111113] px-6 py-14 text-center shadow-[0_20px_60px_rgba(0,0,0,0.32)]">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/[0.05]">
                 <Smile className="h-6 w-6 text-zinc-500" />
               </div>
               <h2 className="mt-5 text-lg font-semibold text-white">Start the conversation</h2>
               <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-zinc-400">
-                Send the first message and keep the thread clean, minimal, and fully in the Vaulty style.
+                Send the first message and keep the thread clean, calm, and private.
               </p>
             </div>
           )}
@@ -355,7 +353,7 @@ export default function Chat() {
               <div key={message.id} className="w-full">
                 {message.type === "system" ? (
                   <div className="my-4 flex justify-center">
-                    <span className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[11px] text-zinc-400" data-testid={`text-chat-system-${message.id}`}>
+                    <span className="rounded-full bg-white/[0.06] px-3 py-1.5 text-[11px] text-zinc-400" data-testid={`text-chat-system-${message.id}`}>
                       {message.text}
                     </span>
                   </div>
@@ -363,23 +361,23 @@ export default function Chat() {
                   <>
                     {showDateDivider && message.timestamp?.toDate && (
                       <div className="my-5 flex justify-center">
-                        <span className="rounded-full border border-white/10 bg-black/30 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] text-zinc-500">
+                        <span className="rounded-full bg-[#151518] px-3.5 py-1.5 text-[11px] uppercase tracking-[0.16em] text-zinc-500">
                           {format(message.timestamp.toDate(), "eeee, MMM d")}
                         </span>
                       </div>
                     )}
 
                     <motion.div
-                      initial={{ opacity: 0, y: 14 }}
+                      initial={{ opacity: 0, y: 12 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={cn("flex", isMe ? "justify-end" : "justify-start")}
                     >
-                      <div className={cn("max-w-[84%]", isMe ? "items-end" : "items-start")}>
+                      <div className={cn("max-w-[82%]", isMe ? "items-end" : "items-start")}>
                         {message.imageURL ? (
                           <div
                             className={cn(
-                              "overflow-hidden rounded-[24px] border shadow-[0_18px_48px_rgba(0,0,0,0.28)]",
-                              isMe ? "border-white/10 bg-white/[0.06]" : "border-white/10 bg-black/30",
+                              "overflow-hidden rounded-[24px] shadow-[0_18px_48px_rgba(0,0,0,0.28)]",
+                              isMe ? "bg-[#2f6df6]" : "bg-[#17171a] ring-1 ring-white/8",
                             )}
                           >
                             <img
@@ -388,7 +386,7 @@ export default function Chat() {
                               className="max-h-[420px] w-full object-cover"
                               data-testid={`image-chat-message-${message.id}`}
                             />
-                            <div className="flex items-center justify-end gap-2 bg-black/40 px-3 py-2 text-[11px] text-zinc-300 backdrop-blur-md">
+                            <div className={cn("flex items-center justify-end gap-2 px-3 py-2 text-[11px]", isMe ? "bg-black/20 text-white/80" : "bg-black/30 text-zinc-300")}>
                               <span>{formatMessageTime(message.timestamp)}</span>
                               {isMe && <span>{message.read ? "Seen" : "Sent"}</span>}
                             </div>
@@ -396,18 +394,18 @@ export default function Chat() {
                         ) : (
                           <div
                             className={cn(
-                              "rounded-[26px] border px-4 py-3 shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl",
+                              "rounded-[24px] px-4 py-3.5 shadow-[0_18px_48px_rgba(0,0,0,0.22)]",
                               isMe
-                                ? "rounded-br-[10px] border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.18),rgba(255,255,255,0.08),rgba(255,255,255,0.04))]"
-                                : "rounded-bl-[10px] border-white/10 bg-black/35",
+                                ? "rounded-br-[8px] bg-[#2f6df6] text-white"
+                                : "rounded-bl-[8px] bg-[#1a1a1d] text-white ring-1 ring-white/6",
                             )}
                             data-testid={`bubble-chat-message-${message.id}`}
                           >
-                            <p className="whitespace-pre-wrap break-words text-[15px] leading-6 text-white">{message.text}</p>
+                            <p className="whitespace-pre-wrap break-words text-[15px] leading-6">{message.text}</p>
                           </div>
                         )}
 
-                        <div className={cn("mt-1.5 flex items-center gap-2 px-1 text-[11px] text-zinc-500", isMe ? "justify-end" : "justify-start")}> 
+                        <div className={cn("mt-1.5 flex items-center gap-2 px-1 text-[11px] text-zinc-500", isMe ? "justify-end" : "justify-start")}>
                           <span data-testid={`text-chat-message-time-${message.id}`}>{formatMessageTime(message.timestamp)}</span>
                           {isMe && <span>{message.read ? "Read" : "Delivered"}</span>}
                           {!isMe && index === messages.length - 1 && !isGlobal && <span>{onlineState.active ? "Online" : "Inbox"}</span>}
@@ -423,13 +421,13 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-20 border-t border-white/10 bg-black/70 px-4 pb-4 pt-3 backdrop-blur-2xl">
-        <div className="mx-auto max-w-md">
-          <div className="rounded-[28px] border border-white/10 bg-white/[0.05] p-2 shadow-[0_20px_60px_rgba(0,0,0,0.34)]">
+      <div className="relative z-20 shrink-0 border-t border-white/8 bg-black/90 backdrop-blur-2xl">
+        <div className="mx-auto max-w-md px-4 pb-4 pt-3">
+          <div className="rounded-[28px] bg-[#111113] p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.22)] ring-1 ring-white/8">
             <div className="flex items-end gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/20 text-zinc-300 transition-colors hover:bg-white/10"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1d1d21] text-zinc-300 transition-colors hover:bg-[#28282d]"
                 data-testid="button-chat-attach-image"
               >
                 <ImageIcon size={18} />
@@ -442,19 +440,26 @@ export default function Chat() {
                 className="hidden"
               />
 
-              <div className="flex min-h-[52px] flex-1 items-center rounded-[22px] border border-white/10 bg-black/20 px-4">
-                <input
+              <div className="flex min-h-[52px] flex-1 items-end rounded-[22px] bg-[#1a1a1d] px-4 py-2 ring-1 ring-white/6">
+                <textarea
+                  ref={textareaRef}
                   value={inputText}
                   onChange={(event) => setInputText(event.target.value)}
-                  onKeyDown={(event) => event.key === "Enter" && !event.shiftKey && handleSend()}
-                  placeholder="Write a message"
-                  className="h-12 w-full bg-transparent text-[15px] text-white outline-none placeholder:text-zinc-500"
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                      event.preventDefault();
+                      handleSend();
+                    }
+                  }}
+                  placeholder="Aa"
+                  rows={1}
+                  className="max-h-[140px] w-full resize-none overflow-y-auto bg-transparent pt-2 text-[15px] leading-6 text-white outline-none placeholder:text-zinc-500"
                   data-testid="input-chat-message"
                 />
               </div>
 
               <button
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/20 text-zinc-300 transition-colors hover:bg-white/10"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1d1d21] text-zinc-300 transition-colors hover:bg-[#28282d]"
                 data-testid="button-chat-emoji"
               >
                 <Smile size={18} />
@@ -462,11 +467,19 @@ export default function Chat() {
 
               <button
                 onClick={() => handleSend()}
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-black shadow-[0_16px_40px_rgba(255,255,255,0.18)] transition-all hover:bg-zinc-100 active:scale-[0.97]"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#2f6df6] text-white shadow-[0_16px_40px_rgba(47,109,246,0.36)] transition-all hover:bg-[#3b78ff] active:scale-[0.97]"
                 data-testid="button-send-chat-message"
               >
                 <Send size={18} />
               </button>
+            </div>
+
+            <div className="mt-2 flex items-center justify-between px-2 text-[11px] text-zinc-500">
+              <span className="inline-flex items-center gap-1.5" data-testid="text-chat-security">
+                <Shield className="h-3.5 w-3.5" />
+                Private conversation
+              </span>
+              <span>{isGlobal ? "GLOBAL" : "DIRECT"}</span>
             </div>
           </div>
         </div>
