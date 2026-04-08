@@ -39,7 +39,9 @@ export function BottomNav() {
                      location === "/register" || 
                      location.startsWith("/demo-trading/") ||
                      location === "/ai" ||
-                     location.startsWith("/messages") ||
+                     location.startsWith("/messages/user/") ||
+                     location === "/messages/global" ||
+                     location.includes("/info") ||
                      location.startsWith("/course/") ||
                      location.startsWith("/academy/") ||
                      location === "/tos" ||

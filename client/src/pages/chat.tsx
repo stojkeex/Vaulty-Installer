@@ -369,8 +369,8 @@ export default function Chat() {
                             className={cn(
                               "w-fit overflow-hidden rounded-[22px] border shadow-[0_18px_48px_rgba(0,0,0,0.24)] backdrop-blur-xl",
                               isMe
-                                ? "border-sky-300/20 bg-[linear-gradient(135deg,rgba(38,92,255,0.96),rgba(82,136,255,0.82))]"
-                                : "border-white/10 bg-[linear-gradient(135deg,rgba(44,44,52,0.9),rgba(24,24,29,0.78))]",
+                                ? "border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))]"
+                                : "border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]",
                             )}
                           >
                             <img
@@ -389,8 +389,8 @@ export default function Chat() {
                             className={cn(
                               "inline-block w-fit max-w-full rounded-[22px] border px-3.5 py-2.5 shadow-[0_18px_48px_rgba(0,0,0,0.2)] backdrop-blur-xl",
                               isMe
-                                ? "rounded-br-[8px] border-sky-300/20 bg-[linear-gradient(135deg,rgba(38,92,255,0.96),rgba(82,136,255,0.82))] text-white"
-                                : "rounded-bl-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(44,44,52,0.9),rgba(24,24,29,0.78))] text-white",
+                                ? "rounded-br-[8px] border-white/12 bg-[linear-gradient(135deg,rgba(255,255,255,0.14),rgba(255,255,255,0.06))] text-white"
+                                : "rounded-bl-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))] text-white",
                             )}
                             data-testid={`bubble-chat-message-${message.id}`}
                           >
