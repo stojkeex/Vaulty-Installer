@@ -305,6 +305,17 @@ export default function Home() {
                        </div>
                    </Link>
               </div>
+
+              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-white/5" data-testid="card-home-daily-motivation">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
+                <div className="relative z-10 text-center">
+                  <div className="mb-2 flex items-center justify-center gap-2 text-slate-400">
+                    <TrendingUp size={16} />
+                    <span className="text-xs font-bold tracking-wider uppercase">Daily Motivation</span>
+                  </div>
+                  <p className="text-lg font-medium text-white italic" data-testid="text-home-daily-motivation">“{dailyMotivation}”</p>
+                </div>
+              </div>
               
               {/* Rotating Banner */}
               <div className="relative h-[176px] overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
@@ -392,17 +403,6 @@ export default function Home() {
                   </div>
                 </div>
               </Link>
-
-              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-white/5" data-testid="card-home-daily-motivation">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
-                <div className="relative z-10 text-center">
-                  <div className="mb-2 flex items-center justify-center gap-2 text-slate-400">
-                    <TrendingUp size={16} />
-                    <span className="text-xs font-bold tracking-wider uppercase">Daily Motivation</span>
-                  </div>
-                  <p className="text-lg font-medium text-white italic" data-testid="text-home-daily-motivation">“{dailyMotivation}”</p>
-                </div>
-              </div>
 
               {/* Goals Card (Full Width) */}
               <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/20 p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
