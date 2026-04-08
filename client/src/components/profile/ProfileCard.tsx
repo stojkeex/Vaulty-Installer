@@ -112,7 +112,27 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
 
   return (
     <div className="w-full flex justify-center">
-        <div className="w-full max-w-[340px] perspective-1000 h-[520px] relative">
+        <div className="w-full max-w-[340px] h-[520px] relative">
+        {!isFlipped && (
+            <>
+                <div className="absolute top-6 left-6 z-30 flex flex-col items-center gap-1 group pointer-events-none">
+                    <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
+                        <Heart size={20} className="text-white opacity-80" />
+                    </div>
+                    <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
+                        {user?.followers?.length || 0}
+                    </span>
+                </div>
+
+                {topRightAccessory && (
+                    <div className="absolute right-6 top-6 z-30" onClick={(e) => e.stopPropagation()}>
+                        {topRightAccessory}
+                    </div>
+                )}
+            </>
+        )}
+
+        <div className="perspective-1000 h-full relative">
         
         {/* The 3D Card */}
         <div 
@@ -131,21 +151,6 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 style={{...cardStyle, borderColor: borderColor}}
             >
 
-             <div className="absolute top-6 left-6 z-20 flex flex-col items-center gap-1 group">
-                 <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
-                     <Heart size={20} className="text-white opacity-80" />
-                 </div>
-                 <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
-                     {user?.followers?.length || 0}
-                 </span>
-             </div>
-
-             {topRightAccessory && (
-                 <div className="absolute right-6 top-6 z-20" onClick={(e) => e.stopPropagation()}>
-                     {topRightAccessory}
-                 </div>
-             )}
-            
             {/* Rank Icon */}
             <div className="mt-8 mb-4 relative z-10">
                 <RankIcon rank={currentRank} size="lg" className="w-14 h-14" />
@@ -323,7 +328,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 </div>
             </DialogContent>
         </Dialog>
-    </div>
+        </div>
     </div>
   );
 }
