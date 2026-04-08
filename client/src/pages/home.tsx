@@ -94,10 +94,30 @@ const FINANCE_NEWS = [
   }
 ];
 
+const DAILY_MOTIVATIONS = [
+  "Dream big, work hard, stay focused.",
+  "Small steps every day build big results.",
+  "Your future grows with every smart move you make.",
+  "Discipline today creates freedom tomorrow.",
+  "Stay patient, stay sharp, and keep building.",
+  "Consistency beats intensity when you play the long game.",
+  "Every saved euro is a vote for your future.",
+  "Progress compounds when you refuse to quit.",
+  "Keep showing up — that is where momentum starts.",
+  "The version of you with results starts with today's choices."
+];
+
+const getDailyMotivation = () => {
+  const today = new Date();
+  const dayNumber = Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime() / 86400000);
+  return DAILY_MOTIVATIONS[dayNumber % DAILY_MOTIVATIONS.length];
+};
+
 export default function Home() {
   const { user, userData } = useAuth();
   const { unreadCount } = useNotifications();
   const [location, setLocation] = useLocation();
+  const dailyMotivation = getDailyMotivation();
   
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
@@ -376,7 +396,11 @@ export default function Home() {
               <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-white/5" data-testid="card-home-daily-motivation">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
                 <div className="relative z-10 text-center">
-                  <p className="text-lg font-medium text-white italic">Daily Motivation</p>
+                  <div className="mb-2 flex items-center justify-center gap-2 text-slate-400">
+                    <TrendingUp size={16} />
+                    <span className="text-xs font-bold tracking-wider uppercase">Daily Motivation</span>
+                  </div>
+                  <p className="text-lg font-medium text-white italic" data-testid="text-home-daily-motivation">“{dailyMotivation}”</p>
                 </div>
               </div>
 
