@@ -126,7 +126,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
             {/* Front Side */}
             <div 
                 className={cn(
-                    "absolute w-full h-full backface-hidden rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-start p-6 text-center border-4",
+                    "absolute w-full h-full backface-hidden [transform:rotateY(0deg)] rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col items-center justify-start p-6 text-center border-4",
                     rankClass
                 )}
                 style={{...cardStyle, borderColor: borderColor}}
