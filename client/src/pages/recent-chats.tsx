@@ -5,14 +5,11 @@ import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot, doc, getDoc } from "firebase/firestore";
 import {
   ChevronLeft,
-  ChevronRight,
   Edit3,
   Inbox,
   MessageSquare,
-  Plus,
   Search,
   Shield,
-  Sparkles,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { differenceInDays } from "date-fns";
@@ -38,23 +35,6 @@ export default function RecentChats() {
   const [requestCount, setRequestCount] = useState(0);
   const [showTab, setShowTab] = useState<"chats" | "requests">("chats");
   const [searchQuery, setSearchQuery] = useState("");
-  const [companions, setCompanions] = useState<any[]>([]);
-
-  useEffect(() => {
-    const loadCompanions = () => {
-      const stored = JSON.parse(localStorage.getItem("vaulty_companions") || "[]");
-      setCompanions(stored);
-    };
-
-    loadCompanions();
-    window.addEventListener("storage", loadCompanions);
-    window.addEventListener("focus", loadCompanions);
-
-    return () => {
-      window.removeEventListener("storage", loadCompanions);
-      window.removeEventListener("focus", loadCompanions);
-    };
-  }, []);
 
   useEffect(() => {
     if (!user || authLoading) {
@@ -126,11 +106,6 @@ export default function RecentChats() {
     [chats, searchQuery],
   );
 
-  const filteredCompanions = useMemo(
-    () => companions.filter((companion) => companion.name?.toLowerCase().includes(searchQuery.toLowerCase())),
-    [companions, searchQuery],
-  );
-
   const getStatusText = (timestamp: any, isMe: boolean) => {
     if (!timestamp?.toDate) return isMe ? "Sent recently" : "Open conversation";
     const date = timestamp.toDate();
@@ -179,37 +154,6 @@ export default function RecentChats() {
             </button>
           </div>
 
-          <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03),rgba(255,255,255,0.01))] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.42)]">
-            <div className="absolute" />
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.22em] text-zinc-500">Overview</p>
-                <h2 className="mt-2 text-xl font-semibold text-white">Clean, fast, private chats</h2>
-                <p className="mt-2 max-w-xs text-sm leading-6 text-zinc-400">
-                  Your direct conversations, global chat, and AI companions now live in one polished space.
-                </p>
-              </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5 shadow-lg">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-            </div>
-
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-chats">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Chats</p>
-                <p className="mt-2 text-lg font-semibold text-white">{filteredChats.length}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-companions">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">AI</p>
-                <p className="mt-2 text-lg font-semibold text-white">{filteredCompanions.length}</p>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-black/20 p-3" data-testid="card-messages-count-requests">
-                <p className="text-[10px] uppercase tracking-[0.16em] text-zinc-500">Requests</p>
-                <p className="mt-2 text-lg font-semibold text-white">{requestCount}</p>
-              </div>
-            </div>
-          </div>
-
           <div className="grid grid-cols-2 gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-1.5">
             <button
               onClick={() => setShowTab("chats")}
@@ -253,46 +197,6 @@ export default function RecentChats() {
       <div className="mx-auto max-w-md px-4 py-5">
         {showTab === "chats" ? (
           <div className="space-y-6">
-            {filteredCompanions.length > 0 && (
-              <section className="space-y-3">
-                <div className="flex items-center justify-between px-1">
-                  <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-zinc-500">AI Companions</h2>
-                  <span className="text-xs text-zinc-600">{filteredCompanions.length}</span>
-                </div>
-
-                <div className="space-y-3">
-                  {filteredCompanions.map((companion) => (
-                    <button
-                      key={companion.id}
-                      onClick={() => setLocation(`/messages/${companion.id}`)}
-                      className="w-full rounded-[28px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-4 text-left shadow-[0_18px_50px_rgba(0,0,0,0.32)] transition-all hover:border-white/20 hover:bg-white/[0.08]"
-                      data-testid={`button-open-companion-${companion.id}`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <Avatar className="h-14 w-14 border border-white/10 bg-black/30">
-                          <AvatarImage src={`/${companion.avatar}`} className="object-cover" />
-                          <AvatarFallback>{companion.name?.[0] || "A"}</AvatarFallback>
-                        </Avatar>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="min-w-0">
-                              <p className="truncate text-base font-semibold text-white" data-testid={`text-companion-name-${companion.id}`}>
-                                {companion.name}
-                              </p>
-                              <p className="mt-1 truncate text-sm text-zinc-400">AI companion active</p>
-                            </div>
-                            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300">
-                              <ChevronRight size={16} />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </section>
-            )}
-
             <section className="space-y-3">
               <div className="flex items-center justify-between px-1">
                 <h2 className="text-sm font-semibold uppercase tracking-[0.22em] text-zinc-500">Conversations</h2>
@@ -358,14 +262,14 @@ export default function RecentChats() {
                   );
                 })}
 
-                {filteredChats.length === 0 && filteredCompanions.length === 0 && (
+                {filteredChats.length === 0 && (
                   <div className="rounded-[32px] border border-dashed border-white/10 bg-white/[0.03] px-6 py-14 text-center">
                     <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-white/10 bg-white/[0.04]">
                       <Inbox className="h-6 w-6 text-zinc-500" />
                     </div>
                     <h3 className="mt-5 text-lg font-semibold text-white">No conversations yet</h3>
                     <p className="mx-auto mt-2 max-w-xs text-sm leading-6 text-zinc-400">
-                      Start chatting with people from Vaulty or create a companion to keep your message space alive.
+                      Start chatting with people from Vaulty and your direct conversations will show up here.
                     </p>
                   </div>
                 )}
@@ -395,16 +299,6 @@ export default function RecentChats() {
         )}
       </div>
 
-      <div className="fixed bottom-6 left-0 right-0 z-20 mx-auto max-w-md px-4">
-        <button
-          onClick={() => setLocation("/create-companion")}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-[24px] border border-white/10 bg-white text-black shadow-[0_24px_60px_rgba(255,255,255,0.16)] transition-all hover:bg-zinc-100 active:scale-[0.99]"
-          data-testid="button-create-companion"
-        >
-          <Plus size={18} />
-          <span className="font-semibold">Create Companion</span>
-        </button>
-      </div>
     </div>
   );
 }

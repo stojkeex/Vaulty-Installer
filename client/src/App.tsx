@@ -33,8 +33,6 @@ import WalletPage from "@/pages/wallet";
 import WalletSettingsPage from "@/pages/wallet-settings";
 import Discover from "@/pages/discover";
 import GoalsPage from "@/pages/goals";
-import CreateCompanion from "@/pages/create-companion";
-import CompanionChat from "@/pages/companion-chat";
 import ImageSave from "@/pages/image-save";
 import CreatePost from "@/pages/create-post";
 import CreateNews from "@/pages/create-news";
@@ -114,10 +112,10 @@ function Router() {
         <Route path="/messages" component={() => <ProtectedRoute component={RecentChats} hideNav={true} />} />
         <Route path="/messages/user/:id" component={() => <ProtectedRoute component={Chat} hideNav={true} />} />
         <Route path="/messages/global" component={() => <ProtectedRoute component={Chat} hideNav={true} />} />
-        <Route path="/messages/:id" component={() => <ProtectedRoute component={CompanionChat} hideNav={true} />} />
         <Route path="/messages/:id/info" component={() => <ProtectedRoute component={ChatUserInfo} hideNav={true} />} />
         <Route path="/message-requests" component={() => <ProtectedRoute component={MessageRequests} hideNav={true} />} />
-        <Route path="/create-companion" component={() => <ProtectedRoute component={CreateCompanion} hideNav={true} />} />
+        <Route path="/create-companion" component={() => <Redirect to="/messages" />} />
+        <Route path="/messages/:id" component={() => <Redirect to="/messages" />} />
 
         <Route path="/users/:id/:type" component={() => <ProtectedRoute component={FollowList} />} />
         <Route path="/search" component={() => <ProtectedRoute component={Search} />} />

@@ -45,7 +45,6 @@ export function BottomNav() {
                      location === "/tos" ||
                      location === "/premium" ||
                      location.startsWith("/chat/private/") ||
-                     location.startsWith("/create-companion") ||
                      location.startsWith("/coin/") ||
                      location.startsWith("/wallet") ||
                      location === "/message-requests" ||
