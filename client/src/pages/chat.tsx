@@ -3,8 +3,8 @@ import { useRoute, useLocation } from "wouter";
 import { useAuth } from "@/contexts/auth-context";
 import {
   ChevronLeft,
-  Image as ImageIcon,
   MoreVertical,
+  Paperclip,
   Send,
   Smile,
   Phone,
@@ -424,49 +424,60 @@ export default function Chat() {
 
       <div className="sticky bottom-0 z-30 shrink-0 border-t border-white/8 bg-black/75 backdrop-blur-2xl">
         <div className="mx-auto max-w-md px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
-          <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05))] p-2.5 shadow-[0_-10px_40px_rgba(0,0,0,0.22)] backdrop-blur-2xl">
-            <div className="flex items-end gap-2">
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white transition-colors hover:bg-white/14"
-                data-testid="button-chat-attach-image"
-              >
-                <ImageIcon size={18} />
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageSelect}
-                className="hidden"
+          <div
+            className="relative flex items-end gap-2 rounded-[32px] border border-white/10 bg-[rgba(15,15,15,0.72)] p-1.5 shadow-[0_0_40px_-10px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.1)]"
+            style={{
+              background: "rgba(15, 15, 15, 0.7)",
+              backdropFilter: "blur(20px)",
+            }}
+          >
+            <div className="pointer-events-none absolute inset-0 -z-10 rounded-[32px] bg-gradient-to-r from-gray-500/5 via-purple-500/5 to-slate-500/5 opacity-50 blur-xl" />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white transition-colors hover:bg-white/10"
+              data-testid="button-chat-attach-image"
+            >
+              <Paperclip size={20} />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleImageSelect}
+              className="hidden"
+            />
+
+            <div className="flex min-h-[52px] flex-1 items-center">
+              <textarea
+                ref={textareaRef}
+                value={inputText}
+                onChange={(event) => setInputText(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" && !event.shiftKey) {
+                    event.preventDefault();
+                    handleSend();
+                  }
+                }}
+                placeholder={`Message ${targetUser?.displayName || "Vaulty"}...`}
+                rows={1}
+                className="max-h-[140px] w-full resize-none overflow-y-auto bg-transparent px-1 py-3 text-[15px] leading-6 text-white outline-none placeholder:text-zinc-400"
+                data-testid="input-chat-message"
               />
-
-              <div className="flex min-h-[54px] flex-1 items-end rounded-[22px] border border-white/10 bg-black/20 px-4 py-2 backdrop-blur-xl">
-                <textarea
-                  ref={textareaRef}
-                  value={inputText}
-                  onChange={(event) => setInputText(event.target.value)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" && !event.shiftKey) {
-                      event.preventDefault();
-                      handleSend();
-                    }
-                  }}
-                  placeholder="Message"
-                  rows={1}
-                  className="max-h-[140px] w-full resize-none overflow-y-auto bg-transparent pt-2 text-[15px] leading-6 text-white outline-none placeholder:text-zinc-400"
-                  data-testid="input-chat-message"
-                />
-              </div>
-
-              <button
-                onClick={() => handleSend()}
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#2f6df6] text-white shadow-[0_16px_40px_rgba(47,109,246,0.36)] transition-all hover:bg-[#3b78ff] active:scale-[0.97]"
-                data-testid="button-send-chat-message"
-              >
-                <Send size={18} />
-              </button>
             </div>
+
+            <button
+              onClick={() => handleSend()}
+              disabled={!inputText.trim()}
+              className={cn(
+                "flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-all",
+                inputText.trim()
+                  ? "bg-white text-black hover:bg-gray-100 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                  : "bg-white/10 text-gray-400 cursor-not-allowed"
+              )}
+              data-testid="button-send-chat-message"
+            >
+              <Send size={20} />
+            </button>
           </div>
         </div>
       </div>
