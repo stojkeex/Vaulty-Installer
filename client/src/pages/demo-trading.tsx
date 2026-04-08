@@ -10,6 +10,20 @@ import { VaultyIcon } from "@/components/ui/vaulty-icon";
 
 const formatUsd = (amount: number) => `$${amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+const getPriceFractionOptions = (amount: number) => {
+  const absoluteAmount = Math.abs(amount);
+
+  if (absoluteAmount > 0 && absoluteAmount < 0.01) {
+    return { minimumFractionDigits: 6, maximumFractionDigits: 6 };
+  }
+
+  if (absoluteAmount > 0 && absoluteAmount < 1) {
+    return { minimumFractionDigits: 4, maximumFractionDigits: 4 };
+  }
+
+  return { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+};
+
 const demoCurrencyOptions: Array<{ value: CurrencyCode; label: string }> = [
   { value: "VC", label: "VC" },
   { value: "EUR", label: "EUR" },
@@ -108,15 +122,16 @@ export default function DemoTrading() {
   const isVaultyCredits = currency === "VC";
 
   const formatSelectedAmount = (amount: number) => {
+    const fractionDigits = getPriceFractionOptions(amount);
+
     if (isVaultyCredits) {
-      return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return amount.toLocaleString(undefined, fractionDigits);
     }
 
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      ...fractionDigits,
     }).format(amount);
   };
 

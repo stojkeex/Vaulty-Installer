@@ -6,6 +6,7 @@ import { ArrowLeft, TrendingUp, TrendingDown, Activity, Layers, Calendar, Dollar
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useDemoStore } from "@/hooks/use-demo-store";
+import { getVaultyCoinChart, getVaultyCoinDetail, VAULTY_COIN_ID } from "@/lib/coingecko";
 import { cn } from "@/lib/utils";
 import { useCurrency, type CurrencyCode } from "@/contexts/currency-context";
 import { format as formatDate } from "date-fns";
@@ -15,6 +16,28 @@ const formatCompactNumber = (number: number) => {
   if (!number) return "N/A";
   const formatter = Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 2 });
   return formatter.format(number);
+};
+
+const getPriceFractionOptions = (amount: number) => {
+  const absoluteAmount = Math.abs(amount);
+
+  if (absoluteAmount > 0 && absoluteAmount < 0.01) {
+    return { minimumFractionDigits: 6, maximumFractionDigits: 6 };
+  }
+
+  if (absoluteAmount > 0 && absoluteAmount < 1) {
+    return { minimumFractionDigits: 4, maximumFractionDigits: 4 };
+  }
+
+  return { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+};
+
+const stripHtml = (value?: string) => {
+  if (!value) {
+    return "No description available.";
+  }
+
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 };
 
 const TIMEFRAMES = [
@@ -43,6 +66,10 @@ export default function DemoCoinDetail() {
   const { data: coin, isLoading: loadingCoin } = useQuery({
     queryKey: ["demoCoinDetail", coinId],
     queryFn: async () => {
+      if (coinId === VAULTY_COIN_ID) {
+        return getVaultyCoinDetail();
+      }
+
       const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&sparkline=false`);
       if (!res.ok) throw new Error("Failed to fetch coin data");
       return res.json();
@@ -53,6 +80,11 @@ export default function DemoCoinDetail() {
     queryKey: ["demoCoinChart", coinId, selectedTimeframe.days, currency],
     queryFn: async () => {
       const vsCurrency = currency === "VC" ? "usd" : currency.toLowerCase();
+
+      if (coinId === VAULTY_COIN_ID) {
+        return getVaultyCoinChart(selectedTimeframe.days, vsCurrency);
+      }
+
       const res = await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${vsCurrency}&days=${selectedTimeframe.days}`);
       if (!res.ok) throw new Error("Failed to fetch chart data");
       const data = await res.json();
@@ -69,15 +101,16 @@ export default function DemoCoinDetail() {
   );
 
   const formatSelectedAmount = (amountToFormat: number) => {
+    const fractionDigits = getPriceFractionOptions(amountToFormat);
+
     if (isVaultyCredits) {
-      return amountToFormat.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      return amountToFormat.toLocaleString(undefined, fractionDigits);
     }
 
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      ...fractionDigits,
     }).format(amountToFormat);
   };
 
@@ -114,6 +147,7 @@ export default function DemoCoinDetail() {
   const totalVolumeDisplay = currency === "VC" ? convert(coin.market_data.total_volume.usd, "USD", "VC") : coin.market_data.total_volume[currency.toLowerCase()] ?? convert(coin.market_data.total_volume.usd);
   const high24hDisplay = currency === "VC" ? convert(coin.market_data.high_24h.usd, "USD", "VC") : coin.market_data.high_24h[currency.toLowerCase()] ?? convert(coin.market_data.high_24h.usd);
   const low24hDisplay = currency === "VC" ? convert(coin.market_data.low_24h.usd, "USD", "VC") : coin.market_data.low_24h[currency.toLowerCase()] ?? convert(coin.market_data.low_24h.usd);
+  const descriptionText = stripHtml(coin.description?.en);
 
   const holdingAmount = holding?.amount ?? 0;
   const averageBuyPriceUsd = holding?.averageBuyPrice ?? 0;
@@ -414,6 +448,10 @@ export default function DemoCoinDetail() {
           <h3 className="font-bold text-lg">About {coin.name}</h3>
 
           <div className="space-y-3">
+            <div className="rounded-2xl border border-white/5 bg-white/5 p-4">
+              <p className="text-sm leading-6 text-gray-300" data-testid="text-demo-coin-description">{descriptionText}</p>
+            </div>
+
             <div className="flex items-center justify-between rounded-xl border border-white/5 bg-white/5 p-3">
               <span className="flex items-center gap-2 text-sm text-gray-400">
                 <Layers size={16} /> Rank
