@@ -113,23 +113,10 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
   return (
     <div className="w-full flex justify-center">
         <div className="w-full max-w-[340px] h-[520px] relative">
-        {!isFlipped && (
-            <>
-                <div className="absolute top-6 left-6 z-30 flex flex-col items-center gap-1 group pointer-events-none">
-                    <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md transition-transform group-hover:scale-110">
-                        <Heart size={20} className="text-white opacity-80" />
-                    </div>
-                    <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
-                        {user?.followers?.length || 0}
-                    </span>
-                </div>
-
-                {topRightAccessory && (
-                    <div className="absolute right-6 top-6 z-30" onClick={(e) => e.stopPropagation()}>
-                        {topRightAccessory}
-                    </div>
-                )}
-            </>
+        {!isFlipped && topRightAccessory && (
+            <div className="absolute right-6 top-6 z-30" onClick={(e) => e.stopPropagation()}>
+                {topRightAccessory}
+            </div>
         )}
 
         <div className="perspective-1000 h-full relative">
@@ -150,6 +137,14 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                 )}
                 style={{...cardStyle, borderColor: borderColor}}
             >
+            <div className="absolute left-6 top-6 z-20 flex flex-col items-center gap-1 pointer-events-none">
+                <div className="glass-card rounded-full border border-white/20 bg-white/10 p-2 shadow-lg backdrop-blur-md">
+                    <Heart size={20} className="text-white opacity-80" />
+                </div>
+                <span className="text-[10px] font-bold text-white/80 drop-shadow-md">
+                    {user?.followers?.length || 0}
+                </span>
+            </div>
 
             {/* Rank Icon */}
             <div className="mt-8 mb-4 relative z-10">
