@@ -6,7 +6,6 @@ import {
   Image as ImageIcon,
   MoreVertical,
   Send,
-  Shield,
   Smile,
   Phone,
   Video,
@@ -232,7 +231,7 @@ export default function Chat() {
   }, [messages]);
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-[#050505] text-white">
+    <div className="fixed inset-0 z-40 flex h-[100dvh] min-h-0 flex-col overflow-hidden bg-[#050505] text-white">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_30%),radial-gradient(circle_at_bottom,rgba(255,255,255,0.04),transparent_26%)]" />
       <div
         className="pointer-events-none absolute inset-0 opacity-30"
@@ -244,8 +243,8 @@ export default function Chat() {
       />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.34),rgba(5,5,5,0.92)_18%,rgba(5,5,5,0.92)_80%,rgba(0,0,0,0.4))]" />
 
-      <div className="relative z-20 shrink-0 border-b border-white/8 bg-black/85 backdrop-blur-2xl">
-        <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 pb-3 pt-4">
+      <div className="sticky top-0 z-30 shrink-0 border-b border-white/8 bg-black/80 backdrop-blur-2xl">
+        <div className="mx-auto flex max-w-md items-center justify-between gap-3 px-4 pb-3 pt-[max(1rem,env(safe-area-inset-top))]">
           <div className="flex min-w-0 items-center gap-3">
             <button
               onClick={() => setLocation("/messages")}
@@ -332,7 +331,7 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="relative z-10 flex-1 overflow-y-auto">
+      <div className="relative z-10 min-h-0 flex-1 overflow-y-auto">
         <div className="mx-auto flex max-w-md flex-col gap-3 px-4 pb-28 pt-5">
           {messages.length === 0 && (
             <div className="rounded-[30px] bg-[#111113] px-6 py-14 text-center shadow-[0_20px_60px_rgba(0,0,0,0.32)]">
@@ -376,8 +375,10 @@ export default function Chat() {
                         {message.imageURL ? (
                           <div
                             className={cn(
-                              "overflow-hidden rounded-[24px] shadow-[0_18px_48px_rgba(0,0,0,0.28)]",
-                              isMe ? "bg-[#2f6df6]" : "bg-[#17171a] ring-1 ring-white/8",
+                              "overflow-hidden rounded-[24px] border shadow-[0_18px_48px_rgba(0,0,0,0.28)] backdrop-blur-xl",
+                              isMe
+                                ? "border-white/10 bg-[linear-gradient(135deg,rgba(82,136,255,0.95),rgba(47,109,246,0.86))]"
+                                : "border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.1),rgba(255,255,255,0.04))]",
                             )}
                           >
                             <img
@@ -394,10 +395,10 @@ export default function Chat() {
                         ) : (
                           <div
                             className={cn(
-                              "rounded-[24px] px-4 py-3.5 shadow-[0_18px_48px_rgba(0,0,0,0.22)]",
+                              "rounded-[24px] border px-4 py-3.5 shadow-[0_18px_48px_rgba(0,0,0,0.22)] backdrop-blur-xl",
                               isMe
-                                ? "rounded-br-[8px] bg-[#2f6df6] text-white"
-                                : "rounded-bl-[8px] bg-[#1a1a1d] text-white ring-1 ring-white/6",
+                                ? "rounded-br-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(82,136,255,0.96),rgba(47,109,246,0.86))] text-white"
+                                : "rounded-bl-[8px] border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.04))] text-white",
                             )}
                             data-testid={`bubble-chat-message-${message.id}`}
                           >
@@ -421,13 +422,13 @@ export default function Chat() {
         </div>
       </div>
 
-      <div className="relative z-20 shrink-0 border-t border-white/8 bg-black/90 backdrop-blur-2xl">
-        <div className="mx-auto max-w-md px-4 pb-4 pt-3">
-          <div className="rounded-[28px] bg-[#111113] p-2 shadow-[0_-10px_40px_rgba(0,0,0,0.22)] ring-1 ring-white/8">
+      <div className="sticky bottom-0 z-30 shrink-0 border-t border-white/8 bg-black/75 backdrop-blur-2xl">
+        <div className="mx-auto max-w-md px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
+          <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.05))] p-2.5 shadow-[0_-10px_40px_rgba(0,0,0,0.22)] backdrop-blur-2xl">
             <div className="flex items-end gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1d1d21] text-zinc-300 transition-colors hover:bg-[#28282d]"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white transition-colors hover:bg-white/14"
                 data-testid="button-chat-attach-image"
               >
                 <ImageIcon size={18} />
@@ -440,7 +441,7 @@ export default function Chat() {
                 className="hidden"
               />
 
-              <div className="flex min-h-[52px] flex-1 items-end rounded-[22px] bg-[#1a1a1d] px-4 py-2 ring-1 ring-white/6">
+              <div className="flex min-h-[54px] flex-1 items-end rounded-[22px] border border-white/10 bg-black/20 px-4 py-2 backdrop-blur-xl">
                 <textarea
                   ref={textareaRef}
                   value={inputText}
@@ -451,19 +452,12 @@ export default function Chat() {
                       handleSend();
                     }
                   }}
-                  placeholder="Aa"
+                  placeholder="Message"
                   rows={1}
-                  className="max-h-[140px] w-full resize-none overflow-y-auto bg-transparent pt-2 text-[15px] leading-6 text-white outline-none placeholder:text-zinc-500"
+                  className="max-h-[140px] w-full resize-none overflow-y-auto bg-transparent pt-2 text-[15px] leading-6 text-white outline-none placeholder:text-zinc-400"
                   data-testid="input-chat-message"
                 />
               </div>
-
-              <button
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1d1d21] text-zinc-300 transition-colors hover:bg-[#28282d]"
-                data-testid="button-chat-emoji"
-              >
-                <Smile size={18} />
-              </button>
 
               <button
                 onClick={() => handleSend()}
@@ -472,14 +466,6 @@ export default function Chat() {
               >
                 <Send size={18} />
               </button>
-            </div>
-
-            <div className="mt-2 flex items-center justify-between px-2 text-[11px] text-zinc-500">
-              <span className="inline-flex items-center gap-1.5" data-testid="text-chat-security">
-                <Shield className="h-3.5 w-3.5" />
-                Private conversation
-              </span>
-              <span>{isGlobal ? "GLOBAL" : "DIRECT"}</span>
             </div>
           </div>
         </div>
