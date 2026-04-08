@@ -164,19 +164,8 @@ export default function Profile() {
           <>
         {/* 1. 3D Profile Card (removed from here) */}
 
-        {/* 2. Overview / Balance / Motivation */}
+        {/* 2. Overview / Balance */}
         <div className="space-y-4">
-            <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-white/5">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
-                <div className="relative z-10 text-center">
-                    <div className="flex items-center justify-center gap-2 mb-2 text-slate-400">
-                    <TrendingUp size={16} />
-                    <span className="text-xs font-bold tracking-wider uppercase">Motivation</span>
-                    </div>
-                    <p className="text-lg font-medium text-white italic">"Dream big, work hard, stay focused."</p>
-                </div>
-            </div>
-
             <PointsBalanceCard />
             <DailyGiftSection />
         </div>

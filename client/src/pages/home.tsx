@@ -373,6 +373,27 @@ export default function Home() {
                 </div>
               </Link>
 
+              <div className="relative overflow-hidden rounded-[28px] border border-white/12 bg-[radial-gradient(circle_at_top_right,rgba(244,114,182,0.18),transparent_34%),linear-gradient(135deg,rgba(24,24,35,0.96),rgba(7,7,12,0.98))] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.34)]" data-testid="card-home-daily-motivation">
+                <div className="absolute -left-10 top-0 h-28 w-28 rounded-full bg-fuchsia-400/10 blur-3xl" />
+                <div className="relative z-10 flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-fuchsia-400/20 bg-fuchsia-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-fuchsia-200">
+                      <TrendingUp className="h-3.5 w-3.5" />
+                      Daily Motivation
+                    </div>
+                    <h3 className="max-w-[240px] text-[1.55rem] font-black leading-[1.04] tracking-tight text-white">
+                      Dream big, work hard, stay focused.
+                    </h3>
+                    <p className="mt-3 max-w-[250px] text-sm leading-relaxed text-slate-300">
+                      A small reminder to keep building, investing, and moving one step closer to your goals every day.
+                    </p>
+                  </div>
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-fuchsia-300/20 bg-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
+                    <TrendingUp className="h-7 w-7 text-fuchsia-200" />
+                  </div>
+                </div>
+              </div>
+
               {/* Goals Card (Full Width) */}
               <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/20 p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
                 <div className="w-16 h-16 shrink-0 bg-white/10 border border-white/10 group-hover:border-white/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
