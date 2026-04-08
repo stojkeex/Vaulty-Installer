@@ -291,8 +291,8 @@ export default function Home() {
                                 />
                               </div>
                               <div className="space-y-0.5">
-                                <p className="text-sm font-bold tracking-tight text-white flex items-center gap-2">
-                                    Unlock Vaulty+ <Sparkles size={14} className="text-gray-400" />
+                                <p className="text-sm font-bold tracking-tight text-white">
+                                    Unlock Vaulty+
                                 </p>
                                 <p className="text-xs font-medium text-gray-400">
                                     All premium features in one plan
@@ -372,10 +372,6 @@ export default function Home() {
                   <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-sky-400/10 blur-3xl" />
                   <div className="relative z-10 flex items-start justify-between gap-4">
                     <div className="flex-1">
-                      <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1 text-[10px] font-black uppercase tracking-[0.22em] text-sky-300">
-                        <Sparkles className="h-3.5 w-3.5" />
-                        Vaulty AI
-                      </div>
                       <h3 className="max-w-[220px] text-[1.65rem] font-black leading-[1.02] tracking-tight text-white">
                         Ask smarter finance questions anytime
                       </h3>
