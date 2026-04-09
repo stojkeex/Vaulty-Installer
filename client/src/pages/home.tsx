@@ -17,9 +17,10 @@ import { PostCard } from "@/components/post-card";
 import { CompleteProfileWidget } from "@/components/complete-profile-widget";
 import { isAdmin, isSuperAdmin } from "@/lib/admins";
 import { motion, AnimatePresence } from "framer-motion";
+import { getCoinsByIds, getTopCoins, searchCoins, type Coin } from "@/lib/coingecko";
 import { Area, AreaChart, ResponsiveContainer } from "recharts";
 import { useCurrency } from "@/contexts/currency-context";
-import { useDemoStore } from "@/hooks/use-demo-store";
+import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
@@ -132,8 +133,9 @@ export default function Home() {
   const { unreadCount } = useNotifications();
   const [location, setLocation] = useLocation();
   const dailyMotivation = getDailyMotivation();
-  const { currency } = useCurrency();
-  const { balance } = useDemoStore();
+  const { currency, convert } = useCurrency();
+  const { balance, holdings } = useDemoStore();
+  const [coins, setCoins] = useState<Coin[]>([]);
   
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
@@ -141,6 +143,39 @@ export default function Home() {
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
   const badges = [badgeProImage];
   const badgeLabels = ["Vaulty+"];
+
+  const holdingIds = useMemo(() => holdings.map((holding) => holding.coinId), [holdings]);
+
+  useEffect(() => {
+    const loadCoins = async () => {
+      try {
+        const missingHoldingIds = holdingIds;
+        const holdingCoins = missingHoldingIds.length ? await getCoinsByIds(missingHoldingIds, "usd") : [];
+        setCoins(holdingCoins);
+      } catch (error) {
+        console.error("Failed to load coins for overview", error);
+      }
+    };
+    
+    if (holdingIds.length > 0) {
+      loadCoins();
+    }
+  }, [holdingIds.join(",")]);
+
+  const portfolioValueUsd = useMemo(() => {
+    return holdings.reduce((total, holding) => {
+      const coin = coins.find((c) => c.id === holding.coinId);
+      const currentPriceUsd = coin?.current_price ?? holding.averageBuyPrice;
+      return total + (holding.amount * currentPriceUsd);
+    }, 0);
+  }, [holdings, coins]);
+
+  const totalBalanceUsd = balance + portfolioValueUsd;
+  const totalBalanceDisplay = convert(totalBalanceUsd);
+  
+  const totalProfitUsd = totalBalanceUsd - INITIAL_DEMO_BALANCE;
+  const totalProfitPercent = (totalProfitUsd / INITIAL_DEMO_BALANCE) * 100;
+  const isPositiveProfit = totalProfitUsd >= 0;
 
   // Auto-rotate banners
   useEffect(() => {
@@ -298,12 +333,12 @@ export default function Home() {
                       <h3 className="text-3xl font-black tracking-tight text-white">
                         {currency === "VC" ? <VaultyIcon size={24} className="inline mr-1 -mt-1" /> : ""}
                         {currency === "VC" 
-                          ? balance.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
-                          : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(balance)}
+                          ? totalBalanceDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                          : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(totalBalanceDisplay)}
                       </h3>
-                      <div className="mt-2 flex items-center gap-1.5 text-sm font-black text-[#06b6d4]">
-                        <TrendingUp size={16} />
-                        <span>+12.4%</span>
+                      <div className={cn("mt-2 flex items-center gap-1.5 text-sm font-black", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
+                        {isPositiveProfit ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                        <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
                         <span className="text-zinc-500 font-medium ml-1">Profit</span>
                       </div>
                     </div>
