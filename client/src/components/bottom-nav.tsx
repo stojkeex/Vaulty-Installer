@@ -1,5 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Home, Users, User, Compass, TrendingUp } from "lucide-react";
+import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
@@ -30,7 +31,16 @@ export function BottomNav() {
   const items = useMemo(() => [
     { href: "/demo-trading", label: "DEMO", icon: TrendingUp },
     { href: "/discover", label: "DISCOVER", icon: Compass },
-    { href: "/home", label: "HOME", icon: Home },
+    { href: "/home", label: "HOME", icon: ({ className, style }: any) => (
+      <div className="flex items-center justify-center">
+        <img 
+          src={vaultyLogoImage} 
+          alt="Home" 
+          className="object-contain" 
+          style={{ width: "24px", height: "24px", filter: style?.color === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0) invert(1) opacity(0.58)", transition: "all 150ms ease-in-out" }}
+        />
+      </div>
+    ) },
     { href: "/posts", label: "FEED", icon: Users, disabled: true },
     { href: "/profile", label: "PROFILE", icon: User },
   ], []);
