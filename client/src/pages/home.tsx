@@ -6,7 +6,8 @@ import { useState, useEffect, useRef, useMemo } from "react";
 import { 
     Search, Bell, Wallet, Loader2, Sparkles, Send, Image as ImageIcon, X, Plus,
     User, Video, Users, Bookmark, List, Mic2, Beaker, Globe, Settings, HelpCircle, Sun, Moon,
-    LineChart, GraduationCap, TrendingUp, TrendingDown, Coins, Target, ChevronRight, Check
+    LineChart, GraduationCap, TrendingUp, TrendingDown, Coins, Target, ChevronRight, Check,
+    ArrowDownToLine, ArrowUpFromLine
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -143,6 +144,10 @@ export default function Home() {
   const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
   const badges = [badgeProImage];
   const badgeLabels = ["Vaulty+"];
+
+  // Action Menu State
+  const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
+  const [actionType, setActionType] = useState<"buy" | "sell" | "send" | null>(null);
 
   const holdingIds = useMemo(() => holdings.map((holding) => holding.coinId), [holdings]);
 
@@ -365,6 +370,30 @@ export default function Home() {
                       </AreaChart>
                     </ResponsiveContainer>
                   </div>
+
+                  {/* Quick Actions */}
+                  <div className="relative z-10 flex gap-3 mt-4 pt-4 border-t border-white/10">
+                    <button 
+                      onClick={() => { setActionType("buy"); setIsActionMenuOpen(true); }}
+                      className="flex-1 flex items-center justify-center gap-2 bg-white text-black py-2.5 px-4 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors"
+                    >
+                      <ArrowDownToLine size={16} />
+                      Buy
+                    </button>
+                    <button 
+                      onClick={() => { setActionType("sell"); setIsActionMenuOpen(true); }}
+                      className="flex-1 flex items-center justify-center gap-2 bg-white/10 text-white py-2.5 px-4 rounded-xl font-bold text-sm hover:bg-white/20 transition-colors"
+                    >
+                      <ArrowUpFromLine size={16} />
+                      Sell
+                    </button>
+                    <button 
+                      onClick={() => { setActionType("send"); setIsActionMenuOpen(true); }}
+                      className="w-12 flex items-center justify-center shrink-0 bg-white/10 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-white/20 transition-colors"
+                    >
+                      <Send size={16} className="ml-0.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
@@ -557,6 +586,108 @@ export default function Home() {
               </div>
             </div>
       </div>
+
+      {/* Action Menu Bottom Sheet */}
+      <Sheet open={isActionMenuOpen} onOpenChange={setIsActionMenuOpen}>
+        <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col">
+            <div className="p-6 pb-4 border-b border-white/10 shrink-0">
+              <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
+              <h2 className="text-2xl font-bold">
+                {actionType === "buy" ? "Buy Crypto" : 
+                 actionType === "sell" ? "Sell Crypto" : 
+                 "Send Crypto"}
+              </h2>
+              <p className="text-sm text-gray-400 mt-1">
+                {actionType === "buy" ? "Select a coin to purchase" : 
+                 actionType === "sell" ? "Select from your holdings to sell" : 
+                 "Select from your holdings to send"}
+              </p>
+            </div>
+
+            <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+              <div className="space-y-2">
+                {actionType === "buy" ? (
+                  // Show all loaded coins for Buy
+                  coins.length > 0 ? (
+                    coins.map((coin) => (
+                      <Link key={`buy-${coin.id}`} href={`/demo-trading/${coin.id}`}>
+                        <div className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer backdrop-blur-xl mb-2">
+                          <div className="flex items-center gap-3">
+                            <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                            <div>
+                              <p className="font-bold text-white">{coin.name}</p>
+                              <p className="text-xs text-gray-500 uppercase">{coin.symbol}</p>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="font-medium text-white">
+                              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(coin.current_price)}
+                            </p>
+                            <p className={cn("text-xs font-semibold", coin.price_change_percentage_24h >= 0 ? "text-[#06b6d4]" : "text-rose-400")}>
+                              {coin.price_change_percentage_24h >= 0 ? "+" : ""}{coin.price_change_percentage_24h?.toFixed(2)}%
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  ) : (
+                    <div className="text-center py-10 text-gray-500 flex flex-col items-center justify-center">
+                      <Loader2 className="w-8 h-8 animate-spin mb-4 opacity-50" />
+                      <p>Loading market data...</p>
+                    </div>
+                  )
+                ) : (
+                  // Show only holdings for Sell and Send
+                  holdings.length > 0 ? (
+                    holdings.map((holding) => {
+                      const coin = coins.find(c => c.id === holding.coinId);
+                      if (!coin) return null;
+                      
+                      const holdingValueUsd = holding.amount * (coin.current_price || 0);
+                      const displayValue = convert(holdingValueUsd);
+                      
+                      return (
+                        <Link key={`hold-${coin.id}`} href={`/demo-trading/${coin.id}`}>
+                          <div className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer backdrop-blur-xl mb-2">
+                            <div className="flex items-center gap-3">
+                              <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                              <div>
+                                <p className="font-bold text-white">{coin.name}</p>
+                                <p className="text-xs text-gray-500 uppercase">{coin.symbol}</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold text-white">
+                                {currency === "VC" ? <VaultyIcon size={12} className="inline mr-1" /> : ""}
+                                {currency === "VC" 
+                                  ? displayValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                                  : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(displayValue)}
+                              </p>
+                              <p className="text-xs text-gray-400 font-medium">
+                                {holding.amount} {coin.symbol.toUpperCase()}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })
+                  ) : (
+                    <div className="text-center py-10 text-gray-500 flex flex-col items-center justify-center">
+                      <Wallet className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                      <p>You don't have any holdings to {actionType}.</p>
+                      <button 
+                        onClick={() => setActionType("buy")}
+                        className="mt-6 px-6 py-3 bg-white text-black rounded-xl text-sm font-bold hover:bg-gray-200 transition-colors"
+                      >
+                        Buy Crypto First
+                      </button>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
