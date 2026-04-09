@@ -17,6 +17,9 @@ import { PostCard } from "@/components/post-card";
 import { CompleteProfileWidget } from "@/components/complete-profile-widget";
 import { isAdmin, isSuperAdmin } from "@/lib/admins";
 import { motion, AnimatePresence } from "framer-motion";
+import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { useCurrency } from "@/contexts/currency-context";
+import { useDemoStore } from "@/hooks/use-demo-store";
 
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
@@ -113,11 +116,24 @@ const getDailyMotivation = () => {
   return DAILY_MOTIVATIONS[dayNumber % DAILY_MOTIVATIONS.length];
 };
 
+const OVERVIEW_CHART_DATA = [
+  { price: 4000 },
+  { price: 4200 },
+  { price: 3900 },
+  { price: 4600 },
+  { price: 4500 },
+  { price: 5000 },
+  { price: 5200 },
+  { price: 5800 },
+];
+
 export default function Home() {
   const { user, userData } = useAuth();
   const { unreadCount } = useNotifications();
   const [location, setLocation] = useLocation();
   const dailyMotivation = getDailyMotivation();
+  const { currency } = useCurrency();
+  const { balance } = useDemoStore();
   
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
@@ -272,6 +288,51 @@ export default function Home() {
       <div className={cn("relative z-10 p-6 max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
             <div className="space-y-6">
+              {/* Your Overview */}
+              <div className="space-y-3">
+                <h2 className="text-xl font-bold tracking-tight text-white px-1">Your Overview</h2>
+                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_22px_60px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+                  <div className="flex justify-between items-start relative z-10">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 mb-1">Total Balance</p>
+                      <h3 className="text-3xl font-black tracking-tight text-white">
+                        {currency === "VC" ? <VaultyIcon size={24} className="inline mr-1 -mt-1" /> : ""}
+                        {currency === "VC" 
+                          ? balance.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                          : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(balance)}
+                      </h3>
+                      <div className="mt-2 flex items-center gap-1.5 text-sm font-black text-[#06b6d4]">
+                        <TrendingUp size={16} />
+                        <span>+12.4%</span>
+                        <span className="text-zinc-500 font-medium ml-1">Profit</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="h-[90px] w-full mt-2 -mx-2 relative z-0">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={OVERVIEW_CHART_DATA}>
+                        <defs>
+                          <linearGradient id="overviewChartColor" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
+                            <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <Area 
+                          type="monotone" 
+                          dataKey="price" 
+                          stroke="#06b6d4" 
+                          strokeWidth={2.5} 
+                          fillOpacity={1} 
+                          fill="url(#overviewChartColor)" 
+                          isAnimationActive={true}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+
               {/* Inline Premium Banner */}
               <div className="w-full bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-4 relative shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:bg-white/10 transition-colors">
                    <Link href="/premium">
