@@ -1,244 +1,352 @@
-import { Link } from "wouter";
-import { 
-  TrendingUp, TrendingDown, Target, Bell, HelpCircle, User, Award, Flame, Zap, CheckCircle2, ChevronRight, 
-  Settings, Loader2, List, AreaChart as AreaChartIcon, Check, Wallet, Search, Coins, Sparkles, Brain, Lock, Target as GoalIcon, ShieldAlert,
-  ArrowUpRight, BarChart2, BookOpen, Sun, Bookmark, ArrowDownToLine, ArrowUpFromLine, Send, Plus, X, Globe, Trophy
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { BANNERS, FINANCE_NEWS } from "@shared/schema";
+import { VaultyIcon } from "@/components/ui/vaulty-icon";
+import { Link, useLocation } from "wouter";
 import { useAuth } from "@/contexts/auth-context";
-import { ResponsiveContainer, AreaChart, Area } from "recharts";
-import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { useNotifications } from "@/contexts/notification-context";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { 
+    Search, Bell, Wallet, Loader2, Sparkles, Send, Image as ImageIcon, X, Plus,
+    User, Video, Users, Bookmark, List, Mic2, Beaker, Globe, Settings, HelpCircle, Sun, Moon,
+    LineChart, GraduationCap, TrendingUp, TrendingDown, Coins, Target, ChevronRight, Check,
+    ArrowDownToLine, ArrowUpFromLine, Award, Trophy
+} from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { fetchHoldings, fetchCoins, subscribeToHoldingUpdates } from "@/lib/firebase";
-import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
+import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { collection, query, where, getDocs, addDoc, orderBy, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { PostCard } from "@/components/post-card";
+import { CompleteProfileWidget } from "@/components/complete-profile-widget";
+import { isAdmin, isSuperAdmin } from "@/lib/admins";
+import { motion, AnimatePresence } from "framer-motion";
+import { getCoinsByIds, getTopCoins, searchCoins, type Coin } from "@/lib/coingecko";
+import { Area, AreaChart, ResponsiveContainer } from "recharts";
+import { useCurrency } from "@/contexts/currency-context";
+import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
+
+// Assets
+import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
+import badgeProImage from "@assets/IMG_1085_1775581026902.png";
+import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
+import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
+
+const BANNERS = [
+  {
+    title: "Bring Your Dream To Reality",
+    subtitle: "Set goals and track your progress",
+    icon: Target,
+    color: "from-blue-500 to-cyan-400"
+  },
+  {
+    title: "Earn XP and Get Gifts",
+    subtitle: "Complete quests to earn rewards",
+    icon: Coins,
+    color: "from-purple-500 to-pink-500"
+  },
+  {
+    title: "Learn Everything About Finance",
+    subtitle: "Join our academy for exclusive courses",
+    icon: GraduationCap,
+    color: "from-emerald-400 to-teal-500"
+  }
+];
+
+const HOME_SHORTCUTS = [
+  {
+    title: "Finance Analysis",
+    description: "Overview of your portfolio",
+    href: "/wallet",
+    icon: LineChart,
+  },
+  {
+    title: "Learning",
+    description: "Academy and courses",
+    href: "/academy",
+    icon: GraduationCap,
+  },
+  {
+    title: "Demo Trading",
+    description: "Trade without risk",
+    href: "/demo-trading",
+    icon: TrendingUp,
+  },
+  {
+    title: "Collect Points",
+    description: "Complete tasks and earn",
+    href: "/quests",
+    icon: Coins,
+  }
+];
+
+const FINANCE_NEWS = [
+  {
+    kicker: "Markets",
+    title: "Stocks open mixed as traders wait for fresh inflation data",
+    summary: "Investors are staying cautious as rate-cut expectations keep shifting across global markets."
+  },
+  {
+    kicker: "Crypto",
+    title: "Bitcoin holds key support while altcoins trade in a narrow range",
+    summary: "Momentum is cooling, but traders still expect a breakout if volume returns later this week."
+  },
+  {
+    kicker: "Forex",
+    title: "Dollar steadies after central bank comments calm volatility",
+    summary: "Currency desks are watching policy signals closely as risk appetite improves slightly."
+  },
+  {
+    kicker: "Commodities",
+    title: "Gold edges higher as investors look for safer positioning",
+    summary: "A softer risk tone and uncertain macro signals are pushing defensive assets back in focus."
+  }
+];
+
+const DAILY_MOTIVATIONS = [
+  "Dream big, work hard, stay focused.",
+  "Small steps every day build big results.",
+  "Your future grows with every smart move you make.",
+  "Discipline today creates freedom tomorrow.",
+  "Stay patient, stay sharp, and keep building.",
+  "Consistency beats intensity when you play the long game.",
+  "Every saved euro is a vote for your future.",
+  "Progress compounds when you refuse to quit.",
+  "Keep showing up — that is where momentum starts.",
+  "The version of you with results starts with today's choices."
+];
+
+const getDailyMotivation = () => {
+  const today = new Date();
+  const dayNumber = Math.floor(new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime() / 86400000);
+  return DAILY_MOTIVATIONS[dayNumber % DAILY_MOTIVATIONS.length];
+};
+
+const OVERVIEW_CHART_DATA = [
+  { price: 4000 },
+  { price: 4200 },
+  { price: 3900 },
+  { price: 4600 },
+  { price: 4500 },
+  { price: 5000 },
+  { price: 5200 },
+  { price: 5800 },
+];
+
 
 const AVAILABLE_WIDGETS = [
-  { id: 'overview', name: 'Finance Analysis', icon: AreaChartIcon },
+  { id: 'overview', name: 'Finance Analysis', icon: LineChart },
   { id: 'shortcuts', name: 'Quick Links', icon: List },
-  { id: 'ai', name: 'AI Analysis', icon: Brain },
+  { id: 'ai', name: 'AI Analysis', icon: Sparkles },
   { id: 'goals', name: 'Goals', icon: Target },
   { id: 'news', name: 'Live News', icon: Globe },
-  { id: 'premium', name: 'Vaulty+ Banner', icon: Sparkles },
+  { id: 'premium', name: 'Vaulty+ Banner', icon: Award },
   { id: 'motivation', name: 'Daily Motivation', icon: Sun },
   { id: 'picks', name: 'Vaulty Picks', icon: Bookmark },
   { id: 'shop', name: 'Point Shop', icon: Coins },
   { id: 'rank', name: 'Global Rank', icon: Trophy },
 ];
 
-const OVERVIEW_CHART_DATA = [
-  { time: "09:00", price: 10200 },
-  { time: "10:00", price: 10350 },
-  { time: "11:00", price: 10100 },
-  { time: "12:00", price: 10600 },
-  { time: "13:00", price: 10550 },
-  { time: "14:00", price: 10800 },
-  { time: "15:00", price: 10750 },
-  { time: "16:00", price: 11200 }
-];
-
-const HOME_SHORTCUTS = [
-  { title: "Demo Trading", icon: AreaChartIcon, href: "/demo-trading", description: "Practice trading" },
-  { title: "AI Analysis", icon: Brain, href: "/ai", description: "Smart insights" },
-  { title: "Goals", icon: Target, href: "/goals", description: "Track savings" },
-  { title: "Learning", icon: BookOpen, href: "/learning", description: "Master finance" }
-];
-
-const BANNERS = [
-  { title: "Unlock Vaulty+", subtitle: "Get AI insights and real-time signals", bg: "bg-indigo-500", href: "/premium" },
-  { title: "Trading Basics", subtitle: "Learn how to read candlestick charts", bg: "bg-sky-500", href: "/learning" },
-  { title: "Set Your Goals", subtitle: "Start planning your financial future", bg: "bg-emerald-500", href: "/goals" }
-];
-
-const FINANCE_NEWS = [
-  { title: "Markets hit all time high", summary: "Tech stocks lead the rally as AI adoption continues to accelerate across sectors.", kicker: "MARKETS" },
-  { title: "Bitcoin surges past $60k", summary: "Institutional investment drives major crypto rally this week.", kicker: "CRYPTO" },
-  { title: "New inflation data released", summary: "Consumer prices cool down, signaling potential rate cuts.", kicker: "ECONOMY" }
-];
-
-const badges = [
-  "https://cdn3d.iconscout.com/3d/premium/thumb/diamond-5431671-4541315.png",
-  "https://cdn3d.iconscout.com/3d/premium/thumb/crown-5431669-4541313.png",
-  "https://cdn3d.iconscout.com/3d/premium/thumb/star-5431670-4541314.png"
-];
-const badgeLabels = ["Diamond", "Crown", "Star"];
-
-// Define convert here so it can be used inside Home
-const convert = (usdValue: number, currency: "USD" | "VC" = "USD") => {
-  return currency === "VC" ? usdValue * 10 : usdValue;
-};
-
-// Vaulty Icon Component
-function VaultyIcon({ size = 24, className = "" }: { size?: number, className?: string }) {
-  return (
-    <svg 
-      width={size} 
-      height={size} 
-      viewBox="0 0 24 24" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg"
-      className={className}
-    >
-      <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
-}
-
-
 export default function Home() {
-  const { user, currency, setCurrency } = useAuth();
+  const { user, userData } = useAuth();
   const { toast } = useToast();
+  const { unreadCount } = useNotifications();
+  const [location, setLocation] = useLocation();
+  const dailyMotivation = getDailyMotivation();
+  const { currency, convert } = useCurrency();
+  const { balance, holdings } = useDemoStore();
+  const [coins, setCoins] = useState<Coin[]>([]);
   
-  const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
-  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
-  
+  const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+
   const [activeWidgets, setActiveWidgets] = useState<string[]>(['overview', 'shortcuts', 'ai', 'goals', 'shop']);
   const [isWidgetMenuOpen, setIsWidgetMenuOpen] = useState(false);
 
-  const [holdings, setHoldings] = useState<any[]>([]);
-  const [coins, setCoins] = useState<any[]>([]);
+
+  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
+  const badges = [badgeProImage];
+  const badgeLabels = ["Vaulty+"];
+
+  // Action Menu State
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
-  const [actionType, setActionType] = useState<"buy" | "sell" | "send">("buy");
-  const [totalHoldingsUsd, setTotalHoldingsUsd] = useState(0);
+  const [actionType, setActionType] = useState<"buy" | "sell" | "send" | null>(null);
+
+  const holdingIds = useMemo(() => holdings.map((holding) => holding.coinId), [holdings]);
 
   useEffect(() => {
-    const fetchInitialData = async () => {
+    const loadCoins = async () => {
       try {
-        const loadedCoins = await fetchCoins();
-        setCoins(loadedCoins);
-        
-        if (user) {
-          const userHoldings = await fetchHoldings(user.uid);
-          setHoldings(userHoldings);
-          
-          // Calculate total holdings USD
-          let totalUsd = 0;
-          userHoldings.forEach(holding => {
-             const coin = loadedCoins.find(c => c.id === holding.coinId);
-             if (coin) {
-               totalUsd += holding.amount * (coin.current_price || 0);
-             }
-          });
-          setTotalHoldingsUsd(totalUsd);
-        }
-      } catch (err) {
-        console.error("Error loading home data", err);
+        const missingHoldingIds = holdingIds;
+        const holdingCoins = missingHoldingIds.length ? await getCoinsByIds(missingHoldingIds, "usd") : [];
+        setCoins(holdingCoins);
+      } catch (error) {
+        console.error("Failed to load coins for overview", error);
       }
     };
     
-    fetchInitialData();
-  }, [user]);
+    if (holdingIds.length > 0) {
+      loadCoins();
+    }
+  }, [holdingIds.join(",")]);
 
-  // Subscribe to holdings
-  useEffect(() => {
-    if (!user) return;
-    const unsubscribe = subscribeToHoldingUpdates(user.uid, (updatedHoldings) => {
-      setHoldings(updatedHoldings);
-      if (coins.length > 0) {
-        let totalUsd = 0;
-        updatedHoldings.forEach(holding => {
-           const coin = coins.find(c => c.id === holding.coinId);
-           if (coin) {
-             totalUsd += holding.amount * (coin.current_price || 0);
-           }
-        });
-        setTotalHoldingsUsd(totalUsd);
-      }
-    });
-    return () => unsubscribe();
-  }, [user, coins]);
+  const portfolioValueUsd = useMemo(() => {
+    return holdings.reduce((total, holding) => {
+      const coin = coins.find((c) => c.id === holding.coinId);
+      const currentPriceUsd = coin?.current_price ?? holding.averageBuyPrice;
+      return total + (holding.amount * currentPriceUsd);
+    }, 0);
+  }, [holdings, coins]);
 
-
-  useEffect(() => {
-    const newsInterval = setInterval(() => {
-      setCurrentNewsIndex((prev) => (prev + 1) % FINANCE_NEWS.length);
-    }, 6000);
-    return () => clearInterval(newsInterval);
-  }, []);
-
-  useEffect(() => {
-    const bannerInterval = setInterval(() => {
-      setCurrentBannerIndex((prev) => (prev + 1) % BANNERS.length);
-    }, 5000);
-    return () => clearInterval(bannerInterval);
-  }, []);
-
-  useEffect(() => {
-    const badgeInterval = setInterval(() => {
-      setCurrentBadgeIndex((prev) => (prev + 1) % badges.length);
-    }, 3000);
-    return () => clearInterval(badgeInterval);
-  }, []);
-
-  const totalBalanceUsd = (user?.balance || 10000) + totalHoldingsUsd;
-  const totalBalanceDisplay = convert(totalBalanceUsd, currency);
+  const totalBalanceUsd = balance + portfolioValueUsd;
+  const totalBalanceDisplay = convert(totalBalanceUsd);
   
-  const totalProfitPercent = 12.5; 
-  const isPositiveProfit = totalProfitPercent >= 0;
+  const totalProfitUsd = totalBalanceUsd - INITIAL_DEMO_BALANCE;
+  const totalProfitPercent = (totalProfitUsd / INITIAL_DEMO_BALANCE) * 100;
+  const isPositiveProfit = totalProfitUsd >= 0;
 
-  const dailyMotivations = [
-    "Small steps every day lead to big results.",
-    "Your financial future is created by what you do today.",
-    "Consistency is the key to mastering your money.",
-    "Don't wait for the right opportunity, create it."
-  ];
-  const dailyMotivation = dailyMotivations[new Date().getDay() % dailyMotivations.length];
+  // Auto-rotate banners
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBannerIndex(prev => (prev + 1) % BANNERS.length);
+    }, 5000); 
+    return () => clearInterval(interval);
+  }, []);
+
+  // Auto-rotate premium badges
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBadgeIndex(prev => (prev + 1) % badges.length);
+    }, 5000); 
+    return () => clearInterval(interval);
+  }, [badges.length]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setCurrentNewsIndex(prev => (prev + 1) % FINANCE_NEWS.length);
+    }, 30000 + Math.floor(Math.random() * 30000));
+
+    return () => clearTimeout(timeout);
+  }, [currentNewsIndex]);
+
+  if (!user) return <div className="min-h-screen bg-black flex items-center justify-center text-white">Redirecting...</div>;
 
   return (
-    <div className="min-h-screen bg-black pb-24 font-sans selection:bg-white/20">
-      <div className="fixed top-0 left-0 right-0 z-50 px-6 py-4 bg-black/60 backdrop-blur-3xl border-b border-white/5">
-        <div className="max-w-md mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/profile">
-              <div className="relative group cursor-pointer">
-                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur opacity-40 group-hover:opacity-70 transition duration-500"></div>
-                <div className="w-11 h-11 rounded-full bg-zinc-900 border-2 border-white/10 flex items-center justify-center relative overflow-hidden">
-                  <User className="text-white/80 w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-black rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 bg-emerald-500 rounded-full flex items-center justify-center border-2 border-black">
-                    <Check size={8} className="text-black font-bold" />
+    <div className="min-h-screen pb-32 bg-black text-white selection:bg-gray-500/30">
+      <CompleteProfileWidget />
+      
+      {/* Fixed Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center">
+        <div className="w-full bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-md mx-auto p-4 flex items-center justify-between">
+          <Sheet>
+            <SheetTrigger asChild>
+              <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                <img 
+                  src={user.photoURL || "https://github.com/shadcn.png"} 
+                  alt="Profile" 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] bg-black border-r border-white/10 p-0 text-white">
+              <div className="flex flex-col h-full">
+                {/* User Info Section - Fixed at top */}
+                <div className="p-6 space-y-4 text-center flex flex-col items-center shrink-0 border-b border-white/5">
+                  <div className="flex justify-center w-full">
+                    <div className="w-20 h-20 rounded-full border border-white/20 overflow-hidden shadow-2xl">
+                      <img src={user.photoURL || "https://github.com/shadcn.png"} alt="Profile" className="w-full h-full object-cover" />
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <h2 className="font-bold text-xl">{userData?.displayName || "Vaulty Support"}</h2>
+                    <p className="text-sm text-gray-500">@{userData?.username || "vaultycreator"}</p>
+                  </div>
+                  <div className="flex justify-center gap-6 text-sm">
+                    <p><span className="font-bold">0</span> <span className="text-gray-500 ml-1">Following</span></p>
+                    <p><span className="font-bold">0</span> <span className="text-gray-500 ml-1">Followers</span></p>
                   </div>
                 </div>
+
+                {/* Middle Navigation Items - Scrollable */}
+                <div className="flex-1 overflow-y-auto px-2 py-4 space-y-1 flex flex-col items-center custom-scrollbar">
+                  <Link href="/profile" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="font-bold text-lg">Profile</span>
+                    </div>
+                  </Link>
+                  <Link href="/premium" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="font-bold text-lg">Premium</span>
+                    </div>
+                  </Link>
+                  <div className="flex items-center justify-center w-full px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                    <span className="font-bold text-lg">Communities</span>
+                  </div>
+                  <div className="flex items-center justify-center w-full px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                    <span className="font-bold text-lg">Creator Studio</span>
+                  </div>
+                  
+                  <Link href="/academy" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="font-bold text-lg">Academy</span>
+                    </div>
+                  </Link>
+
+                  <Link href="/tools" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="font-bold text-lg">Tools</span>
+                    </div>
+                  </Link>
+                </div>
+
+                {/* Bottom Navigation Items - Fixed at bottom */}
+                <div className="p-4 space-y-1 flex flex-col items-center shrink-0 border-t border-white/5 bg-black">
+                  <Link href="/ai" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="text-md font-medium">Vaulty AI</span>
+                    </div>
+                  </Link>
+                  <Link href="/settings" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="text-md font-medium">Settings and privacy</span>
+                    </div>
+                  </Link>
+                  <Link href="/support" className="w-full">
+                    <div className="flex items-center justify-center px-4 py-3 rounded-xl hover:bg-white/5 transition-colors cursor-pointer">
+                      <span className="text-md font-medium">Help Center</span>
+                    </div>
+                  </Link>
+                </div>
               </div>
-            </Link>
-            <div className="flex flex-col">
-              <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">Welcome back</span>
-              <span className="text-white font-bold text-base leading-none tracking-tight">{user?.displayName || "Trader"}</span>
+            </SheetContent>
+          </Sheet>
+
+          <div className="flex-1 flex justify-center">
+            <div className="w-10 h-10 relative">
+              <img src={vaultyChristmasLogo} alt="Vaulty" className="w-full h-full object-contain" />
             </div>
           </div>
           
-          <div className="flex items-center gap-3">
-             <button 
-                onClick={() => setCurrency(currency === "USD" ? "VC" : "USD")}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 transition-all text-xs font-bold text-white shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-              >
-                {currency === "VC" ? (
-                  <>
-                    <VaultyIcon size={14} className="text-white" />
-                    <span>VC</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="text-white">$</span>
-                    <span>USD</span>
-                  </>
+          <div className="flex items-center gap-2">
+            <Link href="/notifications">
+              <button className="relative p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 group text-gray-400 group-hover:text-white" data-testid="button-home-notifications">
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-2 w-2 h-2 bg-slate-500 rounded-full ring-2 ring-black" />
                 )}
               </button>
-            <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors relative group">
-              <Bell className="text-white/80 w-5 h-5 group-hover:text-white transition-colors" />
-              <span className="absolute top-2 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-black"></span>
-            </button>
+            </Link>
+            <Link href="/wallet">
+              <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 text-gray-400 hover:text-white" data-testid="button-home-wallet">
+                <Wallet className="w-5 h-5" />
+              </button>
+            </Link>
           </div>
+        </div>
         </div>
       </div>
 
+      {/* Content Spacer */}
       <div className={cn("relative z-10 p-6 max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
+
         <div className="flex items-center justify-between px-1">
           <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">WIDGETS</h2>
           <button 
@@ -256,6 +364,7 @@ export default function Home() {
                 <motion.div key="overview" layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
                   {/* Your Overview */}
                   <div className="space-y-3">
+                    <h2 className="text-xl font-bold tracking-tight text-white px-1">Your Overview</h2>
                     <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_22px_60px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
                       <div className="flex justify-between items-start relative z-10">
                         <div>
@@ -325,7 +434,7 @@ export default function Home() {
 
               if (widgetId === 'premium') return (
                 <motion.div key="premium" layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-                  <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-[32px] p-4 relative shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors">
+                  <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-3xl p-4 relative shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors">
                        <Link href="/premium">
                            <div className="flex items-center justify-between cursor-pointer group">
                               <div className="flex items-center gap-4 flex-1">
@@ -492,7 +601,7 @@ export default function Home() {
 
               if (widgetId === 'news') return (
                 <motion.div key="news" layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }}>
-                  <div className="relative overflow-hidden rounded-[32px] border border-white/15 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-5 shadow-[0_22px_60px_rgba(0,0,0,0.4)]">
+                  <div className="relative overflow-hidden rounded-[32px] border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.04] to-black p-5 shadow-[0_22px_60px_rgba(0,0,0,0.4)]">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)]" />
                     <div className="relative z-10">
                       <div className="mb-4 flex items-center justify-between">
@@ -582,9 +691,9 @@ export default function Home() {
             })}
           </AnimatePresence>
         </div>
+
       </div>
 
-      {/* Widget Menu Bottom Sheet */}
       <Sheet open={isWidgetMenuOpen} onOpenChange={setIsWidgetMenuOpen}>
         <SheetContent side="bottom" className="h-[85vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col z-[100]">
             <div className="p-6 pb-4 border-b border-white/10 shrink-0">
@@ -639,7 +748,7 @@ export default function Home() {
 
       {/* Action Menu Bottom Sheet */}
       <Sheet open={isActionMenuOpen} onOpenChange={setIsActionMenuOpen}>
-        <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col z-[100]">
+        <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col">
             <div className="p-6 pb-4 border-b border-white/10 shrink-0">
               <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
               <h2 className="text-2xl font-bold">
