@@ -133,18 +133,22 @@ const OVERVIEW_CHART_DATA = [
 ];
 
 
-const AVAILABLE_SHORTCUTS = [
+const AVAILABLE_WIDGETS = [
   { id: 'demo', title: "Demo Trading", icon: AreaChartIcon, href: "/demo-trading", description: "Practice trading" },
   { id: 'ai', title: "AI Analysis", icon: Brain, href: "/ai", description: "Smart insights" },
   { id: 'goals', title: "Goals", icon: Target, href: "/goals", description: "Track savings" },
   { id: 'learning', title: "Learning", icon: BookOpen, href: "/learning", description: "Master finance" },
   { id: 'shop', title: "Point Shop", icon: Coins, href: "/shop", description: "Get Cash & Credits" },
-  { id: 'rank', title: "Global Rank", icon: Trophy, href: "/rank", description: "See leaderboard" }
+  { id: 'rank', title: "Global Rank", icon: Trophy, href: "/rank", description: "See leaderboard" },
+  { id: 'motivation', title: "Motivation", icon: Sun, href: "#", description: "Daily quotes" },
+  { id: 'picks', title: "Vaulty Picks", icon: Bookmark, href: "#", description: "Curated assets" },
+  { id: 'news', title: "Market News", icon: Globe, href: "#", description: "Live updates" },
+  { id: 'premium', title: "Vaulty+", icon: Sparkles, href: "/premium", description: "Premium features" }
 ];
 
 export default function Home() {
-  const [activeShortcuts, setActiveShortcuts] = useState<string[]>(['demo', 'ai', 'goals', 'learning']);
-  const [isShortcutMenuOpen, setIsShortcutMenuOpen] = useState(false);
+  const [activeWidgets, setActiveWidgets] = useState<string[]>(['demo', 'ai', 'goals', 'learning']);
+  const [isWidgetMenuOpen, setIsWidgetMenuOpen] = useState(false);
 
   const { toast } = useToast();
   const { user, userData } = useAuth();
@@ -487,10 +491,10 @@ export default function Home() {
 
               {/* Glass Cards Carousel */}
               
-              <div className="flex items-center justify-between px-1 mt-2 mb-[-12px]">
-                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">QUICK LINKS</h2>
+              <div className="flex items-center justify-between px-1 mt-8 mb-4">
+                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">WIDGETS</h2>
                 <button 
-                  onClick={() => setIsShortcutMenuOpen(true)}
+                  onClick={() => setIsWidgetMenuOpen(true)}
                   className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center border border-white/10 hover:bg-white/20 transition-colors"
                 >
                   <Plus size={14} className="text-white" />
@@ -499,8 +503,8 @@ export default function Home() {
               <div className="-mx-6 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 <div className="flex snap-x snap-mandatory gap-4">
                   <AnimatePresence>
-                    {activeShortcuts.map((id) => {
-                      const item = AVAILABLE_SHORTCUTS.find(s => s.id === id);
+                    {activeWidgets.map((id) => {
+                      const item = AVAILABLE_WIDGETS.find(s => s.id === id);
                       if (!item) return null;
                       const Icon = item.icon;
 
@@ -549,7 +553,7 @@ export default function Home() {
                   </div>
                   <div className="relative z-10 mt-5 flex items-center justify-between rounded-[22px] border border-white/10 bg-white/5 px-4 py-3">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Your AI shortcut</p>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Your AI widget</p>
                       <p className="mt-1 text-sm font-semibold text-white">Open Vaulty AI</p>
                     </div>
                     <div className="rounded-full bg-sky-400 px-4 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-950">
@@ -623,46 +627,46 @@ export default function Home() {
 
 
       {/* Shortcut Menu Bottom Sheet */}
-      <Sheet open={isShortcutMenuOpen} onOpenChange={setIsShortcutMenuOpen}>
+      <Sheet open={isWidgetMenuOpen} onOpenChange={setIsWidgetMenuOpen}>
         <SheetContent side="bottom" className="h-[85vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col z-[100]">
             <div className="p-6 pb-4 border-b border-white/10 shrink-0">
               <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold">Quick Links</h2>
-                  <p className="text-sm text-gray-400 mt-1">Customize shortcuts ({activeShortcuts.length}/6)</p>
+                  <h2 className="text-2xl font-bold">Widgets</h2>
+                  <p className="text-sm text-gray-400 mt-1">Customize widgets ({activeWidgets.length}/6)</p>
                 </div>
-                <button onClick={() => setIsShortcutMenuOpen(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <button onClick={() => setIsWidgetMenuOpen(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                   <X size={16} />
                 </button>
               </div>
             </div>
             <div className="flex-1 overflow-y-auto p-4 custom-scrollbar space-y-2">
-              {AVAILABLE_SHORTCUTS.map(shortcut => {
-                const isActive = activeShortcuts.includes(shortcut.id);
-                const Icon = shortcut.icon;
+              {AVAILABLE_WIDGETS.map(widget => {
+                const isActive = activeWidgets.includes(widget.id);
+                const Icon = widget.icon;
                 return (
-                  <div key={shortcut.id} className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 backdrop-blur-xl mb-2">
+                  <div key={widget.id} className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 backdrop-blur-xl mb-2">
                     <div className="flex items-center gap-4">
                       <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center border", isActive ? "bg-white/10 border-white/20 text-white" : "bg-black/40 border-white/5 text-white/40")}>
                         <Icon size={22} />
                       </div>
                       <div>
-                         <span className={cn("font-bold text-lg", isActive ? "text-white" : "text-white/60")}>{shortcut.title}</span>
-                         <p className="text-xs text-gray-500 mt-0.5">{shortcut.description}</p>
+                         <span className={cn("font-bold text-lg", isActive ? "text-white" : "text-white/60")}>{widget.title}</span>
+                         <p className="text-xs text-gray-500 mt-0.5">{widget.description}</p>
                       </div>
                     </div>
                     <button 
                       onClick={() => {
-                        if (isActive && activeShortcuts.length <= 2) {
-                          toast({ title: "Cannot remove shortcut", description: "Minimum 2 shortcuts required", variant: "destructive" });
+                        if (isActive && activeWidgets.length <= 2) {
+                          toast({ title: "Cannot remove widget", description: "Minimum 2 widgets required", variant: "destructive" });
                           return;
                         }
-                        if (!isActive && activeShortcuts.length >= 6) {
-                          toast({ title: "Cannot add shortcut", description: "Maximum 6 shortcuts allowed", variant: "destructive" });
+                        if (!isActive && activeWidgets.length >= 6) {
+                          toast({ title: "Cannot add widget", description: "Maximum 6 widgets allowed", variant: "destructive" });
                           return;
                         }
-                        setActiveShortcuts(prev => isActive ? prev.filter(id => id !== shortcut.id) : [...prev, shortcut.id]);
+                        setActiveWidgets(prev => isActive ? prev.filter(id => id !== widget.id) : [...prev, widget.id]);
                       }}
                       className={cn("px-4 py-2 rounded-xl text-sm font-bold transition-all w-[80px] text-center", isActive ? "bg-white/10 text-white hover:bg-white/20 border border-white/20" : "bg-white text-black hover:bg-gray-200")}
                     >
