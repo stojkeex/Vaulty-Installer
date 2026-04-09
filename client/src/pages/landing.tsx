@@ -297,11 +297,11 @@ export default function Landing() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-            Finance & Social,<br />Perfectly Blended.
+            From zero to<br />financial freedom.
           </h1>
           
           <p className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto font-light leading-relaxed">
-            Experience the future of personal finance. AI-powered trading, social networking, and financial education in one premium app.
+            Learn, invest, and grow your wealth — all in one place.
           </p>
 
           <div className="flex flex-col items-center gap-4 pt-4">
