@@ -780,23 +780,23 @@ export default function Ai() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col w-full min-w-0">
+      <div className="flex-1 flex flex-col w-full min-w-0 bg-black">
         {/* Header - Fixed to top */}
-        <header className="h-16 flex-shrink-0 border-b border-white/10 flex items-center px-4 justify-between bg-black/50 backdrop-blur-md z-10 sticky top-0">
+        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-10 sticky top-0">
           <div className="flex items-center gap-3">
-            <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-white/10 rounded-full">
-              <Menu size={24} />
+            <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-white/10 rounded-full text-white">
+              <Menu size={22} />
             </button>
             
-            {/* Model Selector */}
+            {/* Model Selector (replaces Upgrade badge) */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-white/5 transition-colors">
-                  <span className="font-bold text-sm text-white">{selectedModel.name}</span>
-                  <ChevronDown size={14} className="text-gray-400" />
+                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors">
+                  <span className="font-semibold text-[15px] text-white/90">{selectedModel.name}</span>
+                  <ChevronDown size={14} className="text-white/50" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-black border border-white/10 text-white">
+              <DropdownMenuContent className="w-56 bg-[#2f2f2f] border border-white/10 text-white rounded-xl shadow-2xl">
                 {MODELS.map((model) => {
                   const isLocked = model.tier !== "free" && contextSubscription === "free";
                   return (
