@@ -3,6 +3,55 @@ import { useLocation } from "wouter";
 import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
+import { featuresData } from "@/lib/features-data";
+
+function FeatureCard({ feature, setLocation }: { feature: typeof featuresData[0], setLocation: any }) {
+  const [isFlipped, setIsFlipped] = useState(false);
+  
+  return (
+    <div 
+      className="relative h-[320px] w-full perspective-[1000px] cursor-pointer group"
+      onClick={() => setIsFlipped(!isFlipped)}
+    >
+      <motion.div
+        className="w-full h-full relative duration-700"
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Front */}
+        <div 
+          className="absolute inset-0 p-8 rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.01] backdrop-blur-xl flex flex-col justify-center shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:border-white/20 transition-colors"
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
+          <p className="text-white/50 font-light leading-relaxed">{feature.shortDesc}</p>
+          <div className="mt-auto pt-8 text-xs font-bold uppercase tracking-wider text-indigo-400/50 flex items-center gap-2">
+            Click to flip <ArrowRight className="w-3 h-3" />
+          </div>
+        </div>
+
+        {/* Back */}
+        <div 
+          className="absolute inset-0 p-8 rounded-[32px] border border-indigo-500/30 bg-gradient-to-br from-indigo-900/40 to-black backdrop-blur-xl flex flex-col justify-center items-center text-center shadow-[0_10px_40px_rgba(99,102,241,0.2)]" 
+          style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+        >
+          <h3 className="text-2xl font-bold mb-4 text-indigo-300">{feature.backTitle}</h3>
+          <p className="text-white/70 font-light leading-relaxed mb-8">{feature.backDesc}</p>
+          
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              setLocation(`/feature/${feature.id}`);
+            }}
+            className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all active:scale-95 w-full mt-auto shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+          >
+            Read More
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
 
 export default function Landing() {
   const [, setLocation] = useLocation();
@@ -323,43 +372,16 @@ export default function Landing() {
             <p className="text-xl text-white/50 max-w-2xl mx-auto font-light">Powerful features wrapped in an elegant, intuitive interface.</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                title: "AI Trading Assistant",
-                description: "Get real-time insights, ask complex financial questions, and receive personalized guidance from our built-in AI."
-              },
-              {
-                title: "Demo Trading",
-                description: "Practice your strategies risk-free with Vaulty Coin. Experience realistic market dynamics without the financial stress."
-              },
-              {
-                title: "Social Feed",
-                description: "Connect with other traders, share insights, post your achievements, and learn from the community."
-              },
-              {
-                title: "Daily Quests",
-                description: "Learn by doing. Complete daily challenges to earn Vaulty Coins and level up your financial knowledge."
-              },
-              {
-                title: "Vaulty Academy",
-                description: "Access a curated library of educational content designed to take you from beginner to advanced trader."
-              },
-              {
-                title: "Digital Wallet",
-                description: "Manage your assets, track your portfolio performance, and review your transaction history securely."
-              }
-            ].map((feature, idx) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {featuresData.map((feature, idx) => (
               <motion.div
-                key={idx}
-                className="p-8 rounded-[24px] border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/[0.08] transition-all group duration-300"
+                key={feature.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1, duration: 0.5 }}
               >
-                <h3 className="text-xl font-bold mb-4 text-white group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
-                <p className="text-white/50 font-light leading-relaxed">{feature.description}</p>
+                <FeatureCard feature={feature} setLocation={setLocation} />
               </motion.div>
             ))}
           </div>

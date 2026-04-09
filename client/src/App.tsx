@@ -38,6 +38,7 @@ import ToolsPage from "@/pages/tools";
 import CourseDetailPage from "@/pages/course-detail";
 import VaultyCoinInfoPage from "@/pages/vaulty-coin-info";
 import Landing from "@/pages/landing";
+import FeatureDetailPage from "@/pages/feature-detail";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { NotificationProvider } from "@/contexts/notification-context";
@@ -75,6 +76,7 @@ function Router() {
     <div className="relative min-h-screen bg-black text-white">
       <Switch>
         <Route path="/landing" component={Landing} />
+        <Route path="/feature/:id" component={FeatureDetailPage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/" component={() => <Redirect to="/landing" />} />
