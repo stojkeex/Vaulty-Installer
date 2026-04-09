@@ -242,14 +242,14 @@ export default function Landing() {
       className="min-h-screen text-white overflow-x-hidden font-sans relative"
     >
       {/* Background image */}
-      <div className="fixed inset-0 pointer-events-none z-[-1] bg-black">
+      <div className="fixed inset-0 pointer-events-none z-0">
         <img 
           src={vaultyStoryBg} 
           alt="Vaulty Background" 
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Dark overlay just for text readability */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+        {/* Subtle dark overlay just for text readability */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
       </div>
 
       {/* Scroll Progress Bar */}
@@ -518,15 +518,15 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 overflow-y-auto"
+            className="fixed inset-0 z-[100] overflow-y-auto"
           >
-            <div className="fixed inset-0 pointer-events-none z-[-1] bg-black">
+            <div className="fixed inset-0 pointer-events-none z-[-1] bg-transparent">
               <img 
                 src={vaultyStoryBg} 
                 alt="Vaulty Background" 
                 className="absolute inset-0 w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black/80" />
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-[4px]" />
             </div>
             <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative z-10">
               <button
