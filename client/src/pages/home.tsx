@@ -369,7 +369,7 @@ export default function Home() {
               </div>
 
               {/* Inline Premium Banner */}
-              <div className="w-full bg-white/5 backdrop-blur-xl border border-white/20 rounded-2xl p-4 relative shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:bg-white/10 transition-colors">
+              <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-3xl p-4 relative shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors">
                    <Link href="/premium">
                        <div className="flex items-center justify-between cursor-pointer group">
                           <div className="flex items-center gap-4 flex-1">
@@ -402,7 +402,7 @@ export default function Home() {
                    </Link>
               </div>
 
-              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-white/5" data-testid="card-home-daily-motivation">
+              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_22px_60px_rgba(0,0,0,0.4)] backdrop-blur-2xl" data-testid="card-home-daily-motivation">
                 <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
                 <div className="relative z-10 text-center">
                   <div className="mb-2 flex items-center justify-center gap-2 text-slate-400">
@@ -414,7 +414,7 @@ export default function Home() {
               </div>
               
               {/* Rotating Banner */}
-              <div className="relative h-[176px] overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl border border-white/20 px-5 py-6 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
+              <div className="relative h-[176px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 px-5 py-6 cursor-pointer group shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <div className="relative z-10 h-full">
                   <AnimatePresence mode="wait">
@@ -447,7 +447,7 @@ export default function Home() {
 
                     return (
                       <Link key={item.title} href={item.href} className="block w-[calc(50%-8px)] min-w-[calc(50%-8px)] snap-start">
-                        <div className="relative h-full overflow-hidden rounded-[24px] bg-white/5 p-6 text-center backdrop-blur-xl border border-white/20 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.15)]">
+                        <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_22px_60px_rgba(0,0,0,0.4)]">
                           <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           <div className="relative z-10 flex flex-col items-center">
                             <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-inner transition-transform duration-500 group-hover:scale-110">
@@ -464,7 +464,7 @@ export default function Home() {
               </div>
 
               <Link href="/ai" className="block" data-testid="link-home-vaulty-ai">
-                <div className="relative overflow-hidden rounded-[28px] border border-sky-400/20 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.22),transparent_34%),linear-gradient(135deg,rgba(9,13,24,0.96),rgba(3,7,18,0.98))] p-5 shadow-[0_14px_40px_rgba(0,0,0,0.34)] transition-all duration-500 hover:border-sky-300/35 hover:shadow-[0_18px_48px_rgba(37,99,235,0.22)]">
+                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-5 shadow-[0_22px_60px_rgba(0,0,0,0.4)] transition-all duration-500 hover:shadow-[0_18px_48px_rgba(37,99,235,0.22)]">
                   <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-sky-400/10 blur-3xl" />
                   <div className="relative z-10 flex items-start justify-between gap-4">
                     <div className="flex-1">
