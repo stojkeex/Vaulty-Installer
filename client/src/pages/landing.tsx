@@ -78,8 +78,7 @@ export default function Landing() {
   const [showStory, setShowStory] = useState(false);
 
   const handleGetStarted = () => {
-    setShowComingSoon(true);
-    setTimeout(() => setShowComingSoon(false), 3000);
+    setLocation('/home');
   };
 
   const handleSubscribe = (e: React.FormEvent) => {

@@ -31,12 +31,6 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
             className="relative w-full h-full object-contain"
           />
         </div>
-        
-        <div className="w-48 h-2 bg-gray-900 rounded-full overflow-hidden">
-          <div className="h-full bg-white w-full animate-progress origin-left" 
-               style={{ animation: "progress 5s ease-in-out infinite" }}
-          />
-        </div>
       </div>
 
       <div className="absolute bottom-10 text-center">
