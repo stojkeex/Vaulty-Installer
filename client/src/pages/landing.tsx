@@ -10,30 +10,34 @@ function FeatureCard({ feature, setLocation }: { feature: typeof featuresData[0]
   
   return (
     <div 
-      className="relative h-[320px] w-full perspective-[1000px] cursor-pointer group"
+      className="relative h-[320px] w-full cursor-pointer group"
+      style={{ perspective: "1000px" }}
       onClick={() => setIsFlipped(!isFlipped)}
     >
-      <motion.div
-        className="w-full h-full relative duration-700"
-        animate={{ rotateY: isFlipped ? 180 : 0 }}
-        style={{ transformStyle: "preserve-3d" }}
+      <div
+        className="w-full h-full relative"
+        style={{ 
+          transformStyle: "preserve-3d", 
+          transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
+        }}
       >
         {/* Front */}
         <div 
-          className="absolute inset-0 p-8 rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.01] backdrop-blur-xl flex flex-col justify-center shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:border-white/20 transition-colors"
-          style={{ backfaceVisibility: "hidden" }}
+          className="absolute inset-0 p-8 rounded-[32px] border border-white/10 bg-[#121217] flex flex-col justify-center shadow-2xl"
+          style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
         >
-          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
+          <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-indigo-400 transition-colors duration-300">{feature.title}</h3>
           <p className="text-white/50 font-light leading-relaxed">{feature.shortDesc}</p>
-          <div className="mt-auto pt-8 text-xs font-bold uppercase tracking-wider text-indigo-400/50 flex items-center gap-2">
+          <div className="mt-auto pt-8 text-xs font-bold uppercase tracking-wider text-indigo-400/60 flex items-center gap-2 group-hover:translate-x-1 transition-transform duration-300">
             Click to flip <ArrowRight className="w-3 h-3" />
           </div>
         </div>
 
         {/* Back */}
         <div 
-          className="absolute inset-0 p-8 rounded-[32px] border border-indigo-500/30 bg-gradient-to-br from-indigo-900/40 to-black backdrop-blur-xl flex flex-col justify-center items-center text-center shadow-[0_10px_40px_rgba(99,102,241,0.2)]" 
-          style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden" }}
+          className="absolute inset-0 p-8 rounded-[32px] border border-indigo-500/30 bg-[#0f0e1f] flex flex-col justify-center items-center text-center shadow-2xl" 
+          style={{ transform: "rotateY(180deg)", backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
         >
           <h3 className="text-2xl font-bold mb-4 text-indigo-300">{feature.backTitle}</h3>
           <p className="text-white/70 font-light leading-relaxed mb-8">{feature.backDesc}</p>
@@ -48,7 +52,7 @@ function FeatureCard({ feature, setLocation }: { feature: typeof featuresData[0]
             Read More
           </button>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }
