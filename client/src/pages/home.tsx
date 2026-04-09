@@ -2,11 +2,11 @@ import { VaultyIcon } from "@/components/ui/vaulty-icon";
 import { Link, useLocation } from "wouter";
 import { useAuth } from "@/contexts/auth-context";
 import { useNotifications } from "@/contexts/notification-context";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { 
     Search, Bell, Wallet, Loader2, Sparkles, Send, Image as ImageIcon, X, Plus,
     User, Video, Users, Bookmark, List, Mic2, Beaker, Globe, Settings, HelpCircle, Sun, Moon,
-    LineChart, GraduationCap, TrendingUp, Coins, Target, ChevronRight, Check
+    LineChart, GraduationCap, TrendingUp, TrendingDown, Coins, Target, ChevronRight, Check
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
