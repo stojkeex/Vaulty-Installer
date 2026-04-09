@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import { ArrowRight, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
 
 export default function Landing() {
@@ -13,10 +13,34 @@ export default function Landing() {
   const [isTyping, setIsTyping] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
   const [chatStarted, setChatStarted] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscribersCount, setSubscribersCount] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [showComingSoon, setShowComingSoon] = useState(false);
 
   const handleGetStarted = () => {
-    setLocation("/login");
+    setShowComingSoon(true);
+    setTimeout(() => setShowComingSoon(false), 3000);
   };
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email) {
+      setIsSubscribed(true);
+      setSubscribersCount(prev => prev + 1);
+      setEmail("");
+      setTimeout(() => setIsSubscribed(false), 3000);
+    }
+  };
+
+  // Simulate growing subscriber count
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSubscribersCount(prev => prev + Math.floor(Math.random() * 3));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
@@ -26,10 +50,9 @@ export default function Landing() {
     const sections = [
       { id: "home", offset: 0 },
       { id: "about", offset: document.getElementById("about")?.offsetTop || 0 },
-      { id: "services", offset: document.getElementById("services")?.offsetTop || 0 },
-      { id: "timeline", offset: document.getElementById("timeline")?.offsetTop || 0 },
-      { id: "demo", offset: document.getElementById("demo")?.offsetTop || 0 },
-      { id: "find-us", offset: document.getElementById("find-us")?.offsetTop || 0 },
+      { id: "features", offset: document.getElementById("features")?.offsetTop || 0 },
+      { id: "faq", offset: document.getElementById("faq")?.offsetTop || 0 },
+      { id: "subscribe", offset: document.getElementById("subscribe")?.offsetTop || 0 },
     ];
 
     for (let i = sections.length - 1; i >= 0; i--) {
@@ -112,45 +135,63 @@ export default function Landing() {
 
   const navItems = [
     { id: "home", label: "Home" },
-    { id: "about", label: "About Us" },
-    { id: "services", label: "Services" },
-    { id: "find-us", label: "Find Us" },
+    { id: "about", label: "About" },
+    { id: "features", label: "Features" },
+    { id: "faq", label: "FAQ" },
+    { id: "subscribe", label: "Subscribe" },
   ];
 
-  const timelineEvents = [
-    { year: "2023", title: "Vaulty AI Founded", description: "Our journey begins with a vision to revolutionize trading" },
-    { year: "2024 Q1", title: "Alpha Launch", description: "First users experience AI-powered trading signals" },
-    { year: "2024 Q2", title: "Beta Release", description: "Expanded features and improved algorithms" },
-    { year: "2024 Q3", title: "1000+ Users", description: "Growing community of successful traders" },
-    { year: "2024 Q4", title: "Global Expansion", description: "Now serving traders worldwide" },
+  const faqs = [
+    {
+      question: "What is Vaulty?",
+      answer: "Vaulty is a mobile-first premium finance and social application. It combines an AI trading assistant, demo trading with our native Vaulty Coin, a digital wallet, educational resources, and a social feed for traders into one seamless experience."
+    },
+    {
+      question: "Is it real money trading?",
+      answer: "Currently, Vaulty features a demo trading environment using our virtual 'Vaulty Coin'. This allows you to practice trading strategies, learn the markets, and complete quests without any financial risk."
+    },
+    {
+      question: "How does the AI Assistant work?",
+      answer: "Our built-in AI Assistant is designed to help you understand market trends, explain complex financial concepts, and provide general guidance. It's like having a financial expert in your pocket 24/7."
+    },
+    {
+      question: "When will the app be released?",
+      answer: "We are currently in active development. You can join our waiting list by subscribing below to get early access and exclusive updates when we launch."
+    },
+    {
+      question: "What are quests and how do they work?",
+      answer: "Quests are daily and weekly challenges that help you learn trading concepts. Completing quests earns you Vaulty Coins and experience points, making learning finance fun and engaging."
+    }
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-gray-500 to-gray-400 z-50"
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-400 z-50"
         style={{ width: `${scrollProgress}%` }}
       />
 
       {/* Background effects */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-gray-800/20 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-gray-700/20 rounded-full blur-[100px]" />
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10 bg-black">
+        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px]" />
       </div>
 
       {/* Fixed Navigation Bar */}
-      <div className="fixed top-3 left-0 right-0 z-50 flex justify-center pointer-events-none px-3">
-        <nav className="flex items-center gap-0.5 px-3 py-2 rounded-full backdrop-blur-md border border-white/20 bg-black/60 shadow-lg pointer-events-auto">
-          <img src={vaultyLogo} alt="Vaulty" className="w-6 h-6 mr-2" />
+      <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
+        <nav className="flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/10 bg-black/40 shadow-2xl pointer-events-auto">
+          <div className="w-8 h-8 rounded-full bg-black/50 border border-white/10 flex items-center justify-center mr-2 ml-1">
+            <img src={vaultyLogo} alt="Vaulty" className="w-5 h-5 object-contain" />
+          </div>
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`px-3 py-1 rounded-full font-semibold text-[11px] whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full font-medium text-[13px] whitespace-nowrap transition-all duration-300 ${
                 activeSection === item.id
-                  ? "bg-white/20 text-white border border-white/40"
-                  : "text-gray-400 hover:text-white hover:bg-white/10"
+                  ? "bg-white text-black shadow-lg"
+                  : "text-white/60 hover:text-white hover:bg-white/10"
               }`}
             >
               {item.label}
@@ -160,325 +201,275 @@ export default function Landing() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20 text-center">
+      <section id="home" className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 text-center pt-24">
         <motion.div
-          className="max-w-4xl mx-auto space-y-8 pt-20"
+          className="max-w-4xl mx-auto space-y-10"
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          >
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-r from-white via-gray-300 to-gray-200 bg-clip-text text-transparent">
-              Your AI Trading Companion
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto">
-              Master the markets with intelligent AI insights, real-time analysis, and personalized trading strategies
-            </p>
-          </motion.div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-sm font-medium text-white/80">Coming Soon</span>
+          </div>
 
-          <motion.button
-            onClick={handleGetStarted}
-            className="inline-flex items-center gap-3 px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition-all active:scale-95 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started Free
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
+          <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
+            Finance & Social,<br />Perfectly Blended.
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto font-light leading-relaxed">
+            Experience the future of personal finance. AI-powered trading, social networking, and financial education in one premium app.
+          </p>
 
-          <motion.div
-            className="pt-12"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-          >
-            <div className="relative w-full max-w-2xl mx-auto aspect-video rounded-2xl border border-white/10 overflow-hidden backdrop-blur-sm bg-white/5 flex items-center justify-center">
-              <p className="text-gray-400">Coming Soon</p>
+          <div className="flex flex-col items-center gap-4 pt-4">
+            <div className="relative">
+              <motion.button
+                onClick={handleGetStarted}
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-100 transition-all active:scale-95 group shadow-[0_0_40px_rgba(255,255,255,0.2)]"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Get Started
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </motion.button>
+              
+              <AnimatePresence>
+                {showComingSoon && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                    className="absolute top-full mt-4 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-2 bg-indigo-500 text-white text-sm font-medium rounded-xl shadow-xl"
+                  >
+                    The app is still in development. Coming soon!
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-500 rotate-45" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-20 px-6 border-t border-white/5">
+      <section id="about" className="relative z-10 py-32 px-6 border-t border-white/5 bg-black/40 backdrop-blur-3xl">
         <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            About Vaulty AI
-          </motion.h2>
-
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
-              className="space-y-6"
+              className="space-y-8"
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Vaulty AI is a cutting-edge trading platform that combines artificial intelligence with financial expertise to help you make smarter investment decisions.
-              </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Our advanced algorithms analyze market trends, identify opportunities, and provide real-time insights tailored to your trading style and risk preferences.
-              </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
-                Whether you're a beginner or an experienced trader, Vaulty AI gives you the tools and intelligence to succeed in today's dynamic markets.
-              </p>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Redefining the Trading Experience.</h2>
+              <div className="space-y-6 text-white/60 text-lg font-light leading-relaxed">
+                <p>
+                  Vaulty isn't just another trading app. It's a complete ecosystem designed to make finance accessible, social, and intelligent.
+                </p>
+                <p>
+                  We've built an environment where you can learn without risk using our native Vaulty Coin, consult with an advanced AI assistant, and share your journey with a community of like-minded individuals.
+                </p>
+                <p>
+                  Wrapped in a premium, minimalist design, Vaulty strips away the clutter of traditional finance apps to focus on what truly matters: your growth.
+                </p>
+              </div>
             </motion.div>
 
             <motion.div
-              className="relative h-96 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm flex items-center justify-center"
+              className="relative h-[500px] rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.01] backdrop-blur-xl flex flex-col items-center justify-center p-8 shadow-[0_0_80px_rgba(0,0,0,0.5)] overflow-hidden"
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <p className="text-gray-400">Visual Content Coming Soon</p>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
+              <img src={vaultyLogo} alt="Vaulty Logo" className="w-32 h-32 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+              <h3 className="text-2xl font-bold mb-2 z-10">Vaulty Ecosystem</h3>
+              <p className="text-white/50 text-center max-w-sm z-10 font-light">A seamless blend of AI, social networking, and demo trading capabilities.</p>
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="relative z-10 py-20 px-6 border-t border-white/5">
+      {/* Features Section */}
+      <section id="features" className="relative z-10 py-32 px-6">
         <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
+          <motion.div
+            className="text-center mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            Our Services
-          </motion.h2>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Everything You Need.</h2>
+            <p className="text-xl text-white/50 max-w-2xl mx-auto font-light">Powerful features wrapped in an elegant, intuitive interface.</p>
+          </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
-                title: "AI-Powered Analysis",
-                description: "Advanced machine learning algorithms analyze market trends and patterns in real-time"
+                title: "AI Trading Assistant",
+                description: "Get real-time insights, ask complex financial questions, and receive personalized guidance from our built-in AI."
               },
               {
-                title: "Real-Time Signals",
-                description: "Get instant notifications and actionable trading signals powered by AI"
+                title: "Demo Trading",
+                description: "Practice your strategies risk-free with Vaulty Coin. Experience realistic market dynamics without the financial stress."
               },
               {
-                title: "Risk Management",
-                description: "Advanced tools to help you manage risk and protect your investments"
+                title: "Social Feed",
+                description: "Connect with other traders, share insights, post your achievements, and learn from the community."
               },
               {
-                title: "Portfolio Tracking",
-                description: "Monitor all your investments in one place with detailed analytics"
+                title: "Daily Quests",
+                description: "Learn by doing. Complete daily challenges to earn Vaulty Coins and level up your financial knowledge."
               },
               {
-                title: "24/7 Monitoring",
-                description: "Our AI works round the clock to track global markets"
+                title: "Vaulty Academy",
+                description: "Access a curated library of educational content designed to take you from beginner to advanced trader."
               },
               {
-                title: "Educational Resources",
-                description: "Learn from expert insights and tutorials designed for traders"
+                title: "Digital Wallet",
+                description: "Manage your assets, track your portfolio performance, and review your transaction history securely."
               }
-            ].map((service, idx) => (
+            ].map((feature, idx) => (
               <motion.div
                 key={idx}
-                className="p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all group"
+                className="p-8 rounded-[24px] border border-white/10 bg-white/5 backdrop-blur-xl hover:bg-white/[0.08] transition-all group duration-300"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, duration: 0.6 }}
-                whileHover={{ y: -5 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
               >
-                <h3 className="text-xl font-bold mb-4 group-hover:text-gray-300 transition-colors">{service.title}</h3>
-                <p className="text-gray-400">{service.description}</p>
+                <h3 className="text-xl font-bold mb-4 text-white group-hover:text-indigo-300 transition-colors">{feature.title}</h3>
+                <p className="text-white/50 font-light leading-relaxed">{feature.description}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Timeline Section */}
-      <section id="timeline" className="relative z-10 py-20 px-6 border-t border-white/5">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Our Journey
-          </motion.h2>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-gray-500 to-gray-400" />
-
-            {/* Timeline events */}
-            <div className="space-y-12">
-              {timelineEvents.map((event, idx) => (
-                <motion.div
-                  key={idx}
-                  className={`flex ${idx % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.1, duration: 0.6 }}
-                >
-                  <div className="w-1/2 px-8">
-                    <div className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm">
-                      <span className="text-gray-400 font-bold text-sm">{event.year}</span>
-                      <h3 className="text-xl font-bold mt-2 mb-2">{event.title}</h3>
-                      <p className="text-gray-400 text-sm">{event.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Timeline dot */}
-                  <div className="w-4 h-4 bg-white rounded-full absolute left-1/2 transform -translate-x-1/2 -translate-y-2 mt-12 border-4 border-black" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Demo Chat Section */}
-      <section id="demo" className="relative z-10 py-20 px-6 border-t border-white/5">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Experience Vaulty AI
-          </motion.h2>
-
-          <motion.div
-            className="p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Chat header */}
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
-              <div className="flex items-center gap-3">
-                <img src={vaultyLogo} alt="Vaulty AI" className="w-8 h-8" />
-                <span className="font-bold">Vaulty AI Assistant</span>
-              </div>
-              <span className="text-xs text-gray-500">Online</span>
-            </div>
-
-            {/* Chat messages */}
-            <div className="space-y-4 h-64 overflow-y-auto mb-4">
-              {/* User message */}
-              <motion.div
-                className="flex justify-end"
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className="max-w-xs bg-gray-700 rounded-2xl rounded-tr-none px-4 py-2">
-                  <p className="text-sm">{chatMessage}</p>
-                  {isTyping && <span className="animate-pulse">▌</span>}
-                </div>
-              </motion.div>
-
-              {/* AI response */}
-              {chatResponse && (
-                <motion.div
-                  className="flex justify-start"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <div className="max-w-xs bg-white/10 border border-white/20 rounded-2xl rounded-tl-none px-4 py-2">
-                    <p className="text-sm text-gray-300">{chatResponse}</p>
-                    {isResponding && <span className="animate-pulse">▌</span>}
-                  </div>
-                </motion.div>
-              )}
-            </div>
-
-            {/* Input placeholder */}
-            <div className="p-3 rounded-xl border border-white/10 bg-black/40 text-gray-500 text-sm">
-              Type a message...
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Find Us Section */}
-      <section id="find-us" className="relative z-10 py-20 px-6 border-t border-white/5">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold text-center mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            Connect With Us
-          </motion.h2>
-
-          {/* Social Media */}
+      {/* FAQ Section */}
+      <section id="faq" className="relative z-10 py-32 px-6 border-t border-white/5 bg-black/40 backdrop-blur-3xl">
+        <div className="max-w-3xl mx-auto">
           <motion.div
             className="text-center mb-16"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
           >
-            <p className="text-gray-400 mb-8">Follow us on social media for latest updates</p>
-            <div className="flex justify-center gap-6">
-              {[
-                { icon: Facebook, label: "Facebook", href: "#" },
-                { icon: Twitter, label: "Twitter", href: "#" },
-                { icon: Instagram, label: "Instagram", href: "#" },
-                { icon: Linkedin, label: "LinkedIn", href: "#" },
-              ].map((social, idx) => (
-                <motion.a
-                  key={idx}
-                  href={social.href}
-                  className="p-4 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 transition-all"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  initial={{ opacity: 0, scale: 0 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: idx * 0.1 }}
-                >
-                  <social.icon className="w-6 h-6" />
-                </motion.a>
-              ))}
-            </div>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Common Questions.</h2>
+            <p className="text-xl text-white/50 font-light">Everything you need to know about Vaulty.</p>
           </motion.div>
 
-          {/* Contact Info */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { title: "📧 Email", value: "contact@vaulty.ai" },
-              { title: "🕐 Support", value: "24/7 Available" },
-              { title: "🌍 Location", value: "Global" },
-            ].map((contact, idx) => (
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => (
               <motion.div
                 key={idx}
-                className="p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm text-center hover:bg-white/10 transition-all"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
-                whileHover={{ y: -5 }}
+                className="border border-white/10 bg-white/5 backdrop-blur-md rounded-[20px] overflow-hidden"
               >
-                <h3 className="text-lg font-bold mb-2">{contact.title}</h3>
-                <p className="text-gray-400">{contact.value}</p>
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none"
+                >
+                  <span className="text-lg font-medium pr-4">{faq.question}</span>
+                  {openFaq === idx ? (
+                    <ChevronUp className="w-5 h-5 text-white/50 flex-shrink-0" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 text-white/50 flex-shrink-0" />
+                  )}
+                </button>
+                <AnimatePresence>
+                  {openFaq === idx && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <div className="px-6 pb-5 text-white/60 font-light leading-relaxed">
+                        {faq.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Waiting List Subscribe Section */}
+      <section id="subscribe" className="relative z-10 py-32 px-6">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            className="p-12 md:p-16 rounded-[32px] border border-white/10 bg-gradient-to-b from-indigo-900/20 to-black backdrop-blur-2xl relative overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.15),transparent_60%)]" />
+            
+            <div className="relative z-10">
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Be the first to know.</h2>
+              <p className="text-xl text-white/60 font-light mb-10 max-w-xl mx-auto">
+                Join the waiting list to get early access when Vaulty launches.
+              </p>
+
+              <form onSubmit={handleSubscribe} className="max-w-md mx-auto relative">
+                <div className="relative flex items-center">
+                  <Mail className="absolute left-5 w-5 h-5 text-white/40" />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full bg-black/50 border border-white/10 rounded-full py-4 pl-14 pr-32 text-white placeholder:text-white/30 focus:outline-none focus:border-indigo-500/50 focus:ring-1 focus:ring-indigo-500/50 transition-all"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-2 bottom-2 bg-white text-black px-6 rounded-full font-medium hover:bg-gray-200 transition-colors"
+                  >
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+
+              <AnimatePresence>
+                {isSubscribed && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="mt-4 text-emerald-400 font-medium"
+                  >
+                    Thanks for subscribing! We'll be in touch soon.
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <div className="mt-8 flex items-center justify-center gap-2 text-white/50 font-mono text-sm">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="font-bold text-white">{subscribersCount.toLocaleString()}</span> Subscribers on the waitlist
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/5 py-12 px-6 text-center text-gray-500 bg-black/50 backdrop-blur-sm">
-        <p>&copy; 2024 Vaulty AI. All rights reserved.</p>
+      <footer className="relative z-10 border-t border-white/5 py-12 px-6 text-center text-white/40 font-light bg-black">
+        <div className="flex justify-center gap-6 mb-8">
+          <a href="#" className="hover:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
+          <a href="#" className="hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
+          <a href="#" className="hover:text-white transition-colors"><Linkedin className="w-5 h-5" /></a>
+        </div>
+        <p>&copy; {new Date().getFullYear()} Vaulty. All rights reserved.</p>
       </footer>
     </div>
   );
