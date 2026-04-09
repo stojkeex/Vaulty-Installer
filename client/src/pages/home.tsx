@@ -27,6 +27,7 @@ import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
 import badgeProImage from "@assets/IMG_1085_1775581026902.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
+import vaultyLogoImage from "@assets/IMG_1115_1775729510063.jpeg";
 
 const BANNERS = [
   {
@@ -509,8 +510,8 @@ export default function Home() {
                         <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Quick answers</span>
                       </div>
                     </div>
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-sky-300/20 bg-sky-400/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
-                      <Sparkles className="h-7 w-7 text-sky-300" />
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden">
+                      <img src={vaultyLogoImage} alt="Vaulty Logo" className="w-full h-full object-cover object-center scale-[1.15]" />
                     </div>
                   </div>
                   <div className="relative z-10 mt-5 flex items-center justify-between rounded-[22px] border border-white/10 bg-white/5 px-4 py-3">
