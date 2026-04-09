@@ -240,19 +240,26 @@ function ShopSection({
               
               {isCustom && (
                  <div className="relative z-10 mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/5 bg-black/40 p-3">
-                   <div className="flex items-center gap-3">
+                   <div className="flex items-center gap-3 w-full">
                      <button 
                        onClick={() => handleCustomChange(item.kind === 'demo' ? -5000 : -50)}
-                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors shrink-0"
                      >
                        <Minus size={14} />
                      </button>
-                     <span className="text-lg font-bold min-w-[60px] text-center">
-                       {formatPoints(currentRewardAmount)}
-                     </span>
+                     <input
+                       type="number"
+                       value={customAmount}
+                       onChange={(e) => {
+                         const val = parseInt(e.target.value) || 0;
+                         setCustomAmount(Math.max(0, val));
+                       }}
+                       className="w-full bg-transparent text-center text-lg font-bold text-white outline-none appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                       placeholder="0"
+                     />
                      <button 
                        onClick={() => handleCustomChange(item.kind === 'demo' ? 5000 : 50)}
-                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors shrink-0"
                      >
                        <Plus size={14} />
                      </button>
