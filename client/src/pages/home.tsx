@@ -234,8 +234,8 @@ export default function Home() {
       <CompleteProfileWidget />
       
       {/* Fixed Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center">
-        <div className="w-full bg-black/80 backdrop-blur-md border-b border-white/5">
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
+        <div className="w-full bg-black/60 backdrop-blur-xl border-b border-white/[0.05] pointer-events-auto">
         <div className="max-w-md mx-auto p-4 flex items-center justify-between">
           <Sheet>
             <SheetTrigger asChild>
@@ -320,17 +320,17 @@ export default function Home() {
           <div className="flex-1 flex justify-center">
           </div>
           
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <Link href="/notifications">
-              <button className="relative p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 group text-gray-400 group-hover:text-white" data-testid="button-home-notifications">
+              <button className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] group text-gray-400 group-hover:text-white" data-testid="button-home-notifications">
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-2 w-2 h-2 bg-slate-500 rounded-full ring-2 ring-black" />
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-sky-500 rounded-full ring-2 ring-black" />
                 )}
               </button>
             </Link>
             <Link href="/wallet">
-              <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 text-gray-400 hover:text-white" data-testid="button-home-wallet">
+              <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] text-gray-400 hover:text-white" data-testid="button-home-wallet">
                 <Wallet className="w-5 h-5" />
               </button>
             </Link>
@@ -340,24 +340,26 @@ export default function Home() {
       </div>
 
       {/* Content Spacer */}
-      <div className={cn("relative z-10 p-6 max-w-md mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
+      <div className={cn("relative z-10 p-5 max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="space-y-6">
+            <div className="space-y-8">
               {/* Your Overview */}
-              <div className="space-y-3">
-                <h2 className="text-xl font-bold tracking-tight text-white px-1">Your Overview</h2>
-                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_22px_60px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="text-xl font-bold tracking-tight text-white">Overview</h2>
+                </div>
+                <div className="relative overflow-hidden rounded-[32px] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
                   <div className="flex justify-between items-start relative z-10">
                     <div>
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-500 mb-1">Total Balance</p>
-                      <h3 className="text-3xl font-black tracking-tight text-white">
-                        {currency === "VC" ? <VaultyIcon size={24} className="inline mr-1 -mt-1" /> : ""}
+                      <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">Total Balance</p>
+                      <h3 className="text-[2.5rem] leading-none font-bold tracking-tight text-white mb-3">
+                        {currency === "VC" ? <VaultyIcon size={28} className="inline mr-2 -mt-1" /> : ""}
                         {currency === "VC" 
                           ? totalBalanceDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
                           : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(totalBalanceDisplay)}
                       </h3>
-                      <div className={cn("mt-2 flex items-center gap-1.5 text-sm font-black", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
-                        {isPositiveProfit ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
+                      <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
+                        {isPositiveProfit ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
                         <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
                         <span className="text-zinc-500 font-medium ml-1">Profit</span>
                       </div>
@@ -387,35 +389,36 @@ export default function Home() {
                   </div>
 
                   {/* Quick Actions */}
-                  <div className="relative z-10 flex gap-3 mt-4 pt-4 border-t border-white/10">
+                  <div className="relative z-10 flex gap-3 mt-6">
                     <button 
                       onClick={() => { setActionType("buy"); setIsActionMenuOpen(true); }}
-                      className="flex-1 flex items-center justify-center gap-2 bg-white text-black py-2.5 px-4 rounded-xl font-bold text-sm hover:bg-gray-200 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 bg-white text-black py-3.5 px-4 rounded-2xl font-bold text-[15px] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
                     >
-                      <ArrowDownToLine size={16} />
+                      <ArrowDownToLine size={18} />
                       Buy
                     </button>
                     <button 
                       onClick={() => { setActionType("sell"); setIsActionMenuOpen(true); }}
-                      className="flex-1 flex items-center justify-center gap-2 bg-white/10 text-white py-2.5 px-4 rounded-xl font-bold text-sm hover:bg-white/20 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 bg-white/[0.05] text-white py-3.5 px-4 rounded-2xl font-bold text-[15px] hover:bg-white/[0.1] transition-colors border border-white/[0.05] backdrop-blur-md"
                     >
-                      <ArrowUpFromLine size={16} />
+                      <ArrowUpFromLine size={18} />
                       Sell
                     </button>
                     <button 
                       onClick={() => { setActionType("send"); setIsActionMenuOpen(true); }}
-                      className="w-12 flex items-center justify-center shrink-0 bg-white/10 text-white py-2.5 rounded-xl font-bold text-sm hover:bg-white/20 transition-colors"
+                      className="w-14 flex items-center justify-center shrink-0 bg-white/[0.05] text-white py-3.5 rounded-2xl font-bold hover:bg-white/[0.1] transition-colors border border-white/[0.05] backdrop-blur-md"
                     >
-                      <Send size={16} className="ml-0.5" />
+                      <Send size={18} className="ml-0.5" />
                     </button>
                   </div>
                 </div>
               </div>
 
               {/* Inline Premium Banner */}
-              <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-3xl p-4 relative shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors">
+              <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-3xl p-5 relative shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors group overflow-hidden">
+                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                    <Link href="/premium">
-                       <div className="flex items-center justify-between cursor-pointer group">
+                       <div className="flex items-center justify-between cursor-pointer relative z-10">
                           <div className="flex items-center gap-4 flex-1">
                               <div className="relative">
                                 <div className="absolute inset-0 bg-white/20 blur-xl rounded-full" />
@@ -423,15 +426,15 @@ export default function Home() {
                                   key={currentBadgeIndex}
                                   src={badges[currentBadgeIndex]} 
                                   alt={badgeLabels[currentBadgeIndex]}
-                                  className="w-12 h-12 shrink-0 group-hover:scale-110 relative z-10 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                                  className="w-14 h-14 shrink-0 group-hover:scale-110 relative z-10 drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] transition-transform duration-500"
                                   initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   exit={{ opacity: 0, scale: 0.8 }}
                                   transition={{ duration: 0.5 }}
                                 />
                               </div>
-                              <div className="space-y-0.5">
-                                <p className="text-sm font-bold tracking-tight text-white">
+                              <div className="space-y-1">
+                                <p className="text-base font-bold tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all duration-300">
                                     Unlock Vaulty+
                                 </p>
                                 <p className="text-xs font-medium text-gray-400">
@@ -439,44 +442,44 @@ export default function Home() {
                                 </p>
                               </div>
                           </div>
-                          <div className="px-4 py-2 rounded-full bg-white text-black text-xs font-black uppercase tracking-tighter group-hover:bg-gray-300 transition-colors shadow-lg">
+                          <div className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-black uppercase tracking-wider group-hover:bg-gray-200 transition-colors shadow-lg">
                               Upgrade
                           </div>
                        </div>
                    </Link>
               </div>
 
-              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_22px_60px_rgba(0,0,0,0.4)] backdrop-blur-2xl" data-testid="card-home-daily-motivation">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50" />
+              <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]" data-testid="card-home-daily-motivation">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50 transition-opacity duration-300 group-hover:opacity-70" />
                 <div className="relative z-10 text-center">
-                  <div className="mb-2 flex items-center justify-center gap-2 text-slate-400">
-                    <TrendingUp size={16} />
-                    <span className="text-xs font-bold tracking-wider uppercase">Daily Motivation</span>
+                  <div className="mb-3 flex items-center justify-center gap-2 text-slate-400">
+                    <TrendingUp size={16} className="text-purple-400" />
+                    <span className="text-[10px] font-black tracking-[0.2em] uppercase text-purple-200">Daily Motivation</span>
                   </div>
-                  <p className="text-lg font-medium text-white italic" data-testid="text-home-daily-motivation">“{dailyMotivation}”</p>
+                  <p className="text-[1.1rem] leading-relaxed font-medium text-white italic" data-testid="text-home-daily-motivation">"{dailyMotivation}"</p>
                 </div>
               </div>
               
               {/* Rotating Banner */}
-              <div className="relative h-[176px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 px-5 py-6 cursor-pointer group shadow-[0_22px_60px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.1)] transition-all duration-500">
+              <div className="relative h-[180px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 px-6 py-7 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 <div className="relative z-10 h-full">
                   <AnimatePresence mode="wait">
                     <motion.div 
                       key={currentBannerIndex}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                       className="flex h-full w-full items-center justify-between gap-4"
                     >
                       <div className="flex-1 min-w-0 text-left pl-0">
-                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.24em] text-gray-500">Vaulty Picks</p>
-                        <h3 className="text-[1.7rem] leading-[1.05] font-black text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
-                        <p className="text-sm text-gray-400 font-medium max-w-[240px]">{BANNERS[currentBannerIndex].subtitle}</p>
+                        <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-gray-400">Vaulty Picks</p>
+                        <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
+                        <p className="text-sm text-gray-400 font-medium max-w-[260px] leading-relaxed">{BANNERS[currentBannerIndex].subtitle}</p>
                       </div>
-                      <div className="w-10 h-10 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10">
-                        <ChevronRight className="w-5 h-5 text-white transition-transform group-hover:translate-x-1" />
+                      <div className="w-12 h-12 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10 shadow-inner">
+                        <ChevronRight className="w-6 h-6 text-white transition-transform duration-300 group-hover:translate-x-1" />
                       </div>
                     </motion.div>
                   </AnimatePresence>
@@ -485,17 +488,17 @@ export default function Home() {
 
               {/* Glass Cards Carousel */}
               
-              <div className="flex items-center justify-between px-1 mt-8 mb-4">
-                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">WIDGETS</h2>
+              <div className="flex items-center justify-between px-1 mt-10 mb-5">
+                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">QUICK WIDGETS</h2>
                 <button 
                   onClick={() => setIsWidgetMenuOpen(true)}
-                  className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center border border-white/10 hover:bg-white/20 transition-colors"
+                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/15 transition-colors shadow-inner"
                 >
-                  <Plus size={14} className="text-white" />
+                  <Plus size={16} className="text-gray-300" />
                 </button>
               </div>
-              <div className="-mx-6 overflow-x-auto px-6 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex snap-x snap-mandatory gap-4">
+              <div className="-mx-6 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex snap-x snap-mandatory gap-5">
                   <AnimatePresence>
                     {activeWidgets.map((id) => {
                       const item = AVAILABLE_WIDGETS.find(s => s.id === id);
@@ -503,16 +506,16 @@ export default function Home() {
                       const Icon = item.icon;
 
                       return (
-                        <motion.div key={item.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="block w-[calc(50%-8px)] min-w-[calc(50%-8px)] snap-start">
+                        <motion.div key={item.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="block w-[calc(50%-10px)] min-w-[calc(50%-10px)] snap-start">
                           <Link href={item.href} className="block h-full">
-                            <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_22px_60px_rgba(0,0,0,0.4)]">
+                            <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_36px_rgba(255,255,255,0.1)]">
                               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                               <div className="relative z-10 flex flex-col items-center">
-                                <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-inner transition-transform duration-500 group-hover:scale-110">
-                                  <Icon className="h-7 w-7 text-white" />
+                                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-[20px] border border-white/20 bg-gradient-to-br from-white/10 to-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3">
+                                  <Icon className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                                 </div>
-                                <h3 className="mb-1 text-base font-bold tracking-tight text-white sm:text-lg">{item.title}</h3>
-                                <p className="text-[10px] text-gray-400 sm:text-xs">{item.description}</p>
+                                <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{item.title}</h3>
+                                <p className="text-[11px] text-gray-400 font-medium">{item.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -525,32 +528,32 @@ export default function Home() {
 
 
               <Link href="/ai" className="block" data-testid="link-home-vaulty-ai">
-                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-5 shadow-[0_22px_60px_rgba(0,0,0,0.4)] transition-all duration-500 hover:shadow-[0_18px_48px_rgba(37,99,235,0.22)]">
-                  <div className="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-sky-400/10 blur-3xl" />
-                  <div className="relative z-10 flex items-start justify-between gap-4">
+                <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(37,99,235,0.15)] group">
+                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-400/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
+                  <div className="relative z-10 flex items-start justify-between gap-5">
                     <div className="flex-1">
-                      <h3 className="max-w-[220px] text-[1.65rem] font-black leading-[1.02] tracking-tight text-white">
-                        Ask smarter finance questions anytime
+                      <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-sky-200 transition-all">
+                        Ask smarter finance questions
                       </h3>
-                      <p className="mt-3 max-w-[250px] text-sm leading-relaxed text-slate-300">
+                      <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-slate-300">
                         Get instant market explanations, plan ideas, and simple breakdowns in one polished chat space.
                       </p>
-                      <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-slate-300">
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Market insights</span>
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Portfolio ideas</span>
-                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Quick answers</span>
+                      <div className="mt-5 flex flex-wrap gap-2 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Insights</span>
+                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Ideas</span>
+                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5">Answers</span>
                       </div>
                     </div>
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden p-2">
-                      <img src={vaultyLogoImage} alt="Vaulty Logo" className="w-full h-full object-contain" />
+                    <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-black/20 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] overflow-hidden p-2.5 group-hover:scale-105 transition-transform duration-500">
+                      <img src={vaultyLogoImage} alt="Vaulty Logo" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                     </div>
                   </div>
-                  <div className="relative z-10 mt-5 flex items-center justify-between rounded-[22px] border border-white/10 bg-white/5 px-4 py-3">
+                  <div className="relative z-10 mt-6 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-5 py-3.5 group-hover:bg-white/10 transition-colors duration-300">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Your AI widget</p>
-                      <p className="mt-1 text-sm font-semibold text-white">Open Vaulty AI</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Your AI widget</p>
+                      <p className="mt-0.5 text-sm font-bold text-white">Open Vaulty AI</p>
                     </div>
-                    <div className="rounded-full bg-sky-400 px-4 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-950">
+                    <div className="rounded-full bg-sky-400 px-5 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-950 shadow-[0_0_15px_rgba(56,189,248,0.4)]">
                       Chat now
                     </div>
                   </div>
@@ -558,35 +561,36 @@ export default function Home() {
               </Link>
 
               {/* Goals Card (Full Width) */}
-              <div className="relative overflow-hidden rounded-2xl bg-white/5 backdrop-blur-md border border-white/20 p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-300 shadow-[0_4px_24px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
-                <div className="w-16 h-16 shrink-0 bg-white/10 border border-white/10 group-hover:border-white/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <Target className="text-white w-8 h-8" />
+              <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 p-7 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)]">
+                <div className="w-16 h-16 shrink-0 bg-white/5 border border-white/10 group-hover:bg-white/10 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500 shadow-inner">
+                  <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                 </div>
                 <div className="flex-1 w-full">
-                  <h3 className="text-xl font-bold text-white mb-2 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">Reach your goal</h3>
-                  <p className="text-sm text-gray-400 mb-4">Save and plan for buying a car, real estate, or traveling.</p>
-                  <div className="w-full bg-black/50 rounded-full h-3 mb-2 overflow-hidden border border-white/10">
-                    <div className="bg-white h-full rounded-full w-[45%] relative">
+                  <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">Reach your goal</h3>
+                  <p className="text-[13px] text-gray-400 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">Save and plan for buying a car, real estate, or traveling.</p>
+                  <div className="w-full bg-black/60 rounded-full h-3.5 mb-3 overflow-hidden border border-white/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] relative">
+                    <div className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full w-[45%] relative">
                       <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                      <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/40 to-transparent"></div>
                     </div>
                   </div>
-                  <div className="flex justify-between text-xs font-medium text-gray-400">
-                    <span>4,500€</span>
+                  <div className="flex justify-between text-[11px] font-bold tracking-wide uppercase text-gray-400">
+                    <span className="text-white">4,500€</span>
                     <span>Goal: 10,000€</span>
                   </div>
                 </div>
               </div>
 
               {/* Finance News Card */}
-              <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.07] via-white/[0.04] to-black p-5 shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)]" />
+              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)] pointer-events-none" />
                 <div className="relative z-10">
-                  <div className="mb-4 flex items-center justify-between">
+                  <div className="mb-5 flex items-center justify-between">
                     <div>
                       <p className="text-[10px] font-black uppercase tracking-[0.26em] text-gray-500">Live finance news</p>
-                      <h3 className="mt-1 text-lg font-bold tracking-tight text-white">Market Pulse</h3>
+                      <h3 className="mt-1 text-xl font-bold tracking-tight text-white">Market Pulse</h3>
                     </div>
-                    <div className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 shadow-inner">
                       Simulated
                     </div>
                   </div>
@@ -594,19 +598,19 @@ export default function Home() {
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={currentNewsIndex}
-                      initial={{ opacity: 0, y: 12 }}
+                      initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -12 }}
-                      transition={{ duration: 0.45, ease: "easeOut" }}
-                      className="rounded-[20px] border border-white/10 bg-black/40 p-4"
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      className="rounded-2xl border border-white/5 bg-black/30 p-5 shadow-inner hover:bg-black/40 transition-colors cursor-pointer"
                     >
-                      <div className="mb-3 flex items-center justify-between gap-3">
-                        <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white/80">
+                      <div className="mb-3.5 flex items-center justify-between gap-3">
+                        <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
                           {FINANCE_NEWS[currentNewsIndex].kicker}
                         </span>
-                        <span className="text-[11px] text-gray-500">Updates every 30–60s</span>
+                        <span className="text-[10px] text-gray-500 font-medium">Updates every 30s</span>
                       </div>
-                      <h4 className="text-lg font-bold leading-tight text-white">
+                      <h4 className="text-[1.1rem] font-bold leading-snug text-white">
                         {FINANCE_NEWS[currentNewsIndex].title}
                       </h4>
                       <p className="mt-3 text-sm leading-relaxed text-gray-400">
