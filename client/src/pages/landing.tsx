@@ -252,21 +252,29 @@ export default function Landing() {
       {/* Fixed Navigation Bar */}
       <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
         <nav className="flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/30 bg-black/50 shadow-2xl pointer-events-auto">
-          <div className="w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center mr-2 ml-1">
+          <div className="relative z-10 w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center mr-2 ml-1">
             <img src={vaultyLogo} alt="Vaulty" className="w-5 h-5 object-contain" />
           </div>
           {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => scrollToSection(item.id)}
-              className={`px-4 py-2 rounded-full font-medium text-[13px] whitespace-nowrap transition-all duration-300 ${
-                activeSection === item.id
-                  ? "bg-white text-black shadow-lg"
-                  : "text-white/70 hover:text-white hover:bg-white/15"
-              }`}
-            >
-              {item.label}
-            </button>
+            <div key={item.id} className="relative">
+              {activeSection === item.id && (
+                <motion.div
+                  layoutId="nav-pill"
+                  className="absolute inset-0 bg-white/20 backdrop-blur-md rounded-full shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/30"
+                  transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                />
+              )}
+              <button
+                onClick={() => scrollToSection(item.id)}
+                className={`relative z-10 px-4 py-2 rounded-full font-medium text-[13px] whitespace-nowrap transition-colors duration-300 ${
+                  activeSection === item.id
+                    ? "text-white drop-shadow-md"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                {item.label}
+              </button>
+            </div>
           ))}
         </nav>
       </div>
