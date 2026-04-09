@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
-import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp } from "lucide-react";
+import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
 import { featuresData } from "@/lib/features-data";
@@ -338,8 +338,8 @@ export default function Landing() {
               className="space-y-8"
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
               <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Redefining the Trading Experience.</h2>
               <div className="space-y-6 text-white/60 text-lg font-light leading-relaxed">
@@ -357,10 +357,10 @@ export default function Landing() {
 
             <motion.div
               className="relative h-[500px] rounded-[32px] border border-white/10 bg-gradient-to-br from-white/5 to-white/[0.01] backdrop-blur-xl flex flex-col items-center justify-center p-8 shadow-[0_0_80px_rgba(0,0,0,0.5)] overflow-hidden"
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
+              initial={{ opacity: 0, scale: 0.95, filter: "blur(10px)" }}
+              whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
               <img src={vaultyLogo} alt="Vaulty Logo" className="w-32 h-32 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
@@ -368,6 +368,93 @@ export default function Landing() {
               <p className="text-white/50 text-center max-w-sm z-10 font-light">A seamless blend of AI, social networking, and demo trading capabilities.</p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* AI Chatbot Demo Section */}
+      <section id="demo" className="relative z-10 py-32 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto">
+          <motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Meet Vaulty AI.</h2>
+            <p className="text-xl text-white/50 font-light max-w-2xl mx-auto">Your personal 24/7 financial advisor. Ask questions, analyze markets, and learn faster.</p>
+          </motion.div>
+
+          <motion.div
+            className="relative rounded-[32px] border border-white/10 bg-[#0a0a0f]/80 backdrop-blur-2xl shadow-[0_0_100px_rgba(99,102,241,0.1)] overflow-hidden h-[450px] flex flex-col"
+            initial={{ opacity: 0, y: 40, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          >
+            {/* Header */}
+            <div className="flex items-center gap-4 p-6 border-b border-white/5 bg-white/[0.02]">
+              <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
+                <Bot className="w-5 h-5 text-indigo-400" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-white">Vaulty AI</h3>
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className="text-xs text-white/50">Online</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Chat Body */}
+            <div className="flex-1 p-6 flex flex-col gap-6 overflow-y-auto">
+              <AnimatePresence>
+                {chatStarted && (
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="self-end max-w-[80%]"
+                  >
+                    <div className="bg-indigo-600 text-white px-5 py-3 rounded-2xl rounded-tr-sm">
+                      {chatMessage}
+                      {isTyping && <span className="ml-1 animate-pulse">|</span>}
+                    </div>
+                  </motion.div>
+                )}
+                
+                {(chatResponse || isResponding) && (
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="self-start max-w-[85%] flex gap-3"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-1">
+                      <Bot className="w-4 h-4 text-indigo-400" />
+                    </div>
+                    <div className="bg-[#1a1a24] border border-white/5 text-white/90 px-5 py-4 rounded-2xl rounded-tl-sm leading-relaxed text-sm">
+                      {chatResponse}
+                      {isResponding && <span className="ml-1 animate-pulse">|</span>}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Input Area */}
+            <div className="p-4 border-t border-white/5 bg-white/[0.01]">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Ask anything..."
+                  className="w-full bg-[#1a1a24] border border-white/10 rounded-full py-4 pl-6 pr-12 text-sm text-white focus:outline-none focus:border-indigo-500/50 transition-colors pointer-events-none"
+                  disabled
+                />
+                <button className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/50 pointer-events-none">
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
