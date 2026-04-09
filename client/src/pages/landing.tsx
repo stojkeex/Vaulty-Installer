@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
-import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot } from "lucide-react";
+import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
 import { featuresData } from "@/lib/features-data";
@@ -74,6 +74,7 @@ export default function Landing() {
   });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [showStory, setShowStory] = useState(false);
 
   const handleGetStarted = () => {
     setShowComingSoon(true);
@@ -353,6 +354,26 @@ export default function Landing() {
                   Wrapped in a premium, minimalist design, Vaulty strips away the clutter of traditional finance apps to focus on what truly matters: your growth.
                 </p>
               </div>
+
+              {/* Story Card inside About Section */}
+              <motion.div
+                className="mt-12 p-8 rounded-[32px] border border-indigo-500/30 bg-gradient-to-br from-indigo-900/20 to-black/60 backdrop-blur-xl shadow-[0_0_40px_rgba(99,102,241,0.15)] relative overflow-hidden group"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative z-10">
+                  <h3 className="text-2xl font-bold mb-3 text-white">Do you want to know more about Vaulty's History and Our Story?</h3>
+                  <p className="text-white/60 mb-6 font-light">Discover how we started, our mission to redefine finance, and the team behind the vision.</p>
+                  <button
+                    onClick={() => setShowStory(true)}
+                    className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-medium rounded-full transition-all flex items-center gap-2"
+                  >
+                    Read More
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
 
             <motion.div
@@ -486,6 +507,104 @@ export default function Landing() {
           </div>
         </div>
       </section>
+
+      {/* Story Overlay */}
+      <AnimatePresence>
+        {showStory && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl overflow-y-auto"
+          >
+            <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative">
+              <button
+                onClick={() => setShowStory(false)}
+                className="sticky top-6 right-6 ml-auto w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors mb-12 z-50"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
+
+              <motion.div
+                initial={{ y: 40, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="space-y-16"
+              >
+                <div className="text-center space-y-6">
+                  <h2 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
+                    Our Story
+                  </h2>
+                  <p className="text-xl text-white/50 font-light max-w-2xl mx-auto">
+                    The journey of building the ultimate financial companion.
+                  </p>
+                </div>
+
+                <div className="grid gap-12">
+                  <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 space-y-6">
+                    <h3 className="text-2xl font-bold text-indigo-400">The Beginning</h3>
+                    <p className="text-white/70 leading-relaxed text-lg font-light">
+                      Vaulty was born from a simple realization: traditional trading apps were either too complex for beginners or too simple for serious traders. We set out to build a platform that bridges this gap, combining professional-grade tools with an intuitive, social experience.
+                    </p>
+                  </div>
+
+                  <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 space-y-6">
+                    <h3 className="text-2xl font-bold text-indigo-400">Our Mission</h3>
+                    <p className="text-white/70 leading-relaxed text-lg font-light">
+                      To democratize financial education and trading. We believe everyone should have access to the knowledge and tools needed to build wealth, without risking their life savings while learning.
+                    </p>
+                  </div>
+
+                  <div className="relative border-l border-indigo-500/30 ml-4 md:ml-8 space-y-12 pb-8">
+                    <div className="relative pl-8 md:pl-12">
+                      <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+                      <h4 className="text-xl font-bold mb-2">Q3 2023</h4>
+                      <p className="text-white/60 font-light">The concept of Vaulty is born. Initial prototypes developed.</p>
+                    </div>
+                    <div className="relative pl-8 md:pl-12">
+                      <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+                      <h4 className="text-xl font-bold mb-2">Q1 2024</h4>
+                      <p className="text-white/60 font-light">Core team assembled. AI trading assistant model trained.</p>
+                    </div>
+                    <div className="relative pl-8 md:pl-12">
+                      <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
+                      <h4 className="text-xl font-bold mb-2">Q4 2024</h4>
+                      <p className="text-white/60 font-light">Closed Beta testing begins with selected users.</p>
+                    </div>
+                    <div className="relative pl-8 md:pl-12">
+                      <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.8)] animate-pulse" />
+                      <h4 className="text-xl font-bold mb-2 text-sky-400">2025</h4>
+                      <p className="text-white/60 font-light">Public launch and mobile app release.</p>
+                    </div>
+                  </div>
+
+                  <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 space-y-8">
+                    <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+                      <div className="w-24 h-24 rounded-full bg-indigo-900/30 border border-indigo-500/30 flex items-center justify-center shrink-0 overflow-hidden">
+                        <img src={vaultyLogo} alt="CEO" className="w-full h-full object-cover opacity-80" />
+                      </div>
+                      <div className="space-y-4 text-center md:text-left">
+                        <h3 className="text-2xl font-bold">The Leadership</h3>
+                        <p className="text-white/70 leading-relaxed font-light">
+                          Founded by a team of experienced fintech developers and passionate traders who understood the need for a safer, more educational entry into the world of trading.
+                        </p>
+                        <div className="flex justify-center md:justify-start gap-4 pt-4">
+                          <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                            <Linkedin className="w-5 h-5 text-white/70" />
+                          </a>
+                          <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                            <Twitter className="w-5 h-5 text-white/70" />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* FAQ Section */}
       <section id="faq" className="relative z-10 py-32 px-6 border-t border-white/5 bg-black/40 backdrop-blur-3xl">
