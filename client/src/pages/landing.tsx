@@ -242,18 +242,15 @@ export default function Landing() {
       className="min-h-screen text-white overflow-x-hidden font-sans relative"
     >
       {/* Background image */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-0"
-        style={{
-          backgroundImage: `url(${vaultyStoryBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      />
-      
-      {/* Dark overlay just for text readability */}
-      <div className="fixed inset-0 pointer-events-none z-0 bg-black/50 backdrop-blur-[2px]" />
+      <div className="fixed inset-0 pointer-events-none z-[-1] bg-black">
+        <img 
+          src={vaultyStoryBg} 
+          alt="Vaulty Background" 
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        {/* Dark overlay just for text readability */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
+      </div>
 
       {/* Scroll Progress Bar */}
       <motion.div
@@ -527,14 +524,15 @@ export default function Landing() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/90 overflow-y-auto"
-            style={{
-              backgroundImage: `url(${vaultyStoryBg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundAttachment: 'fixed',
-            }}
           >
-            <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+            <div className="fixed inset-0 pointer-events-none z-[-1] bg-black">
+              <img 
+                src={vaultyStoryBg} 
+                alt="Vaulty Background" 
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-black/80" />
+            </div>
             <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative z-10">
               <button
                 onClick={() => setShowStory(false)}
