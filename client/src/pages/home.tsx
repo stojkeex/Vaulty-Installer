@@ -581,6 +581,52 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Vaulty Coin Section */}
+              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-purple-500/5 to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/20 blur-[80px] rounded-full group-hover:bg-indigo-500/30 transition-colors duration-500" />
+                
+                <div className="relative z-10">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-16 h-16 rounded-2xl bg-black/40 border border-white/10 p-3 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center">
+                      <img src={vaultyLogoImage} alt="Vaulty Coin" className="w-full h-full object-contain drop-shadow-[0_0_12px_rgba(255,255,255,0.6)]" />
+                    </div>
+                    <div>
+                      <h3 className="text-[1.4rem] font-black text-white tracking-tight leading-none mb-1">Vaulty Coin <span className="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] align-text-bottom font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ml-1.5">Native</span></h3>
+                      <p className="text-[13px] font-medium text-indigo-200/70">The future of our ecosystem</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4 mb-7">
+                    <p className="text-[14px] leading-relaxed text-gray-300 font-medium">
+                      Currently available exclusively for <strong className="text-white font-bold">demo investing</strong> to help you learn market dynamics risk-free. 
+                    </p>
+                    
+                    <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 border-l-2 border-l-indigo-400 shadow-inner space-y-4">
+                      <div>
+                        <span className="text-indigo-300 font-bold block mb-1.5 text-[11px] uppercase tracking-wider">The Origin Story</span>
+                        <p className="text-[13px] leading-relaxed text-gray-300">
+                          Vaulty Coin was born out of a simple need: to give our users a safe sandbox to experience the thrill of investing without the real-world financial risk. It started as a "demo investing" feature, a virtual currency to learn the ropes.
+                        </p>
+                      </div>
+                      <div className="pt-4 border-t border-white/10">
+                        <span className="text-indigo-300 font-bold block mb-1.5 text-[11px] uppercase tracking-wider">Our Future Vision</span>
+                        <p className="text-[13px] leading-relaxed text-gray-300">
+                          We plan to introduce real trading capabilities for Vaulty Coin in the future, transforming it from a learning tool into a fully tradeable asset within the app ecosystem. Your demo experience today is shaping the real market of tomorrow.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <Link href="/demo-trading/vaulty-coin" className="block w-full">
+                    <button className="w-full flex items-center justify-center gap-2.5 py-4 rounded-2xl bg-white text-black font-bold text-[15px] hover:bg-gray-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] active:scale-[0.98]">
+                      <LineChart className="w-5 h-5" />
+                      View Vaulty Coin Details
+                    </button>
+                  </Link>
+                </div>
+              </div>
+
               {/* Finance News Card */}
               <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)] pointer-events-none" />
