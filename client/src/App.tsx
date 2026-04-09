@@ -34,8 +34,9 @@ import GoalsPage from "@/pages/goals";
 import ImageSave from "@/pages/image-save";
 import CreatePost from "@/pages/create-post";
 import CreateNews from "@/pages/create-news";
-import NewsPage from "@/pages/news";
-import NewsDetail from "@/pages/news-detail";
+import ToolsPage from "@/pages/tools";
+import CourseDetailPage from "@/pages/course-detail";
+import VaultyCoinInfoPage from "@/pages/vaulty-coin-info";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { NotificationProvider } from "@/contexts/notification-context";
@@ -97,6 +98,7 @@ function Router() {
         <Route path="/ai" component={() => <ProtectedRoute component={Ai} hideNav={true} />} />
         <Route path="/image-save" component={() => <ProtectedRoute component={ImageSave} hideNav={true} />} />
         
+        <Route path="/info/vaulty-coin" component={() => <ProtectedRoute component={VaultyCoinInfoPage} hideNav={true} />} />
         <Route path="/premium" component={() => <ProtectedRoute component={Premium} />} />
         <Route path="/posts" component={() => <ProtectedRoute component={Posts} />} />
         <Route path="/post/:id" component={() => <ProtectedRoute component={PostDetail} />} />
