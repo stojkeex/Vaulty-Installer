@@ -47,6 +47,7 @@ export function BottomNav() {
 
   const shouldHide = location === "/login" || 
                      location === "/register" || 
+                     location === "/landing" ||
                      location.startsWith("/demo-trading/") ||
                      location === "/ai" ||
                      location.startsWith("/messages/user/") ||
