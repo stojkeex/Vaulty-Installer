@@ -239,7 +239,10 @@ export default function Home() {
         <div className="max-w-md mx-auto p-4 flex items-center justify-between">
           <Sheet>
             <SheetTrigger asChild>
-              <div className="w-10 h-10 invisible"></div>
+              <button className="text-left outline-none cursor-pointer">
+                <span className="text-gray-400 text-sm">Hello, </span>
+                <span className="text-white font-bold">{userData?.username || "vaultycreator"}</span>
+              </button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] bg-black border-r border-white/10 p-0 text-white">
               <div className="flex flex-col h-full">
@@ -330,15 +333,6 @@ export default function Home() {
               <button className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10 text-gray-400 hover:text-white" data-testid="button-home-wallet">
                 <Wallet className="w-5 h-5" />
               </button>
-            </Link>
-            <Link href="/profile">
-                <div className="w-10 h-10 rounded-full border border-white/10 overflow-hidden bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
-                  <img 
-                    src={user.photoURL || "https://github.com/shadcn.png"} 
-                    alt="Profile" 
-                    className="w-full h-full object-cover" 
-                  />
-                </div>
             </Link>
           </div>
         </div>
