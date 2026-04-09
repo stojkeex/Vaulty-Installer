@@ -238,15 +238,30 @@ export default function Landing() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden font-sans">
+    <div 
+      className="min-h-screen text-white overflow-x-hidden font-sans relative bg-black"
+    >
+      {/* Background effects */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: `url(${vaultyStoryBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          opacity: 0.8
+        }}
+      />
+      <div className="fixed inset-0 pointer-events-none z-0 bg-gradient-to-b from-black/20 via-black/60 to-black/80" />
+
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-400 z-50"
         style={{ width: `${scrollProgress}%` }}
       />
 
-      {/* Background effects */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10 bg-black">
+      {/* Background blobs */}
+      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px]" />
       </div>
@@ -516,15 +531,9 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl overflow-y-auto"
-            style={{
-              backgroundImage: `url(${vaultyStoryBg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundAttachment: 'fixed',
-            }}
+            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xl overflow-y-auto"
           >
-            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none" />
+            <div className="absolute inset-0 pointer-events-none" />
             <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative z-10">
               <button
                 onClick={() => setShowStory(false)}
