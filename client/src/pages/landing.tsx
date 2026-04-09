@@ -15,7 +15,10 @@ export default function Landing() {
   const [chatStarted, setChatStarted] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
-  const [subscribersCount, setSubscribersCount] = useState(0);
+  const [subscribersCount, setSubscribersCount] = useState(() => {
+    const saved = localStorage.getItem("vaulty_landing_subscribers");
+    return saved ? parseInt(saved, 10) : 14;
+  });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showComingSoon, setShowComingSoon] = useState(false);
 
@@ -28,17 +31,25 @@ export default function Landing() {
     e.preventDefault();
     if (email) {
       setIsSubscribed(true);
-      setSubscribersCount(prev => prev + 1);
+      setSubscribersCount(prev => {
+        const next = prev + 1;
+        localStorage.setItem("vaulty_landing_subscribers", next.toString());
+        return next;
+      });
       setEmail("");
       setTimeout(() => setIsSubscribed(false), 3000);
     }
   };
 
-  // Simulate growing subscriber count
+  // Simulate growing subscriber count persistently
   useEffect(() => {
     const interval = setInterval(() => {
-      setSubscribersCount(prev => prev + Math.floor(Math.random() * 3));
-    }, 5000);
+      setSubscribersCount(prev => {
+        const next = prev + Math.floor(Math.random() * 3);
+        localStorage.setItem("vaulty_landing_subscribers", next.toString());
+        return next;
+      });
+    }, 15000);
     return () => clearInterval(interval);
   }, []);
 
@@ -55,12 +66,20 @@ export default function Landing() {
       { id: "subscribe", offset: document.getElementById("subscribe")?.offsetTop || 0 },
     ];
 
+    let current = "home";
     for (let i = sections.length - 1; i >= 0; i--) {
-      if (scrollPosition >= sections[i].offset - 200) {
-        setActiveSection(sections[i].id);
+      if (scrollPosition >= sections[i].offset - 300) {
+        current = sections[i].id;
         break;
       }
     }
+    
+    // Keep 'home' active when scrolling through 'about' section since we removed it from nav
+    if (current === "about") {
+      current = "home";
+    }
+    
+    setActiveSection(current);
   };
 
   useEffect(() => {
