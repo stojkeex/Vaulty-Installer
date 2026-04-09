@@ -37,6 +37,7 @@ import CreateNews from "@/pages/create-news";
 import ToolsPage from "@/pages/tools";
 import CourseDetailPage from "@/pages/course-detail";
 import VaultyCoinInfoPage from "@/pages/vaulty-coin-info";
+import Landing from "@/pages/landing";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { NotificationProvider } from "@/contexts/notification-context";
@@ -73,9 +74,10 @@ function Router() {
   return (
     <div className="relative min-h-screen bg-black text-white">
       <Switch>
+        <Route path="/landing" component={Landing} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/" component={() => <Redirect to="/home" />} />
+        <Route path="/" component={() => <Redirect to="/landing" />} />
         
         {/* Home is now just Feed, no tabs param needed, but we keep /home for compatibility */}
         <Route path="/home" component={() => <ProtectedRoute component={Home} />} />
