@@ -239,9 +239,9 @@ export default function Landing() {
 
   return (
     <div 
-      className="min-h-screen text-white overflow-x-hidden font-sans relative bg-black"
+      className="min-h-screen text-white overflow-x-hidden font-sans relative"
     >
-      {/* Background effects */}
+      {/* Background image */}
       <div 
         className="fixed inset-0 pointer-events-none z-0"
         style={{
@@ -249,22 +249,17 @@ export default function Landing() {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
-          opacity: 0.8
         }}
       />
-      <div className="fixed inset-0 pointer-events-none z-0 bg-gradient-to-b from-black/20 via-black/60 to-black/80" />
+      
+      {/* Dark overlay just for text readability */}
+      <div className="fixed inset-0 pointer-events-none z-0 bg-black/50 backdrop-blur-[2px]" />
 
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 h-1 bg-gradient-to-r from-indigo-500 to-sky-400 z-50"
         style={{ width: `${scrollProgress}%` }}
       />
-
-      {/* Background blobs */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-900/10 rounded-full blur-[120px]" />
-      </div>
 
       {/* Fixed Navigation Bar */}
       <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
@@ -348,7 +343,7 @@ export default function Landing() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="relative z-10 py-32 px-6 border-t border-white/5 bg-black/40 backdrop-blur-3xl">
+      <section id="about" className="relative z-10 py-32 px-6 border-t border-white/5">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -531,9 +526,15 @@ export default function Landing() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-xl overflow-y-auto"
+            className="fixed inset-0 z-[100] bg-black/90 overflow-y-auto"
+            style={{
+              backgroundImage: `url(${vaultyStoryBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+            }}
           >
-            <div className="absolute inset-0 pointer-events-none" />
+            <div className="absolute inset-0 bg-black/60 pointer-events-none" />
             <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative z-10">
               <button
                 onClick={() => setShowStory(false)}
@@ -624,7 +625,7 @@ export default function Landing() {
       </AnimatePresence>
 
       {/* FAQ Section */}
-      <section id="faq" className="relative z-10 py-32 px-6 border-t border-white/5 bg-black/40 backdrop-blur-3xl">
+      <section id="faq" className="relative z-10 py-32 px-6 border-t border-white/5">
         <div className="max-w-3xl mx-auto">
           <motion.div
             className="text-center mb-16"
@@ -738,7 +739,7 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-white/5 py-12 px-6 text-center text-white/40 font-light bg-black">
+      <footer className="relative z-10 border-t border-white/5 py-12 px-6 text-center text-white/40 font-light">
         <div className="flex justify-center gap-6 mb-8">
           <a href="#" className="hover:text-white transition-colors"><Twitter className="w-5 h-5" /></a>
           <a href="#" className="hover:text-white transition-colors"><Instagram className="w-5 h-5" /></a>
