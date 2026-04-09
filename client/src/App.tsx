@@ -13,8 +13,6 @@ import Posts from "@/pages/posts";
 import PostDetail from "@/pages/post-detail";
 import Profile from "@/pages/profile";
 import PublicProfile from "@/pages/public-profile";
-import Chat from "@/pages/chat";
-import RecentChats from "@/pages/recent-chats";
 import Search from "@/pages/search";
 import EditProfile from "@/pages/edit-profile";
 import Settings from "@/pages/settings";
@@ -38,7 +36,6 @@ import CreatePost from "@/pages/create-post";
 import CreateNews from "@/pages/create-news";
 import NewsPage from "@/pages/news";
 import NewsDetail from "@/pages/news-detail";
-import ChatUserInfo from "@/pages/chat-user-info";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { NotificationProvider } from "@/contexts/notification-context";
@@ -59,8 +56,6 @@ import { RatingProvider } from "@/components/rating-provider";
 import EarnPage from "@/pages/earn";
 import CourseDetail from "@/pages/course-detail";
 import TOSPage from "@/pages/tos";
-import PrivateChat from "@/pages/private-chat";
-import MessageRequests from "@/pages/message-requests";
 import Comments from "@/pages/comments";
 
 // Protected Route Component
@@ -96,7 +91,6 @@ function Router() {
         <Route path="/earn" component={() => <ProtectedRoute component={EarnPage} />} />
         <Route path="/course/:id" component={() => <ProtectedRoute component={CourseDetail} hideNav={true} />} />
         <Route path="/tos" component={() => <ProtectedRoute component={TOSPage} hideNav={true} />} />
-        <Route path="/chat/private/:userId" component={() => <ProtectedRoute component={PrivateChat} hideNav={true} />} />
 
         {/* Hide Nav for AI page as requested */}
         <Route path="/tools" component={() => <ProtectedRoute component={Ai} hideNav={true} />} />
@@ -109,14 +103,6 @@ function Router() {
         <Route path="/profile" component={() => <ProtectedRoute component={Profile} />} />
         <Route path="/user/:id" component={() => <ProtectedRoute component={PublicProfile} />} />
         
-        <Route path="/messages" component={() => <ProtectedRoute component={RecentChats} hideNav={true} />} />
-        <Route path="/messages/user/:id" component={() => <ProtectedRoute component={Chat} hideNav={true} />} />
-        <Route path="/messages/global" component={() => <ProtectedRoute component={Chat} hideNav={true} />} />
-        <Route path="/messages/:id/info" component={() => <ProtectedRoute component={ChatUserInfo} hideNav={true} />} />
-        <Route path="/message-requests" component={() => <ProtectedRoute component={MessageRequests} hideNav={true} />} />
-        <Route path="/create-companion" component={() => <Redirect to="/messages" />} />
-        <Route path="/messages/:id" component={() => <Redirect to="/messages" />} />
-
         <Route path="/users/:id/:type" component={() => <ProtectedRoute component={FollowList} />} />
         <Route path="/search" component={() => <ProtectedRoute component={Search} />} />
         <Route path="/edit-profile" component={() => <ProtectedRoute component={EditProfile} />} />

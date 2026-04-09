@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, MessageSquare, User, Compass, TrendingUp } from "lucide-react";
+import { Home, Users, User, Compass, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
@@ -31,7 +31,7 @@ export function BottomNav() {
     { href: "/demo-trading", label: "DEMO", icon: TrendingUp },
     { href: "/discover", label: "DISCOVER", icon: Compass },
     { href: "/home", label: "HOME", icon: Home },
-    { href: "/messages", label: "CHAT", icon: MessageSquare },
+    { href: "/posts", label: "COMMUNITY", icon: Users },
     { href: "/profile", label: "PROFILE", icon: User },
   ], []);
 
