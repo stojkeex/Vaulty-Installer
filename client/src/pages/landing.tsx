@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
+import vaultyStoryBg from "@assets/IMG_1135_1775757374085.jpeg";
 import { featuresData } from "@/lib/features-data";
 
 function FeatureCard({ feature, setLocation }: { feature: typeof featuresData[0], setLocation: any }) {
@@ -516,8 +517,15 @@ export default function Landing() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-2xl overflow-y-auto"
+            style={{
+              backgroundImage: `url(${vaultyStoryBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundAttachment: 'fixed',
+            }}
           >
-            <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none" />
+            <div className="min-h-screen p-6 md:p-12 pb-32 max-w-4xl mx-auto relative z-10">
               <button
                 onClick={() => setShowStory(false)}
                 className="sticky top-6 right-6 ml-auto w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors mb-12 z-50"
