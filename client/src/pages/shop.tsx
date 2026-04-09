@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { useLocation } from "wouter";
-import { Brain, ChevronLeft, Coins, Loader2, Sparkles } from "lucide-react";
+import { Brain, ChevronLeft, Coins, Loader2, Sparkles, Plus, Minus } from "lucide-react";
 import { cn, formatPoints } from "@/lib/utils";
 import { VaultyIcon } from "@/components/ui/vaulty-icon";
 import { Button } from "@/components/ui/button";
@@ -19,9 +19,21 @@ type ShopItem = {
   rewardLabel: string;
   badge: string;
   kind: "demo" | "ai";
+  isCustom?: boolean;
 };
 
 const DEMO_MONEY_PACKAGES: ShopItem[] = [
+  {
+    id: "demo-custom",
+    name: "Demo Boost Custom",
+    description: "Choose exactly how much demo cash you want to add.",
+    vcCost: 0,
+    rewardAmount: 0,
+    rewardLabel: "Custom Demo Cash",
+    badge: "Custom",
+    kind: "demo",
+    isCustom: true,
+  },
   {
     id: "demo-10k",
     name: "Demo Boost I",
@@ -75,6 +87,17 @@ const DEMO_MONEY_PACKAGES: ShopItem[] = [
 ];
 
 const AI_CREDIT_PACKAGES: ShopItem[] = [
+  {
+    id: "ai-custom",
+    name: "AI Pack Custom",
+    description: "Choose exactly how many AI credits you want to add.",
+    vcCost: 0,
+    rewardAmount: 0,
+    rewardLabel: "Custom AI Credits",
+    badge: "Custom",
+    kind: "ai",
+    isCustom: true,
+  },
   {
     id: "ai-100",
     name: "AI Pack I",
@@ -146,6 +169,16 @@ function ShopSection({
   userPoints: number;
   onPurchase: (item: ShopItem) => void;
 }) {
+  const [customAmount, setCustomAmount] = useState<number>(0);
+
+  const getCustomCost = (amount: number, kind: "demo" | "ai") => {
+    if (kind === "demo") {
+      return (amount / 10000) * 1000;
+    } else {
+      return (amount / 100) * 10000;
+    }
+  };
+
   return (
     <section className="space-y-4">
       <div className="flex items-start justify-between gap-4">
@@ -160,8 +193,23 @@ function ShopSection({
 
       <div className="space-y-3">
         {packages.map((item) => {
-          const isDisabled = purchasingId !== null || userPoints < item.vcCost;
+          const isCustom = item.isCustom;
+          
+          let currentRewardAmount = item.rewardAmount;
+          let currentVcCost = item.vcCost;
+          
+          if (isCustom) {
+             currentRewardAmount = customAmount;
+             currentVcCost = getCustomCost(customAmount, item.kind);
+          }
+
+          const isDisabled = purchasingId !== null || userPoints < currentVcCost || (isCustom && customAmount <= 0);
           const isLoading = purchasingId === item.id;
+
+          const handleCustomChange = (delta: number) => {
+             const newAmount = Math.max(0, customAmount + delta);
+             setCustomAmount(newAmount);
+          };
 
           return (
             <div
@@ -184,21 +232,45 @@ function ShopSection({
 
                 <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2 text-right">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Reward</p>
-                  <p className="mt-1 text-sm font-semibold text-white">{item.rewardLabel}</p>
+                  <p className="mt-1 text-sm font-semibold text-white">
+                    {isCustom ? (item.kind === 'demo' ? `${formatPoints(currentRewardAmount)} Demo Cash` : `${formatPoints(currentRewardAmount)} AI Credits`) : item.rewardLabel}
+                  </p>
                 </div>
               </div>
+              
+              {isCustom && (
+                 <div className="relative z-10 mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/5 bg-black/40 p-3">
+                   <div className="flex items-center gap-3">
+                     <button 
+                       onClick={() => handleCustomChange(item.kind === 'demo' ? -5000 : -50)}
+                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                     >
+                       <Minus size={14} />
+                     </button>
+                     <span className="text-lg font-bold min-w-[60px] text-center">
+                       {formatPoints(currentRewardAmount)}
+                     </span>
+                     <button 
+                       onClick={() => handleCustomChange(item.kind === 'demo' ? 5000 : 50)}
+                       className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                     >
+                       <Plus size={14} />
+                     </button>
+                   </div>
+                 </div>
+              )}
 
               <div className="relative z-10 mt-5 flex items-center justify-between gap-4 border-t border-white/10 pt-4">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Price</p>
                   <p className="mt-1 flex items-center gap-2 text-base font-semibold text-white" data-testid={`text-shop-price-${item.id}`}>
                     <VaultyIcon size={16} />
-                    {formatPoints(item.vcCost)} VC
+                    {formatPoints(currentVcCost)} VC
                   </p>
                 </div>
 
                 <Button
-                  onClick={() => onPurchase(item)}
+                  onClick={() => onPurchase({ ...item, vcCost: currentVcCost, rewardAmount: currentRewardAmount })}
                   disabled={isDisabled}
                   className="h-11 rounded-2xl bg-white text-black hover:bg-white/90 disabled:bg-white/10 disabled:text-gray-500"
                   data-testid={`button-buy-${item.id}`}
