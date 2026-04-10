@@ -161,6 +161,20 @@ export default function DemoTrading() {
     }).format(amount);
   };
 
+  const formatCryptoAmount = (amount: number) => {
+    if (amount === 0) return "0";
+    if (Math.abs(amount) < 0.000001) return amount.toExponential(4);
+    if (Math.abs(amount) < 0.01) return amount.toFixed(6);
+    if (Math.abs(amount) < 1) return amount.toFixed(4);
+    if (Math.abs(amount) < 1000) return amount.toFixed(2);
+    
+    // For large crypto amounts like 63,970,606 XRP -> 63.97M
+    return new Intl.NumberFormat("en-US", {
+      notation: "compact",
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
+
   const renderSelectedAmount = (amount: number, iconSize: number) => {
     if (isVaultyCredits) {
       return (
@@ -338,7 +352,7 @@ export default function DemoTrading() {
                         <div className="min-w-0">
                           <p className="font-bold text-lg uppercase truncate">{coin?.symbol || holding.coinId}</p>
                           <p className="text-sm text-gray-500 truncate">
-                            {holding.amount.toFixed(6)} · {formatSelectedPrice(currentPriceUsd)}
+                            {formatCryptoAmount(holding.amount)} · {formatSelectedCompactAmount(currentPriceUsd)}
                           </p>
                         </div>
                       </div>
@@ -348,7 +362,7 @@ export default function DemoTrading() {
                         </p>
                         <p className={cn("text-sm font-medium flex items-center justify-end gap-1", profitUsd >= 0 ? "text-green-500" : "text-red-400")}>
                           {profitUsd >= 0 ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                          {renderSelectedAmount(Math.abs(displayProfit), 10)}
+                          {formatSelectedCompactAmount(Math.abs(displayProfit))}
                           <span>({Math.abs(profitPercent).toFixed(2)}%)</span>
                         </p>
                       </div>
