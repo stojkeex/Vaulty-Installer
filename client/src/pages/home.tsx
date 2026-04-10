@@ -424,7 +424,7 @@ export default function Home() {
                                   key={currentBadgeIndex}
                                   src={badges[currentBadgeIndex]} 
                                   alt={badgeLabels[currentBadgeIndex]}
-                                  className="w-[52px] h-[52px] shrink-0 rounded-[18px] relative z-10 transition-transform duration-500 object-cover"
+                                  className="w-[52px] h-[52px] shrink-0 rounded-[16px] relative z-10 transition-transform duration-500 object-contain bg-black p-1"
                                   initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   exit={{ opacity: 0, scale: 0.8 }}
