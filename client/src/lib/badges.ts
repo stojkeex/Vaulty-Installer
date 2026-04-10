@@ -1,6 +1,6 @@
 
 import verifiedBadge from "@assets/IMG_1076_1775576984427.png";
-import badgePro from "@assets/IMG_1085_1775581026902.png";
+import badgePro from "@assets/IMG_1148_1775815239300.png";
 
 export interface Badge {
   id: string;

@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { usePremiumThanks } from "@/components/premium-thanks-modal";
-import badgePro from "@assets/IMG_1085_1775581026902.png";
+import badgePro from "@assets/IMG_1148_1775815239300.png";
 import heroImage from "@assets/generated_images/futuristic_ethereal_silhouetted_figure_in_cosmic_space_background.png";
 
 const stripePromise = loadStripe("pk_live_51SbQJ9HChlVvIks4OVBZysQhGeehAbwISpcSDuxNYy64nTJu780uJcvR0afAzKUZhpnVkFVHPv7iUPlcIYjEIDLh00GF5Z3JoY");
