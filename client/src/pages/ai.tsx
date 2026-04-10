@@ -579,7 +579,7 @@ export default function Ai() {
   const usagePercent = limit === Infinity ? 0 : Math.min(100, (usage / limit) * 100);
 
   return (
-    <div className="flex h-[100dvh] bg-black text-white overflow-hidden relative">
+    <div className="fixed inset-0 bg-black text-white overflow-hidden flex">
       {/* Sidebar */}
       <div 
         className={cn(
@@ -780,9 +780,9 @@ export default function Ai() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col w-full min-w-0 bg-black h-full overflow-hidden">
+      <div className="flex-1 flex flex-col w-full h-full bg-black">
         {/* Header - Fixed to top */}
-        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-30">
+        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-30 border-b border-white/5">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-white/10 rounded-full text-white">
               <Menu size={22} />
@@ -828,7 +828,7 @@ export default function Ai() {
         </header>
 
         {/* Messages */}
-        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
+        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth pb-2">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col justify-center max-w-3xl mx-auto mt-[-10vh]">
               {/* Empty state content completely removed as requested to match ChatGPT UI */}
@@ -963,7 +963,7 @@ export default function Ai() {
         </div>
 
         {/* Input Area - Glass Style Like Bottom Bar */}
-        <div className="flex-shrink-0 p-4 bg-black z-30 border-none pb-[calc(env(safe-area-inset-bottom)+1rem)]">
+        <div className="flex-shrink-0 p-4 bg-black z-30 border-none pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-2">
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             
             {/* Horizontal Scrollable Suggestions - ONLY visible when no messages */}
