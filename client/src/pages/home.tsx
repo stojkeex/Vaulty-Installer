@@ -27,7 +27,7 @@ import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
-import badgeProImage from "@assets/IMG_1148_1775815239300.png";
+import badgeProImage from "@assets/IMG_1151_1775816322474.jpeg";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
 import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
 
@@ -415,34 +415,32 @@ export default function Home() {
               </div>
 
               {/* Inline Premium Banner */}
-              <div className="w-full bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 rounded-3xl p-5 relative shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:bg-white/10 transition-colors group overflow-hidden">
-                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
                    <Link href="/premium">
                        <div className="flex items-center justify-between cursor-pointer relative z-10">
-                          <div className="flex items-center gap-4 flex-1">
+                          <div className="flex items-center gap-3 flex-1">
                               <div className="relative">
-                                <div className="absolute inset-0 bg-white/20 blur-xl rounded-full" />
                                 <motion.img 
                                   key={currentBadgeIndex}
                                   src={badges[currentBadgeIndex]} 
                                   alt={badgeLabels[currentBadgeIndex]}
-                                  className="w-14 h-14 shrink-0 group-hover:scale-110 relative z-10 drop-shadow-[0_0_12px_rgba(255,255,255,0.4)] transition-transform duration-500"
+                                  className="w-[52px] h-[52px] shrink-0 rounded-[18px] relative z-10 transition-transform duration-500 object-cover"
                                   initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
                                   exit={{ opacity: 0, scale: 0.8 }}
                                   transition={{ duration: 0.5 }}
                                 />
                               </div>
-                              <div className="space-y-1">
-                                <p className="text-base font-bold tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all duration-300">
+                              <div className="space-y-0.5">
+                                <p className="text-[16px] font-bold tracking-tight text-white transition-all duration-300">
                                     Unlock Vaulty+
                                 </p>
-                                <p className="text-xs font-medium text-gray-400">
+                                <p className="text-[13px] font-medium text-gray-400">
                                     All premium features in one plan
                                 </p>
                               </div>
                           </div>
-                          <div className="px-5 py-2.5 rounded-full bg-white text-black text-xs font-black uppercase tracking-wider group-hover:bg-gray-200 transition-colors shadow-lg">
+                          <div className="px-5 py-2 mr-2 rounded-full bg-white text-black text-[13px] font-bold uppercase tracking-wide transition-colors shadow-sm">
                               Upgrade
                           </div>
                        </div>
