@@ -73,7 +73,7 @@ function ProtectedRoute({ component: Component, hideNav = false }: { component: 
 
 function Router() {
   return (
-    <div className="relative min-h-screen bg-black text-white">
+    <div className="relative min-h-screen bg-[#000000] text-white">
       <Switch>
         <Route path="/landing" component={Landing} />
         <Route path="/feature/:id" component={FeatureDetailPage} />
@@ -148,7 +148,7 @@ class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: 
   render() {
     if (this.state.hasError) {
       return (
-        <div className="flex min-h-screen items-center justify-center bg-black px-6 text-white">
+        <div className="flex min-h-screen items-center justify-center bg-[#000000] px-6 text-white">
           <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-white/5 p-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
             <p className="text-[11px] uppercase tracking-[0.22em] text-white/45">Vaulty</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight">Something on this page broke.</h2>
