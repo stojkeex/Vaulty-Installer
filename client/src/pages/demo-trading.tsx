@@ -253,7 +253,8 @@ export default function DemoTrading() {
       </div>
 
       <div className="max-w-md mx-auto p-4 space-y-6">
-        <div className="relative overflow-hidden rounded-[32px] p-7 bg-gradient-to-b from-white/[0.05] to-transparent border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+        <div className="relative overflow-hidden rounded-[32px] p-7 bg-black border border-white/[0.08] shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent pointer-events-none" />
           <div className="relative z-10 space-y-5">
             <div className="flex items-start justify-between gap-3">
               <div>
@@ -328,13 +329,13 @@ export default function DemoTrading() {
             </div>
 
             {/* AI Analysis Button */}
-            <button className="w-full mt-2 flex items-center justify-center gap-2 bg-white text-black py-3.5 px-4 rounded-2xl font-bold text-[15px] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+            <button className="w-full mt-2 flex items-center justify-center gap-2 bg-white text-black py-3.5 px-4 rounded-[20px] font-bold text-[15px] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]">
               <Brain size={18} />
               Analysis with AI
             </button>
 
             <div className="grid grid-cols-3 gap-3 pt-2">
-              <div className="rounded-2xl bg-white/[0.03] border border-white/[0.05] p-3 backdrop-blur-sm">
+              <div className="rounded-[20px] bg-white/[0.02] border border-white/[0.05] p-3 backdrop-blur-md">
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <Wallet className="w-3 h-3" /> Cash
                 </div>
@@ -342,7 +343,7 @@ export default function DemoTrading() {
                   {renderSelectedCompactAmount(cashBalance, 12)}
                 </div>
               </div>
-              <div className="rounded-2xl bg-white/[0.03] border border-white/[0.05] p-3 backdrop-blur-sm">
+              <div className="rounded-[20px] bg-white/[0.02] border border-white/[0.05] p-3 backdrop-blur-md">
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <PieChart className="w-3 h-3" /> Holdings
                 </div>
@@ -350,7 +351,7 @@ export default function DemoTrading() {
                   {renderSelectedCompactAmount(investedBalance, 12)}
                 </div>
               </div>
-              <div className="rounded-2xl bg-white/[0.03] border border-white/[0.05] p-3 backdrop-blur-sm">
+              <div className="rounded-[20px] bg-white/[0.02] border border-white/[0.05] p-3 backdrop-blur-md">
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <Activity className="w-3 h-3" /> Trades
                 </div>
@@ -367,9 +368,9 @@ export default function DemoTrading() {
           </div>
 
           {!isHydrated ? (
-            <div className="text-center py-10 rounded-[24px] bg-white/[0.02] border border-white/[0.05] text-gray-500 backdrop-blur-sm">Loading portfolio...</div>
+            <div className="text-center py-10 rounded-[24px] bg-black border border-white/10 text-gray-500 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">Loading portfolio...</div>
           ) : enrichedHoldings.length === 0 ? (
-            <div className="text-center py-10 rounded-[24px] bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm">
+            <div className="text-center py-10 rounded-[24px] bg-black border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
               <p className="text-gray-500 text-sm">No active holdings yet.</p>
             </div>
           ) : (
@@ -380,7 +381,7 @@ export default function DemoTrading() {
 
                 return (
                   <Link key={holding.coinId} href={`/demo-trading/${holding.coinId}`}>
-                    <div className="flex items-center justify-between p-5 rounded-[24px] bg-white/[0.02] hover:bg-white/[0.04] border border-white/[0.05] active:scale-[0.98] transition-all cursor-pointer backdrop-blur-sm group" data-testid={`card-demo-holding-${holding.coinId}`}>
+                    <div className="flex items-center justify-between p-5 rounded-[24px] bg-black hover:bg-white/[0.04] border border-white/10 active:scale-[0.98] transition-all cursor-pointer group shadow-[0_4px_20px_rgba(0,0,0,0.3)]" data-testid={`card-demo-holding-${holding.coinId}`}>
                       <div className="flex items-center gap-4 min-w-0">
                         <div className="h-12 w-12 rounded-full bg-black/50 p-2 flex items-center justify-center shrink-0 border border-white/[0.05] group-hover:border-white/[0.1] transition-colors">
                           {coin ? (
@@ -422,7 +423,7 @@ export default function DemoTrading() {
             <input
               type="text"
               placeholder="Search coins..."
-              className="w-full bg-white/[0.03] border border-white/[0.05] rounded-full py-4 pl-14 pr-6 text-white placeholder:text-zinc-500 focus:outline-none focus:bg-white/[0.05] transition-all backdrop-blur-sm text-[15px]"
+              className="w-full bg-black border border-white/10 rounded-[20px] py-4 pl-14 pr-6 text-white placeholder:text-zinc-500 focus:outline-none focus:border-white/20 focus:bg-white/[0.02] transition-all text-[15px] shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               data-testid="input-demo-coin-search"
@@ -444,7 +445,7 @@ export default function DemoTrading() {
               coins.map((coin) => {
                 return (
                   <Link key={coin.id} href={`/demo-trading/${coin.id}`}>
-                    <div className="flex justify-between items-center p-4 rounded-[20px] hover:bg-white/[0.03] transition-colors cursor-pointer group" data-testid={`card-market-coin-${coin.id}`}>
+                    <div className="flex justify-between items-center p-4 rounded-[20px] bg-black hover:bg-white/[0.04] border border-white/10 transition-colors cursor-pointer group shadow-[0_4px_20px_rgba(0,0,0,0.3)]" data-testid={`card-market-coin-${coin.id}`}>
                       <div className="flex gap-4 items-center min-w-0">
                         <div className="h-11 w-11 rounded-full bg-white/[0.02] p-1 border border-white/[0.05] shrink-0">
                            <img src={coin.image} alt={coin.name} className="w-full h-full rounded-full object-cover" />
@@ -480,7 +481,7 @@ export default function DemoTrading() {
                 const convertedPrice = convert(transaction.priceAtTransaction);
 
                 return (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 rounded-[20px] bg-white/[0.02] border border-white/[0.05] backdrop-blur-sm" data-testid={`row-demo-transaction-${transaction.id}`}>
+                  <div key={transaction.id} className="flex items-center justify-between p-4 rounded-[20px] bg-black border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.3)]" data-testid={`row-demo-transaction-${transaction.id}`}>
                     <div className="flex items-center gap-4">
                       <div className={cn("h-11 w-11 rounded-full flex items-center justify-center font-bold text-xl", transaction.type === "buy" ? "bg-[#06b6d4]/10 text-[#06b6d4]" : "bg-rose-500/10 text-rose-400")}>
                         {transaction.type === "buy" ? "+" : "-"}
