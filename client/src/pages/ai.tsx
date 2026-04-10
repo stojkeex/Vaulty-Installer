@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { 
   Send, X, Settings, History, Copy, Check, ThumbsUp, ThumbsDown, 
   Volume2, Menu, User, CreditCard, Crown, Sparkles, ChevronLeft,
-  Paperclip, ChevronDown, Lock, Zap, HardDrive, LogOut, Brain, ChevronUp, Plus, Mic
+  Paperclip, ChevronDown, Lock, Zap, HardDrive, LogOut, Brain, ChevronUp
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { getAuth } from "firebase/auth";
@@ -579,7 +579,7 @@ export default function Ai() {
   const usagePercent = limit === Infinity ? 0 : Math.min(100, (usage / limit) * 100);
 
   return (
-    <div className="fixed inset-0 bg-black text-white overflow-hidden flex">
+    <div className="flex h-[100dvh] bg-black text-white overflow-hidden relative">
       {/* Sidebar */}
       <div 
         className={cn(
@@ -780,9 +780,9 @@ export default function Ai() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col w-full h-full bg-black">
+      <div className="flex-1 flex flex-col w-full min-w-0 bg-black">
         {/* Header - Fixed to top */}
-        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-30 border-b border-white/5">
+        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-10 sticky top-0">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-white/10 rounded-full text-white">
               <Menu size={22} />
@@ -791,8 +791,8 @@ export default function Ai() {
             {/* Model Selector (replaces Upgrade badge) */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors ml-2 bg-transparent text-white/90">
-                  <span className="font-semibold text-[15px]">{selectedModel.name}</span>
+                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/10 transition-colors">
+                  <span className="font-semibold text-[15px] text-white/90">{selectedModel.name}</span>
                   <ChevronDown size={14} className="text-white/50" />
                 </button>
               </DropdownMenuTrigger>
@@ -822,16 +822,51 @@ export default function Ai() {
             </DropdownMenu>
           </div>
           
-          <button onClick={() => setLocation("/")} className="p-2 hover:bg-white/10 rounded-full text-white">
-            <X size={22} />
+          <button onClick={() => setLocation("/")} className="p-2 hover:bg-white/10 rounded-full text-gray-400">
+            <X size={24} />
           </button>
         </header>
 
         {/* Messages */}
-        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth pb-2">
+        <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
           {messages.length === 0 ? (
-            <div className="h-full flex flex-col justify-center max-w-3xl mx-auto mt-[-10vh]">
-              {/* Empty state content completely removed as requested to match ChatGPT UI */}
+            <div className="h-full flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-700">
+              <div className="w-32 h-32 mb-8 relative">
+                <img 
+                  src={vaultyLogo} 
+                  alt="Vaulty AI" 
+                  className="w-full h-full object-contain relative z-10 cursor-pointer select-none"
+                  data-testid="image-vaultylogo-longpress"
+                  onTouchStart={() => {
+                    longPressTimer.current = setTimeout(() => handleImageLongPress(vaultyLogo), 500);
+                  }}
+                  onTouchEnd={() => {
+                    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+                  }}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    handleImageLongPress(vaultyLogo);
+                  }}
+                />
+              </div>
+              <h1 className="text-4xl font-bold tracking-tight mb-8 text-white">VAULTY AI</h1>
+              
+              {/* SUGGESTIONS SECTION */}
+              <div className="w-full max-w-md space-y-3">
+                <p className="text-sm text-gray-500 mb-4">Try asking...</p>
+                <div className="grid gap-3">
+                  {suggestions.map((suggestion, idx) => (
+                    <button 
+                      key={idx}
+                      onClick={() => handleSendMessage(suggestion)}
+                      className="p-3 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-all text-left"
+                    >
+                      "{suggestion}"
+                    </button>
+                  ))}
+                </div>
+              </div>
+
             </div>
           ) : (
             messages.map((msg, idx) => (
@@ -963,49 +998,24 @@ export default function Ai() {
         </div>
 
         {/* Input Area - Glass Style Like Bottom Bar */}
-        <div className="flex-shrink-0 p-4 bg-black z-30 border-none pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-2">
-          <div className="max-w-3xl mx-auto flex flex-col items-center">
-            
-            {/* Horizontal Scrollable Suggestions - ONLY visible when no messages */}
-            {messages.length === 0 && (
-              <div className="w-full overflow-x-auto pb-4 scrollbar-hide mb-2 -mx-4 px-4 flex gap-2 snap-x">
-                {suggestions.map((suggestion, idx) => {
-                  // Split suggestion for title/subtitle look like ChatGPT
-                  // If it's a long sentence, we'll just use the first few words as title
-                  const words = suggestion.split(' ');
-                  const title = words.slice(0, 3).join(' ');
-                  const subtitle = words.slice(3).join(' ');
-                  
-                  return (
-                    <button 
-                      key={idx}
-                      onClick={() => handleSendMessage(suggestion)}
-                      className="flex-shrink-0 snap-start p-4 rounded-[24px] bg-[#2f2f2f] hover:bg-[#3f3f3f] transition-all text-left w-[200px] h-[80px] flex flex-col justify-center border border-white/5"
-                    >
-                      <span className="font-semibold text-[15px] text-white truncate w-full">{title}</span>
-                      <span className="text-[14px] text-gray-400 truncate w-full">{subtitle}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
+        <div className="flex-shrink-0 p-4 bg-black/80 backdrop-blur-md z-20 border-t border-white/5 pb-[env(safe-area-inset-bottom)]">
+          <div className="max-w-3xl mx-auto">
             <div
-              className="glass-card rounded-[32px] p-1.5 relative flex items-center gap-2 group w-full"
+              className="glass-card rounded-3xl p-1.5 relative flex items-end gap-2 group"
               style={{
-                background: "#2f2f2f",
-                border: "none",
-                boxShadow: "none",
-                minHeight: "52px"
+                boxShadow: "0 0 40px -10px rgba(0,0,0,0.5), inset 0 0 0 1px rgba(255,255,255,0.1)",
+                background: "rgba(15, 15, 15, 0.7)",
+                backdropFilter: "blur(20px)"
               }}
             >
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-500/5 via-purple-500/5 to-slate-500/5 opacity-50 blur-xl -z-10" />
               
               {/* Attachment Button - White Icon */}
               <button 
-                className="p-2.5 rounded-full hover:bg-white/10 text-white transition-colors flex-shrink-0 ml-1"
+                className="p-3 rounded-full hover:bg-white/10 text-white hover:text-white transition-colors flex-shrink-0"
                 title="Attach file"
               >
-                <Plus size={24} className="text-white" />
+                <Paperclip size={20} />
               </button>
 
               <input
@@ -1013,43 +1023,28 @@ export default function Ai() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                placeholder={`Ask anything`}
-                className="flex-1 bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none text-white placeholder-[#a3a3a3] py-2 px-1 max-h-32 overflow-y-auto resize-none text-[16px]"
+                placeholder={`Message ${selectedModel.name}...`}
+                className="flex-1 bg-transparent border-none outline-none focus:outline-none focus:ring-0 focus:border-none text-white placeholder-gray-400 py-3 px-2 max-h-32 overflow-y-auto resize-none"
                 disabled={isLoading}
               />
               
-              {/* Audio/Voice Button */}
-              {!input.trim() && (
-                 <button 
-                   className="p-2.5 rounded-full hover:bg-white/10 text-white transition-colors flex-shrink-0"
-                   title="Voice input"
-                 >
-                   <Mic size={22} className="text-white" />
-                 </button>
-              )}
-
               <button
                 onClick={() => handleSendMessage()}
                 disabled={!input.trim() || isLoading}
                 className={cn(
-                  "p-2 rounded-full transition-all flex items-center justify-center flex-shrink-0 mr-1.5",
+                  "p-3 rounded-full transition-all flex items-center justify-center flex-shrink-0",
                   input.trim() && !isLoading
-                    ? "bg-white text-black hover:bg-gray-200"
-                    : "bg-white text-black opacity-100" // Keep white background even when disabled for Voice icon
+                    ? "bg-white text-black hover:bg-gray-100 shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+                    : "bg-white/10 text-gray-400 cursor-not-allowed"
                 )}
-                style={{ width: "36px", height: "36px" }}
               >
-                {input.trim() && !isLoading ? (
-                  <Send size={18} className="ml-0.5" />
-                ) : (
-                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                     <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
-                     <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
-                     <line x1="12" x2="12" y1="19" y2="22"></line>
-                   </svg>
-                )}
+                <Send size={20} />
               </button>
             </div>
+            
+            <p className="text-center text-[10px] text-gray-500 mt-3 font-medium tracking-wide">
+              AI can occasionally make mistakes. Consider verifying important information.
+            </p>
           </div>
         </div>
       </div>
