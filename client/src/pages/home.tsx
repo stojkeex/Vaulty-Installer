@@ -27,7 +27,7 @@ import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 
 // Assets
 import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
-import badgeProImage from "@assets/IMG_1151_1775816322474.jpeg";
+import badgeProImage from "@assets/IMG_1148_1775816697333.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
 import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
 
