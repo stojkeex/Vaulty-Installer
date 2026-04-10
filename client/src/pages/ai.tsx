@@ -780,9 +780,9 @@ export default function Ai() {
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col w-full min-w-0 bg-black">
+      <div className="flex-1 flex flex-col w-full min-w-0 bg-black h-full overflow-hidden">
         {/* Header - Fixed to top */}
-        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-10 sticky top-0">
+        <header className="h-14 flex-shrink-0 flex items-center px-4 justify-between bg-black z-30">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(true)} className="p-2 hover:bg-white/10 rounded-full text-white">
               <Menu size={22} />
@@ -963,7 +963,7 @@ export default function Ai() {
         </div>
 
         {/* Input Area - Glass Style Like Bottom Bar */}
-        <div className="flex-shrink-0 p-4 bg-black z-20 border-none pb-[env(safe-area-inset-bottom)]">
+        <div className="flex-shrink-0 p-4 bg-black z-30 border-none pb-[calc(env(safe-area-inset-bottom)+1rem)]">
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             
             {/* Horizontal Scrollable Suggestions - ONLY visible when no messages */}
