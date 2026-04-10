@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { 
   Send, X, Settings, History, Copy, Check, ThumbsUp, ThumbsDown, 
   Volume2, Menu, User, CreditCard, Crown, Sparkles, ChevronLeft,
-  Paperclip, ChevronDown, Lock, Zap, HardDrive, LogOut, Brain, ChevronUp
+  Paperclip, ChevronDown, Lock, Zap, HardDrive, LogOut, Brain, ChevronUp, Plus, Mic
 } from "lucide-react";
 import { useLocation } from "wouter";
 import { getAuth } from "firebase/auth";
