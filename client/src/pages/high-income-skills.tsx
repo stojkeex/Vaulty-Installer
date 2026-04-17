@@ -17,61 +17,61 @@ const SKILL_MAP: Record<string, any> = {
   shop: {
     id: "shop-roadmap", title: "Launch Your First Online Store", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Finding a profitable niche", completed: false },
-      { id: 2, title: "Sourcing products (Dropship vs Inventory)", completed: false },
-      { id: 3, title: "Setting up Shopify/WooCommerce", completed: false },
-      { id: 4, title: "Creating high-converting product pages", completed: false },
-      { id: 5, title: "Running your first TikTok/Meta ads", completed: false },
+      { id: 1, title: "Choose a brand name & register domain", completed: false },
+      { id: 2, title: "Design a professional logo & brand kit", completed: false },
+      { id: 3, title: "Set up your social media profiles (IG/TikTok)", completed: false },
+      { id: 4, title: "Find your first 3 winning products", completed: false },
+      { id: 5, title: "Build your Shopify store skeleton", completed: false },
     ]
   },
   bar: {
     id: "bar-roadmap", title: "Open a Successful Cafe/Bar", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Location scouting and foot traffic analysis", completed: false },
-      { id: 2, title: "Permits, licenses, and legal setup", completed: false },
-      { id: 3, title: "Designing the menu and interior vibe", completed: false },
-      { id: 4, title: "Hiring the right staff", completed: false },
-      { id: 5, title: "Marketing your grand opening", completed: false },
+      { id: 1, title: "Define your concept & business name", completed: false },
+      { id: 2, title: "Create your logo and visual identity", completed: false },
+      { id: 3, title: "Set up business social media accounts", completed: false },
+      { id: 4, title: "Draft a preliminary business plan & budget", completed: false },
+      { id: 5, title: "Research local licensing requirements", completed: false },
     ]
   },
   singer: {
     id: "singer-roadmap", title: "Build a Career in Music", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Finding your unique sound and brand", completed: false },
-      { id: 2, title: "Home recording vs Studio recording", completed: false },
-      { id: 3, title: "Getting on Spotify and Apple Music", completed: false },
-      { id: 4, title: "Marketing your music on TikTok/Reels", completed: false },
-      { id: 5, title: "Booking local gigs and live shows", completed: false },
+      { id: 1, title: "Choose your stage name & claim handles", completed: false },
+      { id: 2, title: "Create your artist logo and press photos", completed: false },
+      { id: 3, title: "Set up your artist profiles (Spotify/Apple)", completed: false },
+      { id: 4, title: "Build your social media presence (TikTok/IG)", completed: false },
+      { id: 5, title: "Plan your first single release strategy", completed: false },
     ]
   },
   creator: {
     id: "creator-roadmap", title: "Become a Full-Time Content Creator", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Choosing your platform and niche", completed: false },
-      { id: 2, title: "The anatomy of a viral hook", completed: false },
-      { id: 3, title: "Basic filming and editing techniques", completed: false },
-      { id: 4, title: "Monetization: Adsense vs Sponsorships", completed: false },
-      { id: 5, title: "Pitching brands for your first deal", completed: false },
+      { id: 1, title: "Define your niche & channel name", completed: false },
+      { id: 2, title: "Design your channel art & profile logo", completed: false },
+      { id: 3, title: "Set up your creator social accounts", completed: false },
+      { id: 4, title: "Plan your first 10 video ideas", completed: false },
+      { id: 5, title: "Script your first highly engaging video", completed: false },
     ]
   },
   cleaner: {
     id: "cleaner-roadmap", title: "Start a Cleaning Agency", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Defining your services and pricing", completed: false },
-      { id: 2, title: "Getting necessary supplies and insurance", completed: false },
-      { id: 3, title: "Finding your first 3 residential clients", completed: false },
-      { id: 4, title: "Transitioning to lucrative B2B contracts", completed: false },
-      { id: 5, title: "Hiring cleaners to scale your time", completed: false },
+      { id: 1, title: "Choose a trustworthy business name", completed: false },
+      { id: 2, title: "Design a professional company logo", completed: false },
+      { id: 3, title: "Set up your business social media & Google profile", completed: false },
+      { id: 4, title: "Define your pricing structure and services", completed: false },
+      { id: 5, title: "Draft your first local advertising flyer", completed: false },
     ]
   },
   developer: {
     id: "dev-roadmap", title: "Become a Freelance Developer", duration: "5 days", xp: 500, progress: 0,
     lessons: [
-      { id: 1, title: "Choosing your stack (Frontend vs Backend)", completed: false },
-      { id: 2, title: "Building your portfolio portfolio", completed: false },
-      { id: 3, title: "Setting up your Upwork/Fiverr profile", completed: false },
-      { id: 4, title: "Writing proposals that win jobs", completed: false },
-      { id: 5, title: "Pricing your projects correctly", completed: false },
+      { id: 1, title: "Define your freelance brand name & niche", completed: false },
+      { id: 2, title: "Design your personal logo & brand identity", completed: false },
+      { id: 3, title: "Set up your professional social profiles (LinkedIn/Twitter)", completed: false },
+      { id: 4, title: "Buy a domain for your portfolio website", completed: false },
+      { id: 5, title: "Draft the copy for your portfolio homepage", completed: false },
     ]
   }
 };
