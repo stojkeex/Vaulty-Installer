@@ -346,27 +346,33 @@ export default function Home() {
               {/* Your Overview */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
-                  <h2 className="text-xl font-bold tracking-tight text-white">Overview</h2>
+                  <h2 className="text-xl font-bold tracking-tight text-white">Financial Health</h2>
                 </div>
                 <div className="relative overflow-hidden rounded-[32px] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
                   <div className="flex justify-between items-start relative z-10">
                     <div>
-                      <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">Total Balance</p>
+                      <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">Net Worth</p>
                       <h3 className="text-[2.5rem] leading-none font-bold tracking-tight text-white mb-3">
                         {currency === "VC" ? <VaultyIcon size={28} className="inline mr-2 -mt-1" /> : ""}
                         {currency === "VC" 
                           ? totalBalanceDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
                           : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(totalBalanceDisplay)}
                       </h3>
-                      <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
-                        {isPositiveProfit ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                        <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
-                        <span className="text-zinc-500 font-medium ml-1">Profit</span>
+                      <div className="flex items-center gap-3">
+                        <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
+                          {isPositiveProfit ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                          <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
+                          <span className="text-zinc-500 font-medium ml-1">This month</span>
+                        </div>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[13px] font-semibold text-emerald-400">
+                          <Check size={14} />
+                          <span>On track</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="h-[90px] w-full mt-2 -mx-2 relative z-0">
+                  <div className="h-[90px] w-full mt-4 -mx-2 relative z-0">
                     <ResponsiveContainer width="100%" height="100%">
                       <AreaChart data={OVERVIEW_CHART_DATA}>
                         <defs>
@@ -388,28 +394,78 @@ export default function Home() {
                     </ResponsiveContainer>
                   </div>
 
-                  {/* Quick Actions */}
-                  <div className="relative z-10 flex gap-3 mt-6">
-                    <button 
-                      onClick={() => { setActionType("buy"); setIsActionMenuOpen(true); }}
-                      className="flex-1 flex items-center justify-center gap-2 bg-white text-black py-3.5 px-4 rounded-2xl font-bold text-[15px] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-                    >
-                      <ArrowDownToLine size={18} />
-                      Buy
-                    </button>
-                    <button 
-                      onClick={() => { setActionType("sell"); setIsActionMenuOpen(true); }}
-                      className="flex-1 flex items-center justify-center gap-2 bg-white/[0.05] text-white py-3.5 px-4 rounded-2xl font-bold text-[15px] hover:bg-white/[0.1] transition-colors border border-white/[0.05] backdrop-blur-md"
-                    >
-                      <ArrowUpFromLine size={18} />
-                      Sell
-                    </button>
-                    <button 
-                      onClick={() => { setActionType("send"); setIsActionMenuOpen(true); }}
-                      className="w-14 flex items-center justify-center shrink-0 bg-white/[0.05] text-white py-3.5 rounded-2xl font-bold hover:bg-white/[0.1] transition-colors border border-white/[0.05] backdrop-blur-md"
-                    >
-                      <Send size={18} className="ml-0.5" />
-                    </button>
+                  {/* Zero-Based Budgeting Preview */}
+                  <div className="relative z-10 mt-6 pt-6 border-t border-white/10">
+                    <div className="flex items-center justify-between mb-4">
+                       <h4 className="text-sm font-bold text-white">Monthly Budget</h4>
+                       <span className="text-xs font-medium text-gray-400">0€ left to assign</span>
+                    </div>
+                    <div className="w-full bg-black/60 rounded-full h-2 mb-4 overflow-hidden border border-white/5 relative flex">
+                      <div className="bg-sky-500 h-full w-[45%]" title="Needs (45%)"></div>
+                      <div className="bg-emerald-400 h-full w-[30%]" title="Wants (30%)"></div>
+                      <div className="bg-purple-500 h-full w-[25%]" title="Savings & Investing (25%)"></div>
+                    </div>
+                    <div className="flex justify-between items-center text-xs font-medium">
+                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-sky-500"></div>Needs</div>
+                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-emerald-400"></div>Wants</div>
+                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-purple-500"></div>Future</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Freedom Map - New Section replacing quick actions */}
+              <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#0f172a] to-[#1e1b4b] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(125,211,252,0.15),transparent_50%)]" />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                        <Target size={20} />
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-white tracking-tight">Freedom Map</h3>
+                        <p className="text-xs text-sky-200/60 font-medium">Phase 2: Emergency Fund</p>
+                      </div>
+                    </div>
+                    <ChevronRight className="text-sky-400/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-4 opacity-50">
+                       <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                         <Check size={14} />
+                       </div>
+                       <div className="flex-1">
+                          <p className="text-sm font-bold text-white line-through">Clear Bad Debt</p>
+                       </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-4 relative">
+                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-emerald-500/30"></div>
+                       <div className="w-6 h-6 rounded-full border-2 border-sky-500 bg-[#0f172a] text-sky-500 flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(14,165,233,0.5)]">
+                         <div className="w-2 h-2 bg-sky-500 rounded-full animate-pulse"></div>
+                       </div>
+                       <div className="flex-1 bg-white/[0.03] border border-white/[0.05] rounded-xl p-3">
+                          <div className="flex justify-between items-center mb-1.5">
+                            <p className="text-sm font-bold text-white">Save 3 Months Expenses</p>
+                            <span className="text-xs font-bold text-sky-400">45%</span>
+                          </div>
+                          <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
+                            <div className="bg-sky-500 h-full w-[45%]"></div>
+                          </div>
+                       </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 opacity-50">
+                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/10"></div>
+                       <div className="w-6 h-6 rounded-full border-2 border-white/20 bg-transparent flex items-center justify-center shrink-0 relative z-10">
+                         <span className="text-[10px] font-bold text-white/50">3</span>
+                       </div>
+                       <div className="flex-1">
+                          <p className="text-sm font-bold text-white">Start Investing</p>
+                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
