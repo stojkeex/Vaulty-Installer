@@ -320,8 +320,8 @@ export default function HighIncomeSkills() {
   // Lesson Detail View
   if (activeLesson) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col">
-        <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4">
+      <div className="h-[100dvh] bg-black text-white flex flex-col overflow-hidden">
+        <div className="shrink-0 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4 z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setActiveLesson(null)} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors">
               <ChevronLeft className="w-5 h-5" />
@@ -333,10 +333,10 @@ export default function HighIncomeSkills() {
           </div>
         </div>
 
-        <div className="flex-1 p-5 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto p-5">
            {/* PREMIUM LOCKED SCREEN */}
            {activeLesson.isPremium ? (
-             <div className="flex flex-col items-center justify-center h-full text-center mt-12">
+             <div className="flex flex-col items-center justify-center h-full text-center">
                 <div className="w-24 h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full flex items-center justify-center mb-6 border border-indigo-500/30">
                   <Lock className="w-10 h-10 text-indigo-400" />
                 </div>
@@ -351,7 +351,7 @@ export default function HighIncomeSkills() {
                 </Link>
              </div>
            ) : (
-             <div className="space-y-8">
+             <div className="space-y-8 pb-8">
                {/* BRAND NAME SCREEN */}
                {activeLesson.type === 'brand_name' && (
                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
@@ -461,18 +461,20 @@ export default function HighIncomeSkills() {
 
         {/* Footer Action */}
         {!activeLesson.isPremium && (
-          <div className="p-4 border-t border-white/10 bg-black/80 backdrop-blur-xl">
-             <button 
-               onClick={handleCompleteLesson}
-               disabled={(activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)}
-               className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
-                 (activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)
-                   ? 'bg-white/10 text-gray-500 cursor-not-allowed'
-                   : 'bg-sky-500 text-black hover:bg-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]'
-               }`}
-             >
-               Complete Quest (+{activeLesson.points} XP)
-             </button>
+          <div className="shrink-0 p-5 pt-0 bg-black pb-8">
+             <div className="pt-4 border-t border-white/10">
+                <button 
+                  onClick={handleCompleteLesson}
+                  disabled={(activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)}
+                  className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
+                    (activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)
+                      ? 'bg-white/10 text-gray-500 cursor-not-allowed'
+                      : 'bg-sky-500 text-black hover:bg-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]'
+                  }`}
+                >
+                  Complete Quest (+{activeLesson.points} XP)
+                </button>
+             </div>
           </div>
         )}
       </div>
