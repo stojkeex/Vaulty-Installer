@@ -62,6 +62,8 @@ export function BottomNav() {
                      location.startsWith("/coin/") ||
                      location.startsWith("/wallet") ||
                      location === "/message-requests" ||
+                     location === "/high-income-skills" ||
+                     location === "/investment-simulator" ||
                      location === "/create-post";
 
   return (
