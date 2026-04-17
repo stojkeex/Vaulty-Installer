@@ -470,6 +470,78 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Wealth Generation (Offense) - NEW SECTION */}
+              <div className="space-y-4 mt-8">
+                <div className="flex items-center justify-between px-1">
+                  <h2 className="text-xl font-bold tracking-tight text-white">Wealth Builder</h2>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full border border-emerald-400/20">Active</span>
+                </div>
+                
+                <div className="grid gap-4">
+                  {/* Skill Builder Card */}
+                  <div className="relative overflow-hidden rounded-[24px] border border-emerald-500/20 bg-[linear-gradient(180deg,rgba(16,185,129,0.08),rgba(16,185,129,0.02))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-emerald-500/40 transition-all duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative z-10 flex gap-4">
+                      <div className="w-14 h-14 rounded-[18px] bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+                        <Brain className="w-7 h-7 text-emerald-400 drop-shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start mb-1">
+                           <h3 className="text-base font-bold text-white tracking-tight">High-Income Skills</h3>
+                           <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-md">Daily Quest</span>
+                        </div>
+                        <p className="text-[12px] text-emerald-200/60 leading-relaxed mb-3">Today's lesson: "How to land your first $500 freelance client on Upwork."</p>
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="flex -space-x-2">
+                             <div className="w-6 h-6 rounded-full bg-white/10 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white z-20">1</div>
+                             <div className="w-6 h-6 rounded-full bg-emerald-500 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white z-10"><Check size={10} /></div>
+                             <div className="w-6 h-6 rounded-full bg-white/5 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white/30 z-0">3</div>
+                          </div>
+                          <button className="text-[11px] font-bold text-black bg-emerald-400 hover:bg-emerald-300 px-4 py-1.5 rounded-full transition-colors">Start Lesson</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Simulator/Trading Proving Ground */}
+                  <Link href="/demo-trading">
+                    <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300">
+                      <div className="relative z-10 flex gap-4 items-center">
+                        <div className="w-14 h-14 rounded-[18px] bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+                          <TrendingUp className="w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-base font-bold text-white tracking-tight mb-1">Trading Proving Ground</h3>
+                          <p className="text-[12px] text-gray-400 leading-relaxed">Master risk management risk-free.</p>
+                          <div className="mt-3 bg-white/5 rounded-lg p-2 flex items-center justify-between border border-white/5">
+                             <span className="text-[11px] text-gray-400 font-medium">Monthly Target: <span className="text-white">+10%</span></span>
+                             <span className="text-[11px] font-bold text-emerald-400">+4.2%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                  
+                  {/* Compound Interest Simulator (Teaser) */}
+                  <div className="relative overflow-hidden rounded-[24px] border border-indigo-500/20 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.02))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-indigo-500/40 transition-all duration-300">
+                    <div className="relative z-10 flex items-center justify-between">
+                       <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                           <AreaChartIcon size={18} />
+                         </div>
+                         <div>
+                           <h3 className="text-sm font-bold text-white">Investment Simulator</h3>
+                           <p className="text-[11px] text-indigo-200/60">See your future wealth</p>
+                         </div>
+                       </div>
+                       <ChevronRight className="text-indigo-400/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
               {/* Inline Premium Banner */}
               <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
                    <Link href="/premium">
