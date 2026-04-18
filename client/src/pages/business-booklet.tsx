@@ -44,10 +44,10 @@ export default function BusinessBooklet() {
             </Link>
             <div>
               <h1 className="text-xl font-bold">Your Business Booklet</h1>
-              <p className="text-xs text-sky-400 font-medium">Official Strategy</p>
+              <p className="text-xs text-white font-medium">Official Strategy</p>
             </div>
           </div>
-          <button className="w-10 h-10 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center border border-sky-500/30">
+          <button className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center border border-white/30">
             <Download className="w-5 h-5" />
           </button>
         </div>
@@ -56,22 +56,22 @@ export default function BusinessBooklet() {
       <div className="p-5 space-y-6">
         {/* Cover */}
         <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 rounded-[32px] p-8 text-center relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-sky-500/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
           
           <div className="relative z-10 flex flex-col items-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-sky-400 to-indigo-500 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(14,165,233,0.3)]">
+            <div className="w-20 h-20 bg-gradient-to-br from-white/20 to-white/5 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(255,255,255,0.15)]">
               <Icon className="w-10 h-10 text-white" />
             </div>
             
             <h1 className="text-3xl font-black mb-2 tracking-tight">
               {data.brandName || "Your New Venture"}
             </h1>
-            <p className="text-sky-400 font-bold tracking-widest uppercase text-xs mb-8">
+            <p className="text-white font-bold tracking-widest uppercase text-xs mb-8">
               Official Playbook
             </p>
             
-            <div className="w-full flex items-center justify-center gap-4 text-sm text-gray-400 border-t border-white/10 pt-6">
+            <div className="w-full flex items-center justify-center gap-4 text-sm text-white/60 border-t border-white/10 pt-6">
               <span>Budget: €{data.budget.toLocaleString()}</span>
               <span>•</span>
               <span>Founder Age: {data.age}</span>
@@ -83,31 +83,31 @@ export default function BusinessBooklet() {
         <div className="space-y-6">
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <CheckCircle2 className="text-emerald-400 w-5 h-5" />
+              <CheckCircle2 className="text-white w-5 h-5" />
               Brand Assets
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center pb-3 border-b border-white/5">
-                <span className="text-gray-400">Brand Name</span>
+                <span className="text-white/60">Brand Name</span>
                 <span className="font-bold">{data.brandName || "Not set"}</span>
               </div>
               <div className="flex justify-between items-center pb-3 border-b border-white/5">
-                <span className="text-gray-400">Logo Status</span>
-                <span className="font-bold text-emerald-400">{data.hasLogo ? "Uploaded & Ready" : "Pending"}</span>
+                <span className="text-white/60">Logo Status</span>
+                <span className="font-bold text-white">{data.hasLogo ? "Uploaded & Ready" : "Pending"}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-400">Social Handles</span>
-                <span className="font-bold text-emerald-400">Secured</span>
+                <span className="text-white/60">Social Handles</span>
+                <span className="font-bold text-white">Secured</span>
               </div>
             </div>
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <Book className="text-sky-400 w-5 h-5" />
+              <Book className="text-white w-5 h-5" />
               Core Guidelines
             </h3>
-            <div className="prose prose-invert max-w-none text-gray-300 text-sm space-y-4">
+            <div className="prose prose-invert max-w-none text-white/80 text-sm space-y-4">
               <p>
                 This booklet represents the foundation of your new venture. Based on your starting capital of €{data.budget.toLocaleString()}, we recommend a lean, bootstrap approach.
               </p>
@@ -125,8 +125,8 @@ export default function BusinessBooklet() {
                 <li>Once you find a winning acquisition channel, double down your budget there.</li>
               </ul>
               
-              <div className="mt-8 p-4 bg-sky-500/10 border border-sky-500/20 rounded-2xl text-sky-200">
-                <strong className="text-sky-400 block mb-1">Vaulty AI Notice:</strong>
+              <div className="mt-8 p-4 bg-white/10 border border-white/20 rounded-2xl text-white/80">
+                <strong className="text-white block mb-1">Vaulty AI Notice:</strong>
                 This is a simulated basic playbook. In the future, this will contain a fully AI-generated personalized strategy guide tailored to your exact niche and market conditions.
               </div>
             </div>

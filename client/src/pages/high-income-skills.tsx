@@ -220,12 +220,12 @@ export default function HighIncomeSkills() {
   if (isGenerating) {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
-        <div className="w-20 h-20 bg-sky-500/20 border border-sky-500/30 rounded-2xl flex items-center justify-center mb-8 relative">
-           <Brain className="w-10 h-10 text-sky-400 animate-pulse" />
-           <div className="absolute inset-0 border border-sky-500/50 rounded-2xl animate-ping"></div>
+        <div className="w-20 h-20 bg-white/10 border border-white/30 rounded-2xl flex items-center justify-center mb-8 relative">
+           <Brain className="w-10 h-10 text-white animate-pulse" />
+           <div className="absolute inset-0 border border-white/50 rounded-2xl animate-ping"></div>
         </div>
         <h2 className="text-2xl font-bold text-center mb-2">Vaulty Customization</h2>
-        <p className="text-sky-400 font-medium text-center flex items-center gap-2">
+        <p className="text-white font-medium text-center flex items-center gap-2">
            <Loader2 className="w-4 h-4 animate-spin" />
            Generating your custom {BUSINESS_OPTIONS.find(b => b.id === selectedBusiness)?.title} roadmap...
         </p>
@@ -233,13 +233,13 @@ export default function HighIncomeSkills() {
         <div className="mt-12 w-full max-w-xs space-y-4">
            <div className="h-2 bg-white/5 rounded-full overflow-hidden">
              <motion.div 
-               className="h-full bg-gradient-to-r from-sky-600 to-sky-400 rounded-full"
+               className="h-full bg-bg-white/10 rounded-full"
                initial={{ width: "0%" }}
                animate={{ width: "100%" }}
                transition={{ duration: 3, ease: "easeInOut" }}
              />
            </div>
-           <div className="flex justify-between text-xs text-gray-500">
+           <div className="flex justify-between text-xs text-white/40">
              <span>Analyzing budget (€{budget.toLocaleString()})</span>
              <span>100%</span>
            </div>
@@ -259,7 +259,7 @@ export default function HighIncomeSkills() {
             </button>
             <div>
               <h1 className="text-xl font-bold">Your Custom Path</h1>
-              <p className="text-xs text-gray-400 font-medium">Step 1 of 1</p>
+              <p className="text-xs text-white/60 font-medium">Step 1 of 1</p>
             </div>
           </div>
         </div>
@@ -277,11 +277,11 @@ export default function HighIncomeSkills() {
                      onClick={() => setSelectedBusiness(biz.id)}
                      className={`p-4 rounded-2xl border text-left flex flex-col items-start gap-3 transition-all ${
                        isSelected 
-                         ? 'bg-sky-500/10 border-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.2)]' 
+                         ? 'bg-white/10 border-white shadow-[0_0_15px_rgba(255,255,255,0.2)]' 
                          : 'bg-white/5 border-white/10 hover:bg-white/10'
                      }`}
                    >
-                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isSelected ? 'bg-sky-500 text-black' : 'bg-white/10 text-white'}`}>
+                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isSelected ? 'bg-white text-black' : 'bg-white text-black'}`}>
                        <Icon size={20} />
                      </div>
                      <div>
@@ -299,8 +299,8 @@ export default function HighIncomeSkills() {
              <div className="space-y-4">
                <div>
                  <div className="flex justify-between mb-2">
-                   <label className="text-sm font-medium text-gray-300">Starting Budget</label>
-                   <span className="text-lg font-bold text-sky-400">
+                   <label className="text-sm font-medium text-white/80">Starting Budget</label>
+                   <span className="text-lg font-bold text-white">
                      {budget === 10000 ? "€10,000+" : `€${budget.toLocaleString()}`}
                    </span>
                  </div>
@@ -309,23 +309,23 @@ export default function HighIncomeSkills() {
                    min="0" max="10000" step="100"
                    value={budget}
                    onChange={(e) => setBudget(Number(e.target.value))}
-                   className="w-full accent-sky-500"
+                   className="w-full accent-white"
                  />
                </div>
 
                <div>
                  <div className="flex justify-between mb-2 mt-6">
-                   <label className="text-sm font-medium text-gray-300">Your Age</label>
-                   <span className="text-lg font-bold text-sky-400">{age}</span>
+                   <label className="text-sm font-medium text-white/80">Your Age</label>
+                   <span className="text-lg font-bold text-white">{age}</span>
                  </div>
                  <input 
                    type="range" 
                    min="18" max="70" step="1"
                    value={age}
                    onChange={(e) => setAge(Number(e.target.value))}
-                   className="w-full accent-sky-500"
+                   className="w-full accent-white"
                  />
-                 <p className="text-xs text-gray-500 mt-2">Minimum age is 18 to participate in business ventures.</p>
+                 <p className="text-xs text-white/40 mt-2">Minimum age is 18 to participate in business ventures.</p>
                </div>
              </div>
            </div>
@@ -336,8 +336,8 @@ export default function HighIncomeSkills() {
                disabled={!selectedBusiness}
                className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
                  selectedBusiness 
-                   ? 'bg-sky-500 text-black hover:bg-sky-400' 
-                   : 'bg-white/10 text-gray-500 cursor-not-allowed'
+                   ? 'bg-white text-black hover:bg-white' 
+                   : 'bg-white/10 text-white/40 cursor-not-allowed'
                }`}
              >
                Generate Roadmap
@@ -361,11 +361,11 @@ export default function HighIncomeSkills() {
         </div>
 
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto mt-12">
-          <div className="w-24 h-24 rounded-[32px] bg-gradient-to-br from-sky-500/20 to-sky-900/20 border border-sky-500/30 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(14,165,233,0.15)]">
-             <Brain className="w-12 h-12 text-sky-400" />
+          <div className="w-24 h-24 rounded-[32px] bg-gradient-to-br from-white/10 to-white/5 border border-white/30 flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(255,255,255,0.15)]">
+             <Brain className="w-12 h-12 text-white" />
           </div>
           <h1 className="text-3xl font-black mb-4 tracking-tight">Unlock Your Next Income Stream</h1>
-          <p className="text-gray-400 mb-10 leading-relaxed">
+          <p className="text-white/60 mb-10 leading-relaxed">
             Before we begin, Vaulty needs to understand your goals. We'll generate a custom 5-day roadmap based on the business you want to build and the resources you have.
           </p>
           
@@ -391,7 +391,7 @@ export default function HighIncomeSkills() {
             </button>
             <div>
               <h1 className="text-lg font-bold truncate max-w-[250px]">{activeLesson.title}</h1>
-              <p className="text-xs text-sky-400 font-medium">Day {activeLesson.id} Quest</p>
+              <p className="text-xs text-white font-medium">Day {activeLesson.id} Quest</p>
             </div>
           </div>
         </div>
@@ -400,15 +400,15 @@ export default function HighIncomeSkills() {
            {/* PREMIUM LOCKED SCREEN */}
            {activeLesson.isPremium && !hasPremium ? (
              <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="w-24 h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full flex items-center justify-center mb-6 border border-indigo-500/30">
-                  <Lock className="w-10 h-10 text-indigo-400" />
+                <div className="w-24 h-24 bg-gradient-to-br from-white/10 to-white/5/20 rounded-full flex items-center justify-center mb-6 border border-white/30">
+                  <Lock className="w-10 h-10 text-white" />
                 </div>
                 <h2 className="text-2xl font-bold mb-3">Premium Quest</h2>
-                <p className="text-gray-400 mb-8 max-w-[280px]">
+                <p className="text-white/60 mb-8 max-w-[280px]">
                   This advanced quest contains high-level strategies, analysis templates, and secrets to accelerate your success. Unlock it with Vaulty+.
                 </p>
                 <Link href="/premium" className="w-full">
-                  <button className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold py-4 rounded-full shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+                  <button className="w-full bg-bg-white text-black font-bold py-4 rounded-full shadow-[0_0_20px_rgba(255,255,255,0.2)]">
                     Unlock Vaulty+
                   </button>
                 </Link>
@@ -418,22 +418,22 @@ export default function HighIncomeSkills() {
                {/* BRAND NAME SCREEN */}
                {activeLesson.type === 'brand_name' && (
                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                   <div className="w-12 h-12 bg-sky-500/20 rounded-2xl flex items-center justify-center border border-sky-500/30">
-                     <BookOpen className="text-sky-400" />
+                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/30">
+                     <BookOpen className="text-white" />
                    </div>
                    <div>
                      <h2 className="text-2xl font-bold mb-2">What is the name of your new venture?</h2>
-                     <p className="text-gray-400 text-sm">Choose something memorable, easy to spell, and relevant to your niche. This will be the foundation of your brand.</p>
+                     <p className="text-white/60 text-sm">Choose something memorable, easy to spell, and relevant to your niche. This will be the foundation of your brand.</p>
                    </div>
                    
                    <div className="space-y-2">
-                     <label className="text-sm font-bold text-gray-300 ml-1">Brand Name</label>
+                     <label className="text-sm font-bold text-white/80 ml-1">Brand Name</label>
                      <input 
                        type="text" 
                        placeholder="e.g. Vaulty Studios"
                        value={brandName}
                        onChange={(e) => setBrandName(e.target.value)}
-                       className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-sky-500 transition-colors"
+                       className="w-full bg-white/5 border border-white/10 rounded-2xl px-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-white transition-colors"
                      />
                    </div>
                  </motion.div>
@@ -442,46 +442,46 @@ export default function HighIncomeSkills() {
                {/* LOGO UPLOAD SCREEN */}
                {activeLesson.type === 'logo' && (
                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                   <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center border border-purple-500/30">
-                     <Sparkles className="text-purple-400" />
+                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/30">
+                     <Sparkles className="text-white" />
                    </div>
                    <div>
                      <h2 className="text-2xl font-bold mb-2">Create your visual identity</h2>
-                     <p className="text-gray-400 text-sm">A professional logo builds trust. You can easily create one for free using tools like Canva.</p>
+                     <p className="text-white/60 text-sm">A professional logo builds trust. You can easily create one for free using tools like Canva.</p>
                    </div>
                    
                    <a href="https://www.canva.com/create/logos/" target="_blank" rel="noopener noreferrer" className="block">
-                     <div className="bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30 rounded-2xl p-5 flex items-center justify-between group hover:border-purple-500/60 transition-colors">
+                     <div className="bg-gradient-to-r from-white/10 to-white/10 border border-white/30 rounded-2xl p-5 flex items-center justify-between group hover:border-white/60 transition-colors">
                        <div className="flex items-center gap-4">
-                         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-600 font-black text-xl">C</div>
+                         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-white/60 font-black text-xl">C</div>
                          <div>
                            <h4 className="font-bold text-white">Create with Canva</h4>
-                           <p className="text-xs text-purple-200">Opens in new tab</p>
+                           <p className="text-xs text-white/80">Opens in new tab</p>
                          </div>
                        </div>
-                       <ExternalLink className="text-purple-400 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                       <ExternalLink className="text-white w-5 h-5 group-hover:translate-x-1 transition-transform" />
                      </div>
                    </a>
 
                    <div className="mt-6">
-                     <label className="text-sm font-bold text-gray-300 ml-1 block mb-2">Upload Your Logo</label>
+                     <label className="text-sm font-bold text-white/80 ml-1 block mb-2">Upload Your Logo</label>
                      <button 
                        onClick={() => setUploadedLogo(true)}
-                       className={`w-full border-2 border-dashed rounded-3xl p-8 flex flex-col items-center justify-center gap-3 transition-colors ${uploadedLogo ? 'border-emerald-500/50 bg-emerald-500/10' : 'border-white/10 hover:border-white/30 bg-white/5'}`}
+                       className={`w-full border-2 border-dashed rounded-3xl p-8 flex flex-col items-center justify-center gap-3 transition-colors ${uploadedLogo ? 'border-white/50 bg-white/10' : 'border-white/10 hover:border-white/30 bg-white/5'}`}
                      >
                        {uploadedLogo ? (
                          <>
-                           <div className="w-12 h-12 bg-emerald-500 rounded-full flex items-center justify-center text-white">
+                           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-white">
                              <Check size={24} />
                            </div>
-                           <span className="font-bold text-emerald-400">Logo uploaded successfully!</span>
+                           <span className="font-bold text-white">Logo uploaded successfully!</span>
                          </>
                        ) : (
                          <>
                            <div className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center text-white/50">
                              <Upload size={24} />
                            </div>
-                           <span className="font-bold text-gray-400">Tap to select image</span>
+                           <span className="font-bold text-white/60">Tap to select image</span>
                          </>
                        )}
                      </button>
@@ -492,27 +492,27 @@ export default function HighIncomeSkills() {
                {/* SOCIAL LINKS SCREEN */}
                {activeLesson.type === 'social' && (
                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                   <div className="w-12 h-12 bg-pink-500/20 rounded-2xl flex items-center justify-center border border-pink-500/30">
-                     <Check className="text-pink-400" />
+                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/30">
+                     <Check className="text-white" />
                    </div>
                    <div>
                      <h2 className="text-2xl font-bold mb-2">Secure your social handles</h2>
-                     <p className="text-gray-400 text-sm">Make sure you own your brand name on the major platforms where your audience hangs out.</p>
+                     <p className="text-white/60 text-sm">Make sure you own your brand name on the major platforms where your audience hangs out.</p>
                    </div>
                    
                    <div className="space-y-4">
                      <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-300 ml-1">Instagram Handle</label>
+                       <label className="text-sm font-bold text-white/80 ml-1">Instagram Handle</label>
                        <div className="relative">
-                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 font-bold">@</span>
-                         <input type="text" placeholder="yourbrand" className="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-pink-500 transition-colors" />
+                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 font-bold">@</span>
+                         <input type="text" placeholder="yourbrand" className="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-white transition-colors" />
                        </div>
                      </div>
                      <div className="space-y-2">
-                       <label className="text-sm font-bold text-gray-300 ml-1">TikTok Handle</label>
+                       <label className="text-sm font-bold text-white/80 ml-1">TikTok Handle</label>
                        <div className="relative">
-                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-500 font-bold">@</span>
-                         <input type="text" placeholder="yourbrand" className="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-pink-500 transition-colors" />
+                         <span className="absolute left-5 top-1/2 -translate-y-1/2 text-white/40 font-bold">@</span>
+                         <input type="text" placeholder="yourbrand" className="w-full bg-white/5 border border-white/10 rounded-2xl pl-10 pr-5 py-4 text-white placeholder:text-gray-600 focus:outline-none focus:border-white transition-colors" />
                        </div>
                      </div>
                    </div>
@@ -521,18 +521,18 @@ export default function HighIncomeSkills() {
                {/* TEXT/INFO SCREEN (Used for Premium & Advanced quests) */}
                {activeLesson.type === 'text' && (
                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
-                   <div className="w-12 h-12 bg-sky-500/20 rounded-2xl flex items-center justify-center border border-sky-500/30">
-                     <BookOpen className="text-sky-400" />
+                   <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center border border-white/30">
+                     <BookOpen className="text-white" />
                    </div>
                    <div>
                      <h2 className="text-2xl font-bold mb-4">{activeLesson.title}</h2>
                      <div className="prose prose-invert max-w-none">
-                       <p className="text-gray-300 leading-relaxed text-sm">
+                       <p className="text-white/80 leading-relaxed text-sm">
                          This is a simulated advanced lesson module. In a fully generated AI roadmap, this section would contain detailed, step-by-step instructions, market analysis, templates, and actionable strategies specific to your business ({selectedBusiness}).
                        </p>
                        <div className="mt-6 p-5 rounded-2xl bg-white/5 border border-white/10 space-y-4">
-                         <h3 className="text-lg font-bold text-sky-400">Key Takeaways</h3>
-                         <ul className="space-y-2 text-sm text-gray-400 list-disc pl-4">
+                         <h3 className="text-lg font-bold text-white">Key Takeaways</h3>
+                         <ul className="space-y-2 text-sm text-white/60 list-disc pl-4">
                            <li>Research your target audience thoroughly.</li>
                            <li>Create a unique value proposition that stands out.</li>
                            <li>Consistency and quality are the keys to long-term success.</li>
@@ -544,7 +544,7 @@ export default function HighIncomeSkills() {
                            type="checkbox" 
                            checked={lessonChecked}
                            onChange={(e) => setLessonChecked(e.target.checked)}
-                           className="w-5 h-5 rounded border-white/20 text-sky-500 focus:ring-sky-500 focus:ring-offset-0 bg-black"
+                           className="w-5 h-5 rounded border-white/20 text-white focus:ring-white focus:ring-offset-0 bg-black"
                          />
                          <span className="text-sm font-medium text-gray-200">I have read and understood this lesson</span>
                        </label>
@@ -565,8 +565,8 @@ export default function HighIncomeSkills() {
                   disabled={(activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo) || (activeLesson.type === 'text' && !lessonChecked)}
                   className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
                     (activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo) || (activeLesson.type === 'text' && !lessonChecked)
-                      ? 'bg-white/10 text-gray-500 cursor-not-allowed'
-                      : 'bg-sky-500 text-black hover:bg-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]'
+                      ? 'bg-white/10 text-white/40 cursor-not-allowed'
+                      : 'bg-white text-black hover:bg-white shadow-[0_0_20px_rgba(255,255,255,0.2)]'
                   }`}
                 >
                   Complete Quest (+{activeLesson.points} XP)
@@ -591,31 +591,31 @@ export default function HighIncomeSkills() {
           </Link>
           <div>
             <h1 className="text-xl font-bold">Your Custom Roadmap</h1>
-            <p className="text-xs text-sky-400 font-medium">Wealth Builder Phase</p>
+            <p className="text-xs text-white font-medium">Wealth Builder Phase</p>
           </div>
         </div>
       </div>
 
       <div className="p-5 space-y-6">
         {/* Intro */}
-        <div className="bg-gradient-to-br from-sky-900/40 to-black border border-sky-500/20 rounded-[32px] p-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 blur-[50px] rounded-full" />
+        <div className="bg-gradient-to-br from-white/5 to-black border border-white/20 rounded-[32px] p-6 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 blur-[50px] rounded-full" />
           <div className="relative z-10 flex gap-4 items-start">
-            <div className="w-12 h-12 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/30 flex items-center justify-center shrink-0">
               {(() => {
                  const biz = BUSINESS_OPTIONS.find(b => b.id === selectedBusiness);
                  if (biz) {
                    const Icon = biz.icon;
-                   return <Icon className="w-6 h-6 text-sky-400" />;
+                   return <Icon className="w-6 h-6 text-white" />;
                  }
-                 return <Brain className="w-6 h-6 text-sky-400" />;
+                 return <Brain className="w-6 h-6 text-white" />;
               })()}
             </div>
             <div>
               <h2 className="text-lg font-bold mb-2">
                  {BUSINESS_OPTIONS.find(b => b.id === selectedBusiness)?.title || "Your Business"}
               </h2>
-              <p className="text-sm text-gray-400 leading-relaxed">
+              <p className="text-sm text-white/60 leading-relaxed">
                 Your roadmap has been generated based on your budget of €{budget.toLocaleString()} and your goals. Complete tasks to launch.
               </p>
             </div>
@@ -635,7 +635,7 @@ export default function HighIncomeSkills() {
                    setBrandName("");
                    setUploadedLogo(false);
                  }}
-                 className="text-xs text-gray-500 underline"
+                 className="text-xs text-white/40 underline"
                >
                  Reset choices
                </button>
@@ -645,14 +645,14 @@ export default function HighIncomeSkills() {
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h4 className="font-bold text-lg">{activeSkill.title}</h4>
-                  <div className="flex gap-3 mt-2 text-xs font-medium text-gray-400">
+                  <div className="flex gap-3 mt-2 text-xs font-medium text-white/60">
                     <span className="flex items-center gap-1"><BookOpen size={14} /> {activeSkill.duration}</span>
-                    <span className="flex items-center gap-1 text-sky-400"><Trophy size={14} /> {activeSkill.xp} XP total</span>
+                    <span className="flex items-center gap-1 text-white"><Trophy size={14} /> {activeSkill.xp} XP total</span>
                   </div>
                 </div>
                 <div className="w-14 h-14 rounded-full bg-black border-[5px] border-white/5 flex items-center justify-center relative overflow-hidden shrink-0">
                    <div 
-                     className="absolute bottom-0 left-0 right-0 bg-sky-500 transition-all duration-1000 ease-out" 
+                     className="absolute bottom-0 left-0 right-0 bg-white transition-all duration-1000 ease-out" 
                      style={{ height: `${activeSkill.progress}%` }}
                    />
                    <span className="text-[12px] font-bold relative z-10">{activeSkill.progress}%</span>
@@ -677,7 +677,7 @@ export default function HighIncomeSkills() {
                       }}
                       className={`relative flex items-center gap-4 p-3 rounded-2xl border transition-all ${
                         lesson.completed 
-                          ? 'bg-sky-500/10 border-sky-500/20 cursor-pointer hover:bg-sky-500/20' 
+                          ? 'bg-white/10 border-white/20 cursor-pointer hover:bg-white/10' 
                           : isNextUp 
                             ? 'bg-white/10 border-white/20 cursor-pointer hover:bg-white/15 hover:scale-[1.02]' 
                             : 'bg-black/40 border-white/5 opacity-50 cursor-not-allowed'
@@ -685,7 +685,7 @@ export default function HighIncomeSkills() {
                     >
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm relative z-10 ${
                         lesson.completed 
-                          ? 'bg-sky-500 text-black' 
+                          ? 'bg-white text-black' 
                           : isNextUp 
                             ? 'bg-white text-black' 
                             : 'bg-zinc-800 text-zinc-500 border border-white/5'
@@ -695,16 +695,16 @@ export default function HighIncomeSkills() {
                       
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-0.5">
-                          <p className={`text-sm font-bold truncate ${lesson.completed ? 'text-sky-400' : 'text-white'}`}>
+                          <p className={`text-sm font-bold truncate ${lesson.completed ? 'text-white' : 'text-white'}`}>
                             {lesson.title}
                           </p>
                           {lesson.isPremium && (
-                            <span className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 uppercase tracking-wider">
+                            <span className="shrink-0 text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-white/10 text-white border border-white/30 uppercase tracking-wider">
                               Vaulty+
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-gray-500">{lesson.points} XP</p>
+                        <p className="text-xs text-white/40">{lesson.points} XP</p>
                       </div>
                       
                       {isNextUp && (
@@ -725,12 +725,12 @@ export default function HighIncomeSkills() {
                 >
                   <button 
                     onClick={handleFinishRoadmap}
-                    className="w-full py-4 rounded-full font-bold text-lg bg-gradient-to-r from-sky-400 to-sky-600 text-black shadow-[0_0_30px_rgba(14,165,233,0.4)] hover:scale-[1.02] transition-transform flex items-center justify-center gap-2"
+                    className="w-full py-4 rounded-full font-bold text-lg bg-bg-white/10 text-black shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02] transition-transform flex items-center justify-center gap-2"
                   >
                     <BookOpen size={20} />
                     Generate My Business Booklet
                   </button>
-                  <p className="text-xs text-center text-gray-400 mt-3">
+                  <p className="text-xs text-center text-white/60 mt-3">
                     Unlock your complete strategy guide and next steps
                   </p>
                 </motion.div>

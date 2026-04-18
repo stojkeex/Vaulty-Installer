@@ -36,19 +36,19 @@ const BANNERS = [
     title: "Bring Your Dream To Reality",
     subtitle: "Set goals and track your progress",
     icon: Target,
-    color: "from-blue-500 to-cyan-400"
+    color: "from-white/20 to-white/5"
   },
   {
     title: "Earn XP and Get Gifts",
     subtitle: "Complete quests to earn rewards",
     icon: Coins,
-    color: "from-purple-500 to-pink-500"
+    color: "from-white/20 to-white/5"
   },
   {
     title: "Learn Everything About Finance",
     subtitle: "Join our academy for exclusive courses",
     icon: GraduationCap,
-    color: "from-emerald-400 to-teal-500"
+    color: "from-white/20 to-white/5"
   }
 ];
 
@@ -240,7 +240,7 @@ export default function Home() {
           <Sheet>
             <SheetTrigger asChild>
               <button className="text-left outline-none cursor-pointer">
-                <span className="text-gray-400 text-sm">Hello, </span>
+                <span className="text-white/60 text-sm">Hello, </span>
                 <span className="text-white font-bold">{userData?.username || "vaultycreator"}</span>
               </button>
             </SheetTrigger>
@@ -255,11 +255,11 @@ export default function Home() {
                   </div>
                   <div className="space-y-1">
                     <h2 className="font-bold text-xl">{userData?.displayName || "Vaulty Support"}</h2>
-                    <p className="text-sm text-gray-500">@{userData?.username || "vaultycreator"}</p>
+                    <p className="text-sm text-white/40">@{userData?.username || "vaultycreator"}</p>
                   </div>
                   <div className="flex justify-center gap-6 text-sm">
-                    <p><span className="font-bold">0</span> <span className="text-gray-500 ml-1">Following</span></p>
-                    <p><span className="font-bold">0</span> <span className="text-gray-500 ml-1">Followers</span></p>
+                    <p><span className="font-bold">0</span> <span className="text-white/40 ml-1">Following</span></p>
+                    <p><span className="font-bold">0</span> <span className="text-white/40 ml-1">Followers</span></p>
                   </div>
                 </div>
 
@@ -322,15 +322,15 @@ export default function Home() {
           
           <div className="flex items-center gap-3">
             <Link href="/notifications">
-              <button className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] group text-gray-400 group-hover:text-white" data-testid="button-home-notifications">
+              <button className="relative w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] group text-white/60 group-hover:text-white" data-testid="button-home-notifications">
                 <Bell className="w-5 h-5" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-sky-500 rounded-full ring-2 ring-black" />
+                  <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-white rounded-full ring-2 ring-black" />
                 )}
               </button>
             </Link>
             <Link href="/wallet">
-              <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] text-gray-400 hover:text-white" data-testid="button-home-wallet">
+              <button className="w-10 h-10 flex items-center justify-center rounded-full bg-white/[0.03] hover:bg-white/[0.08] transition-all border border-white/[0.05] text-white/60 hover:text-white" data-testid="button-home-wallet">
                 <Wallet className="w-5 h-5" />
               </button>
             </Link>
@@ -364,7 +364,7 @@ export default function Home() {
                           <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
                           <span className="text-zinc-500 font-medium ml-1">This month</span>
                         </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[13px] font-semibold text-emerald-400">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[13px] font-semibold text-white">
                           <Check size={14} />
                           <span>On track</span>
                         </div>
@@ -398,42 +398,42 @@ export default function Home() {
                   <div className="relative z-10 mt-6 pt-6 border-t border-white/10">
                     <div className="flex items-center justify-between mb-4">
                        <h4 className="text-sm font-bold text-white">Monthly Budget</h4>
-                       <span className="text-xs font-medium text-gray-400">0€ left to assign</span>
+                       <span className="text-xs font-medium text-white/60">0€ left to assign</span>
                     </div>
                     <div className="w-full bg-black/60 rounded-full h-2 mb-4 overflow-hidden border border-white/5 relative flex">
-                      <div className="bg-sky-500 h-full w-[45%]" title="Needs (45%)"></div>
-                      <div className="bg-emerald-400 h-full w-[30%]" title="Wants (30%)"></div>
-                      <div className="bg-purple-500 h-full w-[25%]" title="Savings & Investing (25%)"></div>
+                      <div className="bg-white h-full w-[45%]" title="Needs (45%)"></div>
+                      <div className="bg-white h-full w-[30%]" title="Wants (30%)"></div>
+                      <div className="bg-white h-full w-[25%]" title="Savings & Investing (25%)"></div>
                     </div>
                     <div className="flex justify-between items-center text-xs font-medium">
-                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-sky-500"></div>Needs</div>
-                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-emerald-400"></div>Wants</div>
-                       <div className="flex items-center gap-1.5 text-gray-400"><div className="w-2 h-2 rounded-full bg-purple-500"></div>Future</div>
+                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Needs</div>
+                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Wants</div>
+                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Future</div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Freedom Map - New Section replacing quick actions */}
-              <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#0f172a] to-[#1e1b4b] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500">
+              <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-black to-black border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(125,211,252,0.15),transparent_50%)]" />
                 <div className="relative z-10">
                   <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+                      <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/30 flex items-center justify-center text-white">
                         <Target size={20} />
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-white tracking-tight">Freedom Map</h3>
-                        <p className="text-xs text-sky-200/60 font-medium">Phase 2: Emergency Fund</p>
+                        <p className="text-xs text-white/60 font-medium">Phase 2: Emergency Fund</p>
                       </div>
                     </div>
-                    <ChevronRight className="text-sky-400/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                   
                   <div className="space-y-4">
                     <div className="flex items-center gap-4 opacity-50">
-                       <div className="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                       <div className="w-6 h-6 rounded-full bg-white text-white flex items-center justify-center shrink-0">
                          <Check size={14} />
                        </div>
                        <div className="flex-1">
@@ -442,17 +442,17 @@ export default function Home() {
                     </div>
                     
                     <div className="flex items-center gap-4 relative">
-                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-emerald-500/30"></div>
-                       <div className="w-6 h-6 rounded-full border-2 border-sky-500 bg-[#0f172a] text-sky-500 flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(14,165,233,0.5)]">
-                         <div className="w-2 h-2 bg-sky-500 rounded-full animate-pulse"></div>
+                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/30"></div>
+                       <div className="w-6 h-6 rounded-full border-2 border-white bg-[#0f172a] text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
+                         <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
                        </div>
                        <div className="flex-1 bg-white/[0.03] border border-white/[0.05] rounded-xl p-3">
                           <div className="flex justify-between items-center mb-1.5">
                             <p className="text-sm font-bold text-white">Save 3 Months Expenses</p>
-                            <span className="text-xs font-bold text-sky-400">45%</span>
+                            <span className="text-xs font-bold text-white">45%</span>
                           </div>
                           <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
-                            <div className="bg-sky-500 h-full w-[45%]"></div>
+                            <div className="bg-white h-full w-[45%]"></div>
                           </div>
                        </div>
                     </div>
@@ -474,32 +474,32 @@ export default function Home() {
               <div className="space-y-4 mt-8">
                 <div className="flex items-center justify-between px-1">
                   <h2 className="text-xl font-bold tracking-tight text-white">Wealth Builder</h2>
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-sky-400 bg-sky-400/10 px-2 py-1 rounded-full border border-sky-400/20">Active</span>
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-2 py-1 rounded-full border border-white/20">Active</span>
                 </div>
                 
                 <div className="grid gap-4">
                   {/* Skill Builder Card */}
                   <Link href="/high-income-skills">
-                    <div className="relative overflow-hidden rounded-[24px] border border-sky-500/20 bg-[linear-gradient(180deg,rgba(14,165,233,0.08),rgba(14,165,233,0.02))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-sky-500/40 transition-all duration-300">
-                      <div className="absolute inset-0 bg-gradient-to-br from-sky-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300">
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       <div className="relative z-10 flex gap-4">
-                        <div className="w-14 h-14 rounded-[18px] bg-sky-500/10 border border-sky-500/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
-                          <Brain className="w-7 h-7 text-sky-400 drop-shadow-[0_0_8px_rgba(14,165,233,0.5)]" />
+                        <div className="w-14 h-14 rounded-[18px] bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
+                          <Brain className="w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]" />
                         </div>
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-1">
                              <h3 className="text-base font-bold text-white tracking-tight">High-Income Skills</h3>
-                             <span className="text-[10px] font-bold text-sky-400 bg-sky-400/10 px-2 py-0.5 rounded-md">Daily Quest</span>
+                             <span className="text-[10px] font-bold text-white bg-white/10 px-2 py-0.5 rounded-md">Daily Quest</span>
                           </div>
-                          <p className="text-[12px] text-sky-200/60 leading-relaxed mb-3">Today's lesson: "How to land your first $500 freelance client on Upwork."</p>
+                          <p className="text-[12px] text-white/60 leading-relaxed mb-3">Today's lesson: "How to land your first $500 freelance client on Upwork."</p>
                           
                           <div className="flex items-center justify-between">
                             <div className="flex -space-x-2">
                                <div className="w-6 h-6 rounded-full bg-white/10 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white z-20">1</div>
-                               <div className="w-6 h-6 rounded-full bg-sky-500 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white z-10"><Check size={10} /></div>
+                               <div className="w-6 h-6 rounded-full bg-white border-2 border-black flex items-center justify-center text-[10px] font-bold text-white z-10"><Check size={10} /></div>
                                <div className="w-6 h-6 rounded-full bg-white/5 border-2 border-black flex items-center justify-center text-[10px] font-bold text-white/30 z-0">3</div>
                             </div>
-                            <button className="text-[11px] font-bold text-black bg-sky-400 hover:bg-sky-300 px-4 py-1.5 rounded-full transition-colors">Start Lesson</button>
+                            <button className="text-[11px] font-bold text-black bg-white hover:bg-gray-300 px-4 py-1.5 rounded-full transition-colors">Start Lesson</button>
                           </div>
                         </div>
                       </div>
@@ -515,10 +515,10 @@ export default function Home() {
                         </div>
                         <div className="flex-1">
                           <h3 className="text-base font-bold text-white tracking-tight mb-1">Trading Proving Ground</h3>
-                          <p className="text-[12px] text-gray-400 leading-relaxed">Master risk management risk-free.</p>
+                          <p className="text-[12px] text-white/60 leading-relaxed">Master risk management risk-free.</p>
                           <div className="mt-3 bg-white/5 rounded-lg p-2 flex items-center justify-between border border-white/5">
-                             <span className="text-[11px] text-gray-400 font-medium">Monthly Target: <span className="text-white">+10%</span></span>
-                             <span className="text-[11px] font-bold text-sky-400">+4.2%</span>
+                             <span className="text-[11px] text-white/60 font-medium">Monthly Target: <span className="text-white">+10%</span></span>
+                             <span className="text-[11px] font-bold text-white">+4.2%</span>
                           </div>
                         </div>
                       </div>
@@ -527,18 +527,18 @@ export default function Home() {
                   
                   {/* Compound Interest Simulator (Teaser) */}
                   <Link href="/investment-simulator">
-                    <div className="relative overflow-hidden rounded-[24px] border border-indigo-500/20 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.02))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-indigo-500/40 transition-all duration-300">
+                    <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300">
                       <div className="relative z-10 flex items-center justify-between">
                          <div className="flex items-center gap-3">
-                           <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                           <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center">
                              <AreaChartIcon size={18} />
                            </div>
                            <div>
                              <h3 className="text-sm font-bold text-white">Investment Simulator</h3>
-                             <p className="text-[11px] text-indigo-200/60">See your future wealth</p>
+                             <p className="text-[11px] text-white/60">See your future wealth</p>
                            </div>
                          </div>
-                         <ChevronRight className="text-indigo-400/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                         <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </Link>
@@ -567,7 +567,7 @@ export default function Home() {
                                 <p className="text-[16px] font-bold tracking-tight text-white transition-all duration-300">
                                     Unlock Vaulty+
                                 </p>
-                                <p className="text-[13px] font-medium text-gray-400">
+                                <p className="text-[13px] font-medium text-white/60">
                                     All premium features in one plan
                                 </p>
                               </div>
@@ -580,11 +580,11 @@ export default function Home() {
               </div>
 
               <div className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]" data-testid="card-home-daily-motivation">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-slate-900/20 opacity-50 transition-opacity duration-300 group-hover:opacity-70" />
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70" />
                 <div className="relative z-10 text-center">
                   <div className="mb-3 flex items-center justify-center gap-2 text-slate-400">
-                    <TrendingUp size={16} className="text-purple-400" />
-                    <span className="text-[10px] font-black tracking-[0.2em] uppercase text-purple-200">Daily Motivation</span>
+                    <TrendingUp size={16} className="text-white" />
+                    <span className="text-[10px] font-black tracking-[0.2em] uppercase text-white/80">Daily Motivation</span>
                   </div>
                   <p className="text-[1.1rem] leading-relaxed font-medium text-white italic" data-testid="text-home-daily-motivation">"{dailyMotivation}"</p>
                 </div>
@@ -604,9 +604,9 @@ export default function Home() {
                       className="flex h-full w-full items-center justify-between gap-4"
                     >
                       <div className="flex-1 min-w-0 text-left pl-0">
-                        <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-gray-400">Vaulty Picks</p>
+                        <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">Vaulty Picks</p>
                         <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-300 transition-all">{BANNERS[currentBannerIndex].title}</h3>
-                        <p className="text-sm text-gray-400 font-medium max-w-[260px] leading-relaxed">{BANNERS[currentBannerIndex].subtitle}</p>
+                        <p className="text-sm text-white/60 font-medium max-w-[260px] leading-relaxed">{BANNERS[currentBannerIndex].subtitle}</p>
                       </div>
                       <div className="w-12 h-12 shrink-0 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-white/20 transition-colors border border-white/10 shadow-inner">
                         <ChevronRight className="w-6 h-6 text-white transition-transform duration-300 group-hover:translate-x-1" />
@@ -619,12 +619,12 @@ export default function Home() {
               {/* Glass Cards Carousel */}
               
               <div className="flex items-center justify-between px-1 mt-10 mb-5">
-                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-gray-500">QUICK WIDGETS</h2>
+                <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-white/40">QUICK WIDGETS</h2>
                 <button 
                   onClick={() => setIsWidgetMenuOpen(true)}
                   className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/15 transition-colors shadow-inner"
                 >
-                  <Plus size={16} className="text-gray-300" />
+                  <Plus size={16} className="text-white/80" />
                 </button>
               </div>
               <div className="-mx-6 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -645,7 +645,7 @@ export default function Home() {
                                   <Icon className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                                 </div>
                                 <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">{item.title}</h3>
-                                <p className="text-[11px] text-gray-400 font-medium">{item.description}</p>
+                                <p className="text-[11px] text-white/60 font-medium">{item.description}</p>
                               </div>
                             </div>
                           </Link>
@@ -659,10 +659,10 @@ export default function Home() {
 
               <Link href="/ai" className="block" data-testid="link-home-vaulty-ai">
                 <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(37,99,235,0.15)] group">
-                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-400/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
+                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
                   <div className="relative z-10 flex items-start justify-between gap-5">
                     <div className="flex-1">
-                      <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-sky-200 transition-all">
+                      <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">
                         Ask smarter finance questions
                       </h3>
                       <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-slate-300">
@@ -683,7 +683,7 @@ export default function Home() {
                       <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Your AI widget</p>
                       <p className="mt-0.5 text-sm font-bold text-white">Open Vaulty AI</p>
                     </div>
-                    <div className="rounded-full bg-sky-400 px-5 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-950 shadow-[0_0_15px_rgba(56,189,248,0.4)]">
+                    <div className="rounded-full bg-white px-5 py-2 text-[11px] font-black uppercase tracking-[0.16em] text-slate-950 shadow-[0_0_15px_rgba(56,189,248,0.4)]">
                       Chat now
                     </div>
                   </div>
@@ -697,14 +697,14 @@ export default function Home() {
                 </div>
                 <div className="flex-1 w-full">
                   <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">Reach your goal</h3>
-                  <p className="text-[13px] text-gray-400 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">Save and plan for buying a car, real estate, or traveling.</p>
+                  <p className="text-[13px] text-white/60 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">Save and plan for buying a car, real estate, or traveling.</p>
                   <div className="w-full bg-black/60 rounded-full h-3.5 mb-3 overflow-hidden border border-white/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] relative">
-                    <div className="bg-gradient-to-r from-emerald-500 to-teal-400 h-full rounded-full w-[45%] relative">
+                    <div className="bg-gradient-to-r from-white/10 to-white/20 h-full rounded-full w-[45%] relative">
                       <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
                       <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/40 to-transparent"></div>
                     </div>
                   </div>
-                  <div className="flex justify-between text-[11px] font-bold tracking-wide uppercase text-gray-400">
+                  <div className="flex justify-between text-[11px] font-bold tracking-wide uppercase text-white/60">
                     <span className="text-white">4,500€</span>
                     <span>Goal: 10,000€</span>
                   </div>
@@ -714,21 +714,21 @@ export default function Home() {
               {/* Vaulty Coin Compact Card */}
               <div 
                 onClick={() => setLocation('/info/vaulty-coin')}
-                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(99,102,241,0.08),rgba(99,102,241,0.02))] p-4 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-[linear-gradient(180deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04))] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(99,102,241,0.15)] flex items-center justify-between"
+                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-4 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-[linear-gradient(180deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04))] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(99,102,241,0.15)] flex items-center justify-between"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10/0 via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                 
                 <div className="flex items-center gap-3.5 relative z-10">
                   <div className="w-11 h-11 rounded-2xl bg-black/40 border border-white/10 p-2 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
                     <img src={vaultyLogoImage} alt="Vaulty Coin" className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-white tracking-tight leading-tight">Vaulty Coin <span className="inline-block bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">Native</span></h3>
-                    <p className="text-[11px] font-medium text-indigo-200/50 mt-0.5">Learn about our native token</p>
+                    <h3 className="text-base font-bold text-white tracking-tight leading-tight">Vaulty Coin <span className="inline-block bg-white/10 text-white/80 border border-white/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">Native</span></h3>
+                    <p className="text-[11px] font-medium text-white/80/50 mt-0.5">Learn about our native token</p>
                   </div>
                 </div>
                 <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors relative z-10">
-                  <ChevronRight className="w-4 h-4 text-indigo-300 group-hover:translate-x-0.5 transition-transform" />
+                  <ChevronRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
 
@@ -738,10 +738,10 @@ export default function Home() {
                 <div className="relative z-10">
                   <div className="mb-5 flex items-center justify-between">
                     <div>
-                      <p className="text-[10px] font-black uppercase tracking-[0.26em] text-gray-500">Live finance news</p>
+                      <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/40">Live finance news</p>
                       <h3 className="mt-1 text-xl font-bold tracking-tight text-white">Market Pulse</h3>
                     </div>
-                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 shadow-inner">
+                    <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 shadow-inner">
                       Simulated
                     </div>
                   </div>
@@ -759,12 +759,12 @@ export default function Home() {
                         <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
                           {FINANCE_NEWS[currentNewsIndex].kicker}
                         </span>
-                        <span className="text-[10px] text-gray-500 font-medium">Updates every 30s</span>
+                        <span className="text-[10px] text-white/40 font-medium">Updates every 30s</span>
                       </div>
                       <h4 className="text-[1.1rem] font-bold leading-snug text-white">
                         {FINANCE_NEWS[currentNewsIndex].title}
                       </h4>
-                      <p className="mt-3 text-sm leading-relaxed text-gray-400">
+                      <p className="mt-3 text-sm leading-relaxed text-white/60">
                         {FINANCE_NEWS[currentNewsIndex].summary}
                       </p>
                     </motion.div>
@@ -783,7 +783,7 @@ export default function Home() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold">Widgets</h2>
-                  <p className="text-sm text-gray-400 mt-1">Customize widgets ({activeWidgets.length}/6)</p>
+                  <p className="text-sm text-white/60 mt-1">Customize widgets ({activeWidgets.length}/6)</p>
                 </div>
                 <button onClick={() => setIsWidgetMenuOpen(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                   <X size={16} />
@@ -802,7 +802,7 @@ export default function Home() {
                       </div>
                       <div>
                          <span className={cn("font-bold text-lg", isActive ? "text-white" : "text-white/60")}>{widget.title}</span>
-                         <p className="text-xs text-gray-500 mt-0.5">{widget.description}</p>
+                         <p className="text-xs text-white/40 mt-0.5">{widget.description}</p>
                       </div>
                     </div>
                     <button 
@@ -838,7 +838,7 @@ export default function Home() {
                  actionType === "sell" ? "Sell Crypto" : 
                  "Send Crypto"}
               </h2>
-              <p className="text-sm text-gray-400 mt-1">
+              <p className="text-sm text-white/60 mt-1">
                 {actionType === "buy" ? "Select a coin to purchase" : 
                  actionType === "sell" ? "Select from your holdings to sell" : 
                  "Select from your holdings to send"}
@@ -857,7 +857,7 @@ export default function Home() {
                             <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
                             <div>
                               <p className="font-bold text-white">{coin.name}</p>
-                              <p className="text-xs text-gray-500 uppercase">{coin.symbol}</p>
+                              <p className="text-xs text-white/40 uppercase">{coin.symbol}</p>
                             </div>
                           </div>
                           <div className="text-right">
@@ -872,7 +872,7 @@ export default function Home() {
                       </Link>
                     ))
                   ) : (
-                    <div className="text-center py-10 text-gray-500 flex flex-col items-center justify-center">
+                    <div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
                       <Loader2 className="w-8 h-8 animate-spin mb-4 opacity-50" />
                       <p>Loading market data...</p>
                     </div>
@@ -894,7 +894,7 @@ export default function Home() {
                               <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
                               <div>
                                 <p className="font-bold text-white">{coin.name}</p>
-                                <p className="text-xs text-gray-500 uppercase">{coin.symbol}</p>
+                                <p className="text-xs text-white/40 uppercase">{coin.symbol}</p>
                               </div>
                             </div>
                             <div className="text-right">
@@ -904,7 +904,7 @@ export default function Home() {
                                   ? displayValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
                                   : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(displayValue)}
                               </p>
-                              <p className="text-xs text-gray-400 font-medium">
+                              <p className="text-xs text-white/60 font-medium">
                                 {holding.amount} {coin.symbol.toUpperCase()}
                               </p>
                             </div>
@@ -913,7 +913,7 @@ export default function Home() {
                       );
                     })
                   ) : (
-                    <div className="text-center py-10 text-gray-500 flex flex-col items-center justify-center">
+                    <div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
                       <Wallet className="w-12 h-12 mx-auto mb-3 opacity-20" />
                       <p>You don't have any holdings to {actionType}.</p>
                       <button 

@@ -143,7 +143,7 @@ export function BottomNav() {
               </span>
 
               {item.href === "/messages" && unreadCount > 0 && (
-                <div className="absolute right-2 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-sky-500 px-1.5 text-[9px] font-bold text-slate-950">
+                <div className="absolute right-2 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-[9px] font-bold text-slate-950">
                   {unreadCount > 99 ? "99+" : unreadCount}
                 </div>
               )}
