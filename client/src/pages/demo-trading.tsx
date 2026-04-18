@@ -357,7 +357,7 @@ export default function DemoTrading() {
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <Activity className="w-3 h-3" /> Trades
                 </div>
-                <div className="mt-2 text-sm font-bold" data-testid="text-demo-trade-count">{transactions.length}</div>
+                <div className="mt-2 text-sm font-bold text-[#00CCFF]" data-testid="text-demo-trade-count">{transactions.length}</div>
               </div>
             </div>
           </div>
