@@ -803,10 +803,10 @@ export default function Home() {
 
                 {/* Compound Interest Simulator (Teaser) */}
                 <Link href="/investment-simulator">
-                  <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300 h-full flex flex-col justify-center">
                     <div className="relative z-10 flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0">
                           <AreaChartIcon size={18} />
                         </div>
                         <div>
@@ -818,7 +818,29 @@ export default function Home() {
                           </p>
                         </div>
                       </div>
-                      <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform shrink-0" />
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Vaulty Academy (Teaser) */}
+                <Link href="/academy">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300 h-full flex flex-col justify-center">
+                    <div className="relative z-10 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0">
+                          <GraduationCap size={18} />
+                        </div>
+                        <div>
+                          <h3 className="text-sm font-bold text-white">
+                            Vaulty Academy
+                          </h3>
+                          <p className="text-[11px] text-white/60">
+                            Master your finances
+                          </p>
+                        </div>
+                      </div>
+                      <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform shrink-0" />
                     </div>
                   </div>
                 </Link>
@@ -1022,61 +1044,94 @@ export default function Home() {
 
         {/* BOTTOM FULL-WIDTH SECTION */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-8 flex flex-col h-full">
             {/* Goals Card (Full Width) */}
-            <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 p-7 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)]">
-              <div className="w-16 h-16 shrink-0 bg-white/5 border border-white/10 group-hover:bg-white/10 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500 shadow-inner">
-                <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
-              </div>
-              <div className="flex-1 w-full">
-                <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">
-                  Reach your goal
-                </h3>
-                <p className="text-[13px] text-white/60 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">
-                  Save and plan for buying a car, real estate, or traveling.
-                </p>
-                <div className="w-full bg-black/60 rounded-full h-3.5 mb-3 overflow-hidden border border-white/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] relative">
-                  <div className="bg-gradient-to-r from-white/10 to-white/20 h-full rounded-full w-[45%] relative">
-                    <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
-                    <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/40 to-transparent"></div>
-                  </div>
+            <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 p-7 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)] flex-1">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(255,255,255,0.05),transparent_60%)] pointer-events-none" />
+              <div className="relative z-10 w-full flex flex-col sm:flex-row items-center sm:items-start gap-6 h-full justify-center">
+                <div className="w-16 h-16 shrink-0 bg-white/5 border border-white/10 group-hover:bg-white/10 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500 shadow-inner">
+                  <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                 </div>
-                <div className="flex justify-between text-[11px] font-bold tracking-wide uppercase text-white/60">
-                  <span className="text-white">4,500€</span>
-                  <span>Goal: 10,000€</span>
+                <div className="flex-1 w-full flex flex-col justify-center h-full">
+                  <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-all">
+                    Reach your goal
+                  </h3>
+                  <p className="text-[13px] text-white/60 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">
+                    Save and plan for buying a car, real estate, or traveling.
+                  </p>
+                  <div className="w-full bg-black/60 rounded-full h-3.5 mb-3 overflow-hidden border border-white/5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] relative">
+                    <div className="bg-gradient-to-r from-white/10 to-white/20 h-full rounded-full w-[45%] relative">
+                      <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
+                      <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/40 to-transparent"></div>
+                    </div>
+                  </div>
+                  <div className="flex justify-between text-[11px] font-bold tracking-wide uppercase text-white/60">
+                    <span className="text-white">4,500€</span>
+                    <span>Goal: 10,000€</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Vaulty Coin Compact Card */}
-            <div
-              onClick={() => setLocation("/info/vaulty-coin")}
-              className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-4 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-[linear-gradient(180deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04))] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(99,102,241,0.15)] flex items-center justify-between"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-white/10/0 via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 shrink-0">
+              {/* Vaulty Coin Compact Card */}
+              <div
+                onClick={() => setLocation("/info/vaulty-coin")}
+                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-4 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-[linear-gradient(180deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04))] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(99,102,241,0.15)] flex items-center justify-between w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10/0 via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
-              <div className="flex items-center gap-3.5 relative z-10">
-                <div className="w-11 h-11 rounded-2xl bg-black/40 border border-white/10 p-2 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
-                  <img
-                    src={vaultyLogoImage}
-                    alt="Vaulty Coin"
-                    className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-                  />
+                <div className="flex items-center gap-3.5 relative z-10">
+                  <div className="w-11 h-11 rounded-2xl bg-black/40 border border-white/10 p-2 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <img
+                      src={vaultyLogoImage}
+                      alt="Vaulty Coin"
+                      className="w-full h-full object-contain drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white tracking-tight leading-tight">
+                      Vaulty Coin{" "}
+                      <span className="inline-block bg-white/10 text-white/80 border border-white/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">
+                        Native
+                      </span>
+                    </h3>
+                    <p className="text-[11px] font-medium text-white/80/50 mt-0.5">
+                      Learn about our native token
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-base font-bold text-white tracking-tight leading-tight">
-                    Vaulty Coin{" "}
-                    <span className="inline-block bg-white/10 text-white/80 border border-white/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">
-                      Native
-                    </span>
-                  </h3>
-                  <p className="text-[11px] font-medium text-white/80/50 mt-0.5">
-                    Learn about our native token
-                  </p>
+                <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors relative z-10">
+                  <ChevronRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
-              <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors relative z-10">
-                <ChevronRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
+
+              {/* Invite Friends Compact Card */}
+              <div
+                onClick={() => setLocation("/referrals")}
+                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-4 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-[linear-gradient(180deg,rgba(16,185,129,0.12),rgba(16,185,129,0.04))] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(16,185,129,0.15)] flex items-center justify-between w-full"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/10/0 via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+
+                <div className="flex items-center gap-3.5 relative z-10">
+                  <div className="w-11 h-11 rounded-2xl bg-black/40 border border-white/10 p-2 shadow-[inset_0_2px_10px_rgba(255,255,255,0.1)] flex items-center justify-center group-hover:scale-105 transition-transform duration-300">
+                    <Users className="w-5 h-5 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white tracking-tight leading-tight">
+                      Invite Friends{" "}
+                      <span className="inline-block bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">
+                        +50 VC
+                      </span>
+                    </h3>
+                    <p className="text-[11px] font-medium text-white/80/50 mt-0.5">
+                      Earn crypto together
+                    </p>
+                  </div>
+                </div>
+                <div className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white/10 transition-colors relative z-10">
+                  <ChevronRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
+                </div>
               </div>
             </div>
           </div>
