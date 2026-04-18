@@ -340,11 +340,9 @@ export default function Home() {
       </div>
 
       {/* Content Spacer */}
-      <div className={cn("relative z-10 p-5 max-w-md md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
+      <div className={cn("relative z-10 p-5 max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
-              {/* LEFT COLUMN */}
-              <div className="flex-1 w-full space-y-8">
+            <div className="space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
               {/* Your Overview */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
@@ -479,7 +477,7 @@ export default function Home() {
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-2 py-1 rounded-full border border-white/20">Active</span>
                 </div>
                 
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {/* Skill Builder Card */}
                   <Link href="/high-income-skills">
                     <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300">
@@ -548,10 +546,6 @@ export default function Home() {
                 </div>
               </div>
 
-              </div>
-
-              {/* RIGHT COLUMN */}
-              <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 space-y-8">
               {/* Inline Premium Banner */}
               <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
                    <Link href="/premium">
@@ -633,8 +627,8 @@ export default function Home() {
                   <Plus size={16} className="text-white/80" />
                 </button>
               </div>
-              <div className="-mx-6 lg:mx-0 overflow-x-auto lg:overflow-visible px-6 lg:px-0 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex lg:grid lg:grid-cols-2 snap-x snap-mandatory gap-5">
+              <div className="-mx-6 overflow-x-auto px-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex snap-x snap-mandatory gap-5">
                   <AnimatePresence>
                     {activeWidgets.map((id) => {
                       const item = AVAILABLE_WIDGETS.find(s => s.id === id);
@@ -642,7 +636,7 @@ export default function Home() {
                       const Icon = item.icon;
 
                       return (
-                        <motion.div key={item.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="block w-[calc(50%-10px)] lg:w-full min-w-[calc(50%-10px)] lg:min-w-0 snap-start">
+                        <motion.div key={item.id} layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="block w-[calc(50%-10px)] min-w-[calc(50%-10px)] snap-start">
                           <Link href={item.href} className="block h-full">
                             <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_36px_rgba(255,255,255,0.1)]">
                               <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -778,7 +772,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
       </div>
 
 
