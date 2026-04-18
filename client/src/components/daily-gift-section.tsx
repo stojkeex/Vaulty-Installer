@@ -77,7 +77,6 @@ export function DailyGiftSection() {
           <Gift className="text-slate-400" size={24} />
         </div>
       </div>
-
       <div className="grid grid-cols-7 gap-2">
         {dailyRewards.map((reward, index) => {
           const dayNum = index + 1;
@@ -96,10 +95,9 @@ export function DailyGiftSection() {
                     : "bg-white/5 border border-white/5 opacity-50 grayscale"
               )}
             >
-              <span className={cn("text-[10px] font-medium mb-1", isCurrentDay ? "text-white" : "text-gray-400")}>
+              <span className="text-[10px] font-medium mb-1 text-[#3a81e8]">
                 Day {dayNum}
               </span>
-              
               {isClaimed ? (
                 <div className="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center">
                   <Check size={14} className="text-black stroke-[3]" />
@@ -114,7 +112,6 @@ export function DailyGiftSection() {
           );
         })}
       </div>
-
       <button
         onClick={handleClaimReward}
         disabled={claimedToday || loading}
