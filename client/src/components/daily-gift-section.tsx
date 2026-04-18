@@ -99,7 +99,7 @@ export function DailyGiftSection() {
                 Day {dayNum}
               </span>
               {isClaimed ? (
-                <div className="w-6 h-6 rounded-full bg-gray-500 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#00CCFF] text-[#000000]">
                   <Check size={14} className="text-black stroke-[3]" />
                 </div>
               ) : (
