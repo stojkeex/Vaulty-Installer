@@ -341,7 +341,7 @@ export default function DemoTrading() {
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <Wallet className="w-3 h-3" /> Cash
                 </div>
-                <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-cash-balance">
+                <div className="mt-2 text-sm font-bold flex items-center gap-1 text-[#00CCFF]" data-testid="text-demo-cash-balance">
                   {renderSelectedCompactAmount(cashBalance, 12)}
                 </div>
               </div>
