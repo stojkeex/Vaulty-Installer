@@ -407,7 +407,7 @@ export default function Settings() {
                     key={voice.name}
                     className={`w-full p-3 rounded-xl flex items-center justify-between transition-all ${
                       selectedVoice === voice.name 
-                        ? "bg-gradient-to-r from-gray-900/40 to-gray-900/40 border border-gray-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)]" 
+                        ? "bg-gradient-to-r from-[#00CCFF]/40 to-[#FF00BB] border border-gray-500/50 shadow-[0_0_15px_rgba(6,182,212,0.15)]" 
                         : "bg-white/5 border border-white/5 hover:bg-white/10"
                     }`}
                   >

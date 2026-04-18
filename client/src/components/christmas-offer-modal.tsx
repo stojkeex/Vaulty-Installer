@@ -47,7 +47,7 @@ export function ChristmasOfferModal() {
             className="relative w-full max-w-md bg-zinc-950 border border-gray-500/30 rounded-[2.5rem] overflow-hidden shadow-[0_0_50px_rgba(6,182,212,0.2)]"
           >
             {/* Christmas Theme Decoration */}
-            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600" />
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-[#00CCFF] via-[#00CCFF]/50 to-[#FF00BB]" />
             
             <button
               onClick={() => setIsOpen(false)}
@@ -80,7 +80,7 @@ export function ChristmasOfferModal() {
                     <h3 className="text-xl font-black mb-4 text-white uppercase tracking-tighter">{plan.name}</h3>
                     <div className="space-y-1">
                       <p className="text-white/30 line-through text-sm font-medium">${plan.regular}</p>
-                      <p className="text-4xl font-black bg-gradient-to-br from-gray-200 via-white to-gray-300 bg-clip-text text-transparent">${plan.promo}</p>
+                      <p className="text-4xl font-black bg-gradient-to-br from-[#00CCFF] via-white to-[#FF00BB] bg-clip-text text-transparent">${plan.promo}</p>
                       <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-bold">per month</p>
                     </div>
                   </div>
@@ -89,7 +89,7 @@ export function ChristmasOfferModal() {
 
               <div className="mt-6 flex flex-col items-center gap-4">
                 <Button 
-                  className="w-full h-14 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-600 hover:opacity-90 text-white font-black text-lg rounded-2xl shadow-xl shadow-gray-400/20 border-none"
+                  className="w-full h-14 bg-gradient-to-r from-[#00CCFF] via-[#00CCFF]/50 to-[#FF00BB] hover:opacity-90 text-white font-black text-lg rounded-2xl shadow-xl shadow-gray-400/20 border-none"
                   onClick={() => setIsOpen(false)}
                 >
                   GET OFFER NOW

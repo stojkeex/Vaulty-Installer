@@ -23,7 +23,7 @@ export function PointsBalanceCard() {
             <div>
               <h2 className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-1">Total Balance</h2>
               <div className="flex items-center gap-3">
-                <span className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-gray-400">
+                <span className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-[#FF00BB]">
                   {formatPoints(points)}
                 </span>
                 <VaultyIcon size={40} />

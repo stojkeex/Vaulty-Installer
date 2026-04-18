@@ -73,7 +73,7 @@ export function DailyGiftSection() {
           <h3 className="text-xl font-bold text-white">{currentMonth} Rewards</h3>
           <p className="text-sm text-gray-400">Login daily to build your streak</p>
         </div>
-        <div className="p-2 rounded-xl bg-gradient-to-br from-slate-500/20 to-gray-500/20 border border-gray-500/30">
+        <div className="p-2 rounded-xl bg-gradient-to-br from-slate-500/20 to-[#FF00BB] border border-gray-500/30">
           <Gift className="text-slate-400" size={24} />
         </div>
       </div>
@@ -89,9 +89,9 @@ export function DailyGiftSection() {
               className={cn(
                 "relative flex flex-col items-center justify-center aspect-[4/5] rounded-xl transition-all duration-300",
                 isClaimed
-                  ? "bg-gradient-to-b from-gray-500/20 to-gray-900/10 border border-gray-500/30"
+                  ? "bg-gradient-to-b from-[#00CCFF]/20 to-[#FF00BB] border border-gray-500/30"
                   : isCurrentDay
-                    ? "bg-gradient-to-b from-gray-500 to-gray-600 border border-white/30 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-110 z-10"
+                    ? "bg-gradient-to-b from-[#00CCFF] to-[#FF00BB] border border-white/30 shadow-[0_0_15px_rgba(6,182,212,0.3)] scale-110 z-10"
                     : "bg-white/5 border border-white/5 opacity-50 grayscale"
               )}
             >

@@ -76,22 +76,22 @@ export function HeadsUpNotification() {
               return (
                 <div className={`relative overflow-hidden rounded-full py-3 px-6 flex items-center justify-between shadow-2xl backdrop-blur-2xl border transition-all ${
                   isPro 
-                    ? "bg-gradient-to-r from-gray-900/90 via-gray-800/90 to-black/90 border-gray-500/40" 
+                    ? "bg-gradient-to-r from-[#00CCFF]/90 via-[#00CCFF]/50/90 to-black/90 border-gray-500/40" 
                     : isVerified
-                      ? "bg-gradient-to-r from-blue-900/90 to-black/90 border-blue-500/30"
+                      ? "bg-gradient-to-r from-[#00CCFF] to-black/90 border-blue-500/30"
                       : "bg-black/80 border-white/10"
                 }`}>
                   {/* Decorative background glow */}
                   {(isPro || isVerified) && (
                     <div className={`absolute inset-0 opacity-20 bg-gradient-to-r ${
-                      isPro ? "from-gray-400 via-transparent to-transparent" : "from-blue-400 via-transparent to-transparent"
+                      isPro ? "from-[#00CCFF] via-transparent to-transparent" : "from-[#00CCFF] via-transparent to-transparent"
                     }`} />
                   )}
 
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                       isPro 
-                        ? "bg-gradient-to-br from-gray-400 to-gray-600 shadow-lg shadow-gray-500/30" 
+                        ? "bg-gradient-to-br from-[#00CCFF] to-[#FF00BB] shadow-lg shadow-gray-500/30" 
                         : isVerified
                           ? "bg-blue-500/20 border border-blue-500/30"
                           : "bg-white/5 border border-white/10"
@@ -107,7 +107,7 @@ export function HeadsUpNotification() {
 
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold leading-tight truncate ${
-                        isPro ? "text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-300" : "text-white"
+                        isPro ? "text-transparent bg-clip-text bg-gradient-to-r from-white to-[#FF00BB]" : "text-white"
                       }`}>
                         {notification.message}
                       </p>

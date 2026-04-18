@@ -222,7 +222,7 @@ export default function WalletPage() {
     return (
       <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden">
          {/* Background Elements */}
-         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-purple-900/10 to-black z-0 pointer-events-none" />
+         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-[#FF00BB]/10 to-black z-0 pointer-events-none" />
          <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] bg-gray-500/10 rounded-full blur-[100px] pointer-events-none" />
 
          <Link href="/home">
@@ -336,7 +336,7 @@ export default function WalletPage() {
 
       <div className="max-w-md mx-auto pt-20 px-4 space-y-6">
         {/* Balance Card */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gray-900 to-black border border-white/10 p-6">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#00CCFF] to-black border border-white/10 p-6">
           <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-gray-500/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl" />
           
@@ -406,14 +406,14 @@ export default function WalletPage() {
                 onClick={handlePurchase}
                 className="relative group overflow-hidden rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 p-4 transition-all text-left active:scale-95"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00CCFF]/5 to-[#FF00BB] opacity-0 group-hover:opacity-100 transition-opacity" />
                 
                 <div className="relative z-10 flex flex-col h-full justify-between gap-3">
                   <div className="flex items-start justify-between">
                     <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
                        <img src={creditsIcon} alt="C" className="w-5 h-5 object-contain" />
                     </div>
-                    {index === 1 && <span className="text-[10px] font-bold bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-1.5 py-0.5 rounded-sm">POPULAR</span>}
+                    {index === 1 && <span className="text-[10px] font-bold bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] text-black px-1.5 py-0.5 rounded-sm">POPULAR</span>}
                   </div>
                   
                   <div>

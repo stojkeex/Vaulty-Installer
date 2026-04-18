@@ -66,7 +66,7 @@ export function GoalsView() {
         </div>
         <button
           onClick={() => setCreateOpen(true)}
-          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-sky-400/20 bg-gradient-to-br from-sky-400 to-blue-500 text-slate-950 shadow-[0_16px_36px_rgba(59,130,246,0.3)] transition-transform hover:scale-[1.03] active:scale-[0.97]"
+          className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-sky-400/20 bg-gradient-to-br from-[#00CCFF] to-[#00CCFF] text-slate-950 shadow-[0_16px_36px_rgba(59,130,246,0.3)] transition-transform hover:scale-[1.03] active:scale-[0.97]"
           data-testid="button-create-goal"
         >
           <Plus size={22} />

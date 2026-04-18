@@ -120,7 +120,7 @@ export function GoalCard({ goal }: GoalCardProps) {
           </div>
 
           <div className="space-y-2">
-            <Progress value={progress} className="h-2.5 bg-white/10" indicatorClassName={cn("bg-gradient-to-r from-sky-400 to-blue-500", progress >= 100 && "from-green-400 to-emerald-500")} />
+            <Progress value={progress} className="h-2.5 bg-white/10" indicatorClassName={cn("bg-gradient-to-r from-[#00CCFF] to-[#00CCFF]", progress >= 100 && "from-green-400 to-[#00CCFF]")} />
             <div className="flex justify-between text-xs">
               <span className="text-gray-400 flex items-center gap-1">
                 Current: 

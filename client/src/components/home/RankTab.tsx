@@ -69,7 +69,7 @@ export function RankTab() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
       {/* Current Rank Card */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-gray-900 to-black p-8 text-center shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#00CCFF] to-black p-8 text-center shadow-2xl">
         {/* Ambient Glow */}
         <div 
           className={cn(
@@ -128,7 +128,7 @@ export function RankTab() {
               </div>
             </div>
           ) : (
-            <div className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500 font-bold text-lg animate-pulse">
+            <div className="text-transparent bg-clip-text bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] font-bold text-lg animate-pulse">
               MAX RANK ACHIEVED
             </div>
           )}

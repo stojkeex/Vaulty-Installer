@@ -158,7 +158,7 @@ export function ToolsView() {
     <div className="space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-[#FF00BB] bg-clip-text text-transparent">
           Tools & Utilities
         </h2>
         <p className="text-gray-400 text-sm">

@@ -587,7 +587,7 @@ export default function Ai() {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full bg-gradient-to-b from-gray-900/10 via-purple-900/10 to-slate-900/10">
+        <div className="flex flex-col h-full bg-gradient-to-b from-[#00CCFF]/10 via-[#00CCFF]/50 to-slate-900/10">
           <div className="p-4 border-b border-white/10 flex justify-between items-center">
             <h2 className="font-bold text-lg tracking-wider flex items-center gap-2">
               <img src={vaultyLogo} alt="Logo" className="w-6 h-6 object-contain" />
@@ -753,7 +753,7 @@ export default function Ai() {
                     <Progress 
                       value={usagePercent} 
                       className="h-2 bg-white/10" 
-                      indicatorClassName="bg-gradient-to-r from-gray-500 to-gray-500" 
+                      indicatorClassName="bg-gradient-to-r from-[#00CCFF] to-[#FF00BB]" 
                     />
                   </div>
                 </div>
@@ -1008,7 +1008,7 @@ export default function Ai() {
                 backdropFilter: "blur(20px)"
               }}
             >
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-gray-500/5 via-purple-500/5 to-slate-500/5 opacity-50 blur-xl -z-10" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#00CCFF]/5 via-[#00CCFF]/50 to-slate-500/5 opacity-50 blur-xl -z-10" />
               
               {/* Attachment Button - White Icon */}
               <button 

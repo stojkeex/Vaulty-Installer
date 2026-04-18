@@ -163,6 +163,35 @@ img {
   animation-fill-mode: forwards;
 }
 
+/* Custom Vaulty Gradients */
+.bg-vaulty-gradient {
+  background: linear-gradient(135deg, #00CCFF, #FF00BB) !important;
+}
+
+.text-vaulty-gradient {
+  background: linear-gradient(135deg, #00CCFF, #FF00BB) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+
+.border-vaulty-gradient {
+  position: relative;
+}
+.border-vaulty-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, #00CCFF, #FF00BB);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 .rank-card-unranked {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04));
   color: #f5f5f5;

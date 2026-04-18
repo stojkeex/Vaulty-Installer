@@ -29,7 +29,7 @@ export function ActiveCallModal() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-gradient-to-b from-black to-gray-900 z-[9999] flex flex-col items-center justify-center p-4"
+      className="fixed inset-0 bg-gradient-to-b from-black to-[#FF00BB] z-[9999] flex flex-col items-center justify-center p-4"
     >
       {/* Close area */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center">

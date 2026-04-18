@@ -80,7 +80,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
               You have reached the limit of 3 goals for the Free plan. 
               Upgrade to Premium for unlimited goals!
             </p>
-            <Button onClick={() => onOpenChange(false)} className="w-full bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-slate-950 hover:from-sky-400 hover:to-blue-400" data-testid="button-goal-upgrade-now">
+            <Button onClick={() => onOpenChange(false)} className="w-full bg-gradient-to-r from-[#00CCFF] to-[#00CCFF] font-bold text-slate-950 hover:from-[#00CCFF] hover:to-[#00CCFF]" data-testid="button-goal-upgrade-now">
               Upgrade Now
             </Button>
           </div>
@@ -182,7 +182,7 @@ export function CreateGoalDialog({ open, onOpenChange, currentGoalCount }: Creat
 
           <Button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-sky-500 to-blue-500 font-bold text-slate-950 hover:from-sky-400 hover:to-blue-400"
+            className="w-full bg-gradient-to-r from-[#00CCFF] to-[#00CCFF] font-bold text-slate-950 hover:from-[#00CCFF] hover:to-[#00CCFF]"
             disabled={loading}
             data-testid="button-submit-goal"
           >

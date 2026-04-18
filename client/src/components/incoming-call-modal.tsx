@@ -31,7 +31,7 @@ export function IncomingCallModal() {
       <motion.div
         initial={{ scale: 0.8, y: 50 }}
         animate={{ scale: 1, y: 0 }}
-        className="bg-gradient-to-b from-gray-900 to-black border border-gray-600/30 rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl"
+        className="bg-gradient-to-b from-[#00CCFF] to-black border border-gray-600/30 rounded-3xl p-8 w-full max-w-sm text-center shadow-2xl"
       >
         {/* Avatar with ring effect */}
         <motion.div

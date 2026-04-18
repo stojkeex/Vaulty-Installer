@@ -259,7 +259,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
             isFlipped ? "pointer-events-none opacity-0" : "opacity-100"
           )}
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-500/5 via-transparent to-gray-400/5 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#00CCFF]/5 via-transparent to-[#FF00BB] opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
           
           <div className="p-5 relative z-10">
             {/* Header */}
@@ -276,7 +276,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                   }}
                   className="relative cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-tr from-gray-400 to-gray-500 rounded-full opacity-70 blur-sm hover:opacity-100 transition-opacity" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#00CCFF] to-[#FF00BB] rounded-full opacity-70 blur-sm hover:opacity-100 transition-opacity" />
                   <img 
                     src={post.userPhoto || "https://github.com/shadcn.png"} 
                     className="relative w-11 h-11 rounded-full object-cover border-2 border-black"
@@ -442,7 +442,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                     </DialogDescription>
                   </DialogHeader>
                   <div className="flex flex-col items-center py-6 space-y-4">
-                    <div className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+                    <div className="text-3xl font-bold bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent">
                       Total Tipped: {totalTipped.toLocaleString()} VC
                     </div>
                     <div className="w-full max-w-xs space-y-2">
@@ -467,7 +467,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                          handleTip();
                        }}
                        disabled={isTipping}
-                       className="w-full bg-gradient-to-r from-yellow-500 to-orange-600 hover:from-yellow-600 hover:to-orange-700 text-black font-bold"
+                       className="w-full bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] hover:from-[#00CCFF] hover:to-[#FF00BB] text-black font-bold"
                      >
                        {isTipping && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                        Send Tip
@@ -509,7 +509,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
           </button>
           
           <div className="flex flex-col items-center justify-center w-full h-full space-y-2 py-2">
-            <h2 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-gray-300 to-gray-400 bg-clip-text text-transparent line-clamp-1">
+            <h2 className="text-lg sm:text-2xl font-bold text-white bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent line-clamp-1">
               Share This Post
             </h2>
             <p className="text-gray-400 text-[10px] sm:text-sm uppercase tracking-wider font-medium">
@@ -517,7 +517,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
             </p>
             
             <div className="bg-white p-3 sm:p-5 rounded-2xl sm:rounded-[2rem] shadow-2xl relative group shrink min-h-0">
-              <div className="absolute inset-0 bg-gradient-to-tr from-gray-400/20 to-gray-300/20 rounded-2xl sm:rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#00CCFF]/20 to-[#FF00BB] rounded-2xl sm:rounded-[2rem] blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="relative bg-white p-1.5 rounded-lg sm:rounded-xl">
                 <QRCodeSVG 
                   value={`${window.location.origin}/post/${post.id}`} 

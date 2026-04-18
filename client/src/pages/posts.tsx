@@ -188,7 +188,7 @@ export default function Posts() {
     <div className="min-h-screen bg-black text-white pb-24">
       {/* Header */}
       <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10 p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent">
           Community Feed
         </h1>
       </div>

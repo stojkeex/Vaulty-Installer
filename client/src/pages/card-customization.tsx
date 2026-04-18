@@ -89,7 +89,7 @@ export default function CardCustomization() {
           </button>
           <button
             onClick={() => setLocation("/premium")}
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-black font-bold hover:brightness-110"
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] text-black font-bold hover:brightness-110"
             data-testid="button-upgrade-pro"
           >
             Upgrade to PRO

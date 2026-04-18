@@ -70,7 +70,7 @@ export function RatingModal({ isOpen, onClose, onSubmitReview }: RatingModalProp
             className="w-full max-w-md relative"
           >
             {/* Glass morphism background with pac gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 via-black/40 to-gray-600/20 rounded-3xl blur-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-[#FF00BB]/20 via-black/40 to-[#FF00BB] rounded-3xl blur-2xl" />
 
             <div className="relative bg-black/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
               {/* Close button */}
@@ -97,7 +97,7 @@ export function RatingModal({ isOpen, onClose, onSubmitReview }: RatingModalProp
                       transition={{ duration: 0.6, ease: "easeOut" }}
                       className="inline-block"
                     >
-                      <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-gray-500 rounded-full flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gradient-to-r from-[#FF00BB] to-[#FF00BB] rounded-full flex items-center justify-center">
                         <Check size={32} className="text-white" />
                       </div>
                     </motion.div>
@@ -168,7 +168,7 @@ export function RatingModal({ isOpen, onClose, onSubmitReview }: RatingModalProp
                     <button
                       onClick={() => rating > 0 && setShowReviewForm(true)}
                       disabled={rating === 0}
-                      className="flex-1 py-3 px-4 bg-gradient-to-r from-[#00d8ff] via-[#8b00ff] to-[#ff00ea] hover:shadow-[0_0_15px_rgba(255,0,234,0.4)] disabled:from-gray-700 disabled:to-gray-700 text-white font-semibold rounded-xl transition-all active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+                      className="flex-1 py-3 px-4 bg-gradient-to-r from-[#00d8ff] via-[#8b00ff] to-[#ff00ea] hover:shadow-[0_0_15px_rgba(255,0,234,0.4)] disabled:from-[#00CCFF] disabled:to-[#FF00BB] text-white font-semibold rounded-xl transition-all active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
                       data-testid="button-write-review"
                     >
                       Write Review
@@ -217,7 +217,7 @@ export function RatingModal({ isOpen, onClose, onSubmitReview }: RatingModalProp
                       <button
                         onClick={handleSubmitReview}
                         disabled={isSubmitting}
-                        className="flex-1 py-3 px-4 bg-gradient-to-r from-[#00d8ff] via-[#8b00ff] to-[#ff00ea] hover:shadow-[0_0_15px_rgba(255,0,234,0.4)] disabled:from-gray-700 disabled:to-gray-700 text-white font-semibold rounded-xl transition-all active:scale-[0.98] disabled:cursor-not-allowed"
+                        className="flex-1 py-3 px-4 bg-gradient-to-r from-[#00d8ff] via-[#8b00ff] to-[#ff00ea] hover:shadow-[0_0_15px_rgba(255,0,234,0.4)] disabled:from-[#00CCFF] disabled:to-[#FF00BB] text-white font-semibold rounded-xl transition-all active:scale-[0.98] disabled:cursor-not-allowed"
                         data-testid="button-submit-review"
                       >
                         {isSubmitting ? 'Submitting...' : 'Submit'}

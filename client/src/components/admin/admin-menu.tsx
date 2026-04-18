@@ -614,7 +614,7 @@ export function AdminMenu() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button 
-          className={`fixed right-0 top-1/2 -translate-y-1/2 z-[9999] rounded-l-xl rounded-r-none h-12 w-12 ${isSuper ? "bg-gradient-to-br from-gray-500 to-gray-700 hover:opacity-90 shadow-[0_0_15px_rgba(0,211,253,0.5)]" : "bg-red-600 hover:bg-red-700"} shadow-lg border-l border-y border-white/20`}
+          className={`fixed right-0 top-1/2 -translate-y-1/2 z-[9999] rounded-l-xl rounded-r-none h-12 w-12 ${isSuper ? "bg-gradient-to-br from-[#00CCFF] to-[#FF00BB] hover:opacity-90 shadow-[0_0_15px_rgba(0,211,253,0.5)]" : "bg-red-600 hover:bg-red-700"} shadow-lg border-l border-y border-white/20`}
           size="icon"
         >
           {isSuper ? <Crown className="h-6 w-6 text-white" /> : <Shield className="h-6 w-6 text-white" />}
@@ -625,9 +625,9 @@ export function AdminMenu() {
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="p-6 pb-2 border-b border-white/10 bg-[#0a0a0a] relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-gray-500/5 to-gray-700/5 z-0" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#00CCFF]/5 to-[#FF00BB] z-0" />
           <div className="flex items-center justify-between relative z-10">
-            <DialogTitle className={`flex items-center gap-2 text-2xl font-bold ${isSuper ? "bg-gradient-to-r from-gray-500 to-gray-700 bg-clip-text text-transparent" : "text-red-500"}`}>
+            <DialogTitle className={`flex items-center gap-2 text-2xl font-bold ${isSuper ? "bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent" : "text-red-500"}`}>
               {isSuper ? <Crown className="h-7 w-7 text-gray-400" /> : <Shield className="h-7 w-7" />} 
               {isSuper ? "Super Admin Dashboard" : "Admin Dashboard"}
             </DialogTitle>
@@ -718,7 +718,7 @@ export function AdminMenu() {
                 <Button variant="ghost" size="sm" onClick={handleBackToList} className="text-gray-500 hover:text-gray-400 rounded-xl px-4 transition-all">
                   <ChevronLeft className="mr-1 h-4 w-4" /> Back
                 </Button>
-                <h3 className="font-bold text-sm flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-700">
+                <h3 className="font-bold text-sm flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-[#00CCFF] to-[#FF00BB]">
                     {targetUser.displayName}
                     {targetUser.isAdmin && <Shield className="h-3.5 w-3.5 text-gray-600" fill="currentColor" />}
                 </h3>

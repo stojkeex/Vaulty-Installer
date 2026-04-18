@@ -77,7 +77,7 @@ export function LeaderboardTab() {
               className={cn(
                 "px-4 py-2 rounded-lg text-sm font-medium transition-all",
                 range === r.value 
-                  ? "bg-gradient-to-r from-gray-500 to-gray-500 text-white shadow-lg" 
+                  ? "bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] text-white shadow-lg" 
                   : "text-gray-400 hover:text-white hover:bg-white/5"
               )}
             >
