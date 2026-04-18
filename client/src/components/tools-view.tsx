@@ -43,7 +43,7 @@ const tools: Tool[] = [
     icon: Target,
     category: "AI",
     isPremium: true,
-    color: "text-purple-400"
+    color: "text-white"
   },
   {
     id: "market-sentiment",
@@ -88,7 +88,7 @@ const tools: Tool[] = [
     icon: Activity,
     category: "Analysis",
     isPremium: true,
-    color: "text-emerald-400"
+    color: "text-white"
   },
   {
     id: "tax-estimator",
@@ -158,7 +158,7 @@ export function ToolsView() {
     <div className="space-y-8">
       {/* Header */}
       <div className="space-y-2">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-[#FF00BB] bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-white to-purple-500 bg-clip-text text-transparent">
           Tools & Utilities
         </h2>
         <p className="text-gray-400 text-sm">
@@ -293,8 +293,8 @@ function GoalAnalyzerContent() {
   if (step === 1) {
     return (
       <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
-        <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-lg">
-          <h4 className="text-sm font-medium text-purple-400 mb-1 flex items-center gap-2">
+        <div className="p-3 bg-white/10/10 border border-purple-500/20 rounded-lg">
+          <h4 className="text-sm font-medium text-white mb-1 flex items-center gap-2">
             <Brain className="w-3 h-3" /> AI Analysis
           </h4>
           <p className="text-sm text-gray-300">
@@ -316,7 +316,7 @@ function GoalAnalyzerContent() {
           </div>
         </div>
 
-        <Button className="w-full bg-purple-600 hover:bg-purple-500" onClick={() => setStep(0)}>
+        <Button className="w-full bg-white/10 hover:bg-white/10" onClick={() => setStep(0)}>
           Create Another Goal
         </Button>
       </div>
@@ -335,7 +335,7 @@ function GoalAnalyzerContent() {
         />
       </div>
       <Button 
-        className="w-full bg-purple-600 hover:bg-purple-500" 
+        className="w-full bg-white/10 hover:bg-white/10" 
         onClick={handleAnalyze}
         disabled={isAnalyzing || !goal}
       >

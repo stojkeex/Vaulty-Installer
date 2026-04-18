@@ -50,7 +50,7 @@ export default function VaultyCoinInfoPage() {
 
           <div className="p-6 rounded-[24px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),transparent)] border border-white/10 backdrop-blur-xl">
             <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+              <span className="w-2 h-2 rounded-full bg-white/10"></span>
               The Origin Story
             </h3>
             <p className="text-gray-300 text-sm leading-relaxed">

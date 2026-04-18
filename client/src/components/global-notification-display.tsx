@@ -30,30 +30,30 @@ export function GlobalNotificationDisplay() {
               <div className="max-w-2xl mx-auto px-4">
                 <div className={`relative overflow-hidden rounded-full py-3 px-6 flex items-center justify-between shadow-2xl backdrop-blur-2xl border transition-all ${
                   isPro 
-                    ? "bg-gradient-to-r from-[#00CCFF]/90 via-[#00CCFF]/50/90 to-black/90 border-gray-500/40" 
+                    ? "bg-gradient-to-r from-blue-500/90 via-blue-500/50/90 to-black/90 border-gray-500/40" 
                     : isVerified
-                      ? "bg-gradient-to-r from-[#00CCFF] to-black/90 border-blue-500/30"
+                      ? "bg-gradient-to-r from-blue-500 to-black/90 border-blue-500/30"
                       : "bg-black/80 border-white/10"
                 }`}>
                   {/* Decorative background glow for Premium/Special */}
                   {(isPro || isVerified) && (
                     <div className={`absolute inset-0 opacity-20 bg-gradient-to-r ${
-                      isPro ? "from-[#00CCFF] via-transparent to-transparent" : "from-[#00CCFF] via-transparent to-transparent"
+                      isPro ? "from-blue-500 via-transparent to-transparent" : "from-blue-500 via-transparent to-transparent"
                     }`} />
                   )}
 
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                       isPro 
-                        ? "bg-gradient-to-br from-[#00CCFF] to-[#FF00BB] shadow-lg shadow-gray-500/30" 
+                        ? "bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg shadow-gray-500/30" 
                         : isVerified
-                          ? "bg-blue-500/20 border border-blue-500/30"
+                          ? "bg-white/10/20 border border-blue-500/30"
                           : "bg-white/5 border border-white/10"
                     }`}>
                       {isPro ? (
                         <Sparkles className="h-4 w-4 text-white" />
                       ) : isVerified ? (
-                        <Shield className="h-4 w-4 text-blue-400" />
+                        <Shield className="h-4 w-4 text-white" />
                       ) : (
                         <Bell className="h-4 w-4 text-gray-400" />
                       )}
@@ -61,7 +61,7 @@ export function GlobalNotificationDisplay() {
 
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-bold leading-tight truncate ${
-                        isPro ? "text-transparent bg-clip-text bg-gradient-to-r from-white to-[#FF00BB]" : "text-white"
+                        isPro ? "text-transparent bg-clip-text bg-gradient-to-r from-white to-purple-500" : "text-white"
                       }`}>
                         {notification.message}
                       </p>
@@ -87,7 +87,7 @@ export function GlobalNotificationDisplay() {
                       animate={{ width: "0%" }}
                       transition={{ duration: (notification.duration / 1000), ease: "linear" }}
                       className={`absolute bottom-0 left-0 h-[2px] opacity-50 ${
-                        isPro ? "bg-gray-400" : isVerified ? "bg-blue-400" : "bg-white/20"
+                        isPro ? "bg-gray-400" : isVerified ? "bg-white/10" : "bg-white/20"
                       }`}
                     />
                   )}

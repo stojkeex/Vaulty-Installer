@@ -91,7 +91,7 @@ export default function NewsDetail() {
               <Share2 size={14} className="text-gray-400" />
               <Twitter size={14} className="text-gray-400" />
               <MessageCircle size={14} className="text-green-400" />
-              <LinkIcon size={14} className="text-purple-400" />
+              <LinkIcon size={14} className="text-white" />
             </div>
           </div>
         </div>

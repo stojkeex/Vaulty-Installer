@@ -118,7 +118,7 @@ export default function WalletSettingsPage() {
                     className="w-full p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between hover:bg-white/10 transition-colors"
                 >
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white/10/20 text-white flex items-center justify-center">
                             <Lock className="w-5 h-5" />
                         </div>
                         <div className="text-left">

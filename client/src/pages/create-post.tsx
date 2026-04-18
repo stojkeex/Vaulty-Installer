@@ -247,7 +247,7 @@ export default function CreatePost() {
           <button
             onClick={handleAIEdit}
             disabled={isAILoading}
-            className="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/50 text-purple-300 rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-white/10/20 hover:bg-white/10/30 border border-purple-500/50 text-white rounded-lg transition-all flex items-center gap-2 disabled:opacity-50"
             data-testid="button-ai-edit"
           >
             {isAILoading ? (

@@ -536,7 +536,7 @@ export default function Home() {
                     <div
                       className={cn(
                         "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold",
-                        isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400",
+                        isPositiveProfit ? "text-white" : "text-white",
                       )}
                     >
                       {isPositiveProfit ? (
@@ -851,20 +851,20 @@ export default function Home() {
           {/* RIGHT COLUMN */}
           <div className="w-full xl:col-span-1 shrink-0 space-y-8">
             {/* Inline Premium Banner */}
-            <div className="w-full bg-gradient-to-r from-[#00CCFF] via-[#00CCFF]/50 to-black rounded-[24px] p-[1px] relative shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.15)] transition-all duration-500 group overflow-hidden border border-white/5 backdrop-blur-md">
+            <div className="w-full bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] rounded-[24px] p-[1px] relative shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.15)] transition-all duration-500 group overflow-hidden border border-white/5 backdrop-blur-md">
               <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#00CCFF] via-[#00CCFF]/50 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-blue-500/50 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <Link href="/premium">
                 <div className="flex items-center justify-between cursor-pointer relative z-10 bg-[#0f0f11] rounded-[23px] p-3 hover:bg-[#151518] transition-colors backdrop-blur-xl">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-[#00CCFF]/20 to-[#FF00BB] border border-white/5 flex items-center justify-center shrink-0">
+                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500 border border-white/5 flex items-center justify-center shrink-0">
                       <Star className="w-5 h-5 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full blur-[2px] animate-pulse opacity-50"></div>
+                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-white/10 rounded-full blur-[2px] animate-pulse opacity-50"></div>
                     </div>
                     <div className="space-y-0">
                       <div className="flex items-center gap-2">
                         <p className="text-[15px] font-bold tracking-tight text-white/90 group-hover:text-white transition-all duration-300">
-                          Vaulty<span className="text-blue-400">+</span>
+                          Vaulty<span className="text-white">+</span>
                         </p>
                       </div>
                       <p className="text-[11px] font-medium text-white/40">
@@ -917,7 +917,7 @@ export default function Home() {
                       <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">
                         Vaulty Picks
                       </p>
-                      <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#FF00BB] transition-all">
+                      <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
                         {BANNERS[currentBannerIndex].title}
                       </h3>
                       <p className="text-sm text-white/60 font-medium max-w-[260px] leading-relaxed">
@@ -994,7 +994,7 @@ export default function Home() {
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
                 <div className="relative z-10 flex items-start justify-between gap-5">
                   <div className="flex-1">
-                    <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#FF00BB] transition-all">
+                    <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
                       Ask smarter finance questions
                     </h3>
                     <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-slate-300">
@@ -1053,7 +1053,7 @@ export default function Home() {
                   <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                 </div>
                 <div className="flex-1 w-full flex flex-col justify-center h-full">
-                  <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-[#FF00BB] transition-all">
+                  <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
                     Reach your goal
                   </h3>
                   <p className="text-[13px] text-white/60 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">
@@ -1120,7 +1120,7 @@ export default function Home() {
                   <div>
                     <h3 className="text-base font-bold text-white tracking-tight leading-tight">
                       Invite Friends{" "}
-                      <span className="inline-block bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">
+                      <span className="inline-block bg-white/10/10 text-white border border-emerald-500/30 text-[9px] align-text-bottom font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ml-1">
                         +50 VC
                       </span>
                     </h3>
@@ -1340,8 +1340,8 @@ export default function Home() {
                             className={cn(
                               "text-xs font-semibold",
                               coin.price_change_percentage_24h >= 0
-                                ? "text-[#06b6d4]"
-                                : "text-rose-400",
+                                ? "text-white"
+                                : "text-white",
                             )}
                           >
                             {coin.price_change_percentage_24h >= 0 ? "+" : ""}

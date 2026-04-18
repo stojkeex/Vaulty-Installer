@@ -18,7 +18,7 @@ const EXPERTS = [
     bio: "Expert in technical analysis, on-chain data, and crypto market cycles.",
     avatar: "src/assets/IMG_8643_1766917974028.jpeg",
     icon: TrendingUp,
-    color: "from-[#00CCFF] to-[#FF00BB]",
+    color: "from-blue-500 to-purple-500",
     objectPos: "object-[center_20%]"
   },
   { 
@@ -28,7 +28,7 @@ const EXPERTS = [
     bio: "Specialist in wealth management, investing, and personal finance strategies.",
     avatar: "src/assets/IMG_8646_1766917974028.jpeg",
     icon: Wallet,
-    color: "from-green-500 to-[#00CCFF]",
+    color: "from-green-500 to-blue-500",
     objectPos: "object-center"
   },
   { 
@@ -38,7 +38,7 @@ const EXPERTS = [
     bio: "Helping you navigate complex tax laws and optimize your tax returns.",
     avatar: "src/assets/IMG_8642_1766917974028.jpeg",
     icon: Receipt,
-    color: "from-[#00CCFF] to-[#FF00BB]",
+    color: "from-blue-500 to-purple-500",
     objectPos: "object-center"
   },
   { 
@@ -48,7 +48,7 @@ const EXPERTS = [
     bio: "Startup growth, operations, and scaling expert with 15 years experience.",
     avatar: "src/assets/IMG_8644_1766917974028.jpeg",
     icon: Brain,
-    color: "from-[#FF00BB] to-[#FF00BB]",
+    color: "from-purple-500 to-purple-500",
     objectPos: "object-center"
   },
   { 
@@ -58,7 +58,7 @@ const EXPERTS = [
     bio: "Expert in macroeconomics, global markets, and monetary policy.",
     avatar: "src/assets/IMG_8645_1766917974028.jpeg",
     icon: GraduationCap,
-    color: "from-[#00CCFF] to-[#FF00BB]",
+    color: "from-blue-500 to-purple-500",
     objectPos: "object-center"
   }
 ];

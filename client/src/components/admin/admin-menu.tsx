@@ -222,7 +222,7 @@ export function AdminMenu() {
           description: `${targetUser.displayName} is ${newStatus ? 'now invisible' : 'now visible'} in logs.`,
           className: newStatus 
             ? "bg-orange-600/10 border-orange-500/50 text-orange-400 font-medium" 
-            : "bg-blue-600/10 border-blue-500/50 text-blue-400 font-medium",
+            : "bg-white/10/10 border-blue-500/50 text-white font-medium",
         });
     } catch (error) {
         toast({ title: "Update Failed", variant: "destructive" });
@@ -321,7 +321,7 @@ export function AdminMenu() {
         title: action === 'add' ? "XP Boosted" : "XP Reduced",
         description: `${amount} XP ${action === 'add' ? 'added to' : 'removed from'} ${targetUser.displayName}.`,
         className: action === 'add' 
-          ? "bg-blue-600/10 border-blue-500/50 text-blue-400 font-bold" 
+          ? "bg-white/10/10 border-blue-500/50 text-white font-bold" 
           : "bg-orange-600/10 border-orange-500/50 text-orange-400 font-bold",
       });
       setXpAmount("");
@@ -614,7 +614,7 @@ export function AdminMenu() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button 
-          className={`fixed right-0 top-1/2 -translate-y-1/2 z-[9999] rounded-l-xl rounded-r-none h-12 w-12 ${isSuper ? "bg-gradient-to-br from-[#00CCFF] to-[#FF00BB] hover:opacity-90 shadow-[0_0_15px_rgba(0,211,253,0.5)]" : "bg-red-600 hover:bg-red-700"} shadow-lg border-l border-y border-white/20`}
+          className={`fixed right-0 top-1/2 -translate-y-1/2 z-[9999] rounded-l-xl rounded-r-none h-12 w-12 ${isSuper ? "bg-gradient-to-br from-blue-500 to-purple-500 hover:opacity-90 shadow-[0_0_15px_rgba(0,211,253,0.5)]" : "bg-red-600 hover:bg-red-700"} shadow-lg border-l border-y border-white/20`}
           size="icon"
         >
           {isSuper ? <Crown className="h-6 w-6 text-white" /> : <Shield className="h-6 w-6 text-white" />}
@@ -625,9 +625,9 @@ export function AdminMenu() {
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="p-6 pb-2 border-b border-white/10 bg-[#0a0a0a] relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#00CCFF]/5 to-[#FF00BB] z-0" />
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/5 to-purple-500 z-0" />
           <div className="flex items-center justify-between relative z-10">
-            <DialogTitle className={`flex items-center gap-2 text-2xl font-bold ${isSuper ? "bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent" : "text-red-500"}`}>
+            <DialogTitle className={`flex items-center gap-2 text-2xl font-bold ${isSuper ? "bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent" : "text-red-500"}`}>
               {isSuper ? <Crown className="h-7 w-7 text-gray-400" /> : <Shield className="h-7 w-7" />} 
               {isSuper ? "Super Admin Dashboard" : "Admin Dashboard"}
             </DialogTitle>
@@ -718,7 +718,7 @@ export function AdminMenu() {
                 <Button variant="ghost" size="sm" onClick={handleBackToList} className="text-gray-500 hover:text-gray-400 rounded-xl px-4 transition-all">
                   <ChevronLeft className="mr-1 h-4 w-4" /> Back
                 </Button>
-                <h3 className="font-bold text-sm flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-[#00CCFF] to-[#FF00BB]">
+                <h3 className="font-bold text-sm flex items-center gap-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">
                     {targetUser.displayName}
                     {targetUser.isAdmin && <Shield className="h-3.5 w-3.5 text-gray-600" fill="currentColor" />}
                 </h3>
@@ -850,7 +850,7 @@ export function AdminMenu() {
                       variant="outline" 
                       className={cn(
                         "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-white/10 flex-1 justify-center", 
-                        targetUser?.badges?.includes("verified") ? "bg-blue-500/20 border-blue-500 text-blue-500 opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
+                        targetUser?.badges?.includes("verified") ? "bg-white/10/20 border-blue-500 text-white opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
                       )} 
                       onClick={async () => {
                         if (!targetUser) return;
@@ -884,7 +884,7 @@ export function AdminMenu() {
                             title: newStatus ? "Verification Badge Added" : "Verification Badge Removed",
                             description: `${targetUser.displayName}'s status has been updated.`,
                             className: newStatus 
-                              ? "bg-blue-600/10 border-blue-500/50 text-blue-400 font-medium" 
+                              ? "bg-white/10/10 border-blue-500/50 text-white font-medium" 
                               : "bg-red-600/10 border-red-500/50 text-red-400 font-medium",
                           });
                         } catch (error) {
@@ -922,7 +922,7 @@ export function AdminMenu() {
                       <Button 
                         onClick={handleSeedMockData} 
                         disabled={isSeeding}
-                        className="w-full bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 font-bold rounded-xl h-10 text-xs flex items-center justify-center gap-2"
+                        className="w-full bg-white/10/20 hover:bg-white/10/30 text-white border border-blue-600/30 font-bold rounded-xl h-10 text-xs flex items-center justify-center gap-2"
                       >
                         {isSeeding ? <Loader2 className="animate-spin h-4 w-4" /> : <Zap size={16} />}
                         GENERATE 10 MOCK ACCOUNTS & POSTS

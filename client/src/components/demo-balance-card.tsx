@@ -30,7 +30,7 @@ export function DemoBalanceCard({ coins = [] }: DemoBalanceCardProps) {
 
   return (
     <Link href="/demo-trading">
-      <div className="glass-card rounded-3xl p-6 hover:bg-white/10 transition-all cursor-pointer group relative overflow-hidden border border-gray-500/20 bg-gradient-to-br from-[#00CCFF]/10 to-transparent">
+      <div className="glass-card rounded-3xl p-6 hover:bg-white/10 transition-all cursor-pointer group relative overflow-hidden border border-gray-500/20 bg-gradient-to-br from-blue-500/10 to-transparent">
         <div className="absolute top-0 right-0 w-32 h-32 bg-gray-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-gray-500/20 transition-colors" />
 
         <div className="relative z-10 space-y-4">

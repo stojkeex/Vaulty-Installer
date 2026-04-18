@@ -151,7 +151,7 @@ export default function Quests() {
             <Card className="bg-white/5 border-white/10">
                 <CardContent className="p-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-purple-500/20 rounded-lg text-purple-500">
+                        <div className="p-2 bg-white/10/20 rounded-lg text-white">
                             <Users size={20} />
                         </div>
                         <div>
@@ -159,7 +159,7 @@ export default function Quests() {
                             <p className="text-xs text-gray-400">+5 VP • +100 XP (On Register)</p>
                         </div>
                     </div>
-                    <Button size="sm" className="bg-purple-600 hover:bg-purple-700" onClick={handleInviteClick}>
+                    <Button size="sm" className="bg-white/10 hover:bg-white/10" onClick={handleInviteClick}>
                         Invite
                     </Button>
                 </CardContent>

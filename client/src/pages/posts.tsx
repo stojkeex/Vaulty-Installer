@@ -188,7 +188,7 @@ export default function Posts() {
     <div className="min-h-screen bg-black text-white pb-24">
       {/* Header */}
       <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10 p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Community Feed
         </h1>
       </div>
@@ -220,7 +220,7 @@ export default function Posts() {
                <button className="p-2 text-gray-400 hover:bg-gray-500/10 rounded-full transition-colors" title="Add Image">
                  <ImageIcon size={20} />
                </button>
-               <button className="p-2 text-purple-400 hover:bg-purple-500/10 rounded-full transition-colors" title="AI Enhance">
+               <button className="p-2 text-white hover:bg-white/10/10 rounded-full transition-colors" title="AI Enhance">
                  <Sparkles size={20} />
                </button>
              </div>

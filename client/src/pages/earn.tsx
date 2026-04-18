@@ -257,7 +257,7 @@ export default function EarnPage() {
     <div className="min-h-screen bg-black text-white pb-20">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-md border-b border-white/10 p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] bg-clip-text text-transparent">
+        <h1 className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
           Earn & Trade
         </h1>
         

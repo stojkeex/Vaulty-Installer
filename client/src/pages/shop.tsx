@@ -408,7 +408,7 @@ export default function Shop() {
           subtitle="1000 VC gets you 10K demo cash, 2000 VC gets you 25K, and every next tier adds 5K more."
           icon={<Coins className="h-6 w-6" />}
           packages={DEMO_MONEY_PACKAGES}
-          accentClass="border-emerald-400/20 bg-emerald-500/10"
+          accentClass="border-emerald-400/20 bg-white/10/10"
           purchasingId={purchasingId}
           userPoints={userPoints}
           onPurchase={handlePurchase}

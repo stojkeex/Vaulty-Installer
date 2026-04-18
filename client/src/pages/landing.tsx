@@ -253,7 +253,7 @@ export default function Landing() {
 
       {/* Scroll Progress Bar */}
       <motion.div
-        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] z-50"
+        className="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 z-50"
         style={{ width: `${scrollProgress}%` }}
       />
 
@@ -359,11 +359,11 @@ export default function Landing() {
 
               {/* Story Card inside About Section */}
               <motion.div
-                className="mt-12 p-8 rounded-[32px] border border-indigo-500/30 bg-gradient-to-br from-[#00CCFF]/20 to-black/60 backdrop-blur-xl shadow-[0_0_40px_rgba(99,102,241,0.15)] relative overflow-hidden group"
+                className="mt-12 p-8 rounded-[32px] border border-indigo-500/30 bg-gradient-to-br from-blue-500/20 to-black/60 backdrop-blur-xl shadow-[0_0_40px_rgba(99,102,241,0.15)] relative overflow-hidden group"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00CCFF]/10 to-[#FF00BB] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10">
                   <h3 className="text-2xl font-bold mb-3 text-white">Do you want to know more about Vaulty's History and Our Story?</h3>
                   <p className="text-white/60 mb-6 font-light">Discover how we started, our mission to redefine finance, and the team behind the vision.</p>
@@ -674,7 +674,7 @@ export default function Landing() {
       <section id="subscribe" className="relative z-10 py-32 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
-            className="p-12 md:p-16 rounded-[32px] border border-white/10 bg-gradient-to-b from-[#00CCFF]/20 to-black backdrop-blur-2xl relative overflow-hidden"
+            className="p-12 md:p-16 rounded-[32px] border border-white/10 bg-gradient-to-b from-blue-500/20 to-black backdrop-blur-2xl relative overflow-hidden"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -714,7 +714,7 @@ export default function Landing() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
-                    className="mt-4 text-emerald-400 font-medium"
+                    className="mt-4 text-white font-medium"
                   >
                     Thanks for subscribing! We'll be in touch soon.
                   </motion.div>
@@ -722,7 +722,7 @@ export default function Landing() {
               </AnimatePresence>
 
               <div className="mt-8 flex items-center justify-center gap-2 text-white/50 font-mono text-sm">
-                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <div className="w-2 h-2 rounded-full bg-white/10 animate-pulse" />
                 <span className="font-bold text-white">{subscribersCount.toLocaleString()}</span> Subscribers on the waitlist
               </div>
             </div>

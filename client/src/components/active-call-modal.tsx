@@ -29,7 +29,7 @@ export function ActiveCallModal() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 bg-gradient-to-b from-black to-[#FF00BB] z-[9999] flex flex-col items-center justify-center p-4"
+      className="fixed inset-0 bg-gradient-to-b from-black to-purple-500 z-[9999] flex flex-col items-center justify-center p-4"
     >
       {/* Close area */}
       <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
@@ -95,7 +95,7 @@ export function ActiveCallModal() {
         <span className={`px-3 py-1 rounded-full text-xs font-medium ${isMuted ? "bg-red-500/20 text-red-400" : "bg-green-500/20 text-green-400"}`}>
           {isMuted ? "Muted" : "Mic On"}
         </span>
-        <span className={`px-3 py-1 rounded-full text-xs font-medium ${isSpeakerOn ? "bg-blue-500/20 text-blue-400" : "bg-gray-600/20 text-gray-400"}`}>
+        <span className={`px-3 py-1 rounded-full text-xs font-medium ${isSpeakerOn ? "bg-white/10/20 text-white" : "bg-gray-600/20 text-gray-400"}`}>
           {isSpeakerOn ? "Speaker On" : "Speaker Off"}
         </span>
       </div>

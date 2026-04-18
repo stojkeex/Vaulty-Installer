@@ -319,7 +319,7 @@ export default function Premium() {
             </button>
             <button
               onClick={() => setBillingCycle("yearly")}
-              className={`min-h-[132px] rounded-[24px] border px-4 py-4 text-left transition-all flex flex-col justify-between ${billingCycle === "yearly" ? "border-white/70 bg-white text-black shadow-[0_18px_40px_rgba(255,255,255,0.18)]" : "border-emerald-400/20 bg-emerald-400/10 text-white hover:bg-emerald-400/15"}`}
+              className={`min-h-[132px] rounded-[24px] border px-4 py-4 text-left transition-all flex flex-col justify-between ${billingCycle === "yearly" ? "border-white/70 bg-white text-black shadow-[0_18px_40px_rgba(255,255,255,0.18)]" : "border-emerald-400/20 bg-white/10/10 text-white hover:bg-white/10/15"}`}
               data-testid="button-yearly-plan"
             >
               <div className="space-y-2">
@@ -327,13 +327,13 @@ export default function Premium() {
                   <span className="inline-flex rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.2em] opacity-80">
                     Yearly
                   </span>
-                  <span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${billingCycle === "yearly" ? "bg-black text-white" : "bg-emerald-400/15 text-emerald-300"}`}>
+                  <span className={`rounded-full px-2.5 py-1 text-[10px] font-black ${billingCycle === "yearly" ? "bg-black text-white" : "bg-white/10/15 text-white"}`}>
                     {yearlyDiscount}% OFF
                   </span>
                 </div>
                 <div className="text-3xl font-black tracking-tight">$89.99</div>
               </div>
-              <p className={`text-xs font-medium ${billingCycle === "yearly" ? "text-black/70" : "text-emerald-200/80"}`}>
+              <p className={`text-xs font-medium ${billingCycle === "yearly" ? "text-black/70" : "text-white/80"}`}>
                 Best deal for long-term access.
               </p>
             </button>
@@ -353,7 +353,7 @@ export default function Premium() {
               <span className="text-sm font-medium text-gray-300">
                 {billingCycle === "yearly" ? "You will save" : "Better value option"}
               </span>
-              <span className={`text-sm font-black ${billingCycle === "yearly" ? "text-emerald-300" : "text-white"}`}>
+              <span className={`text-sm font-black ${billingCycle === "yearly" ? "text-white" : "text-white"}`}>
                 {billingCycle === "yearly" ? `$${yearlySavings.toFixed(2)} per year` : `Save ${yearlyDiscount}% with yearly`}
               </span>
             </div>

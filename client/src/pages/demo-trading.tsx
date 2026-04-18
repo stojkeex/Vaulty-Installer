@@ -225,7 +225,7 @@ export default function DemoTrading() {
   };
 
   return (
-    <div className="min-h-screen bg-[#000000] text-white pb-32 font-sans selection:bg-purple-500/30">
+    <div className="min-h-screen bg-[#000000] text-white pb-32 font-sans selection:bg-white/10/30">
       <div className="sticky top-0 z-50 bg-[#000000]/90 backdrop-blur-md border-b border-white/5">
         <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between gap-3">
           <div>
@@ -295,7 +295,7 @@ export default function DemoTrading() {
                 )}
               </div>
               <div className="mt-3 flex items-center gap-3">
-                <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", totalProfitUsd >= 0 ? "text-[#06b6d4]" : "text-rose-400")} data-testid="text-demo-profit-summary">
+                <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", totalProfitUsd >= 0 ? "text-white" : "text-white")} data-testid="text-demo-profit-summary">
                   {totalProfitUsd >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
                   {renderSelectedAmount(Math.abs(totalProfit), 10)}
                   <span>({Math.abs(totalProfitPercent).toFixed(2)}%)</span>
@@ -310,14 +310,18 @@ export default function DemoTrading() {
                 <AreaChart data={OVERVIEW_CHART_DATA}>
                   <defs>
                     <linearGradient id="demoChartColor" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={totalProfitUsd >= 0 ? "#06b6d4" : "#f43f5e"} stopOpacity={0.3} />
-                      <stop offset="95%" stopColor={totalProfitUsd >= 0 ? "#06b6d4" : "#f43f5e"} stopOpacity={0} />
+                      <stop offset="5%" stopColor={totalProfitUsd >= 0 ? "#00CCFF" : "#f43f5e"} stopOpacity={0.3} />
+                      <stop offset="95%" stopColor={totalProfitUsd >= 0 ? "#FF00BB" : "#f43f5e"} stopOpacity={0} />
+                    </linearGradient>
+                    <linearGradient id="demoChartLine" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#00CCFF" />
+                      <stop offset="100%" stopColor="#FF00BB" />
                     </linearGradient>
                   </defs>
                   <Area 
                     type="monotone" 
                     dataKey="price" 
-                    stroke={totalProfitUsd >= 0 ? "#06b6d4" : "#f43f5e"} 
+                    stroke={totalProfitUsd >= 0 ? "url(#demoChartLine)" : "#f43f5e"} 
                     strokeWidth={2.5} 
                     fillOpacity={1} 
                     fill="url(#demoChartColor)" 
@@ -400,7 +404,7 @@ export default function DemoTrading() {
                         <p className="font-bold text-[17px] text-white flex items-center justify-end gap-1">
                           {renderSelectedAmount(displayValue, 14)}
                         </p>
-                        <p className={cn("text-[13px] font-semibold flex items-center justify-end gap-1 mt-0.5", profitUsd >= 0 ? "text-[#06b6d4]" : "text-rose-400")}>
+                        <p className={cn("text-[13px] font-semibold flex items-center justify-end gap-1 mt-0.5", profitUsd >= 0 ? "text-white" : "text-white")}>
                           {profitUsd >= 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                           {formatSelectedCompactAmount(Math.abs(displayProfit))}
                           <span className="opacity-80 ml-0.5">({Math.abs(profitPercent).toFixed(2)}%)</span>
@@ -430,7 +434,7 @@ export default function DemoTrading() {
           </form>
 
           {error ? (
-            <div className="text-center py-6 text-rose-400 text-sm rounded-[24px] bg-rose-500/10 border border-rose-500/20">{error}</div>
+            <div className="text-center py-6 text-white text-sm rounded-[24px] bg-rose-500/10 border border-rose-500/20">{error}</div>
           ) : null}
 
           <div className="space-y-2">
@@ -458,7 +462,7 @@ export default function DemoTrading() {
                         <div className="font-bold text-[16px] text-white">
                           {formatSelectedPrice(coin.current_price)}
                         </div>
-                        <div className={cn("text-[13px] font-semibold flex items-center justify-end gap-1 mt-0.5", coin.price_change_percentage_24h >= 0 ? "text-[#06b6d4]" : "text-rose-400")}>
+                        <div className={cn("text-[13px] font-semibold flex items-center justify-end gap-1 mt-0.5", coin.price_change_percentage_24h >= 0 ? "text-white" : "text-white")}>
                           {coin.price_change_percentage_24h >= 0 ? <ArrowUpRight className="w-3.5 h-3.5" /> : <ArrowDownRight className="w-3.5 h-3.5" />}
                           {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
                         </div>
@@ -482,7 +486,7 @@ export default function DemoTrading() {
                 return (
                   <div key={transaction.id} className="flex items-center justify-between p-4 rounded-[20px] bg-[#000000] border-none" data-testid={`row-demo-transaction-${transaction.id}`}>
                     <div className="flex items-center gap-4">
-                      <div className={cn("h-11 w-11 rounded-full flex items-center justify-center font-bold text-xl", transaction.type === "buy" ? "bg-[#06b6d4]/10 text-[#06b6d4]" : "bg-rose-500/10 text-rose-400")}>
+                      <div className={cn("h-11 w-11 rounded-full flex items-center justify-center font-bold text-xl", transaction.type === "buy" ? "bg-[#06b6d4]/10 text-white" : "bg-rose-500/10 text-white")}>
                         {transaction.type === "buy" ? "+" : "-"}
                       </div>
                       <div>

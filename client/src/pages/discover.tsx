@@ -304,13 +304,13 @@ export default function Discover() {
             <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold flex items-center gap-2">
-                    <Newspaper className="w-5 h-5 text-purple-400" />
+                    <Newspaper className="w-5 h-5 text-white" />
                     Latest News
                   </h2>
                   <div className="flex gap-2">
                     {userData?.role === 'news_writer' && (
                       <Link href="/create-news">
-                        <button className="flex items-center gap-1 text-xs bg-purple-500/20 text-purple-400 px-3 py-1.5 rounded-lg border border-purple-500/30 hover:bg-purple-500/30 transition-colors">
+                        <button className="flex items-center gap-1 text-xs bg-white/10/20 text-white px-3 py-1.5 rounded-lg border border-purple-500/30 hover:bg-white/10/30 transition-colors">
                           <Plus size={14} />
                           Make News
                         </button>

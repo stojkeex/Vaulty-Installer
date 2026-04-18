@@ -314,7 +314,7 @@ export function ProfileCard({ user, isOwner, onEdit, onCustomize, onBack, onRepo
                         className="flex items-center justify-between px-4 py-3 bg-zinc-800 rounded-xl hover:bg-zinc-700 transition-colors"
                     >
                         <div className="flex items-center gap-3">
-                            <Globe className="text-emerald-400" size={20} />
+                            <Globe className="text-white" size={20} />
                             <span className="font-medium">Website</span>
                         </div>
                         <div className="text-zinc-500 text-sm">Open</div>

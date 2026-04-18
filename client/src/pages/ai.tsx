@@ -587,7 +587,7 @@ export default function Ai() {
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="flex flex-col h-full bg-gradient-to-b from-[#00CCFF]/10 via-[#00CCFF]/50 to-slate-900/10">
+        <div className="flex flex-col h-full bg-gradient-to-b from-blue-500/10 via-blue-500/50 to-slate-900/10">
           <div className="p-4 border-b border-white/10 flex justify-between items-center">
             <h2 className="font-bold text-lg tracking-wider flex items-center gap-2">
               <img src={vaultyLogo} alt="Logo" className="w-6 h-6 object-contain" />
@@ -753,7 +753,7 @@ export default function Ai() {
                     <Progress 
                       value={usagePercent} 
                       className="h-2 bg-white/10" 
-                      indicatorClassName="bg-gradient-to-r from-[#00CCFF] to-[#FF00BB]" 
+                      indicatorClassName="bg-gradient-to-r from-blue-500 to-purple-500" 
                     />
                   </div>
                 </div>
@@ -904,11 +904,11 @@ export default function Ai() {
                       <button
                         onClick={() => setExpandedThinking(expandedThinking === idx ? null : idx)}
                         className={cn(
-                          "flex items-center gap-2 px-3 py-2 rounded-lg bg-purple-900/20 border border-purple-500/20 text-xs font-medium text-purple-300 hover:bg-purple-900/30 transition-all w-full",
-                          expandedThinking === idx && "bg-purple-900/30"
+                          "flex items-center gap-2 px-3 py-2 rounded-lg bg-white/10/20 border border-purple-500/20 text-xs font-medium text-white hover:bg-white/10/30 transition-all w-full",
+                          expandedThinking === idx && "bg-white/10/30"
                         )}
                       >
-                        <Brain size={14} className="text-purple-400" />
+                        <Brain size={14} className="text-white" />
                         <span>Thinking Process ({msg.thinkingTime}s)</span>
                         <ChevronDown size={12} className={cn("ml-auto transition-transform", expandedThinking === idx && "rotate-180")} />
                       </button>
@@ -928,7 +928,7 @@ export default function Ai() {
                       components={{
                         p: ({node, ...props}: any) => <p className="mb-2 last:mb-0" {...props} />,
                         strong: ({node, ...props}: any) => <strong className="font-bold text-gray-400" {...props} />,
-                        em: ({node, ...props}: any) => <em className="italic text-purple-300" {...props} />,
+                        em: ({node, ...props}: any) => <em className="italic text-white" {...props} />,
                         h1: ({node, ...props}: any) => <h1 className="text-xl font-bold mt-4 mb-2" {...props} />,
                         h2: ({node, ...props}: any) => <h2 className="text-lg font-bold mt-3 mb-2" {...props} />,
                         h3: ({node, ...props}: any) => <h3 className="text-md font-bold mt-2 mb-1" {...props} />,
@@ -1008,7 +1008,7 @@ export default function Ai() {
                 backdropFilter: "blur(20px)"
               }}
             >
-              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#00CCFF]/5 via-[#00CCFF]/50 to-slate-500/5 opacity-50 blur-xl -z-10" />
+              <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-blue-500/5 via-blue-500/50 to-slate-500/5 opacity-50 blur-xl -z-10" />
               
               {/* Attachment Button - White Icon */}
               <button 

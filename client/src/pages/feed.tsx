@@ -617,7 +617,7 @@ function FeedItem({ post, onLike }: { post: FeedPost; onLike: () => void }) {
         {/* Rotating Music Disc */}
         <div className="mt-4 animate-[spin_5s_linear_infinite]">
              <div className="w-10 h-10 rounded-full bg-zinc-800 border-4 border-zinc-900 flex items-center justify-center overflow-hidden shadow-2xl">
-                <div className="w-full h-full bg-gradient-to-tr from-[#00CCFF] to-[#FF00BB] flex items-center justify-center">
+                <div className="w-full h-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center">
                    <Music2 className="w-4 h-4 text-white" />
                 </div>
              </div>
@@ -649,7 +649,7 @@ function FeedItem({ post, onLike }: { post: FeedPost; onLike: () => void }) {
             {post.type === 'video' && (
                 <div className="w-full h-1 bg-white/10 rounded-full mt-2 overflow-hidden shadow-inner">
                     <div 
-                        className="h-full bg-gradient-to-r from-slate-500 via-[#00CCFF]/50 to-[#FF00BB] transition-all duration-100 ease-linear shadow-[0_0_10px_rgba(236,72,153,0.5)]"
+                        className="h-full bg-gradient-to-r from-slate-500 via-blue-500/50 to-purple-500 transition-all duration-100 ease-linear shadow-[0_0_10px_rgba(236,72,153,0.5)]"
                         style={{ width: `${progress}%` }}
                     />
                 </div>
