@@ -251,7 +251,6 @@ export default function DemoTrading() {
           </div>
         </div>
       </div>
-
       <div className="max-w-md mx-auto p-4 space-y-6">
         <div className="relative overflow-hidden rounded-[32px] p-7 bg-[#000000] border-none">
           <div className="relative z-10 space-y-5">
@@ -350,7 +349,7 @@ export default function DemoTrading() {
                 <div className="text-[11px] uppercase tracking-wide text-zinc-500 flex items-center gap-1">
                   <PieChart className="w-3 h-3" /> Holdings
                 </div>
-                <div className="mt-2 text-sm font-bold flex items-center gap-1" data-testid="text-demo-invested-balance">
+                <div className="mt-2 text-sm font-bold flex items-center gap-1 text-[#FF00BB]" data-testid="text-demo-invested-balance">
                   {renderSelectedCompactAmount(investedBalance, 12)}
                 </div>
               </div>
