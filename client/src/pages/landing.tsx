@@ -299,7 +299,7 @@ export default function Landing() {
             From zero to<br />financial freedom.
           </h1>
           
-          <p className="text-xl md:text-2xl text-white/50 max-w-2xl mx-auto font-light leading-relaxed">
+          <p className="text-xl md:text-2xl text-white/50 max-w-md mx-auto font-light leading-relaxed">
             Learn, invest, and grow your wealth — all in one place.
           </p>
 
@@ -405,7 +405,7 @@ export default function Landing() {
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Meet Vaulty AI.</h2>
-            <p className="text-xl text-white/50 font-light max-w-2xl mx-auto">Your personal 24/7 financial advisor. Ask questions, analyze markets, and learn faster.</p>
+            <p className="text-xl text-white/50 font-light max-w-md mx-auto">Your personal 24/7 financial advisor. Ask questions, analyze markets, and learn faster.</p>
           </motion.div>
 
           <motion.div
@@ -491,7 +491,7 @@ export default function Landing() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Everything You Need.</h2>
-            <p className="text-xl text-white/50 max-w-2xl mx-auto font-light">Powerful features wrapped in an elegant, intuitive interface.</p>
+            <p className="text-xl text-white/50 max-w-md mx-auto font-light">Powerful features wrapped in an elegant, intuitive interface.</p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -545,7 +545,7 @@ export default function Landing() {
                   <h2 className="text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
                     Our Story
                   </h2>
-                  <p className="text-xl text-white/50 font-light max-w-2xl mx-auto">
+                  <p className="text-xl text-white/50 font-light max-w-md mx-auto">
                     The journey of building the ultimate financial companion.
                   </p>
                 </div>

@@ -621,7 +621,7 @@ export function AdminMenu() {
         </Button>
       </DialogTrigger>
       <DialogContent 
-        className="max-w-2xl bg-[#0a0a0a] border-white/10 text-white max-h-[90vh] h-[800px] overflow-hidden flex flex-col z-[10000] p-0 gap-0"
+        className="max-w-md bg-[#0a0a0a] border-white/10 text-white max-h-[90vh] h-[800px] overflow-hidden flex flex-col z-[10000] p-0 gap-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
         <DialogHeader className="p-6 pb-2 border-b border-white/10 bg-[#0a0a0a] relative overflow-hidden">

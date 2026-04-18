@@ -167,7 +167,7 @@ export default function CreatePost() {
       </div>
 
       {/* Main Content */}
-      <div className="pt-20 pb-24 px-4 max-w-2xl mx-auto space-y-4">
+      <div className="pt-20 pb-24 px-4 max-w-md mx-auto space-y-4">
         {/* Title */}
         <div className="space-y-2">
           <label className="text-sm font-semibold text-gray-300">

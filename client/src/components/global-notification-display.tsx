@@ -27,7 +27,7 @@ export function GlobalNotificationDisplay() {
               layout
               className="pointer-events-auto w-full mb-3"
             >
-              <div className="max-w-md mx-auto px-4">
+              <div className="max-w-2xl mx-auto px-4">
                 <div className={`relative overflow-hidden rounded-full py-3 px-6 flex items-center justify-between shadow-2xl backdrop-blur-2xl border transition-all ${
                   isPro 
                     ? "bg-gradient-to-r from-gray-900/90 via-gray-800/90 to-black/90 border-gray-500/40" 

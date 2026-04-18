@@ -126,7 +126,7 @@ export default function CreateNews() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="p-6 space-y-6 max-w-2xl mx-auto">
+      <form onSubmit={handleSubmit} className="p-6 space-y-6 max-w-md mx-auto">
         <div className="space-y-2">
           <label className="text-sm font-semibold text-gray-400">Title</label>
           <Input 

@@ -236,7 +236,7 @@ export default function Home() {
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
         <div className="w-full bg-black/60 backdrop-blur-xl border-b border-white/[0.05] pointer-events-auto">
-        <div className="max-w-md mx-auto p-4 flex items-center justify-between">
+        <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 flex items-center justify-between">
           <Sheet>
             <SheetTrigger asChild>
               <button className="text-left outline-none cursor-pointer">
@@ -340,9 +340,9 @@ export default function Home() {
       </div>
 
       {/* Content Spacer */}
-      <div className={cn("relative z-10 p-5 max-w-md mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
+      <div className={cn("relative z-10 p-5 max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="space-y-8">
+            <div className="space-y-8 lg:grid lg:grid-cols-2 lg:gap-8 lg:space-y-0">
               {/* Your Overview */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between px-1">
@@ -477,7 +477,7 @@ export default function Home() {
                   <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-2 py-1 rounded-full border border-white/20">Active</span>
                 </div>
                 
-                <div className="grid gap-4">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {/* Skill Builder Card */}
                   <Link href="/high-income-skills">
                     <div className="relative overflow-hidden rounded-[24px] border border-white/20 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:border-white/40 transition-all duration-300">
@@ -777,7 +777,7 @@ export default function Home() {
 
       {/* Shortcut Menu Bottom Sheet */}
       <Sheet open={isWidgetMenuOpen} onOpenChange={setIsWidgetMenuOpen}>
-        <SheetContent side="bottom" className="h-[85vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col z-[100]">
+        <SheetContent side="bottom" className="h-[85vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl sm:mx-auto flex flex-col z-[100]">
             <div className="p-6 pb-4 border-b border-white/10 shrink-0">
               <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
               <div className="flex items-center justify-between">
@@ -830,7 +830,7 @@ export default function Home() {
 
       {/* Action Menu Bottom Sheet */}
       <Sheet open={isActionMenuOpen} onOpenChange={setIsActionMenuOpen}>
-        <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md sm:mx-auto flex flex-col">
+        <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl sm:mx-auto flex flex-col">
             <div className="p-6 pb-4 border-b border-white/10 shrink-0">
               <div className="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-6" />
               <h2 className="text-2xl font-bold">

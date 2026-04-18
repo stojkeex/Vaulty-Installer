@@ -293,7 +293,7 @@ export default function Comments() {
     <div className="min-h-screen bg-black text-white pb-8">
       {/* Header */}
       <div className="sticky top-0 bg-black/80 backdrop-blur-md border-b border-gray-800 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
+        <div className="max-w-md mx-auto px-4 py-4 flex items-center gap-4">
           <button
             onClick={() => setLocation(-1 as any)}
             className="hover:bg-gray-900 rounded-full p-2 transition-colors"
@@ -306,7 +306,7 @@ export default function Comments() {
       </div>
 
       {/* Video Preview */}
-      <div className="max-w-2xl mx-auto px-4 py-4 border-b border-gray-800">
+      <div className="max-w-md mx-auto px-4 py-4 border-b border-gray-800">
         <div className="flex gap-3">
           <div className="w-24 h-16 bg-gray-900 rounded-lg flex-shrink-0 flex items-center justify-center">
             <div className="text-gray-400 text-xs">Video</div>
@@ -322,7 +322,7 @@ export default function Comments() {
       </div>
 
       {/* New Comment Form */}
-      <div className="max-w-2xl mx-auto px-4 py-4 border-b border-gray-800">
+      <div className="max-w-md mx-auto px-4 py-4 border-b border-gray-800">
         <div className="flex gap-3">
           <Avatar className="w-10 h-10 flex-shrink-0">
             <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=You" />
@@ -361,7 +361,7 @@ export default function Comments() {
       </div>
 
       {/* Comments List */}
-      <div className="max-w-2xl mx-auto px-4">
+      <div className="max-w-md mx-auto px-4">
         <div className="py-4">
           <p className="text-sm text-gray-400 mb-4">{comments.length} comments</p>
           <div className="space-y-0">
