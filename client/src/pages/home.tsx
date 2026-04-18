@@ -340,9 +340,9 @@ export default function Home() {
       </div>
 
       {/* Content Spacer */}
-      <div className={cn("relative z-10 p-5 max-w-md md:max-w-2xl lg:max-w-5xl xl:max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
+      <div className={cn("relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="flex flex-col lg:flex-row gap-8 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-8 items-start">
               {/* LEFT COLUMN */}
               <div className="flex-1 w-full space-y-8">
               {/* Your Overview */}
@@ -551,7 +551,7 @@ export default function Home() {
               </div>
 
               {/* RIGHT COLUMN */}
-              <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 space-y-8">
+              <div className="w-full shrink-0 space-y-8">
               {/* Inline Premium Banner */}
               <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
                    <Link href="/premium">
