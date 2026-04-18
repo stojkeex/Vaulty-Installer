@@ -232,7 +232,6 @@ export default function Home() {
   return (
     <div className="min-h-screen pb-32 bg-black text-white selection:bg-gray-500/30">
       <CompleteProfileWidget />
-      
       {/* Fixed Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
         <div className="w-full bg-black/60 backdrop-blur-xl border-b border-white/[0.05] pointer-events-auto">
@@ -338,7 +337,6 @@ export default function Home() {
         </div>
         </div>
       </div>
-
       {/* Content Spacer */}
       <div className={cn("relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
@@ -429,7 +427,7 @@ export default function Home() {
                             <Target size={20} />
                           </div>
                           <div>
-                            <h3 className="text-lg font-bold text-white tracking-tight">Freedom Map</h3>
+                            <h3 className="text-lg font-bold tracking-tight text-[#c73e3e]">Freedom Map</h3>
                             <p className="text-[11px] text-white/50 font-medium">Phase 2: Emergency Fund</p>
                           </div>
                         </div>
@@ -796,8 +794,6 @@ export default function Home() {
             </div>
           </div>
       </div>
-
-
       {/* Shortcut Menu Bottom Sheet */}
       <Sheet open={isWidgetMenuOpen} onOpenChange={setIsWidgetMenuOpen}>
         <SheetContent side="bottom" className="h-[85vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl sm:mx-auto flex flex-col z-[100]">
@@ -850,7 +846,6 @@ export default function Home() {
             </div>
         </SheetContent>
       </Sheet>
-
       {/* Action Menu Bottom Sheet */}
       <Sheet open={isActionMenuOpen} onOpenChange={setIsActionMenuOpen}>
         <SheetContent side="bottom" className="h-[80vh] bg-black border-t border-white/10 p-0 text-white rounded-t-[32px] sm:max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl sm:mx-auto flex flex-col">
@@ -872,9 +867,41 @@ export default function Home() {
               <div className="space-y-2">
                 {actionType === "buy" ? (
                   // Show all loaded coins for Buy
-                  coins.length > 0 ? (
-                    coins.map((coin) => (
-                      <Link key={`buy-${coin.id}`} href={`/demo-trading/${coin.id}`}>
+                  (coins.length > 0 ? (coins.map((coin) => (
+                    <Link key={`buy-${coin.id}`} href={`/demo-trading/${coin.id}`}>
+                      <div className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer backdrop-blur-xl mb-2">
+                        <div className="flex items-center gap-3">
+                          <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                          <div>
+                            <p className="font-bold text-white">{coin.name}</p>
+                            <p className="text-xs text-white/40 uppercase">{coin.symbol}</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-medium text-white">
+                            {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(coin.current_price)}
+                          </p>
+                          <p className={cn("text-xs font-semibold", coin.price_change_percentage_24h >= 0 ? "text-[#06b6d4]" : "text-rose-400")}>
+                            {coin.price_change_percentage_24h >= 0 ? "+" : ""}{coin.price_change_percentage_24h?.toFixed(2)}%
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))) : (<div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
+                    <Loader2 className="w-8 h-8 animate-spin mb-4 opacity-50" />
+                    <p>Loading market data...</p>
+                  </div>))
+                ) : (
+                  // Show only holdings for Sell and Send
+                  (holdings.length > 0 ? (holdings.map((holding) => {
+                    const coin = coins.find(c => c.id === holding.coinId);
+                    if (!coin) return null;
+                    
+                    const holdingValueUsd = holding.amount * (coin.current_price || 0);
+                    const displayValue = convert(holdingValueUsd);
+                    
+                    return (
+                      <Link key={`hold-${coin.id}`} href={`/demo-trading/${coin.id}`}>
                         <div className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer backdrop-blur-xl mb-2">
                           <div className="flex items-center gap-3">
                             <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
@@ -884,69 +911,29 @@ export default function Home() {
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="font-medium text-white">
-                              {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(coin.current_price)}
+                            <p className="font-bold text-white">
+                              {currency === "VC" ? <VaultyIcon size={12} className="inline mr-1" /> : ""}
+                              {currency === "VC" 
+                                ? displayValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                                : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(displayValue)}
                             </p>
-                            <p className={cn("text-xs font-semibold", coin.price_change_percentage_24h >= 0 ? "text-[#06b6d4]" : "text-rose-400")}>
-                              {coin.price_change_percentage_24h >= 0 ? "+" : ""}{coin.price_change_percentage_24h?.toFixed(2)}%
+                            <p className="text-xs text-white/60 font-medium">
+                              {holding.amount} {coin.symbol.toUpperCase()}
                             </p>
                           </div>
                         </div>
                       </Link>
-                    ))
-                  ) : (
-                    <div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
-                      <Loader2 className="w-8 h-8 animate-spin mb-4 opacity-50" />
-                      <p>Loading market data...</p>
-                    </div>
-                  )
-                ) : (
-                  // Show only holdings for Sell and Send
-                  holdings.length > 0 ? (
-                    holdings.map((holding) => {
-                      const coin = coins.find(c => c.id === holding.coinId);
-                      if (!coin) return null;
-                      
-                      const holdingValueUsd = holding.amount * (coin.current_price || 0);
-                      const displayValue = convert(holdingValueUsd);
-                      
-                      return (
-                        <Link key={`hold-${coin.id}`} href={`/demo-trading/${coin.id}`}>
-                          <div className="flex items-center justify-between p-4 rounded-2xl bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] border border-white/10 hover:bg-white/10 transition-colors cursor-pointer backdrop-blur-xl mb-2">
-                            <div className="flex items-center gap-3">
-                              <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
-                              <div>
-                                <p className="font-bold text-white">{coin.name}</p>
-                                <p className="text-xs text-white/40 uppercase">{coin.symbol}</p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-bold text-white">
-                                {currency === "VC" ? <VaultyIcon size={12} className="inline mr-1" /> : ""}
-                                {currency === "VC" 
-                                  ? displayValue.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
-                                  : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(displayValue)}
-                              </p>
-                              <p className="text-xs text-white/60 font-medium">
-                                {holding.amount} {coin.symbol.toUpperCase()}
-                              </p>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })
-                  ) : (
-                    <div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
-                      <Wallet className="w-12 h-12 mx-auto mb-3 opacity-20" />
-                      <p>You don't have any holdings to {actionType}.</p>
-                      <button 
-                        onClick={() => setActionType("buy")}
-                        className="mt-6 px-6 py-3 bg-white text-black rounded-xl text-sm font-bold hover:bg-gray-200 transition-colors"
-                      >
-                        Buy Crypto First
-                      </button>
-                    </div>
-                  )
+                    );
+                  })) : (<div className="text-center py-10 text-white/40 flex flex-col items-center justify-center">
+                    <Wallet className="w-12 h-12 mx-auto mb-3 opacity-20" />
+                    <p>You don't have any holdings to {actionType}.</p>
+                    <button 
+                      onClick={() => setActionType("buy")}
+                      className="mt-6 px-6 py-3 bg-white text-black rounded-xl text-sm font-bold hover:bg-gray-200 transition-colors"
+                    >
+                      Buy Crypto First
+                    </button>
+                  </div>))
                 )}
               </div>
             </div>
