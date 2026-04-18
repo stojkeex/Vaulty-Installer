@@ -105,7 +105,6 @@ export default function Profile() {
            </button>
          </div>
       </div>
-
       <div className="p-4 pt-0 space-y-8">
         
         {/* Tabs */}
@@ -207,7 +206,7 @@ export default function Profile() {
                         <TrendingUp size={14} /> +2.5%
                     </span>
                 </div>
-                <div className="text-3xl font-bold text-white mb-1">$0.00</div>
+                <div className="text-3xl font-bold mb-1 text-[#00CCFF]">$0.00</div>
                 <p className="text-xs text-gray-500">Start investing to see your portfolio grow.</p>
              </div>
         </div>
