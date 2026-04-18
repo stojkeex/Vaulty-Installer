@@ -427,7 +427,7 @@ export default function Home() {
                             <Target size={20} />
                           </div>
                           <div>
-                            <h3 className="text-lg font-bold tracking-tight text-[#c73e3e]">Freedom Map</h3>
+                            <h3 className="text-lg font-bold tracking-tight text-[#105ecc]">Freedom Map</h3>
                             <p className="text-[11px] text-white/50 font-medium">Phase 2: Emergency Fund</p>
                           </div>
                         </div>
