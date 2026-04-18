@@ -110,6 +110,12 @@ export default function HighIncomeSkills() {
   // Form states for lessons
   const [brandName, setBrandName] = useState("");
   const [uploadedLogo, setUploadedLogo] = useState(false);
+  const [lessonChecked, setLessonChecked] = useState(false);
+
+  // Reset checked state when changing lessons
+  useEffect(() => {
+    setLessonChecked(false);
+  }, [activeLesson?.id]);
 
   const hasPremium = userData?.badges?.some((b: string) => b.includes("premium")) || userData?.premiumPlan || userData?.subscription === "pro" || userData?.subscription === "ultra" || userData?.subscription === "max" || false;
 
@@ -121,7 +127,30 @@ export default function HighIncomeSkills() {
         const parsed = JSON.parse(savedData);
         setHasCompletedOnboarding(true);
         setSelectedBusiness(parsed.business);
-        setActiveSkill(parsed.skillData || SKILL_MAP[parsed.business]);
+        
+        // Merge saved progress with current SKILL_MAP to ensure we have the latest quests (e.g. 8 quests instead of 5)
+        const baseSkill = SKILL_MAP[parsed.business];
+        if (baseSkill) {
+          const mergedLessons = baseSkill.lessons.map((baseLesson: any) => {
+            const savedLesson = parsed.skillData?.lessons?.find((l: any) => l.id === baseLesson.id);
+            return {
+              ...baseLesson,
+              completed: savedLesson ? savedLesson.completed : false
+            };
+          });
+          
+          const completedCount = mergedLessons.filter((l: any) => l.completed).length;
+          const newProgress = Math.round((completedCount / mergedLessons.length) * 100);
+
+          setActiveSkill({
+            ...baseSkill,
+            progress: newProgress,
+            lessons: mergedLessons
+          });
+        } else {
+          setActiveSkill(parsed.skillData);
+        }
+
         if (parsed.brandName) setBrandName(parsed.brandName);
         if (parsed.hasLogo) setUploadedLogo(parsed.hasLogo);
       }
@@ -184,8 +213,8 @@ export default function HighIncomeSkills() {
     setLocation(`/booklet/${selectedBusiness}`);
   };
 
-  // Check if all lessons are completed
-  const allLessonsCompleted = activeSkill?.lessons.every((l: any) => l.completed) || false;
+  // Check if all required (free) lessons are completed
+  const requiredLessonsCompleted = activeSkill?.lessons.filter((l: any) => !l.isPremium).every((l: any) => l.completed) || false;
 
   // If loading generation screen
   if (isGenerating) {
@@ -509,6 +538,16 @@ export default function HighIncomeSkills() {
                            <li>Consistency and quality are the keys to long-term success.</li>
                          </ul>
                        </div>
+                       
+                       <label className="flex items-center gap-3 mt-8 p-4 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                         <input 
+                           type="checkbox" 
+                           checked={lessonChecked}
+                           onChange={(e) => setLessonChecked(e.target.checked)}
+                           className="w-5 h-5 rounded border-white/20 text-sky-500 focus:ring-sky-500 focus:ring-offset-0 bg-black"
+                         />
+                         <span className="text-sm font-medium text-gray-200">I have read and understood this lesson</span>
+                       </label>
                      </div>
                    </div>
                  </motion.div>
@@ -518,14 +557,14 @@ export default function HighIncomeSkills() {
         </div>
 
         {/* Footer Action */}
-        {!activeLesson.isPremium && (
+        {(!activeLesson.isPremium || hasPremium) && (
           <div className="shrink-0 p-5 pt-0 bg-black pb-8">
              <div className="pt-4 border-t border-white/10">
                 <button 
                   onClick={handleCompleteLesson}
-                  disabled={(activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)}
+                  disabled={(activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo) || (activeLesson.type === 'text' && !lessonChecked)}
                   className={`w-full py-4 rounded-full font-bold text-lg transition-all ${
-                    (activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo)
+                    (activeLesson.type === 'brand_name' && !brandName) || (activeLesson.type === 'logo' && !uploadedLogo) || (activeLesson.type === 'text' && !lessonChecked)
                       ? 'bg-white/10 text-gray-500 cursor-not-allowed'
                       : 'bg-sky-500 text-black hover:bg-sky-400 shadow-[0_0_20px_rgba(14,165,233,0.3)]'
                   }`}
@@ -678,7 +717,7 @@ export default function HighIncomeSkills() {
                 })}
               </div>
 
-              {allLessonsCompleted && (
+              {requiredLessonsCompleted && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
