@@ -95,7 +95,7 @@ export function DailyGiftSection() {
                     : "bg-white/5 border border-white/5 opacity-50 grayscale"
               )}
             >
-              <span className="text-[10px] font-medium mb-1 text-[#3a81e8]">
+              <span className="text-[10px] font-medium mb-1 text-[#ffffff]">
                 Day {dayNum}
               </span>
               {isClaimed ? (
