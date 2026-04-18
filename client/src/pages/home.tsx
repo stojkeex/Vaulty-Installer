@@ -8,7 +8,7 @@ import {
     Search, Bell, Wallet, Loader2, Sparkles, Send, Image as ImageIcon, X, Plus,
     User, Video, Users, Bookmark, List, Mic2, Beaker, Globe, Settings, HelpCircle, Sun, Moon,
     LineChart, GraduationCap, TrendingUp, TrendingDown, Coins, Target, ChevronRight, Check,
-    ArrowDownToLine, ArrowUpFromLine, Brain, Trophy, AreaChart as AreaChartIcon, BookOpen
+    ArrowDownToLine, ArrowUpFromLine, Brain, Trophy, AreaChart as AreaChartIcon, BookOpen, Star
 } from "lucide-react";
 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -342,136 +342,146 @@ export default function Home() {
       {/* Content Spacer */}
       <div className={cn("relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
-              {/* LEFT COLUMN */}
-              <div className="flex-1 w-full space-y-8">
-              {/* Your Overview */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between px-1">
-                  <h2 className="text-xl font-bold tracking-tight text-white">Financial Health</h2>
-                </div>
-                <div className="relative overflow-hidden rounded-[32px] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
-                  <div className="flex justify-between items-start relative z-10">
-                    <div>
-                      <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">Net Worth</p>
-                      <h3 className="text-[2.5rem] leading-none font-bold tracking-tight text-white mb-3">
-                        {currency === "VC" ? <VaultyIcon size={28} className="inline mr-2 -mt-1" /> : ""}
-                        {currency === "VC" 
-                          ? totalBalanceDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
-                          : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(totalBalanceDisplay)}
-                      </h3>
-                      <div className="flex items-center gap-3">
-                        <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
-                          {isPositiveProfit ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                          <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
-                          <span className="text-zinc-500 font-medium ml-1">This month</span>
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[13px] font-semibold text-white">
-                          <Check size={14} />
-                          <span>On track</span>
-                        </div>
-                      </div>
-                    </div>
+          {/* TOP ROW: 50/50 Split for Financial Health and Freedom Map */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                {/* Your Overview */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between px-1">
+                    <h2 className="text-xl font-bold tracking-tight text-white">Financial Health</h2>
                   </div>
-                  
-                  <div className="h-[90px] w-full mt-4 -mx-2 relative z-0">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <AreaChart data={OVERVIEW_CHART_DATA}>
-                        <defs>
-                          <linearGradient id="overviewChartColor" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
-                            <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
-                          </linearGradient>
-                        </defs>
-                        <Area 
-                          type="monotone" 
-                          dataKey="price" 
-                          stroke="#06b6d4" 
-                          strokeWidth={2.5} 
-                          fillOpacity={1} 
-                          fill="url(#overviewChartColor)" 
-                          isAnimationActive={true}
-                        />
-                      </AreaChart>
-                    </ResponsiveContainer>
-                  </div>
-
-                  {/* Zero-Based Budgeting Preview */}
-                  <div className="relative z-10 mt-6 pt-6 border-t border-white/10">
-                    <div className="flex items-center justify-between mb-4">
-                       <h4 className="text-sm font-bold text-white">Monthly Budget</h4>
-                       <span className="text-xs font-medium text-white/60">0€ left to assign</span>
-                    </div>
-                    <div className="w-full bg-black/60 rounded-full h-2 mb-4 overflow-hidden border border-white/5 relative flex">
-                      <div className="bg-white h-full w-[45%]" title="Needs (45%)"></div>
-                      <div className="bg-white h-full w-[30%]" title="Wants (30%)"></div>
-                      <div className="bg-white h-full w-[25%]" title="Savings & Investing (25%)"></div>
-                    </div>
-                    <div className="flex justify-between items-center text-xs font-medium">
-                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Needs</div>
-                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Wants</div>
-                       <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Future</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Freedom Map - New Section replacing quick actions */}
-              <div className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-black to-black border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(125,211,252,0.15),transparent_50%)]" />
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/30 flex items-center justify-center text-white">
-                        <Target size={20} />
-                      </div>
+                  <div className="relative overflow-hidden rounded-[32px] border border-white/[0.08] bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl h-full flex flex-col">
+                    <div className="flex justify-between items-start relative z-10">
                       <div>
-                        <h3 className="text-lg font-bold text-white tracking-tight">Freedom Map</h3>
-                        <p className="text-xs text-white/60 font-medium">Phase 2: Emergency Fund</p>
+                        <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">Net Worth</p>
+                        <h3 className="text-[2.5rem] leading-none font-bold tracking-tight text-white mb-3">
+                          {currency === "VC" ? <VaultyIcon size={28} className="inline mr-2 -mt-1" /> : ""}
+                          {currency === "VC" 
+                            ? totalBalanceDisplay.toLocaleString(undefined, { maximumFractionDigits: 2 }) 
+                            : new Intl.NumberFormat("en-US", { style: "currency", currency }).format(totalBalanceDisplay)}
+                        </h3>
+                        <div className="flex items-center gap-3">
+                          <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", isPositiveProfit ? "text-[#06b6d4]" : "text-rose-400")}>
+                            {isPositiveProfit ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                            <span>{isPositiveProfit ? "+" : ""}{totalProfitPercent.toFixed(2)}%</span>
+                            <span className="text-zinc-500 font-medium ml-1">This month</span>
+                          </div>
+                          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 border border-white/20 text-[13px] font-semibold text-white">
+                            <Check size={14} />
+                            <span>On track</span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <ChevronRight className="text-white/50 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-4 opacity-50">
-                       <div className="w-6 h-6 rounded-full bg-white text-white flex items-center justify-center shrink-0">
-                         <Check size={14} />
-                       </div>
-                       <div className="flex-1">
-                          <p className="text-sm font-bold text-white line-through">Clear Bad Debt</p>
-                       </div>
                     </div>
                     
-                    <div className="flex items-center gap-4 relative">
-                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/30"></div>
-                       <div className="w-6 h-6 rounded-full border-2 border-white bg-[#0f172a] text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(255,255,255,0.2)]">
-                         <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-                       </div>
-                       <div className="flex-1 bg-white/[0.03] border border-white/[0.05] rounded-xl p-3">
-                          <div className="flex justify-between items-center mb-1.5">
-                            <p className="text-sm font-bold text-white">Save 3 Months Expenses</p>
-                            <span className="text-xs font-bold text-white">45%</span>
-                          </div>
-                          <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
-                            <div className="bg-white h-full w-[45%]"></div>
-                          </div>
-                       </div>
+                    <div className="h-[90px] w-full mt-4 -mx-2 relative z-0 flex-1">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <AreaChart data={OVERVIEW_CHART_DATA}>
+                          <defs>
+                            <linearGradient id="overviewChartColor" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.3} />
+                              <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
+                            </linearGradient>
+                          </defs>
+                          <Area 
+                            type="monotone" 
+                            dataKey="price" 
+                            stroke="#06b6d4" 
+                            strokeWidth={2.5} 
+                            fillOpacity={1} 
+                            fill="url(#overviewChartColor)" 
+                            isAnimationActive={true}
+                          />
+                        </AreaChart>
+                      </ResponsiveContainer>
                     </div>
 
-                    <div className="flex items-center gap-4 opacity-50">
-                       <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/10"></div>
-                       <div className="w-6 h-6 rounded-full border-2 border-white/20 bg-transparent flex items-center justify-center shrink-0 relative z-10">
-                         <span className="text-[10px] font-bold text-white/50">3</span>
-                       </div>
-                       <div className="flex-1">
-                          <p className="text-sm font-bold text-white">Start Investing</p>
-                       </div>
+                    {/* Zero-Based Budgeting Preview */}
+                    <div className="relative z-10 mt-auto pt-6 border-t border-white/10">
+                      <div className="flex items-center justify-between mb-4">
+                         <h4 className="text-sm font-bold text-white">Monthly Budget</h4>
+                         <span className="text-xs font-medium text-white/60">0€ left to assign</span>
+                      </div>
+                      <div className="w-full bg-black/60 rounded-full h-2 mb-4 overflow-hidden border border-white/5 relative flex">
+                        <div className="bg-white h-full w-[45%]" title="Needs (45%)"></div>
+                        <div className="bg-white h-full w-[30%]" title="Wants (30%)"></div>
+                        <div className="bg-white h-full w-[25%]" title="Savings & Investing (25%)"></div>
+                      </div>
+                      <div className="flex justify-between items-center text-xs font-medium">
+                         <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Needs</div>
+                         <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Wants</div>
+                         <div className="flex items-center gap-1.5 text-white/60"><div className="w-2 h-2 rounded-full bg-white"></div>Future</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Freedom Map - New Section replacing quick actions */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between px-1">
+                    <h2 className="text-xl font-bold tracking-tight text-white invisible">Freedom Map</h2> {/* Invisible header to align with left side */}
+                  </div>
+                  <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500 h-full flex flex-col">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(125,211,252,0.1),transparent_50%)]" />
+                    <div className="relative z-10 flex flex-col h-full">
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
+                            <Target size={20} />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-bold text-white tracking-tight">Freedom Map</h3>
+                            <p className="text-[11px] text-white/50 font-medium">Phase 2: Emergency Fund</p>
+                          </div>
+                        </div>
+                        <ChevronRight className="text-white/40 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </div>
+                      
+                      <div className="space-y-4 flex-1 flex flex-col justify-center">
+                        <div className="flex items-center gap-4 opacity-50">
+                           <div className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
+                             <Check size={14} />
+                           </div>
+                           <div className="flex-1">
+                              <p className="text-[13px] font-bold text-white line-through">Clear Bad Debt</p>
+                           </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-4 relative">
+                           <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/20"></div>
+                           <div className="w-6 h-6 rounded-full border-2 border-white/80 bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                             <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                           </div>
+                           <div className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl p-3">
+                              <div className="flex justify-between items-center mb-1.5">
+                                <p className="text-[13px] font-bold text-white">Save 3 Months Expenses</p>
+                                <span className="text-[11px] font-bold text-white/80">45%</span>
+                              </div>
+                              <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
+                                <div className="bg-white/90 h-full w-[45%] shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+                              </div>
+                           </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 opacity-40">
+                           <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/10"></div>
+                           <div className="w-6 h-6 rounded-full border border-white/20 bg-transparent flex items-center justify-center shrink-0 relative z-10">
+                             <span className="text-[10px] font-bold text-white/50">3</span>
+                           </div>
+                           <div className="flex-1">
+                              <p className="text-[13px] font-bold text-white">Start Investing</p>
+                           </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
+            {/* MAIN GRID: Left Content and Right Sidebar */}
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-8 items-start">
+              
+              {/* LEFT COLUMN: Wealth Builder */}
+              <div className="flex-1 w-full space-y-8">
               {/* Wealth Generation (Offense) - NEW SECTION */}
               <div className="space-y-4 mt-8">
                 <div className="flex items-center justify-between px-1">
@@ -553,33 +563,29 @@ export default function Home() {
               {/* RIGHT COLUMN */}
               <div className="w-full xl:col-span-1 shrink-0 space-y-8">
               {/* Inline Premium Banner */}
-              <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
+              <div className="w-full bg-gradient-to-r from-blue-900/40 via-purple-900/40 to-black rounded-[24px] p-[1px] relative shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.15)] transition-all duration-500 group overflow-hidden border border-white/5 backdrop-blur-md">
+                  <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                    <Link href="/premium">
-                       <div className="flex items-center justify-between cursor-pointer relative z-10">
+                       <div className="flex items-center justify-between cursor-pointer relative z-10 bg-[#0f0f11] rounded-[23px] p-3 hover:bg-[#151518] transition-colors backdrop-blur-xl">
                           <div className="flex items-center gap-3 flex-1">
-                              <div className="relative">
-                                <motion.img 
-                                  key={currentBadgeIndex}
-                                  src={badges[currentBadgeIndex]} 
-                                  alt={badgeLabels[currentBadgeIndex]}
-                                  className="w-[52px] h-[52px] shrink-0 rounded-[16px] relative z-10 transition-transform duration-500 object-contain bg-black p-1"
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.8 }}
-                                  transition={{ duration: 0.5 }}
-                                />
+                              <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-white/5 flex items-center justify-center shrink-0">
+                                 <Star className="w-5 h-5 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
+                                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full blur-[2px] animate-pulse opacity-50"></div>
                               </div>
-                              <div className="space-y-0.5">
-                                <p className="text-[16px] font-bold tracking-tight text-white transition-all duration-300">
-                                    Unlock Vaulty+
-                                </p>
-                                <p className="text-[13px] font-medium text-white/60">
-                                    All premium features in one plan
+                              <div className="space-y-0">
+                                <div className="flex items-center gap-2">
+                                  <p className="text-[15px] font-bold tracking-tight text-white/90 group-hover:text-white transition-all duration-300">
+                                      Vaulty<span className="text-blue-400">+</span>
+                                  </p>
+                                </div>
+                                <p className="text-[11px] font-medium text-white/40">
+                                    Unlock all premium features
                                 </p>
                               </div>
                           </div>
-                          <div className="px-5 py-2 mr-2 rounded-full bg-white text-black text-[13px] font-bold uppercase tracking-wide transition-colors shadow-sm">
-                              Upgrade
+                          <div className="flex items-center justify-center w-7 h-7 rounded-full bg-white/5 border border-white/5 group-hover:bg-white/10 transition-colors">
+                              <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white/80 transition-colors group-hover:translate-x-0.5" />
                           </div>
                        </div>
                    </Link>
