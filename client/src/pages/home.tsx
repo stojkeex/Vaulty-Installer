@@ -342,7 +342,7 @@ export default function Home() {
       {/* Content Spacer */}
       <div className={cn("relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28")}>
           
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] xl:grid-cols-[1fr_420px] gap-8 items-start">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8 items-start">
               {/* LEFT COLUMN */}
               <div className="flex-1 w-full space-y-8">
               {/* Your Overview */}
@@ -551,7 +551,7 @@ export default function Home() {
               </div>
 
               {/* RIGHT COLUMN */}
-              <div className="w-full shrink-0 space-y-8">
+              <div className="w-full xl:col-span-1 shrink-0 space-y-8">
               {/* Inline Premium Banner */}
               <div className="w-full bg-[#1A1A1A] rounded-[24px] p-[6px] pl-[6px] relative shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:bg-[#222] transition-colors group overflow-hidden border border-white/[0.05]">
                    <Link href="/premium">
@@ -697,6 +697,14 @@ export default function Home() {
               </Link>
 
               {/* Goals Card (Full Width) */}
+              {/* Moved to Bottom Full-Width Section */}
+            </div>
+          </div>
+
+          {/* BOTTOM FULL-WIDTH SECTION */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+            <div className="lg:col-span-2 space-y-8">
+              {/* Goals Card (Full Width) */}
               <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 p-7 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)]">
                 <div className="w-16 h-16 shrink-0 bg-white/5 border border-white/10 group-hover:bg-white/10 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-all duration-500 shadow-inner">
                   <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
@@ -737,11 +745,13 @@ export default function Home() {
                   <ChevronRight className="w-4 h-4 text-white/80 group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
+            </div>
 
+            <div className="space-y-8">
               {/* Finance News Card */}
-              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl">
+              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl h-full">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_32%)] pointer-events-none" />
-                <div className="relative z-10">
+                <div className="relative z-10 h-full flex flex-col">
                   <div className="mb-5 flex items-center justify-between">
                     <div>
                       <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/40">Live finance news</p>
@@ -759,7 +769,7 @@ export default function Home() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -15 }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                      className="rounded-2xl border border-white/5 bg-black/30 p-5 shadow-inner hover:bg-black/40 transition-colors cursor-pointer"
+                      className="rounded-2xl border border-white/5 bg-black/30 p-5 shadow-inner hover:bg-black/40 transition-colors cursor-pointer flex-1"
                     >
                       <div className="mb-3.5 flex items-center justify-between gap-3">
                         <span className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-white">
