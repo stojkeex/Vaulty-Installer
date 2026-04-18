@@ -15,69 +15,87 @@ const BUSINESS_OPTIONS = [
 
 const SKILL_MAP: Record<string, any> = {
   shop: {
-    id: "shop-roadmap", title: "Launch Your First Online Store", duration: "5 days", xp: 500, progress: 0,
+    id: "shop-roadmap", title: "Launch Your First Online Store", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Choose a brand name & register domain", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Design a professional logo & brand kit", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up your social media profiles (IG/TikTok)", completed: false, type: "social", points: 100 },
-      { id: 4, title: "Find your first 3 winning products", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "Deep market & competitor analysis", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "Find your first 3 winning products", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Basic store setup (Shopify/WooCommerce)", completed: false, type: "text", points: 250 },
+      { id: 6, title: "Deep market & competitor analysis", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "Advanced Facebook/TikTok Ads setup", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your custom eCommerce website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   },
   bar: {
-    id: "bar-roadmap", title: "Open a Successful Cafe/Bar", duration: "5 days", xp: 500, progress: 0,
+    id: "bar-roadmap", title: "Open a Successful Cafe/Bar", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Define your concept & business name", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Create your logo and visual identity", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up business social media accounts", completed: false, type: "social", points: 100 },
-      { id: 4, title: "Draft a preliminary business plan & budget", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "Location scouting & foot traffic secrets", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "Draft a preliminary business plan & budget", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Basic menu creation & pricing strategy", completed: false, type: "text", points: 250 },
+      { id: 6, title: "Location scouting & foot traffic secrets", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "Supplier negotiation tactics & inventory management", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your cafe's professional website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   },
   singer: {
-    id: "singer-roadmap", title: "Build a Career in Music", duration: "5 days", xp: 500, progress: 0,
+    id: "singer-roadmap", title: "Build a Career in Music", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Choose your stage name & claim handles", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Create your artist logo and press photos", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up your artist profiles (Spotify/Apple)", completed: false, type: "social", points: 100 },
-      { id: 4, title: "Plan your first single release strategy", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "Advanced label pitching & royalties", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "Plan your first single release strategy", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Basic home studio setup & recording techniques", completed: false, type: "text", points: 250 },
+      { id: 6, title: "Advanced label pitching & royalties", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "PR strategies & getting featured on blogs", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your artist portfolio website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   },
   creator: {
-    id: "creator-roadmap", title: "Become a Full-Time Content Creator", duration: "5 days", xp: 500, progress: 0,
+    id: "creator-roadmap", title: "Become a Full-Time Content Creator", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Define your niche & channel name", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Design your channel art & profile logo", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up your creator social accounts", completed: false, type: "social", points: 100 },
-      { id: 4, title: "The anatomy of a highly engaging hook", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "Brand outreach & sponsorship templates", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "The anatomy of a highly engaging hook", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Basic video editing & storytelling flow", completed: false, type: "text", points: 250 },
+      { id: 6, title: "Brand outreach & sponsorship templates", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "Monetization strategies beyond Adsense", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your personal brand website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   },
   cleaner: {
-    id: "cleaner-roadmap", title: "Start a Cleaning Agency", duration: "5 days", xp: 500, progress: 0,
+    id: "cleaner-roadmap", title: "Start a Cleaning Agency", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Choose a trustworthy business name", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Design a professional company logo", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up your business Google profile", completed: false, type: "social", points: 100 },
-      { id: 4, title: "Define your pricing structure and services", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "B2B client acquisition strategies", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "Define your pricing structure and services", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Basic local marketing & flyer distribution", completed: false, type: "text", points: 250 },
+      { id: 6, title: "B2B client acquisition strategies", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "Hiring, managing & scaling your workforce", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your agency's booking website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   },
   developer: {
-    id: "dev-roadmap", title: "Become a Freelance Developer", duration: "5 days", xp: 500, progress: 0,
+    id: "dev-roadmap", title: "Become a Freelance Developer", duration: "8 days", xp: 800, progress: 0,
     lessons: [
       { id: 1, title: "Define your freelance brand name & niche", completed: false, type: "brand_name", points: 100 },
       { id: 2, title: "Design your personal logo & brand identity", completed: false, type: "logo", points: 150 },
       { id: 3, title: "Set up your professional social profiles", completed: false, type: "social", points: 100 },
-      { id: 4, title: "Writing proposals that win $1k+ jobs", completed: false, type: "text", points: 200, isPremium: true },
-      { id: 5, title: "Client retention & upselling retainers", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 4, title: "Writing proposals that win $1k+ jobs", completed: false, type: "text", points: 200 },
+      { id: 5, title: "Setting up your freelance contract & invoices", completed: false, type: "text", points: 250 },
+      { id: 6, title: "Client retention & upselling retainers", completed: false, type: "text", points: 300, isPremium: true },
+      { id: 7, title: "Advanced portfolio strategies & case studies", completed: false, type: "text", points: 400, isPremium: true },
+      { id: 8, title: "Build your freelance developer website", completed: false, type: "text", points: 500, isPremium: true },
     ]
   }
 };
 
 export default function HighIncomeSkills() {
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
   const [, setLocation] = useLocation();
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
   const [isOnboarding, setIsOnboarding] = useState(false);
@@ -93,6 +111,8 @@ export default function HighIncomeSkills() {
   const [brandName, setBrandName] = useState("");
   const [uploadedLogo, setUploadedLogo] = useState(false);
 
+  const hasPremium = userData?.badges?.some((b: string) => b.includes("premium")) || userData?.premiumPlan || userData?.subscription === "pro" || userData?.subscription === "ultra" || userData?.subscription === "max" || false;
+
   // Load saved progress from local storage simulating DB
   useEffect(() => {
     if (user) {
@@ -102,18 +122,24 @@ export default function HighIncomeSkills() {
         setHasCompletedOnboarding(true);
         setSelectedBusiness(parsed.business);
         setActiveSkill(parsed.skillData || SKILL_MAP[parsed.business]);
+        if (parsed.brandName) setBrandName(parsed.brandName);
+        if (parsed.hasLogo) setUploadedLogo(parsed.hasLogo);
       }
     }
   }, [user]);
 
-  const saveProgress = (updatedSkill: any) => {
+  const saveProgress = (updatedSkill: any, currentBrandName?: string, currentLogoState?: boolean) => {
     setActiveSkill(updatedSkill);
     if (user && selectedBusiness) {
+      const existingData = JSON.parse(localStorage.getItem(`vaulty_skills_${user.uid}`) || "{}");
       localStorage.setItem(`vaulty_skills_${user.uid}`, JSON.stringify({
+        ...existingData,
         business: selectedBusiness,
         budget,
         age,
-        skillData: updatedSkill
+        skillData: updatedSkill,
+        brandName: currentBrandName !== undefined ? currentBrandName : existingData.brandName,
+        hasLogo: currentLogoState !== undefined ? currentLogoState : existingData.hasLogo
       }));
     }
   };
@@ -129,7 +155,7 @@ export default function HighIncomeSkills() {
       setIsOnboarding(false);
       setHasCompletedOnboarding(true);
       const initialSkillData = JSON.parse(JSON.stringify(SKILL_MAP[selectedBusiness])); // deep copy
-      saveProgress(initialSkillData);
+      saveProgress(initialSkillData, brandName, uploadedLogo);
     }, 3000);
   };
 
@@ -149,9 +175,17 @@ export default function HighIncomeSkills() {
       lessons: updatedLessons
     };
 
-    saveProgress(updatedSkill);
+    saveProgress(updatedSkill, brandName, uploadedLogo);
     setActiveLesson(null);
   };
+
+  const handleFinishRoadmap = () => {
+    // Generate booklet and finish
+    setLocation(`/booklet/${selectedBusiness}`);
+  };
+
+  // Check if all lessons are completed
+  const allLessonsCompleted = activeSkill?.lessons.every((l: any) => l.completed) || false;
 
   // If loading generation screen
   if (isGenerating) {
@@ -335,7 +369,7 @@ export default function HighIncomeSkills() {
 
         <div className="flex-1 overflow-y-auto p-5">
            {/* PREMIUM LOCKED SCREEN */}
-           {activeLesson.isPremium ? (
+           {activeLesson.isPremium && !hasPremium ? (
              <div className="flex flex-col items-center justify-center h-full text-center">
                 <div className="w-24 h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full flex items-center justify-center mb-6 border border-indigo-500/30">
                   <Lock className="w-10 h-10 text-indigo-400" />
@@ -455,6 +489,30 @@ export default function HighIncomeSkills() {
                    </div>
                  </motion.div>
                )}
+               {/* TEXT/INFO SCREEN (Used for Premium & Advanced quests) */}
+               {activeLesson.type === 'text' && (
+                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
+                   <div className="w-12 h-12 bg-sky-500/20 rounded-2xl flex items-center justify-center border border-sky-500/30">
+                     <BookOpen className="text-sky-400" />
+                   </div>
+                   <div>
+                     <h2 className="text-2xl font-bold mb-4">{activeLesson.title}</h2>
+                     <div className="prose prose-invert max-w-none">
+                       <p className="text-gray-300 leading-relaxed text-sm">
+                         This is a simulated advanced lesson module. In a fully generated AI roadmap, this section would contain detailed, step-by-step instructions, market analysis, templates, and actionable strategies specific to your business ({selectedBusiness}).
+                       </p>
+                       <div className="mt-6 p-5 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+                         <h3 className="text-lg font-bold text-sky-400">Key Takeaways</h3>
+                         <ul className="space-y-2 text-sm text-gray-400 list-disc pl-4">
+                           <li>Research your target audience thoroughly.</li>
+                           <li>Create a unique value proposition that stands out.</li>
+                           <li>Consistency and quality are the keys to long-term success.</li>
+                         </ul>
+                       </div>
+                     </div>
+                   </div>
+                 </motion.div>
+               )}
              </div>
            )}
         </div>
@@ -525,7 +583,7 @@ export default function HighIncomeSkills() {
           </div>
         </div>
 
-        {/* Active Quest */}
+                {/* Active Quest */}
         {activeSkill && (
           <div className="space-y-4">
             <div className="flex justify-between items-end px-1">
@@ -553,7 +611,7 @@ export default function HighIncomeSkills() {
                     <span className="flex items-center gap-1 text-sky-400"><Trophy size={14} /> {activeSkill.xp} XP total</span>
                   </div>
                 </div>
-                <div className="w-14 h-14 rounded-full bg-black border-[5px] border-white/5 flex items-center justify-center relative overflow-hidden">
+                <div className="w-14 h-14 rounded-full bg-black border-[5px] border-white/5 flex items-center justify-center relative overflow-hidden shrink-0">
                    <div 
                      className="absolute bottom-0 left-0 right-0 bg-sky-500 transition-all duration-1000 ease-out" 
                      style={{ height: `${activeSkill.progress}%` }}
@@ -562,24 +620,25 @@ export default function HighIncomeSkills() {
                 </div>
               </div>
 
-              <div className="space-y-3 relative before:absolute before:inset-0 before:ml-[19px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent">
+              <div className="space-y-3 relative before:absolute before:inset-0 before:ml-[19px] before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/10 before:to-transparent mb-6">
                 {activeSkill.lessons.map((lesson: any, idx: number) => {
                   
                   // Find if this is the first uncompleted lesson
                   const isNextUp = !lesson.completed && (idx === 0 || activeSkill.lessons[idx - 1].completed);
+                  // Allow access to completed lessons and the next uncompleted one
                   const isLocked = !lesson.completed && !isNextUp;
 
                   return (
                     <div 
                       key={lesson.id}
                       onClick={() => {
-                        if (!isLocked && !lesson.completed) {
+                        if (!isLocked) {
                           setActiveLesson(lesson);
                         }
                       }}
                       className={`relative flex items-center gap-4 p-3 rounded-2xl border transition-all ${
                         lesson.completed 
-                          ? 'bg-sky-500/10 border-sky-500/20' 
+                          ? 'bg-sky-500/10 border-sky-500/20 cursor-pointer hover:bg-sky-500/20' 
                           : isNextUp 
                             ? 'bg-white/10 border-white/20 cursor-pointer hover:bg-white/15 hover:scale-[1.02]' 
                             : 'bg-black/40 border-white/5 opacity-50 cursor-not-allowed'
@@ -618,6 +677,25 @@ export default function HighIncomeSkills() {
                   );
                 })}
               </div>
+
+              {allLessonsCompleted && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 pt-6 border-t border-white/10"
+                >
+                  <button 
+                    onClick={handleFinishRoadmap}
+                    className="w-full py-4 rounded-full font-bold text-lg bg-gradient-to-r from-sky-400 to-sky-600 text-black shadow-[0_0_30px_rgba(14,165,233,0.4)] hover:scale-[1.02] transition-transform flex items-center justify-center gap-2"
+                  >
+                    <BookOpen size={20} />
+                    Generate My Business Booklet
+                  </button>
+                  <p className="text-xs text-center text-gray-400 mt-3">
+                    Unlock your complete strategy guide and next steps
+                  </p>
+                </motion.div>
+              )}
             </div>
           </div>
         )}

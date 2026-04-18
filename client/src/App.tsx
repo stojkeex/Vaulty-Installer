@@ -40,6 +40,7 @@ import VaultyCoinInfoPage from "@/pages/vaulty-coin-info";
 import Landing from "@/pages/landing";
 import FeatureDetailPage from "@/pages/feature-detail";
 import HighIncomeSkills from "@/pages/high-income-skills";
+import BusinessBooklet from "@/pages/business-booklet";
 import InvestmentSimulator from "@/pages/investment-simulator";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
@@ -90,6 +91,7 @@ function Router() {
         <Route path="/home/:tab" component={() => <Redirect to="/home" />} />
         <Route path="/create-post" component={() => <ProtectedRoute component={CreatePost} />} />
         <Route path="/high-income-skills" component={() => <ProtectedRoute component={HighIncomeSkills} hideNav={true} />} />
+        <Route path="/booklet/:id" component={() => <ProtectedRoute component={BusinessBooklet} hideNav={true} />} />
         <Route path="/investment-simulator" component={() => <ProtectedRoute component={InvestmentSimulator} hideNav={true} />} />
 
         <Route path="/discover" component={() => <ProtectedRoute component={Discover} />} />

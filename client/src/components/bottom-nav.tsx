@@ -63,6 +63,7 @@ export function BottomNav() {
                      location.startsWith("/wallet") ||
                      location === "/message-requests" ||
                      location === "/high-income-skills" ||
+                     location.startsWith("/booklet/") ||
                      location === "/investment-simulator" ||
                      location === "/create-post";
 
