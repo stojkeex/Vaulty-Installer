@@ -507,7 +507,7 @@ export default function Home() {
           {/* Your Overview */}
           <div className="flex flex-col space-y-4">
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-xl font-bold tracking-tight text-white">
+              <h2 className="text-xl font-bold tracking-tight text-vaulty-gradient">
                 Financial Health
               </h2>
             </div>
@@ -644,15 +644,15 @@ export default function Home() {
               {/* Invisible header to align with left side */}
             </div>
             <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500 h-[420px] flex flex-col">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(125,211,252,0.1),transparent_50%)] pointer-events-none" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,204,255,0.15),transparent_50%)] pointer-events-none" />
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6 shrink-0">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
-                      <Target size={20} />
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-vaulty-gradient flex items-center justify-center text-white">
+                      <Target size={20} className="text-[#00CCFF]" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-bold tracking-tight text-[#00eeff]">
+                      <h3 className="text-lg font-bold tracking-tight text-vaulty-gradient">
                         Freedom Map
                       </h3>
                       <p className="text-[11px] text-white/50 font-medium">
@@ -677,20 +677,20 @@ export default function Home() {
 
                   <div className="flex items-center gap-4 relative shrink-0">
                     <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/20"></div>
-                    <div className="w-6 h-6 rounded-full border-2 border-white/80 bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(255,255,255,0.1)]">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
+                    <div className="w-6 h-6 rounded-full border-2 border-vaulty-gradient bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(0,204,255,0.3)]">
+                      <div className="w-1.5 h-1.5 bg-vaulty-gradient rounded-full animate-pulse"></div>
                     </div>
-                    <div className="flex-1 bg-white/[0.04] border border-white/[0.08] rounded-xl p-3">
+                    <div className="flex-1 bg-white/[0.04] border border-vaulty-gradient rounded-xl p-3">
                       <div className="flex justify-between items-center mb-1.5">
                         <p className="text-[13px] font-bold text-white">
                           Save 3 Months Expenses
                         </p>
-                        <span className="text-[11px] font-bold text-white/80">
+                        <span className="text-[11px] font-bold text-[#00CCFF]">
                           45%
                         </span>
                       </div>
                       <div className="w-full bg-black/40 rounded-full h-1.5 overflow-hidden">
-                        <div className="bg-white/90 h-full w-[45%] shadow-[0_0_10px_rgba(255,255,255,0.5)]"></div>
+                        <div className="bg-vaulty-gradient h-full w-[45%] shadow-[0_0_10px_rgba(0,204,255,0.5)]"></div>
                       </div>
                     </div>
                   </div>
@@ -721,7 +721,7 @@ export default function Home() {
             {/* Wealth Generation (Offense) - NEW SECTION */}
             <div className="space-y-4 mt-8">
               <div className="flex items-center justify-between px-1">
-                <h2 className="text-xl font-bold tracking-tight text-white">
+                <h2 className="text-xl font-bold tracking-tight text-vaulty-gradient">
                   Wealth Builder
                 </h2>
                 <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white bg-white/10 px-2 py-1 rounded-full border border-white/20">
@@ -901,8 +901,8 @@ export default function Home() {
             </div>
 
             {/* Rotating Banner */}
-            <div className="relative h-[180px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 px-6 py-7 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)] transition-all duration-500">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            <div className="relative h-[180px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-vaulty-gradient px-6 py-7 cursor-pointer group shadow-[0_8px_32px_rgba(0,204,255,0.1)] hover:shadow-[0_16px_48px_rgba(255,0,187,0.2)] transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00CCFF]/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <div className="relative z-10 h-full">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -914,10 +914,10 @@ export default function Home() {
                     className="flex h-full w-full items-center justify-between gap-4"
                   >
                     <div className="flex-1 min-w-0 text-left pl-0">
-                      <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-white/60">
+                      <p className="mb-2.5 text-[10px] font-black uppercase tracking-[0.24em] text-vaulty-gradient opacity-80">
                         Vaulty Picks
                       </p>
-                      <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
+                      <h3 className="text-[1.8rem] leading-[1.1] font-black text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#00CCFF] group-hover:to-[#FF00BB] transition-all">
                         {BANNERS[currentBannerIndex].title}
                       </h3>
                       <p className="text-sm text-white/60 font-medium max-w-[260px] leading-relaxed">
@@ -935,7 +935,7 @@ export default function Home() {
             {/* Glass Cards Carousel */}
 
             <div className="flex items-center justify-between px-1 mt-10 mb-5">
-              <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-white/40">
+              <h2 className="text-[11px] font-black uppercase tracking-[0.24em] text-vaulty-gradient">
                 QUICK WIDGETS
               </h2>
               <button
@@ -994,7 +994,7 @@ export default function Home() {
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
                 <div className="relative z-10 flex items-start justify-between gap-5">
                   <div className="flex-1">
-                    <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-white group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
+                    <h3 className="text-[1.7rem] font-black leading-[1.1] tracking-tight text-vaulty-gradient group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#00CCFF] group-hover:to-[#FF00BB] transition-all">
                       Ask smarter finance questions
                     </h3>
                     <p className="mt-3 max-w-[260px] text-sm leading-relaxed text-slate-300">
@@ -1053,7 +1053,7 @@ export default function Home() {
                   <Target className="text-white w-8 h-8 drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]" />
                 </div>
                 <div className="flex-1 w-full flex flex-col justify-center h-full">
-                  <h3 className="text-[1.3rem] font-bold text-white mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-purple-500 transition-all">
+                  <h3 className="text-[1.3rem] font-bold text-vaulty-gradient mb-2.5 tracking-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-[#00CCFF] group-hover:to-[#FF00BB] transition-all">
                     Reach your goal
                   </h3>
                   <p className="text-[13px] text-white/60 mb-5 leading-relaxed max-w-[90%] sm:max-w-none mx-auto sm:mx-0">
@@ -1143,14 +1143,14 @@ export default function Home() {
               <div className="relative z-10 h-full flex flex-col">
                 <div className="mb-5 flex items-center justify-between">
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.26em] text-white/40">
+                    <p className="text-[10px] font-black uppercase tracking-[0.26em] text-vaulty-gradient opacity-80">
                       Live finance news
                     </p>
-                    <h3 className="mt-1 text-xl font-bold tracking-tight text-white">
+                    <h3 className="mt-1 text-xl font-bold tracking-tight text-vaulty-gradient">
                       Market Pulse
                     </h3>
                   </div>
-                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 shadow-inner">
+                  <div className="rounded-full border border-vaulty-gradient bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-inner">
                     Simulated
                   </div>
                 </div>
