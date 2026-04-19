@@ -511,7 +511,7 @@ export default function Home() {
                 Financial Health
               </h2>
             </div>
-            <div className="relative overflow-hidden rounded-[32px] border-vaulty-gradient bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,204,255,0.15)] backdrop-blur-2xl h-[420px] flex flex-col">
+            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl h-[420px] flex flex-col">
               <div className="flex justify-between items-start relative z-10 shrink-0">
                 <div>
                   <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">
@@ -643,12 +643,12 @@ export default function Home() {
               </h2>{" "}
               {/* Invisible header to align with left side */}
             </div>
-            <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] border-vaulty-gradient p-7 shadow-[0_8px_32px_rgba(0,204,255,0.15)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500 h-[420px] flex flex-col">
+            <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500 h-[420px] flex flex-col">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,204,255,0.15),transparent_50%)] pointer-events-none" />
               <div className="relative z-10 flex flex-col h-full">
                 <div className="flex items-center justify-between mb-6 shrink-0">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-vaulty-gradient flex items-center justify-center text-white">
+                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
                       <Target size={20} className="text-[#00CCFF]" />
                     </div>
                     <div>
@@ -677,10 +677,10 @@ export default function Home() {
 
                   <div className="flex items-center gap-4 relative shrink-0">
                     <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/20"></div>
-                    <div className="w-6 h-6 rounded-full border-2 border-vaulty-gradient bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(0,204,255,0.3)]">
+                    <div className="w-6 h-6 rounded-full border-2 border-white/10 bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(0,0,0,0.3)]">
                       <div className="w-1.5 h-1.5 bg-vaulty-gradient rounded-full animate-pulse"></div>
                     </div>
-                    <div className="flex-1 bg-white/[0.04] border border-vaulty-gradient rounded-xl p-3">
+                    <div className="flex-1 bg-white/[0.04] border border-white/10 rounded-xl p-3">
                       <div className="flex justify-between items-center mb-1.5">
                         <p className="text-[13px] font-bold text-white">
                           Save 3 Months Expenses
@@ -697,7 +697,7 @@ export default function Home() {
 
                   <div className="flex items-center gap-4 opacity-40 shrink-0">
                     <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/10"></div>
-                    <div className="w-6 h-6 rounded-full border-vaulty-gradient bg-transparent flex items-center justify-center shrink-0 relative z-10">
+                    <div className="w-6 h-6 rounded-full border border-white/10 bg-transparent flex items-center justify-center shrink-0 relative z-10">
                       <span className="text-[10px] font-bold text-white/50">
                         3
                       </span>
@@ -732,7 +732,7 @@ export default function Home() {
               <div className="grid gap-4 md:grid-cols-2">
                 {/* Skill Builder Card */}
                 <Link href="/high-income-skills">
-                  <div className="relative overflow-hidden rounded-[24px] border-vaulty-gradient bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,204,255,0.15)] backdrop-blur-2xl group cursor-pointer transition-all duration-300">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="relative z-10 flex gap-4">
                       <div className="w-14 h-14 rounded-[18px] bg-white/10 border border-white/20 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
@@ -775,7 +775,7 @@ export default function Home() {
 
                 {/* Simulator/Trading Proving Ground */}
                 <Link href="/demo-trading">
-                  <div className="relative overflow-hidden rounded-[24px] border-vaulty-gradient bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,204,255,0.15)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300">
                     <div className="relative z-10 flex gap-4 items-center">
                       <div className="w-14 h-14 rounded-[18px] bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300">
                         <TrendingUp className="w-7 h-7 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
@@ -803,7 +803,7 @@ export default function Home() {
 
                 {/* Compound Interest Simulator (Teaser) */}
                 <Link href="/investment-simulator">
-                  <div className="relative overflow-hidden rounded-[24px] border-vaulty-gradient bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,204,255,0.15)] backdrop-blur-2xl group cursor-pointer transition-all duration-300 h-full flex flex-col justify-center">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-white/5 p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer transition-all duration-300 h-full flex flex-col justify-center">
                     <div className="relative z-10 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0">
@@ -825,7 +825,7 @@ export default function Home() {
 
                 {/* Vaulty Academy (Teaser) */}
                 <Link href="/academy">
-                  <div className="relative overflow-hidden rounded-[24px] border-vaulty-gradient bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,204,255,0.15)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300 h-full flex flex-col justify-center">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] p-5 shadow-[0_8px_24px_rgba(0,0,0,0.3)] backdrop-blur-2xl group cursor-pointer hover:bg-white/5 transition-all duration-300 h-full flex flex-col justify-center">
                     <div className="relative z-10 flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center shrink-0">
@@ -857,7 +857,7 @@ export default function Home() {
               <Link href="/premium">
                 <div className="flex items-center justify-between cursor-pointer relative z-10 bg-[#0f0f11] rounded-[23px] p-3 hover:bg-[#151518] transition-colors backdrop-blur-xl">
                   <div className="flex items-center gap-3 flex-1">
-                    <div className="relative w-10 h-10 rounded-xl bg-vaulty-gradient border-vaulty-gradient flex items-center justify-center shrink-0">
+                    <div className="relative w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
                       <Star className="w-5 h-5 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                       <div className="absolute -top-1 -right-1 w-2 h-2 bg-white/10 rounded-full blur-[2px] animate-pulse opacity-50"></div>
                     </div>
@@ -880,7 +880,7 @@ export default function Home() {
             </div>
 
             <div
-              className="glass-card rounded-3xl p-6 relative overflow-hidden group border-vaulty-gradient bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,204,255,0.1)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(255,0,187,0.2)]"
+              className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
               data-testid="card-home-daily-motivation"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-70" />
@@ -901,7 +901,7 @@ export default function Home() {
             </div>
 
             {/* Rotating Banner */}
-            <div className="relative h-[180px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-vaulty-gradient px-6 py-7 cursor-pointer group shadow-[0_8px_32px_rgba(0,204,255,0.1)] hover:shadow-[0_16px_48px_rgba(255,0,187,0.2)] transition-all duration-500">
+            <div className="relative h-[180px] overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl border border-white/10 px-6 py-7 cursor-pointer group shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_16px_48px_rgba(255,255,255,0.15)] transition-all duration-500">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00CCFF]/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <div className="relative z-10 h-full">
                 <AnimatePresence mode="wait">
@@ -940,7 +940,7 @@ export default function Home() {
               </h2>
               <button
                 onClick={() => setIsWidgetMenuOpen(true)}
-                className="w-8 h-8 rounded-full bg-vaulty-gradient flex items-center justify-center border-vaulty-gradient hover:opacity-80 transition-colors shadow-inner"
+                className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10 hover:opacity-80 transition-colors shadow-inner"
               >
                 <Plus size={16} className="text-white" />
               </button>
@@ -963,10 +963,10 @@ export default function Home() {
                         className="block w-[calc(50%-10px)] lg:w-full min-w-[calc(50%-10px)] lg:min-w-0 snap-start"
                       >
                         <Link href={item.href} className="block h-full">
-                          <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border-vaulty-gradient group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_24px_rgba(0,204,255,0.15)] hover:shadow-[0_12px_36px_rgba(255,0,187,0.2)]">
+                          <div className="relative h-full overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-6 text-center backdrop-blur-2xl border border-white/10 group cursor-pointer hover:bg-white/10 transition-all duration-500 shadow-[0_8px_24px_rgba(0,0,0,0.3)] hover:shadow-[0_12px_36px_rgba(255,255,255,0.1)]">
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                             <div className="relative z-10 flex flex-col items-center">
-                              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-[20px] border-vaulty-gradient bg-gradient-to-br from-white/10 to-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3">
+                              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-[20px] bg-gradient-to-br from-white/10 to-white/5 border border-white/10 shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3">
                                 <Icon className="h-6 w-6 text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                               </div>
                               <h3 className="mb-1.5 text-[15px] font-bold tracking-tight text-white">
@@ -990,7 +990,7 @@ export default function Home() {
               className="block"
               data-testid="link-home-vaulty-ai"
             >
-              <div className="relative overflow-hidden rounded-[32px] border-vaulty-gradient bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,204,255,0.15)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(255,0,187,0.2)] group">
+              <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] backdrop-blur-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(37,99,235,0.15)] group">
                 <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10 blur-3xl transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
                 <div className="relative z-10 flex items-start justify-between gap-5">
                   <div className="flex-1">
@@ -1150,7 +1150,7 @@ export default function Home() {
                       Market Pulse
                     </h3>
                   </div>
-                  <div className="rounded-full border border-vaulty-gradient bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-inner">
+                  <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white shadow-inner">
                     Simulated
                   </div>
                 </div>
