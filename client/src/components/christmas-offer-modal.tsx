@@ -57,7 +57,7 @@ export function ChristmasOfferModal() {
             </button>
 
             <div className="p-8 pt-10 text-center">
-              <div className="inline-block mb-4 px-4 py-1 bg-white/5 border border-white/10 rounded-full">
+              <div className="inline-block mb-4 px-4 py-1 bg-white/5 border-vaulty-gradient rounded-full">
                 <span className="text-white/60 text-[10px] font-bold tracking-widest uppercase">Limited Time Offer</span>
               </div>
               
@@ -75,7 +75,7 @@ export function ChristmasOfferModal() {
                 {plans.map((plan) => (
                   <div 
                     key={plan.name}
-                    className="min-w-[200px] bg-white/5 border border-white/10 rounded-3xl p-6 snap-center"
+                    className="min-w-[200px] bg-white/5 border-vaulty-gradient rounded-3xl p-6 snap-center"
                   >
                     <h3 className="text-xl font-black mb-4 text-white uppercase tracking-tighter">{plan.name}</h3>
                     <div className="space-y-1">

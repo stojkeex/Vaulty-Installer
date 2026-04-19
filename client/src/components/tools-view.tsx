@@ -171,7 +171,7 @@ export function ToolsView() {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
         <Input 
           placeholder="Search tools..." 
-          className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-gray-600 focus:border-gray-500/50 transition-colors"
+          className="pl-9 bg-white/5 border-vaulty-gradient text-white placeholder:text-gray-600 focus:shadow-[0_0_15px_rgba(0,204,255,0.2)] transition-colors"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -190,7 +190,7 @@ export function ToolsView() {
             >
               <Card 
                 className={`
-                  p-4 bg-white/5 border-white/10 hover:bg-white/10 transition-all cursor-pointer relative overflow-hidden group
+                  p-4 bg-white/5 border-vaulty-gradient hover:bg-white/10 transition-all cursor-pointer relative overflow-hidden group
                   ${!isPremium && tool.isPremium ? 'opacity-75' : ''}
                 `}
                 onClick={() => handleToolClick(tool)}
@@ -214,7 +214,7 @@ export function ToolsView() {
                         </Badge>
                       )}
                       {!tool.isPremium && (
-                        <Badge variant="outline" className="border-white/10 text-gray-400 text-[10px] px-1 py-0 h-4">
+                        <Badge variant="outline" className="border-vaulty-gradient text-gray-400 text-[10px] px-1 py-0 h-4">
                           FREE
                         </Badge>
                       )}
@@ -242,7 +242,7 @@ export function ToolsView() {
 
       {/* Tool Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="bg-zinc-900 border-white/10 text-white sm:max-w-md">
+        <DialogContent className="bg-zinc-900 border-vaulty-gradient text-white sm:max-w-md">
           <DialogHeader>
             <div className="flex items-center gap-3 mb-2">
               <div className={`p-2 rounded-lg bg-white/5 ${selectedTool?.color}`}>
@@ -329,7 +329,7 @@ function GoalAnalyzerContent() {
         <Label>What is your financial goal?</Label>
         <Textarea 
           placeholder="e.g. Save $10,000 for a down payment in 6 months..."
-          className="bg-black/20 border-white/10 text-white min-h-[100px]"
+          className="bg-black/20 border-vaulty-gradient text-white min-h-[100px]"
           value={goal}
           onChange={(e) => setGoal(e.target.value)}
         />

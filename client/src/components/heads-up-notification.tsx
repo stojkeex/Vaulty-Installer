@@ -79,7 +79,7 @@ export function HeadsUpNotification() {
                     ? "bg-gradient-to-r from-blue-500/90 via-blue-500/50/90 to-black/90 border-gray-500/40" 
                     : isVerified
                       ? "bg-gradient-to-r from-blue-500 to-black/90 border-blue-500/30"
-                      : "bg-black/80 border-white/10"
+                      : "bg-black/80 border-vaulty-gradient"
                 }`}>
                   {/* Decorative background glow */}
                   {(isPro || isVerified) && (
@@ -94,7 +94,7 @@ export function HeadsUpNotification() {
                         ? "bg-gradient-to-br from-blue-500 to-purple-500 shadow-lg shadow-gray-500/30" 
                         : isVerified
                           ? "bg-white/10/20 border border-blue-500/30"
-                          : "bg-white/5 border border-white/10"
+                          : "bg-white/5 border-vaulty-gradient"
                     }`}>
                       {isPro ? (
                         <Sparkles className="h-4 w-4 text-white" />

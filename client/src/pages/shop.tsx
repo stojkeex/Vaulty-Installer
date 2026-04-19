@@ -214,7 +214,7 @@ function ShopSection({
           return (
             <div
               key={item.id}
-              className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-[0_24px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl"
+              className="relative overflow-hidden rounded-[28px] border-vaulty-gradient bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-[0_24px_60px_rgba(0,204,255,0.15)] backdrop-blur-xl hover:shadow-[0_24px_60px_rgba(255,0,187,0.2)] transition-shadow"
               data-testid={`card-shop-item-${item.id}`}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_38%)]" />
@@ -223,14 +223,14 @@ function ShopSection({
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
                     <h3 className="text-base font-semibold text-white">{item.name}</h3>
-                    <span className="rounded-full border border-white/10 bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-300">
+                    <span className="rounded-full border-vaulty-gradient bg-white/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-gray-300">
                       {item.badge}
                     </span>
                   </div>
                   <p className="text-sm text-gray-400">{item.description}</p>
                 </div>
 
-                <div className="rounded-2xl border border-white/10 bg-black/20 px-3 py-2 text-right">
+                <div className="rounded-2xl border-vaulty-gradient bg-black/20 px-3 py-2 text-right">
                   <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Reward</p>
                   <p className="mt-1 text-sm font-semibold text-white">
                     {isCustom ? (item.kind === 'demo' ? `${formatPoints(currentRewardAmount)} Demo Cash` : `${formatPoints(currentRewardAmount)} AI Credits`) : item.rewardLabel}
@@ -239,7 +239,7 @@ function ShopSection({
               </div>
               
               {isCustom && (
-                 <div className="relative z-10 mt-4 flex items-center justify-between gap-3 rounded-2xl border border-white/5 bg-black/40 p-3">
+                 <div className="relative z-10 mt-4 flex items-center justify-between gap-3 rounded-2xl border-vaulty-gradient bg-black/40 p-3">
                    <div className="flex items-center gap-3 w-full">
                      <button 
                        onClick={() => handleCustomChange(item.kind === 'demo' ? -5000 : -50)}
@@ -267,7 +267,7 @@ function ShopSection({
                  </div>
               )}
 
-              <div className="relative z-10 mt-5 flex items-center justify-between gap-4 border-t border-white/10 pt-4">
+              <div className="relative z-10 mt-5 flex items-center justify-between gap-4 border-t border-vaulty-gradient pt-4">
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.16em] text-gray-500">Price</p>
                   <p className="mt-1 flex items-center gap-2 text-base font-semibold text-white" data-testid={`text-shop-price-${item.id}`}>
@@ -357,11 +357,11 @@ export default function Shop() {
 
   return (
     <div className="min-h-screen bg-[#050505] pb-24 text-white">
-      <div className="sticky top-0 z-20 border-b border-white/10 bg-black/75 px-4 pb-5 pt-4 backdrop-blur-2xl">
+      <div className="sticky top-0 z-20 border-b border-vaulty-gradient bg-black/75 px-4 pb-5 pt-4 backdrop-blur-2xl">
         <div className="mb-4 flex items-center gap-3">
           <button
             onClick={() => setLocation("/home/overview")}
-            className="rounded-full border border-white/10 bg-white/5 p-2 transition-colors hover:bg-white/10"
+            className="rounded-full border-vaulty-gradient bg-white/5 p-2 transition-colors hover:bg-white/10"
             data-testid="button-back-shop"
           >
             <ChevronLeft size={22} />
@@ -390,11 +390,11 @@ export default function Shop() {
           </div>
 
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4" data-testid="card-demo-balance">
+            <div className="rounded-2xl border-vaulty-gradient bg-black/20 p-4 shadow-[0_8px_32px_rgba(0,204,255,0.1)] hover:shadow-[0_12px_40px_rgba(255,0,187,0.15)] transition-all" data-testid="card-demo-balance">
               <p className="text-[11px] uppercase tracking-[0.18em] text-gray-500">Demo balance</p>
               <p className="mt-2 text-lg font-semibold text-white">${formatPoints(Math.round(balance))}</p>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-4" data-testid="card-ai-balance">
+            <div className="rounded-2xl border-vaulty-gradient bg-black/20 p-4 shadow-[0_8px_32px_rgba(0,204,255,0.1)] hover:shadow-[0_12px_40px_rgba(255,0,187,0.15)] transition-all" data-testid="card-ai-balance">
               <p className="text-[11px] uppercase tracking-[0.18em] text-gray-500">AI credits</p>
               <p className="mt-2 text-lg font-semibold text-white">{formatPoints(currentAiCredits)}</p>
             </div>

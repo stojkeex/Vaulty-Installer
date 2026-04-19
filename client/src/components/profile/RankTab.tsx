@@ -69,7 +69,7 @@ export function RankTab() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
       {/* Current Rank Card */}
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#00CCFF] to-black p-8 text-center shadow-2xl">
+      <div className="relative overflow-hidden rounded-3xl border-vaulty-gradient bg-gradient-to-br from-[#00CCFF] to-black p-8 text-center shadow-[0_8px_32px_rgba(0,204,255,0.2)]">
         {/* Ambient Glow */}
         <div 
           className={cn(
@@ -115,7 +115,7 @@ export function RankTab() {
                 <span>{currentRank.name}</span>
                 <span>{nextRank.name}</span>
               </div>
-              <div className="h-3 bg-white/5 rounded-full overflow-hidden border border-white/10">
+              <div className="h-3 bg-white/5 rounded-full overflow-hidden border-vaulty-gradient">
                 <div 
                   className="h-full transition-all duration-1000 ease-out relative overflow-hidden"
                   style={{ width: `${progress}%`, backgroundColor: currentRank.color }}
@@ -150,7 +150,7 @@ export function RankTab() {
                 "flex items-center justify-between p-4 rounded-2xl border transition-all",
                 task.completed 
                   ? "bg-green-500/5 border-green-500/20 opacity-60" 
-                  : "bg-white/5 border-white/10 hover:bg-white/10 cursor-pointer active:scale-[0.98]"
+                  : "bg-white/5 border-vaulty-gradient hover:bg-white/10 cursor-pointer active:scale-[0.98]"
               )}
             >
               <div className="flex items-center gap-4">
@@ -178,7 +178,7 @@ export function RankTab() {
 
       {/* Rank List Dialog */}
       <Dialog open={showRankList} onOpenChange={setShowRankList}>
-        <DialogContent className="bg-black/95 border border-white/10 text-white max-h-[80vh] overflow-y-auto w-[95%] max-w-md rounded-3xl p-6">
+        <DialogContent className="bg-black/95 border-vaulty-gradient text-white max-h-[80vh] overflow-y-auto w-[95%] max-w-md rounded-3xl p-6">
             <DialogHeader className="mb-4">
                 <DialogTitle className="text-2xl font-bold text-center">Rank List</DialogTitle>
             </DialogHeader>

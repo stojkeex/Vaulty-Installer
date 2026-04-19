@@ -83,7 +83,7 @@ export default function Profile() {
          <div className="flex gap-2">
            <button 
              onClick={() => setLocation("/customization")}
-             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border border-white/20 hover:bg-black/70 transition-colors flex items-center gap-1"
+             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border-vaulty-gradient hover:bg-black/70 transition-colors flex items-center gap-1"
              data-testid="button-customize-card"
            >
              <Palette size={12} /> Customize
@@ -92,14 +92,14 @@ export default function Profile() {
          <div className="flex gap-2">
            <button 
              onClick={() => setLocation("/edit-profile")}
-             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border border-white/20 hover:bg-black/70 transition-colors flex items-center gap-1"
+             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border-vaulty-gradient hover:bg-black/70 transition-colors flex items-center gap-1"
            >
              <Edit2 size={12} /> Edit
            </button>
            
            <button 
              onClick={() => setLocation("/settings")}
-             className="bg-black/50 backdrop-blur-md p-2 rounded-full text-white border border-white/20 hover:bg-black/70 transition-colors"
+             className="bg-black/50 backdrop-blur-md p-2 rounded-full text-white border-vaulty-gradient hover:bg-black/70 transition-colors"
            >
              <Settings size={16} />
            </button>
@@ -175,7 +175,7 @@ export default function Profile() {
             <div className="flex gap-4 overflow-x-auto pb-4 px-2 no-scrollbar snap-x">
                 {horizontalItems.map((item, i) => (
                     <Link key={i} href={item.href}>
-                        <div className="snap-center shrink-0 w-28 h-28 glass-card flex flex-col items-center justify-center p-4 rounded-3xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
+                        <div className="snap-center shrink-0 w-28 h-28 glass-card flex flex-col items-center justify-center p-4 rounded-3xl border-vaulty-gradient bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-[0_8px_32px_rgba(0,204,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,0,187,0.2)]">
                             {/* @ts-ignore - isEmoji check */}
                             {item.isEmoji ? (
                                 <span className="text-3xl mb-2">{item.icon}</span>
@@ -199,7 +199,7 @@ export default function Profile() {
              </div>
              
              {/* Simple Portfolio Summary Card */}
-             <div className="glass-card p-5 rounded-3xl border border-white/10 bg-white/5">
+             <div className="glass-card p-5 rounded-3xl border-vaulty-gradient bg-white/5 shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-gray-400 text-sm">Total Assets</span>
                     <span className="text-green-400 text-sm font-bold flex items-center gap-1">
@@ -220,7 +220,7 @@ export default function Profile() {
                         <PostCard key={post.id} post={post} currentUser={user} currentUserData={userData} />
                     ))
                 ) : (
-                    <div className="text-center py-8 text-gray-500 bg-white/5 rounded-2xl border border-white/10">
+                    <div className="text-center py-8 text-gray-500 bg-white/5 rounded-2xl border-vaulty-gradient">
                         <p>No posts yet</p>
                     </div>
                 )}

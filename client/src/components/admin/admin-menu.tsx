@@ -621,10 +621,10 @@ export function AdminMenu() {
         </Button>
       </DialogTrigger>
       <DialogContent 
-        className="max-w-md bg-[#0a0a0a] border-white/10 text-white max-h-[90vh] h-[800px] overflow-hidden flex flex-col z-[10000] p-0 gap-0"
+        className="max-w-md bg-[#0a0a0a] border-vaulty-gradient text-white max-h-[90vh] h-[800px] overflow-hidden flex flex-col z-[10000] p-0 gap-0"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <DialogHeader className="p-6 pb-2 border-b border-white/10 bg-[#0a0a0a] relative overflow-hidden">
+        <DialogHeader className="p-6 pb-2 border-b border-vaulty-gradient bg-[#0a0a0a] relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-blue-500/5 to-purple-500 z-0" />
           <div className="flex items-center justify-between relative z-10">
             <DialogTitle className={`flex items-center gap-2 text-2xl font-bold ${isSuper ? "bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent" : "text-red-500"}`}>
@@ -642,11 +642,11 @@ export function AdminMenu() {
             <div className="flex flex-col h-full">
               <div className="p-6 border-b border-white/5 bg-[#0a0a0a] space-y-6">
                 <div className="flex gap-4">
-                    <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-[#a0a0a0]/30 transition-all group">
+                    <div className="flex-1 bg-white/5 border border-vaulty-gradient rounded-2xl p-5 hover:border-[#a0a0a0]/30 transition-all group">
                         <div className="text-gray-400 text-[10px] uppercase font-bold tracking-[0.1em] mb-2">Total Users</div>
                         <div className="text-3xl font-bold text-white group-hover:scale-105 transition-transform origin-left">{totalUsers}</div>
                     </div>
-                    <div className="flex-1 bg-white/5 border border-white/10 rounded-2xl p-5 hover:border-[#808080]/30 transition-all group">
+                    <div className="flex-1 bg-white/5 border border-vaulty-gradient rounded-2xl p-5 hover:border-[#808080]/30 transition-all group">
                         <div className="text-gray-400 text-[10px] uppercase font-bold tracking-[0.1em] mb-2">Total Vaulty Balance</div>
                         <div className="flex items-baseline gap-2 group-hover:scale-105 transition-transform origin-left">
                           <VaultyIcon className="text-gray-400" size={20} />
@@ -660,7 +660,7 @@ export function AdminMenu() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 group-focus-within:text-gray-400 transition-colors" />
                     <Input 
                       placeholder="Search for user..." 
-                      className="pl-10 bg-[#111] border-white/10 h-12 rounded-2xl focus:border-[#a0a0a0]/50 text-sm transition-all"
+                      className="pl-10 bg-[#111] border-vaulty-gradient h-12 rounded-2xl focus:border-[#a0a0a0]/50 text-sm transition-all"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       onKeyDown={(e) => e.stopPropagation()}
@@ -676,7 +676,7 @@ export function AdminMenu() {
                       <div 
                         key={u.id}
                         onClick={() => handleSelectUser(u)}
-                        className="flex items-center justify-between p-4 bg-white/5 border border-white/10 rounded-2xl hover:border-[#a0a0a0]/30 hover:bg-white/[0.07] transition-all cursor-pointer group active:scale-[0.98]"
+                        className="flex items-center justify-between p-4 bg-white/5 border border-vaulty-gradient rounded-2xl hover:border-[#a0a0a0]/30 hover:bg-white/[0.07] transition-all cursor-pointer group active:scale-[0.98]"
                       >
                         <div className="flex items-center gap-4">
                           <div className="relative">
@@ -730,19 +730,19 @@ export function AdminMenu() {
               <ScrollArea className="flex-1">
                 <div className="p-6 space-y-4 max-w-4xl mx-auto">
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div className="bg-white/5 border border-vaulty-gradient rounded-xl p-4">
                       <p className="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">Email</p>
                       <p className="text-xs text-white break-all">{targetUser.email}</p>
                     </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div className="bg-white/5 border border-vaulty-gradient rounded-xl p-4">
                       <p className="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">ID</p>
                       <p className="text-xs text-white font-mono">{targetUser.id.slice(0, 12)}...</p>
                     </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div className="bg-white/5 border border-vaulty-gradient rounded-xl p-4">
                       <p className="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">Points</p>
                       <p className="text-sm text-gray-400 font-bold">{formatPoints(targetUser.vaultyPoints || 0)}</p>
                     </div>
-                    <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                    <div className="bg-white/5 border border-vaulty-gradient rounded-xl p-4">
                       <p className="text-[9px] text-gray-500 uppercase font-bold tracking-widest mb-1">XP</p>
                       <p className="text-sm text-gray-600 font-bold">{targetUser.xp || 0}</p>
                     </div>
@@ -756,7 +756,7 @@ export function AdminMenu() {
                         readOnly
                         value={targetUser.password || targetUser.userPassword || "No password set"}
                         onKeyDown={(e) => e.stopPropagation()}
-                        className="bg-[#111] border-white/10 h-10 rounded-xl focus:border-white/30 text-xs cursor-default"
+                        className="bg-[#111] border-vaulty-gradient h-10 rounded-xl focus:border-white/30 text-xs cursor-default"
                       />
                       <Button onClick={() => setShowPassword(!showPassword)} className="h-10 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl px-3 text-xs transition-all">
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -769,7 +769,7 @@ export function AdminMenu() {
                       <Button onClick={handleBanUser} className={`h-10 text-xs font-bold rounded-xl transition-all ${targetUser.isBanned ? 'bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-600/30' : 'bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30'}`}>
                         {targetUser.isBanned ? "✓ Unban" : "✕ Ban"}
                       </Button>
-                      <Button onClick={handleGhostUser} className={`h-10 text-xs font-bold rounded-xl transition-all ${targetUser.isGhost ? 'bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 border border-orange-600/30' : 'bg-white/5 hover:bg-white/10 text-white border border-white/10'}`}>
+                      <Button onClick={handleGhostUser} className={`h-10 text-xs font-bold rounded-xl transition-all ${targetUser.isGhost ? 'bg-orange-600/20 hover:bg-orange-600/30 text-orange-400 border border-orange-600/30' : 'bg-white/5 hover:bg-white/10 text-white border border-vaulty-gradient'}`}>
                         {targetUser.isGhost ? "✓ Un-Ghost" : "👻 Ghost"}
                       </Button>
                     </div>
@@ -777,7 +777,7 @@ export function AdminMenu() {
                       <Badge 
                         variant="outline" 
                         className={cn(
-                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-white/10 flex-1 justify-center", 
+                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-vaulty-gradient flex-1 justify-center", 
                           targetUser.role === 'admin' ? "bg-red-500/20 border-red-500 text-red-500 opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
                         )} 
                         onClick={() => handleUpdateRole('admin')}
@@ -787,7 +787,7 @@ export function AdminMenu() {
                       <Badge 
                         variant="outline" 
                         className={cn(
-                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-white/10 flex-1 justify-center", 
+                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-vaulty-gradient flex-1 justify-center", 
                           targetUser.role === 'news_writer' ? "bg-orange-500/20 border-orange-500 text-orange-500 opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
                         )} 
                         onClick={() => handleUpdateRole('news_writer')}
@@ -797,7 +797,7 @@ export function AdminMenu() {
                       <Badge 
                         variant="outline" 
                         className={cn(
-                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-white/10 flex-1 justify-center", 
+                          "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-vaulty-gradient flex-1 justify-center", 
                           (!targetUser.role || targetUser.role === 'user') ? "bg-gray-500/20 border-gray-500 text-gray-500 opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
                         )} 
                         onClick={() => handleUpdateRole('user')}
@@ -810,7 +810,7 @@ export function AdminMenu() {
                   <div className="space-y-3">
                     <label className="text-[9px] text-gray-500 uppercase font-bold tracking-widest ml-1 block">Points</label>
                     <div className="flex gap-2">
-                      <Input type="number" placeholder="Amount" value={pointsAmount} onChange={(e) => setPointsAmount(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-white/10 h-10 rounded-xl focus:border-[#a0a0a0]/50 text-xs" />
+                      <Input type="number" placeholder="Amount" value={pointsAmount} onChange={(e) => setPointsAmount(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-vaulty-gradient h-10 rounded-xl focus:border-[#a0a0a0]/50 text-xs" />
                       <Button onClick={() => handleUpdatePoints('add')} className="h-10 bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-600/30 font-bold rounded-xl px-3 text-xs">+</Button>
                       <Button onClick={() => handleUpdatePoints('remove')} className="h-10 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 font-bold rounded-xl px-3 text-xs">-</Button>
                     </div>
@@ -819,7 +819,7 @@ export function AdminMenu() {
                   <div className="space-y-3">
                     <label className="text-[9px] text-gray-500 uppercase font-bold tracking-widest ml-1 block">XP</label>
                     <div className="flex gap-2">
-                      <Input type="number" placeholder="Amount" value={xpAmount} onChange={(e) => setXpAmount(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-white/10 h-10 rounded-xl focus:border-[#808080]/50 text-xs" />
+                      <Input type="number" placeholder="Amount" value={xpAmount} onChange={(e) => setXpAmount(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-vaulty-gradient h-10 rounded-xl focus:border-[#808080]/50 text-xs" />
                       <Button onClick={() => handleUpdateXP('add')} className="h-10 bg-green-600/20 hover:bg-green-600/30 text-green-400 border border-green-600/30 font-bold rounded-xl px-3 text-xs">+</Button>
                       <Button onClick={() => handleUpdateXP('remove')} className="h-10 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 font-bold rounded-xl px-3 text-xs">-</Button>
                     </div>
@@ -829,14 +829,14 @@ export function AdminMenu() {
                     <div className="grid grid-cols-2 gap-3">
                       <div className="space-y-2">
                         <label className="text-[9px] text-gray-500 uppercase font-bold tracking-widest ml-1 block">Rank</label>
-                        <select value={selectedRank} onChange={(e) => { setSelectedRank(e.target.value); if (e.target.value) handleSetRank(e.target.value); }} onKeyDown={(e) => e.stopPropagation()} className="w-full bg-[#111] border border-white/10 text-white rounded-xl p-2 h-10 focus:border-[#a0a0a0]/50 text-xs">
+                        <select value={selectedRank} onChange={(e) => { setSelectedRank(e.target.value); if (e.target.value) handleSetRank(e.target.value); }} onKeyDown={(e) => e.stopPropagation()} className="w-full bg-[#111] border border-vaulty-gradient text-white rounded-xl p-2 h-10 focus:border-[#a0a0a0]/50 text-xs">
                           <option value="">Select...</option>
                           {RANKS.map(rank => <option key={rank.id} value={rank.id}>{rank.name}</option>)}
                         </select>
                       </div>
                       <div className="space-y-2">
                         <label className="text-[9px] text-gray-500 uppercase font-bold tracking-widest ml-1 block">Premium Plan</label>
-                        <select value={selectedPlan} onChange={(e) => { setSelectedPlan(e.target.value); if (e.target.value) handleSetPlan(e.target.value); }} onKeyDown={(e) => e.stopPropagation()} className="w-full bg-[#111] border border-white/10 text-white rounded-xl p-2 h-10 focus:border-[#a0a0a0]/50 text-xs">
+                        <select value={selectedPlan} onChange={(e) => { setSelectedPlan(e.target.value); if (e.target.value) handleSetPlan(e.target.value); }} onKeyDown={(e) => e.stopPropagation()} className="w-full bg-[#111] border border-vaulty-gradient text-white rounded-xl p-2 h-10 focus:border-[#a0a0a0]/50 text-xs">
                           <option value="">Select...</option>
                           <option value="none">Free Tier (Remove)</option>
                           <option value="PLUS">Vaulty+ Plan</option>
@@ -849,7 +849,7 @@ export function AdminMenu() {
                     <Badge 
                       variant="outline" 
                       className={cn(
-                        "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-white/10 flex-1 justify-center", 
+                        "cursor-pointer transition-all h-10 px-4 text-xs font-bold rounded-xl border-vaulty-gradient flex-1 justify-center", 
                         targetUser?.badges?.includes("verified") ? "bg-white/10/20 border-blue-500 text-white opacity-100" : "bg-white/5 text-gray-400 hover:bg-white/10"
                       )} 
                       onClick={async () => {
@@ -903,7 +903,7 @@ export function AdminMenu() {
                   <div className="space-y-3 pt-4 border-t border-white/5">
                     <label className="text-[9px] text-gray-500 uppercase font-bold tracking-widest ml-1 block">Send Alert</label>
                     <div className="flex gap-2">
-                      <Input placeholder="System message..." value={notificationMsg} onChange={(e) => setNotificationMsg(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-white/10 h-10 rounded-xl focus:border-gray-500/50 text-xs" />
+                      <Input placeholder="System message..." value={notificationMsg} onChange={(e) => setNotificationMsg(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-vaulty-gradient h-10 rounded-xl focus:border-gray-500/50 text-xs" />
                       <Button onClick={handleSendNotification} className="h-10 bg-gray-600/20 hover:bg-gray-600/30 text-gray-400 border border-gray-600/30 font-bold rounded-xl px-3 text-xs"><Bell size={16} /></Button>
                     </div>
                   </div>
@@ -911,7 +911,7 @@ export function AdminMenu() {
                   {isSuper && (
                     <div className="space-y-3">
                       <label className="text-[9px] text-gray-400 uppercase font-bold tracking-widest">Global Broadcast</label>
-                      <Textarea placeholder="Broadcast to all users..." value={globalNotificationMsg} onChange={(e) => setGlobalNotificationMsg(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-white/10 rounded-xl focus:border-red-500/50 text-xs min-h-[80px]" />
+                      <Textarea placeholder="Broadcast to all users..." value={globalNotificationMsg} onChange={(e) => setGlobalNotificationMsg(e.target.value)} onKeyDown={(e) => e.stopPropagation()} className="bg-[#111] border-vaulty-gradient rounded-xl focus:border-red-500/50 text-xs min-h-[80px]" />
                       <Button onClick={handleSendGlobalNotification} className="w-full bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 font-bold rounded-xl h-10 text-xs">BROADCAST TO ALL</Button>
                     </div>
                   )}

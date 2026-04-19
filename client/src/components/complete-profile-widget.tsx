@@ -116,7 +116,7 @@ export function CompleteProfileWidget() {
                   <button
                     type="button"
                     onClick={() => setIsOpen(false)}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/75 transition hover:bg-white/10 hover:text-white"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border-vaulty-gradient bg-white/5 text-white/75 transition hover:bg-white/10 hover:text-white"
                     data-testid="button-close-complete-profile"
                   >
                     <X className="h-4 w-4" />
@@ -146,7 +146,7 @@ export function CompleteProfileWidget() {
                           }
                         }}
                         disabled={!task.onClick}
-                        className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition ${task.done ? "border-white/8 bg-white/[0.04] opacity-70" : "border-white/10 bg-white/[0.06] hover:bg-white/[0.1]"}`}
+                        className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-left transition ${task.done ? "border-vaulty-gradient bg-white/[0.04] opacity-70" : "border-vaulty-gradient bg-white/[0.06] hover:bg-white/[0.1]"}`}
                         data-testid={`button-complete-profile-task-${task.id}`}
                       >
                         <div className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/10">
@@ -161,7 +161,7 @@ export function CompleteProfileWidget() {
                           <p className="text-sm font-semibold text-white">{task.title}</p>
                           <p className="mt-0.5 text-xs text-white/50">{task.description}</p>
                         </div>
-                        <span className="shrink-0 rounded-full border border-white/10 bg-white/6 px-3 py-1 text-[11px] font-medium text-white/70">
+                        <span className="shrink-0 rounded-full border-vaulty-gradient bg-white/6 px-3 py-1 text-[11px] font-medium text-white/70">
                           {task.actionLabel}
                         </span>
                       </button>

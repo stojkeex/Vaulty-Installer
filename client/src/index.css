@@ -178,13 +178,14 @@ img {
 
 .border-vaulty-gradient {
   position: relative;
+  border: none !important;
 }
 .border-vaulty-gradient::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1px;
+  padding: 2px;
   background: linear-gradient(135deg, #00CCFF, #FF00BB);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;

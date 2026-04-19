@@ -34,11 +34,11 @@ export default function BusinessBooklet() {
 
   return (
     <div className="min-h-screen bg-black text-white pb-24">
-      <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-white/10 px-4 py-4">
+      <div className="sticky top-0 z-50 bg-black/80 backdrop-blur-xl border-b border-vaulty-gradient px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/high-income-skills">
-              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border border-white/10 hover:bg-white/10 transition-colors">
+              <button className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center border-vaulty-gradient hover:bg-white/10 transition-colors">
                 <ChevronLeft className="w-5 h-5" />
               </button>
             </Link>
@@ -47,7 +47,7 @@ export default function BusinessBooklet() {
               <p className="text-xs text-white font-medium">Official Strategy</p>
             </div>
           </div>
-          <button className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center border border-white/30">
+          <button className="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center border-vaulty-gradient">
             <Download className="w-5 h-5" />
           </button>
         </div>
@@ -55,7 +55,7 @@ export default function BusinessBooklet() {
 
       <div className="p-5 space-y-6">
         {/* Cover */}
-        <div className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 rounded-[32px] p-8 text-center relative overflow-hidden">
+        <div className="bg-gradient-to-br from-zinc-900 to-black border-vaulty-gradient rounded-[32px] p-8 text-center relative overflow-hidden shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-white/10 blur-[60px] rounded-full mix-blend-screen pointer-events-none" />
           
@@ -71,7 +71,7 @@ export default function BusinessBooklet() {
               Official Playbook
             </p>
             
-            <div className="w-full flex items-center justify-center gap-4 text-sm text-white/60 border-t border-white/10 pt-6">
+            <div className="w-full flex items-center justify-center gap-4 text-sm text-white/60 border-t border-vaulty-gradient pt-6 mt-6">
               <span>Budget: €{data.budget.toLocaleString()}</span>
               <span>•</span>
               <span>Founder Age: {data.age}</span>
@@ -81,17 +81,17 @@ export default function BusinessBooklet() {
 
         {/* Content */}
         <div className="space-y-6">
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+          <div className="bg-white/5 border-vaulty-gradient rounded-3xl p-6 shadow-[0_8px_32px_rgba(0,204,255,0.1)]">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <CheckCircle2 className="text-white w-5 h-5" />
               Brand Assets
             </h3>
             <div className="space-y-4">
-              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+              <div className="flex justify-between items-center pb-3 border-b border-vaulty-gradient">
                 <span className="text-white/60">Brand Name</span>
                 <span className="font-bold">{data.brandName || "Not set"}</span>
               </div>
-              <div className="flex justify-between items-center pb-3 border-b border-white/5">
+              <div className="flex justify-between items-center pb-3 border-b border-vaulty-gradient">
                 <span className="text-white/60">Logo Status</span>
                 <span className="font-bold text-white">{data.hasLogo ? "Uploaded & Ready" : "Pending"}</span>
               </div>
@@ -102,7 +102,7 @@ export default function BusinessBooklet() {
             </div>
           </div>
 
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-6">
+          <div className="bg-white/5 border-vaulty-gradient rounded-3xl p-6 shadow-[0_8px_32px_rgba(0,204,255,0.1)]">
             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
               <Book className="text-white w-5 h-5" />
               Core Guidelines
@@ -125,7 +125,7 @@ export default function BusinessBooklet() {
                 <li>Once you find a winning acquisition channel, double down your budget there.</li>
               </ul>
               
-              <div className="mt-8 p-4 bg-white/10 border border-white/20 rounded-2xl text-white/80">
+              <div className="mt-8 p-4 bg-white/10 border-vaulty-gradient rounded-2xl text-white/80">
                 <strong className="text-white block mb-1">Vaulty AI Notice:</strong>
                 This is a simulated basic playbook. In the future, this will contain a fully AI-generated personalized strategy guide tailored to your exact niche and market conditions.
               </div>

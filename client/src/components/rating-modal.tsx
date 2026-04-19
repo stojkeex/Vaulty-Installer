@@ -72,7 +72,7 @@ export function RatingModal({ isOpen, onClose, onSubmitReview }: RatingModalProp
             {/* Glass morphism background with pac gradient */}
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 via-black/40 to-purple-500 rounded-3xl blur-2xl" />
 
-            <div className="relative bg-black/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+            <div className="relative bg-black/80 backdrop-blur-xl border-vaulty-gradient rounded-3xl p-8 shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
               {/* Close button */}
               {!showThankYou && (
                 <button

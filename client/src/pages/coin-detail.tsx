@@ -81,7 +81,7 @@ export default function CoinDetail() {
   return (
     <div className="min-h-screen bg-black text-white pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-md p-4 flex items-center gap-4 border-b border-white/10">
+      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-md p-4 flex items-center gap-4 border-b border-vaulty-gradient">
         <button 
           onClick={() => setLocation("/")}
           className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
@@ -175,25 +175,25 @@ export default function CoinDetail() {
 
         {/* Key Stats Grid */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div className="p-4 rounded-2xl bg-white/5 border-vaulty-gradient">
             <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
               <Activity size={14} /> Market Cap
             </div>
             <div className="font-bold text-lg">{formatCompactNumber(marketCap)}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div className="p-4 rounded-2xl bg-white/5 border-vaulty-gradient">
             <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
               <BarChart3 size={14} /> Volume (24h)
             </div>
             <div className="font-bold text-lg">{formatCompactNumber(totalVolume)}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div className="p-4 rounded-2xl bg-white/5 border-vaulty-gradient">
             <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
               <TrendingUp size={14} /> 24h High
             </div>
             <div className="font-bold text-lg">{format(high24h)}</div>
           </div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+          <div className="p-4 rounded-2xl bg-white/5 border-vaulty-gradient">
             <div className="flex items-center gap-2 text-gray-400 text-xs mb-1">
               <TrendingDown size={14} /> 24h Low
             </div>

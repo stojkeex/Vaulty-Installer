@@ -270,7 +270,7 @@ export default function WalletPage() {
                                 "w-4 h-4 rounded-full transition-all duration-300",
                                 i < pinInput.length 
                                     ? "bg-gray-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] scale-110" 
-                                    : "bg-white/10 border border-white/10"
+                                    : "bg-white/10 border-vaulty-gradient"
                             )}
                         />
                     ))}
@@ -336,12 +336,12 @@ export default function WalletPage() {
 
       <div className="max-w-md mx-auto pt-20 px-4 space-y-6">
         {/* Balance Card */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-black border border-white/10 p-6">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-black border-vaulty-gradient p-6">
           <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-gray-500/20 rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-white/10/20 rounded-full blur-3xl" />
           
           <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-black/50 border border-white/10 p-2 flex items-center justify-center shadow-lg shadow-gray-500/10">
+            <div className="w-16 h-16 rounded-full bg-black/50 border-vaulty-gradient p-2 flex items-center justify-center shadow-lg shadow-[rgba(0,204,255,0.3)]">
               <img src={creditsIcon} alt="Vaulty Credits" className="w-full h-full object-contain" />
             </div>
             <div>
@@ -363,7 +363,7 @@ export default function WalletPage() {
         <div className="grid grid-cols-3 gap-3">
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
           >
             <div className="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center">
               <ArrowDownLeft className="w-5 h-5" />
@@ -373,7 +373,7 @@ export default function WalletPage() {
           
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
           >
             <div className="w-10 h-10 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center">
               <ArrowUpRight className="w-5 h-5" />
@@ -383,7 +383,7 @@ export default function WalletPage() {
 
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
           >
             <div className="w-10 h-10 rounded-full bg-gray-500/20 text-gray-400 flex items-center justify-center">
               <RefreshCw className="w-5 h-5" />
@@ -404,7 +404,7 @@ export default function WalletPage() {
               <button
                 key={index}
                 onClick={handlePurchase}
-                className="relative group overflow-hidden rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 p-4 transition-all text-left active:scale-95"
+                className="relative group overflow-hidden rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient p-4 transition-all text-left active:scale-95"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                 
@@ -421,7 +421,7 @@ export default function WalletPage() {
                     <p className="text-xs text-gray-400">Vaulty Credits</p>
                   </div>
                   
-                  <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+                  <div className="pt-2 border-t border-vaulty-gradient flex items-center justify-between">
                     <span className="font-bold text-white">${pkg.price}</span>
                     <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gray-500 group-hover:text-black transition-colors">
                       <ChevronRight className="w-4 h-4" />
@@ -449,7 +449,7 @@ export default function WalletPage() {
               </div>
             ) : transactions.length > 0 ? (
               transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10">
+                <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border-vaulty-gradient">
                   <div className="flex items-center gap-3">
                     <div className={cn(
                       "w-10 h-10 rounded-full flex items-center justify-center",
@@ -485,7 +485,7 @@ export default function WalletPage() {
                 </div>
             )}
             
-             <div onClick={handleAction} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/10 opacity-50 cursor-not-allowed">
+             <div onClick={handleAction} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border-vaulty-gradient opacity-50 cursor-not-allowed">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gray-500/10 text-gray-400 flex items-center justify-center">
                     <History className="w-5 h-5" />

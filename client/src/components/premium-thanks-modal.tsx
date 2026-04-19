@@ -193,7 +193,7 @@ function PremiumThanksModal({ isOpen, tier, onClose }: { isOpen: boolean; tier: 
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.5 + index * 0.1, duration: 0.4 }}
-                    className="p-3 bg-white/5 border border-white/10 rounded-xl text-white/70 text-sm font-medium"
+                    className="p-3 bg-white/5 border-vaulty-gradient rounded-xl text-white/70 text-sm font-medium"
                   >
                     {benefit}
                   </motion.div>

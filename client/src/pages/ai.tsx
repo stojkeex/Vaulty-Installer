@@ -583,12 +583,12 @@ export default function Ai() {
       {/* Sidebar */}
       <div 
         className={cn(
-          "fixed inset-y-0 left-0 w-80 bg-black/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-in-out border-r border-white/10 flex flex-col",
+          "fixed inset-y-0 left-0 w-80 bg-black/80 backdrop-blur-xl z-50 transform transition-transform duration-300 ease-in-out border-r border-vaulty-gradient flex flex-col",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full bg-gradient-to-b from-blue-500/10 via-blue-500/50 to-slate-900/10">
-          <div className="p-4 border-b border-white/10 flex justify-between items-center">
+          <div className="p-4 border-b border-vaulty-gradient flex justify-between items-center">
             <h2 className="font-bold text-lg tracking-wider flex items-center gap-2">
               <img src={vaultyLogo} alt="Logo" className="w-6 h-6 object-contain" />
               VAULTY AI
@@ -666,7 +666,7 @@ export default function Ai() {
 
           {/* Delete Confirmation Dialog */}
           <Dialog open={!!deleteChatId} onOpenChange={(open) => !open && setDeleteChatId(null)}>
-            <DialogContent className="bg-black border border-white/10">
+            <DialogContent className="bg-black border-vaulty-gradient">
               <DialogHeader>
                 <DialogTitle className="text-white">Delete Chat?</DialogTitle>
                 <DialogDescription className="text-gray-300">
@@ -695,7 +695,7 @@ export default function Ai() {
           </Dialog>
 
           {/* Profile & Memory Section */}
-          <div className="p-4 border-t border-white/10 bg-black/20">
+          <div className="p-4 border-t border-vaulty-gradient bg-black/20">
             <DropdownMenu open={showMemoryMenu} onOpenChange={setShowMemoryMenu}>
               <DropdownMenuTrigger asChild>
                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors mb-3">
@@ -730,8 +730,8 @@ export default function Ai() {
                   <ChevronDown size={16} className="text-gray-400" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-black/95 border border-white/10 text-white backdrop-blur-xl mb-2">
-                <div className="p-4 space-y-4 border-b border-white/10">
+              <DropdownMenuContent className="w-56 bg-black/95 border-vaulty-gradient text-white backdrop-blur-xl mb-2">
+                <div className="p-4 space-y-4 border-b border-vaulty-gradient">
                   <div>
                     <p className="text-xs font-bold text-gray-400 mb-2">MEMORY STORAGE</p>
                     <div className="space-y-2">
@@ -796,7 +796,7 @@ export default function Ai() {
                   <ChevronDown size={14} className="text-white/50" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56 bg-[#2f2f2f] border border-white/10 text-white rounded-xl shadow-2xl">
+              <DropdownMenuContent className="w-56 bg-[#2f2f2f] border-vaulty-gradient text-white rounded-xl shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
                 {MODELS.map((model) => {
                   const isLocked = model.tier !== "free" && contextSubscription === "free";
                   return (
@@ -859,7 +859,7 @@ export default function Ai() {
                     <button 
                       key={idx}
                       onClick={() => handleSendMessage(suggestion)}
-                      className="p-3 rounded-xl bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-all text-left"
+                      className="p-3 rounded-xl bg-white/5 border-vaulty-gradient text-sm text-gray-300 hover:bg-white/10 hover:text-white transition-all text-left"
                     >
                       "{suggestion}"
                     </button>
@@ -897,7 +897,7 @@ export default function Ai() {
                   "p-4 rounded-2xl max-w-[80%] text-sm leading-relaxed group relative",
                   msg.role === "user" 
                     ? "bg-white/10 text-white rounded-tr-sm border border-white/20 backdrop-blur-md" 
-                    : "bg-white/5 border border-white/10 rounded-tl-sm"
+                    : "bg-white/5 border-vaulty-gradient rounded-tl-sm"
                 )}>
                   {msg.role === "assistant" && msg.thinking && (
                     <div className="mb-4">

@@ -255,7 +255,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
         {/* Front Side */}
         <div 
           className={cn(
-            "w-full h-full bg-zinc-900/60 border border-white/10 rounded-3xl overflow-hidden shadow-xl backdrop-blur-xl hover:border-gray-500/30 transition-all duration-300 [backface-visibility:hidden]",
+            "w-full h-full bg-zinc-900/60 border-vaulty-gradient rounded-3xl overflow-hidden shadow-xl backdrop-blur-xl hover:shadow-[0_0_20px_rgba(0,204,255,0.2)] transition-all duration-300 [backface-visibility:hidden]",
             isFlipped ? "pointer-events-none opacity-0" : "opacity-100"
           )}
         >
@@ -321,7 +321,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                     <MoreHorizontal size={18} />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent onClick={(e) => e.stopPropagation()} className="bg-zinc-950 border-white/10 text-white shadow-2xl rounded-xl p-1">
+                <DropdownMenuContent onClick={(e) => e.stopPropagation()} className="bg-zinc-950 border-vaulty-gradient text-white shadow-2xl rounded-xl p-1">
                   <DropdownMenuItem onClick={() => onReport?.(post.id)} className="text-red-400 focus:text-red-400 focus:bg-white/5 cursor-pointer rounded-lg">
                     <Flag className="mr-2 h-4 w-4" /> Report Post
                   </DropdownMenuItem>
@@ -373,7 +373,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                     e.stopPropagation();
                     setSelectedImage(post.imageURL);
                   }}
-                  className="mt-4 rounded-2xl overflow-hidden border border-white/10 shadow-lg hover:shadow-gray-900/20 transition-all cursor-pointer"
+                  className="mt-4 rounded-2xl overflow-hidden border-vaulty-gradient shadow-lg hover:shadow-[0_0_15px_rgba(0,204,255,0.2)] transition-all cursor-pointer"
                 >
                   <img 
                     src={post.imageURL} 
@@ -434,7 +434,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                       <CircleDollarSign size={18} />
                     </button>
                   </DialogTrigger>
-                <DialogContent onClick={(e) => e.stopPropagation()} className="bg-zinc-950 border-white/10 text-white sm:max-w-md">
+                <DialogContent onClick={(e) => e.stopPropagation()} className="bg-zinc-950 border-vaulty-gradient text-white sm:max-w-md">
                   <DialogHeader>
                     <DialogTitle className="text-xl font-bold">Send a Tip</DialogTitle>
                     <DialogDescription className="text-gray-400">
@@ -453,7 +453,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                         max={50000} 
                         value={tipAmount} 
                         onChange={(e) => setTipAmount(Number(e.target.value))}
-                        className="bg-white/5 border-white/10 text-white text-center text-lg font-mono focus:border-yellow-500/50 focus:ring-yellow-500/20"
+                        className="bg-white/5 border-vaulty-gradient text-white text-center text-lg font-mono focus:shadow-[0_0_15px_rgba(255,0,187,0.3)]"
                       />
                     </div>
                   </div>
@@ -494,7 +494,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
         {/* Back Side (QR Code) */}
         <div 
           className={cn(
-            "absolute inset-0 w-full h-full bg-zinc-900 border border-white/10 rounded-3xl overflow-hidden shadow-xl backdrop-blur-xl flex flex-col items-center justify-center p-4 text-center [transform:rotateY(180deg)] [backface-visibility:hidden]",
+            "absolute inset-0 w-full h-full bg-zinc-900 border-vaulty-gradient rounded-3xl overflow-hidden shadow-[0_8px_32px_rgba(0,204,255,0.15)] backdrop-blur-xl flex flex-col items-center justify-center p-4 text-center [transform:rotateY(180deg)] [backface-visibility:hidden]",
             !isFlipped ? "pointer-events-none opacity-0" : "opacity-100"
           )}
         >
@@ -584,7 +584,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                 <div key={comment.id} className="flex gap-3 group">
                   <img 
                     src={comment.userPhoto || "https://github.com/shadcn.png"} 
-                    className="w-8 h-8 rounded-full object-cover border border-white/10"
+                    className="w-8 h-8 rounded-full object-cover border-vaulty-gradient"
                     alt={comment.userName}
                   />
                   <div className="flex-1">
@@ -624,7 +624,7 @@ export function PostCard({ post, currentUser, currentUserData, onDelete, onRepor
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Write a comment..."
-                className="w-full bg-white/5 border border-white/10 rounded-2xl py-2.5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:border-gray-500/50 focus:ring-1 focus:ring-cyan-500/20 transition-all resize-none min-h-[42px] max-h-32"
+                className="w-full bg-white/5 border-vaulty-gradient rounded-2xl py-2.5 px-4 text-sm text-white placeholder:text-gray-600 focus:outline-none focus:shadow-[0_0_15px_rgba(0,204,255,0.2)] transition-all resize-none min-h-[42px] max-h-32"
                 rows={1}
                 onInput={(e) => {
                   const target = e.target as HTMLTextAreaElement;

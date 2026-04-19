@@ -141,7 +141,7 @@ export default function CardCustomization() {
 
   return (
     <div className="min-h-screen bg-black text-white pb-24 flex flex-col">
-      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10 p-4 flex justify-between items-center">
+      <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-vaulty-gradient p-4 flex justify-between items-center">
         <div className="flex items-center gap-3">
           <button onClick={() => setLocation("/profile")} className="p-2 hover:bg-white/10 rounded-full" data-testid="button-back-profile">
             <ChevronLeft size={24} />
@@ -158,7 +158,7 @@ export default function CardCustomization() {
       </div>
 
       <div className="flex-1 flex flex-col lg:flex-row gap-8 p-6 overflow-hidden">
-        <div className="flex-1 flex items-center justify-center bg-white/5 rounded-3xl border border-white/10 p-8 min-h-[600px] overflow-hidden relative">
+        <div className="flex-1 flex items-center justify-center bg-white/5 rounded-3xl border-vaulty-gradient p-8 min-h-[600px] overflow-hidden relative shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
           <div className="absolute top-4 left-4 text-xs font-bold text-gray-500 uppercase tracking-wider" data-testid="text-live-preview">Live Preview</div>
           <div className="transform transition-all duration-300 w-[340px]">
             <ProfileCard
@@ -186,7 +186,7 @@ export default function CardCustomization() {
                 <button
                   key={mode.id}
                   onClick={() => setCardMode(mode.id as CardMode)}
-                  className={`rounded-2xl border px-4 py-3 text-sm font-bold transition-all ${cardMode === mode.id ? "border-white bg-white text-black shadow-lg shadow-white/10" : "border-white/10 bg-white/5 text-gray-300 hover:bg-white/10"}`}
+                  className={`rounded-2xl border px-4 py-3 text-sm font-bold transition-all ${cardMode === mode.id ? "border-vaulty-gradient bg-white text-black shadow-lg shadow-[rgba(255,0,187,0.2)]" : "border-vaulty-gradient bg-white/5 text-gray-300 hover:bg-white/10"}`}
                   data-testid={`button-card-mode-${mode.id}`}
                 >
                   {mode.label}
@@ -194,7 +194,7 @@ export default function CardCustomization() {
               ))}
             </div>
 
-            <div className="bg-white/5 p-4 rounded-2xl border border-white/10 space-y-4">
+            <div className="bg-white/5 p-4 rounded-2xl border-vaulty-gradient space-y-4">
               <div>
                 <label className="text-xs font-bold text-gray-400 mb-2 block uppercase">Primary Color</label>
                 <div className="flex gap-3">
@@ -256,7 +256,7 @@ export default function CardCustomization() {
                         setCardMode("solid");
                       }
                     }}
-                    className={`shrink-0 w-12 h-12 rounded-full border-2 transition-all ${primaryColor === color.value && cardMode !== "default" ? "border-white scale-110 shadow-lg shadow-white/20" : "border-white/10 hover:border-white/30"}`}
+                    className={`shrink-0 w-12 h-12 rounded-full transition-all ${primaryColor === color.value && cardMode !== "default" ? "border-vaulty-gradient scale-110 shadow-[0_0_15px_rgba(0,204,255,0.4)]" : "border-vaulty-gradient hover:shadow-[0_0_10px_rgba(255,0,187,0.3)]"}`}
                     style={{ backgroundColor: color.value }}
                     title={color.label}
                     data-testid={`button-primary-preset-${color.id}`}
@@ -282,7 +282,7 @@ export default function CardCustomization() {
                         setPrimaryColor(pair.from);
                         setSecondaryColor(pair.to);
                       }}
-                      className="rounded-2xl border border-white/10 p-3 text-left hover:bg-white/5 transition-colors"
+                      className="rounded-2xl border-vaulty-gradient p-3 text-left hover:bg-white/5 transition-colors"
                       data-testid={`button-gradient-preset-${pair.id}`}
                     >
                       <div className="h-12 rounded-xl mb-2" style={{ background: `linear-gradient(135deg, ${pair.from}, ${pair.to})` }} />

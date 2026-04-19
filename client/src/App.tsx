@@ -155,7 +155,7 @@ class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: 
     if (this.state.hasError) {
       return (
         <div className="flex min-h-screen items-center justify-center bg-[#000000] px-6 text-white">
-          <div className="w-full max-w-sm rounded-[32px] border border-white/10 bg-white/5 p-6 text-center shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur-2xl">
+          <div className="w-full max-w-sm rounded-[32px] border-vaulty-gradient bg-white/5 p-6 text-center shadow-[0_20px_60px_rgba(0,204,255,0.15)] backdrop-blur-2xl">
             <p className="text-[11px] uppercase tracking-[0.22em] text-white/45">Vaulty</p>
             <h2 className="mt-3 text-2xl font-bold tracking-tight">Something on this page broke.</h2>
             <p className="mt-2 text-sm leading-relaxed text-white/65">

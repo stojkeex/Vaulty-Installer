@@ -261,7 +261,7 @@ export default function DemoTrading() {
                   {isVaultyCredits ? "Vaulty Credits" : currency === "EUR" ? "Euro" : "Dollar"}
                 </p>
               </div>
-              <div className="rounded-full border border-white/10 bg-[#000000] p-1">
+              <div className="rounded-full border-vaulty-gradient bg-[#000000] p-1">
                 <div className="flex items-center gap-1">
                   {demoCurrencyOptions.map((option) => (
                     <button
@@ -294,7 +294,7 @@ export default function DemoTrading() {
                 )}
               </div>
               <div className="mt-3 flex items-center gap-3">
-                <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.05] text-[13px] font-semibold", totalProfitUsd >= 0 ? "text-white" : "text-white")} data-testid="text-demo-profit-summary">
+                <div className={cn("inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.04] border-vaulty-gradient text-[13px] font-semibold", totalProfitUsd >= 0 ? "text-white" : "text-white")} data-testid="text-demo-profit-summary">
                   {totalProfitUsd >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
                   {renderSelectedAmount(Math.abs(totalProfit), 10)}
                   <span>({Math.abs(totalProfitPercent).toFixed(2)}%)</span>
@@ -385,7 +385,7 @@ export default function DemoTrading() {
                   <Link key={holding.coinId} href={`/demo-trading/${holding.coinId}`}>
                     <div className="flex items-center justify-between p-5 rounded-[24px] bg-[#000000] hover:bg-white/[0.04] border-none active:scale-[0.98] transition-all cursor-pointer group" data-testid={`card-demo-holding-${holding.coinId}`}>
                       <div className="flex items-center gap-4 min-w-0">
-                        <div className="h-12 w-12 rounded-full bg-[#000000]/50 p-2 flex items-center justify-center shrink-0 border border-white/[0.05] group-hover:border-white/[0.1] transition-colors">
+                        <div className="h-12 w-12 rounded-full bg-[#000000]/50 p-2 flex items-center justify-center shrink-0 border-vaulty-gradient group-hover:shadow-[0_0_15px_rgba(0,204,255,0.3)] transition-all">
                           {coin ? (
                             <img src={coin.image} alt={coin.name} className="w-full h-full rounded-full object-cover" />
                           ) : (
@@ -449,7 +449,7 @@ export default function DemoTrading() {
                   <Link key={coin.id} href={`/demo-trading/${coin.id}`}>
                     <div className="flex justify-between items-center p-4 rounded-[20px] bg-[#000000] hover:bg-white/[0.04] border-none transition-colors cursor-pointer group" data-testid={`card-market-coin-${coin.id}`}>
                       <div className="flex gap-4 items-center min-w-0">
-                        <div className="h-11 w-11 rounded-full bg-white/[0.02] p-1 border border-white/[0.05] shrink-0">
+                        <div className="h-11 w-11 rounded-full bg-white/[0.02] p-1 border-vaulty-gradient shrink-0">
                            <img src={coin.image} alt={coin.name} className="w-full h-full rounded-full object-cover" />
                         </div>
                         <div className="min-w-0">

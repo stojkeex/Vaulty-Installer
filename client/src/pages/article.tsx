@@ -30,7 +30,7 @@ export default function Article() {
   return (
     <div className="min-h-screen bg-black text-white pb-24">
         {/* Header */}
-        <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-white/10 p-4 flex justify-between items-center">
+        <div className="sticky top-0 z-20 bg-black/80 backdrop-blur-xl border-b border-vaulty-gradient p-4 flex justify-between items-center">
             <div className="flex items-center gap-3">
             <button onClick={() => setLocation("/academy")} className="p-2 hover:bg-white/10 rounded-full">
                 <ChevronLeft size={24} />
@@ -53,7 +53,7 @@ export default function Article() {
             </span>
             <h1 className="text-3xl font-bold mb-6 leading-tight">{title}</h1>
             
-            <div className="flex items-center gap-3 mb-8 text-sm text-gray-500 border-b border-white/10 pb-6">
+            <div className="flex items-center gap-3 mb-8 text-sm text-gray-500 border-b border-vaulty-gradient pb-6">
                 <div className="w-8 h-8 rounded-full bg-gray-700" />
                 <span>Vaulty Academy</span>
                 <span>•</span>
