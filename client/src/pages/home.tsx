@@ -73,10 +73,10 @@ import { useCurrency } from "@/contexts/currency-context";
 import { useDemoStore, INITIAL_DEMO_BALANCE } from "@/hooks/use-demo-store";
 
 // Assets
-import vaultyChristmasLogo from "@assets/IMG_1067_1775569221193.png";
+import vaultyChristmasLogo from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import badgeProImage from "@assets/IMG_1148_1775816697333.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
-import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
+import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 
 const BANNERS = [
   {

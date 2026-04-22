@@ -6,7 +6,7 @@ import { Image as ImageIcon, Send, Loader2, Sparkles } from "lucide-react";
 import { useLocation } from "wouter";
 import { PostCard } from "@/components/post-card";
 import { useToast } from "@/hooks/use-toast";
-import vaultyLogo from "@assets/IMG_1067_1775569221193.png";
+import vaultyLogo from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import { isAdmin, isSuperAdmin } from "@/lib/admins";
 
 interface Post {

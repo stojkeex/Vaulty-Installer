@@ -1,6 +1,6 @@
 import { ChevronLeft, LineChart } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import vaultyLogoImage from "@assets/IMG_1067_1775729849437.png";
+import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import { cn } from "@/lib/utils";
 
 export default function VaultyCoinInfoPage() {

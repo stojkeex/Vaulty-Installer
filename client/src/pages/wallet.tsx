@@ -18,7 +18,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import creditsIcon from "@assets/IMG_1087_1775581709253.png";
+import creditsIcon from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import { cn, formatPoints } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
 import { doc, collection, query, orderBy, limit, getDocs, updateDoc } from "firebase/firestore";

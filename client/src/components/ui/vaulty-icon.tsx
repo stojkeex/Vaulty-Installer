@@ -1,4 +1,4 @@
-import vaultyCoin from "@assets/IMG_1087_1775581709253.png";
+import vaultyCoin from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import { cn } from "@/lib/utils";
 
 interface VaultyIconProps {
