@@ -503,21 +503,6 @@ export default function Home() {
           "relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28",
         )}
       >
-        {/* Premium Banner */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="w-full mb-8 cursor-pointer flex justify-center"
-          onClick={() => setLocation('/premium')}
-        >
-          <img 
-            src={premiumBanner} 
-            alt="Upgrade to Premium" 
-            className="w-full h-auto object-contain max-h-[300px] sm:max-h-[400px] md:max-h-[500px]"
-          />
-        </motion.div>
-
         {/* TOP ROW: 50/50 Split for Financial Health and Freedom Map */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Your Overview */}
@@ -866,6 +851,21 @@ export default function Home() {
 
           {/* RIGHT COLUMN */}
           <div className="w-full xl:col-span-1 shrink-0 space-y-8">
+            {/* Premium Banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="w-full cursor-pointer flex justify-center"
+              onClick={() => setLocation('/premium')}
+            >
+              <img 
+                src={premiumBanner} 
+                alt="Upgrade to Premium" 
+                className="w-full h-auto object-contain"
+              />
+            </motion.div>
+
             <div
               className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
               data-testid="card-home-daily-motivation"
