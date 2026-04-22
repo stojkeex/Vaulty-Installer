@@ -77,6 +77,7 @@ import vaultyChristmasLogo from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_17
 import badgeProImage from "@assets/IMG_1148_1775816697333.png";
 import humanStudioImage from "@assets/IMG_0974_1775320765483.jpeg";
 import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
+import premiumBanner from "@assets/D2EC2AF5-471A-429F-AE40-88E221A8819F_1776900267597.png";
 
 const BANNERS = [
   {
@@ -502,6 +503,21 @@ export default function Home() {
           "relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28",
         )}
       >
+        {/* Premium Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="w-full mb-8 cursor-pointer flex justify-center"
+          onClick={() => setLocation('/premium')}
+        >
+          <img 
+            src={premiumBanner} 
+            alt="Upgrade to Premium" 
+            className="w-full h-auto object-contain max-h-[300px] sm:max-h-[400px] md:max-h-[500px]"
+          />
+        </motion.div>
+
         {/* TOP ROW: 50/50 Split for Financial Health and Freedom Map */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Your Overview */}
@@ -850,35 +866,6 @@ export default function Home() {
 
           {/* RIGHT COLUMN */}
           <div className="w-full xl:col-span-1 shrink-0 space-y-8">
-            {/* Inline Premium Banner */}
-            <div className="w-full bg-gradient-to-r from-[#00CCFF] to-[#FF00BB] rounded-[24px] p-[1px] relative shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.15)] transition-all duration-500 group overflow-hidden border border-white/5 backdrop-blur-md">
-              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-blue-500/50 to-transparent blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <Link href="/premium">
-                <div className="flex items-center justify-between cursor-pointer relative z-10 bg-[#0f0f11] rounded-[23px] p-3 hover:bg-[#151518] transition-colors backdrop-blur-xl">
-                  <div className="flex items-center gap-3 flex-1">
-                    <div className="relative w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center shrink-0">
-                      <Star className="w-5 h-5 text-white/90 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
-                      <div className="absolute -top-1 -right-1 w-2 h-2 bg-white/10 rounded-full blur-[2px] animate-pulse opacity-50"></div>
-                    </div>
-                    <div className="space-y-0">
-                      <div className="flex items-center gap-2">
-                        <p className="text-[15px] font-bold tracking-tight text-white/90 group-hover:text-white transition-all duration-300">
-                          Vaulty<span className="text-white">+</span>
-                        </p>
-                      </div>
-                      <p className="text-[11px] font-medium text-white/40">
-                        Unlock all premium features
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center w-7 h-7 rounded-full bg-white/5 border border-white/5 group-hover:bg-white/10 transition-colors">
-                    <ChevronRight className="w-3.5 h-3.5 text-white/50 group-hover:text-white/80 transition-colors group-hover:translate-x-0.5" />
-                  </div>
-                </div>
-              </Link>
-            </div>
-
             <div
               className="glass-card rounded-3xl p-6 relative overflow-hidden group border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.5)]"
               data-testid="card-home-daily-motivation"

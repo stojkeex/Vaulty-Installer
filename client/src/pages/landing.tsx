@@ -260,8 +260,8 @@ export default function Landing() {
       {/* Fixed Navigation Bar */}
       <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none px-4">
         <nav className="flex items-center gap-1 p-1.5 rounded-full backdrop-blur-xl border border-white/30 bg-black/50 shadow-2xl pointer-events-auto">
-          <div className="relative z-10 w-8 h-8 rounded-full bg-black/50 border border-white/20 flex items-center justify-center mr-2 ml-1">
-            <img src={vaultyLogo} alt="Vaulty" className="w-5 h-5 object-contain" />
+          <div className="relative z-10 w-10 h-10 rounded-full bg-black/50 border border-white/20 flex items-center justify-center mr-2 ml-1">
+            <img src={vaultyLogo} alt="Vaulty" className="w-7 h-7 object-contain" />
           </div>
           {navItems.map((item) => (
             <div key={item.id} className="relative">
@@ -386,7 +386,7 @@ export default function Landing() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
-              <img src={vaultyLogo} alt="Vaulty Logo" className="w-32 h-32 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+              <img src={vaultyLogo} alt="Vaulty Logo" className="w-48 h-48 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
               <h3 className="text-2xl font-bold mb-2 z-10">Vaulty Ecosystem</h3>
               <p className="text-white/50 text-center max-w-sm z-10 font-light">A seamless blend of AI, social networking, and demo trading capabilities.</p>
             </motion.div>

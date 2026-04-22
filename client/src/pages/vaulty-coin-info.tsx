@@ -25,7 +25,7 @@ export default function VaultyCoinInfoPage() {
         
         {/* Hero Section */}
         <div className="flex flex-col items-center text-center space-y-4 py-6">
-          <div className="w-32 h-32 rounded-3xl bg-[linear-gradient(135deg,rgba(99,102,241,0.2),rgba(168,85,247,0.1))] border border-indigo-500/30 p-6 shadow-[0_0_40px_rgba(99,102,241,0.2)] flex items-center justify-center">
+          <div className="w-40 h-40 rounded-3xl bg-[linear-gradient(135deg,rgba(99,102,241,0.2),rgba(168,85,247,0.1))] border border-indigo-500/30 p-6 shadow-[0_0_40px_rgba(99,102,241,0.2)] flex items-center justify-center">
              <img src={vaultyLogoImage} alt="Vaulty Coin" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
           </div>
           <div>

@@ -121,7 +121,7 @@ export default function Feed() {
           </div>
         </Link>
         
-        <div className="w-8 h-8 pointer-events-auto absolute left-1/2 -translate-x-1/2">
+        <div className="w-12 h-12 pointer-events-auto absolute left-1/2 -translate-x-1/2">
            <img src={LOGO} alt="Vaulty" className="w-full h-full object-contain" />
         </div>
 

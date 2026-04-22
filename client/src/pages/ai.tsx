@@ -590,7 +590,7 @@ export default function Ai() {
         <div className="flex flex-col h-full bg-gradient-to-b from-blue-500/10 via-blue-500/50 to-slate-900/10">
           <div className="p-4 border-b border-vaulty-gradient flex justify-between items-center">
             <h2 className="font-bold text-lg tracking-wider flex items-center gap-2">
-              <img src={vaultyLogo} alt="Logo" className="w-6 h-6 object-contain" />
+              <img src={vaultyLogo} alt="Logo" className="w-8 h-8 object-contain" />
               VAULTY AI
             </h2>
             <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-white/10 rounded-full">

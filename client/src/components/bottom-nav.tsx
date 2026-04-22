@@ -37,7 +37,7 @@ export function BottomNav() {
           src={vaultyLogoImage} 
           alt="Home" 
           className="object-contain" 
-          style={{ width: "24px", height: "24px", filter: style?.color === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0) invert(1) opacity(0.58)", transition: "all 150ms ease-in-out" }}
+          style={{ width: "32px", height: "32px", filter: style?.color === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0) invert(1) opacity(0.58)", transition: "all 150ms ease-in-out" }}
         />
       </div>
     ) },

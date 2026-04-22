@@ -24,7 +24,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
   return (
     <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-black text-white animate-in fade-in duration-300">
       <div className="relative flex flex-col items-center justify-center space-y-8">
-        <div className="relative w-32 h-32 md:w-40 md:h-40">
+        <div className="relative w-48 h-48 md:w-56 md:h-56">
           <img 
             src={vaultyLogo} // Use imported logo
             alt="Vaulty Logo" 
