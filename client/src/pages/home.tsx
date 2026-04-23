@@ -503,16 +503,18 @@ export default function Home() {
           "relative z-10 p-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pt-28",
         )}
       >
-        {/* TOP ROW: 50/50 Split for Financial Health and Freedom Map */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-          {/* Your Overview */}
+        {/* TOP ROW: Merged Financial Health and Freedom Map */}
+        <div className="mb-8">
           <div className="flex flex-col space-y-4">
             <div className="flex items-center justify-between px-1">
               <h2 className="text-xl font-bold tracking-tight text-vaulty-gradient">
                 Financial Health
               </h2>
             </div>
-            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl h-[420px] flex flex-col">
+            
+            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl flex flex-col">
+              
+              {/* Net Worth & Budget */}
               <div className="flex justify-between items-start relative z-10 shrink-0">
                 <div>
                   <p className="text-[12px] font-medium tracking-wide text-zinc-400 mb-1">
@@ -633,39 +635,17 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Freedom Map - New Section replacing quick actions */}
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center justify-between px-1">
-              <h2 className="text-xl font-bold tracking-tight text-white invisible">
-                Freedom Map
-              </h2>{" "}
-              {/* Invisible header to align with left side */}
-            </div>
-            <div className="relative overflow-hidden rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.01))] border border-white/10 p-7 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-2xl group cursor-pointer hover:bg-white/10 transition-all duration-500 h-[420px] flex flex-col">
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(0,204,255,0.15),transparent_50%)] pointer-events-none" />
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex items-center justify-between mb-6 shrink-0">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white">
-                      <Target size={20} className="text-[#00CCFF]" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold tracking-tight text-vaulty-gradient">
-                        Freedom Map
-                      </h3>
-                      <p className="text-[11px] text-white/50 font-medium">
-                        Phase 2: Emergency Fund
-                      </p>
-                    </div>
-                  </div>
-                  <ChevronRight className="text-white/40 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              
+              {/* Freedom Map Tasks appended directly below Budget */}
+              <div className="relative z-10 mt-4 shrink-0 cursor-pointer group" onClick={() => setLocation('/freedom-map')}>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-sm font-bold text-white">
+                    Current Goal: <span className="text-[#00CCFF]">Emergency Fund</span>
+                  </h4>
+                  <ChevronRight className="text-white/40 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
-
-                <div className="space-y-4 flex-1 flex flex-col justify-center">
-                  <div className="flex items-center gap-4 opacity-50 shrink-0">
+                <div className="space-y-0 flex flex-col">
+                  <div className="flex items-center gap-4 opacity-50 shrink-0 pb-3">
                     <div className="w-6 h-6 rounded-full bg-white/20 text-white flex items-center justify-center shrink-0">
                       <Check size={14} />
                     </div>
@@ -677,7 +657,7 @@ export default function Home() {
                   </div>
 
                   <div className="flex items-center gap-4 relative shrink-0">
-                    <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/20"></div>
+                    <div className="absolute left-[11px] -top-[12px] w-[2px] h-[12px] bg-white/20"></div>
                     <div className="w-6 h-6 rounded-full border-2 border-white/10 bg-black text-white flex items-center justify-center shrink-0 relative z-10 shadow-[0_0_10px_rgba(0,0,0,0.3)]">
                       <div className="w-1.5 h-1.5 bg-vaulty-gradient rounded-full animate-pulse"></div>
                     </div>
@@ -695,22 +675,9 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-4 opacity-40 shrink-0">
-                    <div className="absolute left-[11px] -top-[16px] w-[2px] h-[16px] bg-white/10"></div>
-                    <div className="w-6 h-6 rounded-full border border-white/10 bg-transparent flex items-center justify-center shrink-0 relative z-10">
-                      <span className="text-[10px] font-bold text-white/50">
-                        3
-                      </span>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-[13px] font-bold text-white">
-                        Start Investing
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
