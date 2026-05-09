@@ -30,7 +30,7 @@ export function BottomNav() {
 
   const items = useMemo(() => [
     { href: "/marketplace", label: "STORE", icon: Compass },
-    { href: "/home", label: "DASHBOARD", icon: ({ className, style }: any) => (
+    { href: "/home", label: "HOME", icon: ({ className, style }: any) => (
       <div className="flex items-center justify-center">
         <img 
           src={vaultyLogoImage} 

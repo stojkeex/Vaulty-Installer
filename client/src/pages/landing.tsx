@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
-import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X } from "lucide-react";
+import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import vaultyStoryBg from "@assets/IMG_1135_1775757374085.jpeg";
@@ -209,6 +209,7 @@ export default function Landing() {
   const navItems = [
     { id: "home", label: "Home" },
     { id: "features", label: "Features" },
+    { id: "pricing", label: "Pricing" },
     { id: "faq", label: "FAQ" },
     { id: "subscribe", label: "Subscribe" },
   ];
@@ -216,23 +217,23 @@ export default function Landing() {
   const faqs = [
     {
       question: "What is Vaulty?",
-      answer: "Vaulty is a mobile-first premium finance and social application. It combines an AI trading assistant, demo trading with our native Vaulty Coin, a digital wallet, educational resources, and a social feed for traders into one seamless experience."
+      answer: "Vaulty is an AI chatbot SaaS platform that allows businesses to rent or buy customized chatbots for customer support, lead generation, and enterprise routing. You can easily manage and track your chatbots from our dashboard."
     },
     {
-      question: "Is it real money trading?",
-      answer: "Currently, Vaulty features a demo trading environment using our virtual 'Vaulty Coin'. This allows you to practice trading strategies, learn the markets, and complete quests without any financial risk."
+      question: "Do you offer a free tier?",
+      answer: "Yes! We offer a Free Simulated Bot that uses pre-programmed responses and doesn't consume Vaulty Credits. It's perfect for basic greeting and simple FAQs."
     },
     {
-      question: "How does the AI Assistant work?",
-      answer: "Our built-in AI Assistant is designed to help you understand market trends, explain complex financial concepts, and provide general guidance. It's like having a financial expert in your pocket 24/7."
+      question: "How do Vaulty Credits work?",
+      answer: "Vaulty Credits (VC) are our platform currency. Renting AI chatbots (like Customer Support AI or Sales Assistant AI) consumes credits based on message volume. You can easily top up your credits in the Wallet."
     },
     {
-      question: "When will the app be released?",
-      answer: "We are currently in active development. You can join our waiting list by subscribing below to get early access and exclusive updates when we launch."
+      question: "Can I buy a chatbot outright?",
+      answer: "Absolutely. We offer one-time purchase licenses (Standard and Ultimate) where you own the bot, including source code access and self-hosting options, meaning no monthly subscription."
     },
     {
-      question: "What are quests and how do they work?",
-      answer: "Quests are daily and weekly challenges that help you learn trading concepts. Completing quests earns you Vaulty Coins and experience points, making learning finance fun and engaging."
+      question: "How customizable are the chatbots?",
+      answer: "Highly customizable. You can change the bot's name, theme color, avatar, first message, and even its knowledge base to perfectly match your brand's voice and requirements."
     }
   ];
 
@@ -344,16 +345,16 @@ export default function Landing() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Redefining the Trading Experience.</h2>
+              <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Redefining Customer Interactions.</h2>
               <div className="space-y-6 text-white/60 text-lg font-light leading-relaxed">
                 <p>
-                  Vaulty isn't just another trading app. It's a complete ecosystem designed to make finance accessible, social, and intelligent.
+                  Vaulty is the ultimate SaaS platform for businesses to deploy, manage, and scale AI chatbots.
                 </p>
                 <p>
-                  We've built an environment where you can learn without risk using our native Vaulty Coin, consult with an advanced AI assistant, and share your journey with a community of like-minded individuals.
+                  We've built an environment where you can rent AI assistants for customer support and sales, or buy the source code outright. Manage everything from a centralized dashboard.
                 </p>
                 <p>
-                  Wrapped in a premium, minimalist design, Vaulty strips away the clutter of traditional finance apps to focus on what truly matters: your growth.
+                  Wrapped in a premium, minimalist design, Vaulty strips away the clutter of traditional SaaS platforms to focus on what truly matters: converting leads and supporting your customers 24/7.
                 </p>
               </div>
 
@@ -506,6 +507,92 @@ export default function Landing() {
                 <FeatureCard feature={feature} setLocation={setLocation} />
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="relative z-10 py-32 px-6 border-t border-white/5">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            className="text-center mb-20"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Simple, Transparent Pricing.</h2>
+            <p className="text-xl text-white/50 max-w-md mx-auto font-light">Rent monthly or buy your AI chatbot outright. Choose what works for your business.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {/* Free */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative p-8 rounded-[32px] border border-white/10 bg-white/5 flex flex-col backdrop-blur-xl"
+            >
+              <h3 className="text-xl font-bold text-white mb-2">Simulated Free</h3>
+              <p className="text-white/50 text-sm mb-6 h-10">Perfect for testing and basic greetings without using credits.</p>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$0</span>
+                <span className="text-white/50">/forever</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Simulated responses</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> No Vaulty Credits used</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Basic customization</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Up to 5 intents</li>
+              </ul>
+              <button onClick={() => setLocation('/home')} className="w-full py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors font-medium">Start Free</button>
+            </motion.div>
+
+            {/* Rent */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="relative p-8 rounded-[32px] border border-indigo-500/50 bg-gradient-to-b from-indigo-500/10 to-transparent flex flex-col backdrop-blur-xl"
+            >
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-indigo-500 text-white text-xs font-bold uppercase tracking-wider rounded-full">Most Popular</div>
+              <h3 className="text-xl font-bold text-indigo-300 mb-2">Rent Monthly</h3>
+              <p className="text-white/50 text-sm mb-6 h-10">Ideal for growing businesses that need robust support agents.</p>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$9.99</span>
+                <span className="text-white/50">/mo to $149.99/mo</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> GPT-3.5 & GPT-4 integration</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Custom knowledge base</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Advanced analytics</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Lead capture</li>
+              </ul>
+              <button onClick={() => setLocation('/marketplace')} className="w-full py-3 rounded-full bg-white text-black hover:bg-gray-200 transition-colors font-bold">Rent Now</button>
+            </motion.div>
+
+            {/* Buy */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="relative p-8 rounded-[32px] border border-white/10 bg-white/5 flex flex-col backdrop-blur-xl"
+            >
+              <h3 className="text-xl font-bold text-white mb-2">Buy Outright</h3>
+              <p className="text-white/50 text-sm mb-6 h-10">Full ownership. Host it yourself and modify the source code.</p>
+              <div className="mb-6">
+                <span className="text-4xl font-bold">$99</span>
+                <span className="text-white/50">to $1,299 one-time</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Lifetime access & updates</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Source code included</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Self-hosted option</li>
+                <li className="flex items-center gap-3 text-sm text-white/80"><Check className="w-4 h-4 text-indigo-400" /> Priority engineering support</li>
+              </ul>
+              <button onClick={() => setLocation('/marketplace')} className="w-full py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors font-medium">View Licenses</button>
+            </motion.div>
           </div>
         </div>
       </section>
