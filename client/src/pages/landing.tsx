@@ -207,11 +207,9 @@ export default function Landing() {
   };
 
   const navItems = [
-    { id: "home", label: "Home" },
     { id: "features", label: "Features" },
     { id: "pricing", label: "Pricing" },
     { id: "faq", label: "FAQ" },
-    { id: "subscribe", label: "Subscribe" },
   ];
 
   const faqs = [
