@@ -46,11 +46,11 @@ function FeatureCard({ feature, setLocation }: { feature: typeof featuresData[0]
           <button 
             onClick={(e) => {
               e.stopPropagation();
-              setLocation(`/feature/${feature.id}`);
+              setLocation('/marketplace');
             }}
             className="px-8 py-3 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all active:scale-95 w-full mt-auto shadow-[0_0_20px_rgba(255,255,255,0.2)]"
           >
-            Read More
+            Get Started
           </button>
         </div>
       </div>
@@ -207,6 +207,7 @@ export default function Landing() {
   };
 
   const navItems = [
+    { id: "home", label: "Start" },
     { id: "features", label: "Features" },
     { id: "pricing", label: "Pricing" },
     { id: "faq", label: "FAQ" },
@@ -295,11 +296,11 @@ export default function Landing() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="text-6xl md:text-8xl font-bold tracking-tighter leading-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-            From zero to<br />financial freedom.
+            Automate your<br />customer success.
           </h1>
           
           <p className="text-xl md:text-2xl text-white/50 max-w-md mx-auto font-light leading-relaxed">
-            Learn, invest, and grow your wealth — all in one place.
+            Deploy intelligent AI chatbots that understand your business, resolve tickets, and capture leads 24/7.
           </p>
 
           <div className="flex flex-col items-center gap-4 pt-4">
@@ -631,7 +632,7 @@ export default function Landing() {
                     Our Story
                   </h2>
                   <p className="text-xl text-white/50 font-light max-w-md mx-auto">
-                    The journey of building the ultimate financial companion.
+                    The journey of building the ultimate AI automation platform.
                   </p>
                 </div>
 
@@ -639,14 +640,14 @@ export default function Landing() {
                   <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 space-y-6">
                     <h3 className="text-2xl font-bold text-indigo-400">The Beginning</h3>
                     <p className="text-white/70 leading-relaxed text-lg font-light">
-                      Vaulty was born from a simple realization: traditional trading apps were either too complex for beginners or too simple for serious traders. We set out to build a platform that bridges this gap, combining professional-grade tools with an intuitive, social experience.
+                      Vaulty was born from a simple realization: setting up intelligent, context-aware chatbots was too difficult and expensive for most businesses. We set out to build a platform that bridges this gap, combining enterprise-grade AI with an incredibly simple, beautiful interface.
                     </p>
                   </div>
 
                   <div className="p-8 rounded-[32px] border border-white/10 bg-white/5 space-y-6">
                     <h3 className="text-2xl font-bold text-indigo-400">Our Mission</h3>
                     <p className="text-white/70 leading-relaxed text-lg font-light">
-                      To democratize financial education and trading. We believe everyone should have access to the knowledge and tools needed to build wealth, without risking their life savings while learning.
+                      To democratize AI automation for businesses of all sizes. We believe every company should have access to 24/7 support agents that can truly understand their products and their customers, without needing an engineering team.
                     </p>
                   </div>
 
@@ -654,22 +655,22 @@ export default function Landing() {
                     <div className="relative pl-8 md:pl-12">
                       <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
                       <h4 className="text-xl font-bold mb-2">Q3 2023</h4>
-                      <p className="text-white/60 font-light">The concept of Vaulty is born. Initial prototypes developed.</p>
+                      <p className="text-white/60 font-light">The concept of Vaulty is born. Initial prototypes developed focusing on custom knowledge ingestion.</p>
                     </div>
                     <div className="relative pl-8 md:pl-12">
                       <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
                       <h4 className="text-xl font-bold mb-2">Q1 2024</h4>
-                      <p className="text-white/60 font-light">Core team assembled. AI trading assistant model trained.</p>
+                      <p className="text-white/60 font-light">Core team assembled. Our proprietary routing AI and context management system is perfected.</p>
                     </div>
                     <div className="relative pl-8 md:pl-12">
                       <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
                       <h4 className="text-xl font-bold mb-2">Q4 2024</h4>
-                      <p className="text-white/60 font-light">Closed Beta testing begins with selected users.</p>
+                      <p className="text-white/60 font-light">Closed Beta testing begins with selected e-commerce and SaaS businesses.</p>
                     </div>
                     <div className="relative pl-8 md:pl-12">
                       <div className="absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full bg-sky-400 shadow-[0_0_10px_rgba(56,189,248,0.8)] animate-pulse" />
                       <h4 className="text-xl font-bold mb-2 text-sky-400">2025</h4>
-                      <p className="text-white/60 font-light">Public launch and mobile app release.</p>
+                      <p className="text-white/60 font-light">Public launch and full marketplace rollout.</p>
                     </div>
                   </div>
 
@@ -681,7 +682,7 @@ export default function Landing() {
                       <div className="space-y-4 text-center md:text-left">
                         <h3 className="text-2xl font-bold">The Leadership</h3>
                         <p className="text-white/70 leading-relaxed font-light">
-                          Founded by a team of experienced fintech developers and passionate traders who understood the need for a safer, more educational entry into the world of trading.
+                          Founded by a team of experienced developers and designers who understood the need for a smarter, more elegant approach to business automation.
                         </p>
                         <div className="flex justify-center md:justify-start gap-4 pt-4">
                           <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
