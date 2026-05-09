@@ -13,7 +13,8 @@ import {
   Lock,
   Loader2,
   Smartphone,
-  Delete
+  Delete,
+  Bot
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,13 +26,12 @@ import { doc, collection, query, orderBy, limit, getDocs, updateDoc } from "fire
 import { db } from "@/lib/firebase";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { DemoBalanceCard } from "@/components/demo-balance-card"; // Imported DemoBalanceCard
 
 const PACKAGES = [
-  { credits: 1000, price: 8.99, label: "Starter" },
-  { credits: 2500, price: 19.99, label: "Pro" },
-  { credits: 5000, price: 39.99, label: "Ultra" },
-  { credits: 10000, price: 79.99, label: "Max" },
+  { credits: 1000, price: 9.99, label: "Starter" },
+  { credits: 5000, price: 39.99, label: "Pro" },
+  { credits: 15000, price: 99.99, label: "Ultra" },
+  { credits: 50000, price: 299.99, label: "Max" },
 ];
 
 export default function WalletPage() {
@@ -351,12 +351,6 @@ export default function WalletPage() {
               </h2>
             </div>
           </div>
-        </div>
-
-        {/* Invest Section (Moved from Home) */}
-        <div className="space-y-2">
-            <h3 className="text-lg font-bold text-white">Invest & Track</h3>
-            <DemoBalanceCard />
         </div>
 
         {/* Actions */}

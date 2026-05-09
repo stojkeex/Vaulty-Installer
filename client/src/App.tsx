@@ -5,64 +5,18 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
-import Ai from "@/pages/ai";
-import Premium from "@/pages/premium";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import Posts from "@/pages/posts";
-import PostDetail from "@/pages/post-detail";
-import Profile from "@/pages/profile";
-import PublicProfile from "@/pages/public-profile";
-import Search from "@/pages/search";
-import EditProfile from "@/pages/edit-profile";
-import Settings from "@/pages/settings";
-import Shop from "@/pages/shop";
-import CoinDetail from "@/pages/coin-detail";
-import DemoTrading from "@/pages/demo-trading";
-import DemoCoinDetail from "@/pages/demo-coin-detail";
-import FollowList from "@/pages/follow-list";
-import Support from "@/pages/support"; 
-import Quests from "@/pages/quests"; 
-import Academy from "@/pages/academy"; 
-import Article from "@/pages/article"; 
-import Notifications from "@/pages/notifications"; 
-import CardCustomization from "@/pages/card-customization";
+import Marketplace from "@/pages/marketplace";
+import ChatbotCustomization from "@/pages/chatbot-customization";
 import WalletPage from "@/pages/wallet";
-import WalletSettingsPage from "@/pages/wallet-settings";
-import Discover from "@/pages/discover";
-import GoalsPage from "@/pages/goals";
-import ImageSave from "@/pages/image-save";
-import CreatePost from "@/pages/create-post";
-import CreateNews from "@/pages/create-news";
-import ToolsPage from "@/pages/tools";
-import CourseDetailPage from "@/pages/course-detail";
-import VaultyCoinInfoPage from "@/pages/vaulty-coin-info";
 import Landing from "@/pages/landing";
-import FeatureDetailPage from "@/pages/feature-detail";
-import HighIncomeSkills from "@/pages/high-income-skills";
-import BusinessBooklet from "@/pages/business-booklet";
-import InvestmentSimulator from "@/pages/investment-simulator";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
-import { NotificationProvider } from "@/contexts/notification-context";
-import { CurrencyProvider } from "@/contexts/currency-context";
-import { PremiumProvider } from "@/contexts/premium-context";
-import { GlobalNotificationProvider } from "@/contexts/global-notification-context";
-import { FeedProvider } from "@/contexts/feed-context";
-import { CallProvider } from "@/contexts/call-context";
 import { BottomNav } from "@/components/bottom-nav";
-import { IncomingCallModal } from "@/components/incoming-call-modal";
-import { ActiveCallModal } from "@/components/active-call-modal";
 
 import { LoadingScreen } from "@/components/loading-screen";
-import { GlobalNotificationDisplay } from "@/components/global-notification-display";
 import { Component, useState, useEffect, type ErrorInfo, type ReactNode } from "react";
-import { RatingProvider } from "@/components/rating-provider";
-
-import EarnPage from "@/pages/earn";
-import CourseDetail from "@/pages/course-detail";
-import TOSPage from "@/pages/tos";
-import Comments from "@/pages/comments";
 
 // Protected Route Component
 function ProtectedRoute({ component: Component, hideNav = false }: { component: React.ComponentType, hideNav?: boolean }) {
@@ -79,66 +33,19 @@ function Router() {
     <div className="relative min-h-screen bg-[#000000] text-white">
       <Switch>
         <Route path="/landing" component={Landing} />
-        <Route path="/feature/:id" component={FeatureDetailPage} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/" component={() => <Redirect to="/landing" />} />
         
-        {/* Home is now just Feed, no tabs param needed, but we keep /home for compatibility */}
         <Route path="/home" component={() => <ProtectedRoute component={Home} />} />
-        <Route path="/goals" component={() => <ProtectedRoute component={GoalsPage} hideNav={true} />} />
-        {/* Support old route but redirect to home */}
-        <Route path="/home/:tab" component={() => <Redirect to="/home" />} />
-        <Route path="/create-post" component={() => <ProtectedRoute component={CreatePost} />} />
-        <Route path="/high-income-skills" component={() => <ProtectedRoute component={HighIncomeSkills} hideNav={true} />} />
-        <Route path="/booklet/:id" component={() => <ProtectedRoute component={BusinessBooklet} hideNav={true} />} />
-        <Route path="/investment-simulator" component={() => <ProtectedRoute component={InvestmentSimulator} hideNav={true} />} />
-
-        <Route path="/discover" component={() => <ProtectedRoute component={Discover} />} />
-        <Route path="/create-news" component={() => <ProtectedRoute component={CreateNews} />} />
-        <Route path="/news" component={() => <ProtectedRoute component={NewsPage} />} />
-        <Route path="/news/:slug" component={() => <ProtectedRoute component={NewsDetail} />} />
-        
-        <Route path="/earn" component={() => <ProtectedRoute component={EarnPage} />} />
-        <Route path="/course/:id" component={() => <ProtectedRoute component={CourseDetail} hideNav={true} />} />
-        <Route path="/tos" component={() => <ProtectedRoute component={TOSPage} hideNav={true} />} />
-
-        {/* Hide Nav for AI page as requested */}
-        <Route path="/tools" component={() => <ProtectedRoute component={Ai} hideNav={true} />} />
-        <Route path="/ai" component={() => <ProtectedRoute component={Ai} hideNav={true} />} />
-        <Route path="/image-save" component={() => <ProtectedRoute component={ImageSave} hideNav={true} />} />
-        
-        <Route path="/info/vaulty-coin" component={() => <ProtectedRoute component={VaultyCoinInfoPage} hideNav={true} />} />
-        <Route path="/premium" component={() => <ProtectedRoute component={Premium} />} />
-        <Route path="/posts" component={() => <ProtectedRoute component={Posts} />} />
-        <Route path="/post/:id" component={() => <ProtectedRoute component={PostDetail} />} />
-        <Route path="/profile" component={() => <ProtectedRoute component={Profile} />} />
-        <Route path="/user/:id" component={() => <ProtectedRoute component={PublicProfile} />} />
-        
-        <Route path="/users/:id/:type" component={() => <ProtectedRoute component={FollowList} />} />
-        <Route path="/search" component={() => <ProtectedRoute component={Search} />} />
-        <Route path="/edit-profile" component={() => <ProtectedRoute component={EditProfile} />} />
-        <Route path="/customization" component={() => <ProtectedRoute component={CardCustomization} />} />
-        <Route path="/settings" component={() => <ProtectedRoute component={Settings} />} />
-        <Route path="/shop" component={() => <ProtectedRoute component={Shop} />} />
-        <Route path="/coin/:id" component={() => <ProtectedRoute component={CoinDetail} hideNav={true} />} />
-        <Route path="/demo-trading" component={() => <ProtectedRoute component={DemoTrading} />} />
-        <Route path="/demo-trading/:id" component={() => <ProtectedRoute component={DemoCoinDetail} />} />
-        <Route path="/support" component={() => <ProtectedRoute component={Support} />} />
-        <Route path="/quests" component={() => <ProtectedRoute component={Quests} />} />
-        <Route path="/academy" component={() => <ProtectedRoute component={Academy} />} /> 
-        <Route path="/academy/:slug" component={() => <ProtectedRoute component={Article} />} /> 
-        <Route path="/notifications" component={() => <ProtectedRoute component={Notifications} />} /> 
+        <Route path="/marketplace" component={() => <ProtectedRoute component={Marketplace} />} />
         <Route path="/wallet" component={() => <ProtectedRoute component={WalletPage} hideNav={true} />} />
-        <Route path="/wallet/settings" component={() => <ProtectedRoute component={WalletSettingsPage} hideNav={true} />} />
-        <Route path="/comments/:id" component={() => <ProtectedRoute component={Comments} hideNav={true} />} />
+        <Route path="/bot/:id/customize" component={() => <ProtectedRoute component={ChatbotCustomization} hideNav={true} />} />
         <Route component={NotFound} />
       </Switch>
     </div>
   );
 }
-
-import { PremiumThanksProvider } from "@/components/premium-thanks-modal";
 
 class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
   state = { hasError: false };
@@ -218,35 +125,20 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <PremiumProvider>
-          <PremiumThanksProvider>
-            <CurrencyProvider>
-              <NotificationProvider>
-                <GlobalNotificationProvider>
-                  <FeedProvider>
-                    <TooltipProvider>
-                      <RatingProvider>
-                        {showSplash && (
-                          <LoadingScreen onComplete={() => setShowSplash(false)} />
-                        )}
-                        {!showSplash && (
-                          <>
-                            <GlobalNotificationDisplay />
-                            <RouteErrorBoundary>
-                              <Router />
-                            </RouteErrorBoundary>
-                            <BottomNav />
-                            <Toaster />
-                          </>
-                        )}
-                      </RatingProvider>
-                    </TooltipProvider>
-                  </FeedProvider>
-                </GlobalNotificationProvider>
-              </NotificationProvider>
-            </CurrencyProvider>
-          </PremiumThanksProvider>
-        </PremiumProvider>
+        <TooltipProvider>
+          {showSplash && (
+            <LoadingScreen onComplete={() => setShowSplash(false)} />
+          )}
+          {!showSplash && (
+            <>
+              <RouteErrorBoundary>
+                <Router />
+              </RouteErrorBoundary>
+              <BottomNav />
+              <Toaster />
+            </>
+          )}
+        </TooltipProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Users, User, Compass, TrendingUp } from "lucide-react";
+import { Home, Users, User, Compass, TrendingUp, Wallet } from "lucide-react";
 import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
@@ -29,9 +29,8 @@ export function BottomNav() {
   }, [user]);
 
   const items = useMemo(() => [
-    { href: "/demo-trading", label: "DEMO", icon: TrendingUp },
-    { href: "/discover", label: "DISCOVER", icon: Compass },
-    { href: "/home", label: "HOME", icon: ({ className, style }: any) => (
+    { href: "/marketplace", label: "STORE", icon: Compass },
+    { href: "/home", label: "DASHBOARD", icon: ({ className, style }: any) => (
       <div className="flex items-center justify-center">
         <img 
           src={vaultyLogoImage} 
@@ -41,8 +40,7 @@ export function BottomNav() {
         />
       </div>
     ) },
-    { href: "/posts", label: "FEED", icon: Users, disabled: true },
-    { href: "/profile", label: "PROFILE", icon: User },
+    { href: "/wallet", label: "WALLET", icon: Wallet },
   ], []);
 
   const shouldHide = location === "/login" || 
@@ -91,18 +89,11 @@ export function BottomNav() {
 
           const content = (
             <motion.div
-              whileTap={item.disabled ? {} : { scale: 0.9 }}
+              whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 14 }}
               className={cn(
-                "group relative flex h-14 w-16 flex-col items-center justify-center rounded-full",
-                item.disabled ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+                "group relative flex h-14 w-16 flex-col items-center justify-center rounded-full cursor-pointer"
               )}
-              onClick={(e) => {
-                if (item.disabled) {
-                  e.preventDefault();
-                  alert("Stay Tuned");
-                }
-              }}
               data-testid={`link-bottom-nav-${item.label.toLowerCase()}`}
             >
               <AnimatePresence mode="wait">
@@ -151,11 +142,7 @@ export function BottomNav() {
           );
 
           return (
-            <Link key={item.href} href={item.disabled ? "#" : item.href} onClick={(e) => {
-              if (item.disabled) {
-                e.preventDefault();
-              }
-            }}>
+            <Link key={item.href} href={item.href}>
               {content}
             </Link>
           );
