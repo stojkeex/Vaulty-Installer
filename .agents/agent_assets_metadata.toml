@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "dZldcQ67WfWslKLulxIWj"
+uri = "file://client/src/assets/floating-robot.png"
+type = "image"
+title = "purple floating futuristic cute robot"

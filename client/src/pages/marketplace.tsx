@@ -1,69 +1,95 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { ChevronLeft, Bot, Sparkles, Check, Info } from "lucide-react";
+import { Bot, Check, SlidersHorizontal, ChevronDown, Eye, ArrowRight, Plus, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
-import { db } from "@/lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import robotImg from "@/assets/floating-robot.png";
 
 const CHATBOT_TIERS = [
   {
     id: "free",
     name: "Simulated Bot",
+    subtitle: "SIMULATED",
     description: "Uses simulated pre-programmed responses. Does not consume Vaulty Credits.",
     type: "free",
     price: 0,
-    features: ["Pre-programmed responses", "Basic customization", "Up to 5 intents", "Standard support"],
-    badge: "Free"
+    features: ["Pre-programmed responses", "Up to 5 intents", "Basic customization", "Standard support"],
+    badge: "FREE",
+    theme: "purple",
+    stats: [
+        { label: "Usage", value: "0 CREDITS" },
+        { label: "Limit", value: "5 INTENTS" },
+        { label: "Price", value: "FREE" }
+    ]
   },
   {
     id: "rent-basic",
     name: "Customer Support AI",
-    description: "Perfect for handling FAQs and general customer inquiries.",
+    subtitle: "MONTHLY SUBSCRIPTION",
+    description: "Perfect for handling customer inquiries and support tickets.",
     type: "rent",
-    price: 9.99, // Monthly
-    features: ["GPT-3.5 integration", "Custom knowledge base", "Email capture", "Priority support"],
+    price: 20,
+    features: ["GPT-3.5 integration", "Multi-language support", "Custom knowledge base", "Email & ticket forwarding"],
+    badge: "RENT",
+    theme: "green"
   },
   {
     id: "rent-pro",
-    name: "Sales Assistant AI",
-    description: "Advanced AI trained to convert leads and book meetings.",
+    name: "Lead Generation Pro",
+    subtitle: "PREMIUM",
+    description: "Capture leads, qualify prospects and grow your business 24/7.",
     type: "rent",
-    price: 49.99, // Monthly
-    features: ["GPT-4 integration", "CRM integration", "Meeting scheduling", "Advanced analytics"],
-    badge: "Popular"
-  },
-  {
-    id: "rent-enterprise",
-    name: "Enterprise Multi-Agent",
-    description: "Full suite of agents routing across different departments.",
-    type: "rent",
-    price: 149.99, // Monthly
-    features: ["Multiple AI models", "Custom fine-tuning", "Dedicated account manager", "White-label"],
-  },
-  {
-    id: "buy-standard",
-    name: "Standard License",
-    description: "Own the bot forever. Source code and models included.",
-    type: "buy",
-    price: 99.99, // One-time
-    features: ["Lifetime access", "Self-hosted option", "Source code access", "Community support"],
-  },
-  {
-    id: "buy-ultimate",
-    name: "Ultimate License",
-    description: "Full ownership with lifetime updates and custom implementation.",
-    type: "buy",
-    price: 1299.99, // One-time
-    features: ["Done-for-you setup", "Lifetime updates", "Priority engineering support", "Unlimited custom intents"],
+    price: 49,
+    features: ["GPT-4 integration", "CRM integrations", "Meeting scheduling", "Advanced analytics"],
+    badge: "RENT",
+    theme: "blue"
   }
 ];
+
+const THEMES = {
+    purple: {
+        bg: "bg-[#0a0614] bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-purple-900/10 via-[#0a0614] to-[#0a0614]",
+        border: "border-purple-500/20",
+        iconBg: "bg-[#180e2b]",
+        iconColor: "text-purple-400",
+        badgeBg: "bg-purple-600",
+        badgeText: "text-white",
+        primaryBtn: "bg-purple-600 hover:bg-purple-700 text-white",
+        textColor: "text-purple-400",
+        checkBorder: "border-purple-500/50",
+        checkColor: "text-purple-400"
+    },
+    green: {
+        bg: "bg-[#07110a] bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-green-900/10 via-[#07110a] to-[#07110a]",
+        border: "border-green-500/20",
+        iconBg: "bg-[#0a1c12]",
+        iconColor: "text-green-400",
+        badgeBg: "bg-transparent border border-green-500/30",
+        badgeText: "text-green-400",
+        primaryBtn: "bg-green-400 hover:bg-green-500 text-black",
+        textColor: "text-green-400",
+        checkBorder: "border-green-500/50",
+        checkColor: "text-green-400"
+    },
+    blue: {
+        bg: "bg-[#060c14] bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-blue-900/10 via-[#060c14] to-[#060c14]",
+        border: "border-blue-500/20",
+        iconBg: "bg-[#0a1424]",
+        iconColor: "text-blue-400",
+        badgeBg: "bg-transparent border border-blue-500/30",
+        badgeText: "text-blue-400",
+        primaryBtn: "bg-[#1a2333] hover:bg-[#202b3d] text-white",
+        textColor: "text-blue-400",
+        checkBorder: "border-blue-500/50",
+        checkColor: "text-blue-400"
+    }
+};
 
 export default function Marketplace() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { user, userData } = useAuth();
+  const { user } = useAuth();
   const [filter, setFilter] = useState<'all' | 'rent' | 'buy'>('all');
 
   const handleAcquire = (bot: any) => {
@@ -79,65 +105,118 @@ export default function Marketplace() {
   const filteredBots = CHATBOT_TIERS.filter(b => filter === 'all' || b.type === filter || b.type === 'free');
 
   return (
-    <div className="min-h-screen bg-[#050505] pb-24 text-white">
-      <div className="sticky top-0 z-20 border-b border-white/5 bg-black/75 px-4 pb-4 pt-6 backdrop-blur-2xl">
-        <div>
-          <p className="text-[11px] uppercase tracking-[0.28em] text-gray-500">Marketplace</p>
-          <h1 className="text-2xl font-semibold tracking-tight">AI Chatbots</h1>
+    <div className="min-h-screen bg-[#050505] pb-32 text-white font-sans">
+      
+      {/* Header Section */}
+      <div className="pt-10 px-5 flex justify-between items-start">
+        <div className="z-10">
+            <p className="text-[10px] text-white/50 uppercase tracking-[0.2em] mb-1 font-medium">Marketplace</p>
+            <h1 className="text-[28px] font-bold mb-2 tracking-tight">AI Chatbots</h1>
+            <p className="text-xs text-white/60 max-w-[200px] leading-relaxed">Discover, rent or buy powerful AI chatbots built for your business.</p>
         </div>
-        
-        <div className="flex items-center gap-2 mt-4 bg-white/5 p-1 rounded-xl">
-            <button onClick={() => setFilter('all')} className={`flex-1 text-sm font-medium py-2 rounded-lg transition-colors ${filter === 'all' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}>All</button>
-            <button onClick={() => setFilter('rent')} className={`flex-1 text-sm font-medium py-2 rounded-lg transition-colors ${filter === 'rent' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}>Rent</button>
-            <button onClick={() => setFilter('buy')} className={`flex-1 text-sm font-medium py-2 rounded-lg transition-colors ${filter === 'buy' ? 'bg-white/10 text-white' : 'text-white/50 hover:text-white'}`}>Buy</button>
+        <div className="w-28 h-28 -mt-8 relative z-0 mix-blend-screen opacity-90">
+            <div className="absolute inset-0 bg-purple-500/20 blur-2xl rounded-full"></div>
+            <img src={robotImg} alt="AI Robot" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.4)] relative z-10" />
         </div>
       </div>
 
-      <div className="p-4 space-y-4 mt-4">
-        {filteredBots.map(bot => (
-            <div key={bot.id} className="relative overflow-hidden rounded-[28px] border border-white/10 bg-gradient-to-br from-white/[0.08] via-white/[0.04] to-transparent p-5 shadow-[0_24px_60px_rgba(0,0,0,0.15)] backdrop-blur-xl">
-                {bot.badge && (
-                    <div className="absolute top-4 right-4 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
-                        {bot.badge}
-                    </div>
-                )}
-                
-                <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10 flex items-center justify-center">
-                        <Bot className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-bold leading-tight">{bot.name}</h3>
-                        <p className="text-xs uppercase tracking-wider text-white/50">{bot.type === 'free' ? 'Simulated' : bot.type === 'rent' ? 'Monthly Subscription' : 'One-Time Purchase'}</p>
-                    </div>
-                </div>
-                
-                <p className="text-sm text-white/60 mb-5 leading-relaxed">{bot.description}</p>
-                
-                <div className="space-y-2 mb-6">
-                    {bot.features.map((feature, i) => (
-                        <div key={i} className="flex items-center gap-2">
-                            <Check className="w-4 h-4 text-green-400 shrink-0" />
-                            <span className="text-sm text-white/80">{feature}</span>
+      {/* Tabs */}
+      <div className="px-5 mt-4">
+        <div className="flex bg-[#0f0f13] p-1 rounded-2xl border border-white/5 shadow-inner">
+            <button onClick={() => setFilter('all')} className={`flex-1 py-3 text-xs font-semibold rounded-xl transition-all ${filter === 'all' ? 'bg-[#1a102f] shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white border border-purple-500/20' : 'text-white/50 hover:text-white/80'}`}>All</button>
+            <button onClick={() => setFilter('rent')} className={`flex-1 py-3 text-xs font-semibold rounded-xl transition-all ${filter === 'rent' ? 'bg-[#1a102f] shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white border border-purple-500/20' : 'text-white/50 hover:text-white/80'}`}>Rent</button>
+            <button onClick={() => setFilter('buy')} className={`flex-1 py-3 text-xs font-semibold rounded-xl transition-all ${filter === 'buy' ? 'bg-[#1a102f] shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white border border-purple-500/20' : 'text-white/50 hover:text-white/80'}`}>Buy</button>
+        </div>
+      </div>
+
+      {/* Filters & Sort */}
+      <div className="flex justify-between items-center px-5 mt-6 mb-4">
+        <button className="flex items-center gap-2 text-xs font-medium text-white/70 hover:text-white transition-colors bg-[#0f0f13] px-3 py-1.5 rounded-lg border border-white/5">
+            <SlidersHorizontal className="w-3.5 h-3.5" /> Filters
+        </button>
+        <button className="flex items-center gap-1.5 text-xs font-medium text-white/70 hover:text-white transition-colors">
+            <TrendingUp className="w-3.5 h-3.5 text-purple-400" /> Sort by: Popular <ChevronDown className="w-3 h-3 text-white/40" />
+        </button>
+      </div>
+
+      {/* Bots List */}
+      <div className="px-5 space-y-4">
+        {filteredBots.map(bot => {
+            const theme = THEMES[bot.theme as keyof typeof THEMES];
+            return (
+                <div key={bot.id} className={`relative rounded-3xl p-5 border ${theme.border} ${theme.bg} shadow-xl overflow-hidden`}>
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-5">
+                        <div className="flex gap-4 items-center">
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${theme.iconBg} border border-white/5 shadow-inner`}>
+                                <Bot className={`w-6 h-6 ${theme.iconColor}`} />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold mb-0.5 tracking-tight">{bot.name}</h3>
+                                <p className={`text-[9px] uppercase tracking-[0.15em] font-bold ${theme.textColor}`}>{bot.subtitle}</p>
+                            </div>
                         </div>
-                    ))}
-                </div>
-                
-                <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div>
-                        <p className="text-xs text-white/50 uppercase tracking-wider mb-1">Price</p>
-                        <p className="text-xl font-bold">
-                            {bot.price === 0 ? "Free" : `$${bot.price}`}
-                            {bot.type === 'rent' && <span className="text-sm font-normal text-white/50">/mo</span>}
-                        </p>
+                        
+                        {bot.price === 0 ? (
+                            <div className={`px-2.5 py-1 rounded-md ${theme.badgeBg} ${theme.badgeText} text-[9px] font-black uppercase tracking-wider`}>
+                                {bot.badge}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-end gap-1">
+                                <div className="text-2xl font-bold leading-none tracking-tight">
+                                    <span className={theme.textColor}>{bot.price}</span> 
+                                    <span className="text-xs font-medium text-white/40 ml-1">$ / month</span>
+                                </div>
+                                <div className={`px-2.5 py-0.5 rounded-full ${theme.badgeBg} ${theme.badgeText} text-[8px] font-bold uppercase tracking-wider`}>
+                                    {bot.badge}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     
-                    <Button onClick={() => handleAcquire(bot)} className="rounded-full h-10 px-6 font-bold bg-white text-black hover:bg-gray-200">
-                        {bot.price === 0 ? "Add to Dashboard" : bot.type === 'buy' ? "Buy Now" : "Subscribe"}
-                    </Button>
+                    {/* Description */}
+                    <p className="text-xs text-white/60 mb-6 leading-relaxed pr-6">{bot.description}</p>
+                    
+                    {/* Features Grid */}
+                    <div className="grid grid-cols-2 gap-y-3 gap-x-2 mb-6">
+                        {bot.features.map((feature, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                                <div className={`w-3.5 h-3.5 shrink-0 rounded-full border ${theme.checkBorder} flex items-center justify-center`}>
+                                    <Check className={`w-2 h-2 ${theme.checkColor}`} strokeWidth={3} />
+                                </div>
+                                <span className="text-[11px] text-white/70 font-medium truncate">{feature}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Optional Stats for Free tier */}
+                    {bot.stats && (
+                        <div className="grid grid-cols-3 border-t border-white/5 pt-4 pb-2 mb-4">
+                            {bot.stats.map((s, i) => (
+                                <div key={i} className="text-center">
+                                    <p className={`text-[10px] font-bold ${theme.textColor} mb-0.5 tracking-wider`}>{s.value}</p>
+                                    <p className="text-[9px] text-white/40">{s.label}</p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Buttons */}
+                    <div className="flex gap-3 mt-auto">
+                        <Button variant="outline" className="flex-1 rounded-xl h-11 border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold shadow-none">
+                            <Eye className="w-4 h-4 mr-2 text-white/50" /> Preview Bot
+                        </Button>
+                        <Button className={`flex-1 rounded-xl h-11 text-xs font-bold shadow-none ${theme.primaryBtn}`}>
+                            {bot.price === 0 ? (
+                                <>Add to Dashboard <Plus className="w-4 h-4 ml-1.5 opacity-80" /></>
+                            ) : (
+                                <>Rent Now <ArrowRight className="w-4 h-4 ml-1.5 opacity-80" /></>
+                            )}
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        ))}
+            )
+        })}
       </div>
     </div>
   );
