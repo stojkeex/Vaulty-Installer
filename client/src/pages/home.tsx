@@ -5,6 +5,7 @@ import { Sparkles, Bot, Settings, Power, ChevronRight, MessageSquare, Menu, X, C
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogoImage from "@/assets/vaulty-logo-v.png";
+import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 
 const MOCK_BOTS = [
   {
@@ -128,23 +129,20 @@ export default function Home() {
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
         <div className="w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/[0.02] pointer-events-auto">
-          <div className="max-w-[1200px] w-full mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="max-w-[1200px] w-full mx-auto px-4 py-4 flex items-center justify-between">
              <div className="flex items-center gap-4">
-                <button onClick={() => setSidebarOpen(true)} className="w-10 h-10 rounded-xl border border-white/5 bg-transparent flex items-center justify-center hover:bg-white/5 transition-colors">
+                <button onClick={() => setSidebarOpen(true)} className="md:hidden w-10 h-10 rounded-xl border border-white/5 bg-transparent flex items-center justify-center hover:bg-white/5 transition-colors">
                   <Menu className="w-5 h-5 text-white/80" />
                 </button>
-             </div>
-             
-             <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center">
-                 <img
-                     src={vaultyLogoImage}
-                     alt="Logo"
-                     className="w-7 h-7 object-contain"
-                 />
+                <img
+                    src={vaultyTextLogo}
+                    alt="Vaulty"
+                    className="h-6 md:h-7 object-contain ml-1 md:ml-0"
+                />
              </div>
              
              <Link href="/wallet">
-                 <div className="flex items-center gap-2 rounded-full border border-[#2a1b4d] bg-[#140b2e] px-4 py-2 cursor-pointer hover:bg-[#1a0f3d] transition-colors shadow-[0_0_15px_rgba(107,33,168,0.3)]">
+                 <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-[#0a0614] px-4 py-2 cursor-pointer hover:bg-purple-900/20 transition-colors">
                      <Sparkles className="w-4 h-4 text-white" />
                      <span className="text-[13px] font-bold text-white tracking-wide">{userPoints.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} VC</span>
                  </div>

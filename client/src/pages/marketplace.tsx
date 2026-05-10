@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
-import { Bot, Check, SlidersHorizontal, ChevronDown, Eye, ArrowRight, Plus, TrendingUp } from "lucide-react";
+import { Bot, Check, SlidersHorizontal, ChevronDown, Eye, ArrowRight, Plus, TrendingUp, Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
 import robotImg from "@/assets/floating-robot.png";
 import simBotImg from "@/assets/simulated-bot-icon.png";
+import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 
 const CHATBOT_TIERS = [
   {
@@ -91,8 +92,10 @@ const THEMES = {
 export default function Marketplace() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
   const [filter, setFilter] = useState<'all' | 'rent' | 'buy'>('all');
+
+  const userPoints = userData?.vaultyPoints || 543474.47;
 
   const handleAcquire = (bot: any) => {
     toast({
@@ -109,8 +112,33 @@ export default function Marketplace() {
   return (
     <div className="min-h-screen bg-[#050505] pb-32 text-white font-sans">
       
+      {/* Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
+        <div className="w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/[0.02] pointer-events-auto">
+          <div className="max-w-[1200px] w-full mx-auto px-4 py-4 flex items-center justify-between">
+             <div className="flex items-center gap-4">
+                <button className="md:hidden w-10 h-10 rounded-xl border border-white/5 bg-transparent flex items-center justify-center hover:bg-white/5 transition-colors">
+                  <Menu className="w-5 h-5 text-white/80" />
+                </button>
+                <img
+                    src={vaultyTextLogo}
+                    alt="Vaulty"
+                    className="h-6 md:h-7 object-contain ml-1 md:ml-0"
+                />
+             </div>
+             
+             <Link href="/wallet">
+                 <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-[#0a0614] px-4 py-2 cursor-pointer hover:bg-purple-900/20 transition-colors">
+                     <Sparkles className="w-4 h-4 text-white" />
+                     <span className="text-[13px] font-bold text-white tracking-wide">{userPoints.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} VC</span>
+                 </div>
+             </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Header Section */}
-      <div className="pt-10 px-5 flex justify-between items-start">
+      <div className="pt-24 px-5 flex justify-between items-start max-w-[1200px] mx-auto w-full">
         <div className="z-10">
             <p className="text-[10px] text-white/50 uppercase tracking-[0.2em] mb-1 font-medium">Marketplace</p>
             <h1 className="text-[28px] font-bold mb-2 tracking-tight">AI Chatbots</h1>
@@ -123,7 +151,7 @@ export default function Marketplace() {
       </div>
 
       {/* Tabs */}
-      <div className="px-5 mt-4">
+      <div className="px-5 mt-4 max-w-[1200px] mx-auto w-full">
         <div className="flex bg-[#0f0f13] p-1 rounded-2xl border border-white/5 shadow-inner">
             <button onClick={() => setFilter('all')} className={`flex-1 py-3 text-xs font-semibold rounded-xl transition-all ${filter === 'all' ? 'bg-[#1a102f] shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white border border-purple-500/20' : 'text-white/50 hover:text-white/80'}`}>All</button>
             <button onClick={() => setFilter('rent')} className={`flex-1 py-3 text-xs font-semibold rounded-xl transition-all ${filter === 'rent' ? 'bg-[#1a102f] shadow-[0_0_20px_rgba(168,85,247,0.15)] text-white border border-purple-500/20' : 'text-white/50 hover:text-white/80'}`}>Rent</button>
@@ -132,7 +160,7 @@ export default function Marketplace() {
       </div>
 
       {/* Filters & Sort */}
-      <div className="flex justify-between items-center px-5 mt-6 mb-4">
+      <div className="flex justify-between items-center px-5 mt-6 mb-4 max-w-[1200px] mx-auto w-full">
         <button className="flex items-center gap-2 text-xs font-medium text-white/70 hover:text-white transition-colors bg-[#0f0f13] px-3 py-1.5 rounded-lg border border-white/5">
             <SlidersHorizontal className="w-3.5 h-3.5" /> Filters
         </button>
@@ -142,7 +170,7 @@ export default function Marketplace() {
       </div>
 
       {/* Bots List */}
-      <div className="px-5 space-y-4">
+      <div className="px-5 space-y-4 max-w-[1200px] mx-auto w-full">
         {filteredBots.map(bot => {
             const theme = THEMES[bot.theme as keyof typeof THEMES];
             return (
