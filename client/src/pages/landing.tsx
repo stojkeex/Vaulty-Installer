@@ -387,9 +387,9 @@ export default function Landing() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
-              <img src={astroPortraitImg} alt="Vaulty Astro" className="w-48 h-48 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] object-contain" />
-              <h3 className="text-2xl font-bold mb-2 z-10">Vaulty Ecosystem</h3>
-              <p className="text-white/50 text-center max-w-sm z-10 font-light">A seamless blend of AI, social networking, and demo trading capabilities.</p>
+              <img src={astroPortraitImg} alt="Vaulty Astro" className="w-64 h-64 md:w-72 md:h-72 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] object-contain" />
+              <h3 className="text-2xl font-bold mb-2 z-10 text-center">Meet Vaulty Astro</h3>
+              <p className="text-white/50 text-center max-w-sm z-10 font-light">Get to know more about our big face Vaulty Astro...</p>
             </motion.div>
           </div>
         </div>
