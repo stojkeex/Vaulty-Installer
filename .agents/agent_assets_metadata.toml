@@ -6,3 +6,9 @@ id = "dZldcQ67WfWslKLulxIWj"
 uri = "file://client/src/assets/floating-robot.png"
 type = "image"
 title = "purple floating futuristic cute robot"
+
+[[generated]]
+id = "qgd1Qyo4oWmlBxU8dTr70"
+uri = "file://client/src/assets/simulated-bot-icon.png"
+type = "image"
+title = "simulated bot vaulty icon"

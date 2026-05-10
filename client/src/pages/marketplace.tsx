@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
 import robotImg from "@/assets/floating-robot.png";
+import simBotImg from "@/assets/simulated-bot-icon.png";
 
 const CHATBOT_TIERS = [
   {
@@ -17,6 +18,7 @@ const CHATBOT_TIERS = [
     features: ["Pre-programmed responses", "Up to 5 intents", "Basic customization", "Standard support"],
     badge: "FREE",
     theme: "purple",
+    iconImg: simBotImg,
     stats: [
         { label: "Usage", value: "0 CREDITS" },
         { label: "Limit", value: "5 INTENTS" },
@@ -148,8 +150,12 @@ export default function Marketplace() {
                     {/* Header */}
                     <div className="flex justify-between items-start mb-5">
                         <div className="flex gap-4 items-center">
-                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${theme.iconBg} border border-white/5 shadow-inner`}>
-                                <Bot className={`w-6 h-6 ${theme.iconColor}`} />
+                            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 ${theme.iconBg} border border-white/5 shadow-inner overflow-hidden p-2`}>
+                                {bot.iconImg ? (
+                                    <img src={bot.iconImg} alt={bot.name} className="w-full h-full object-contain" />
+                                ) : (
+                                    <Bot className={`w-6 h-6 ${theme.iconColor}`} />
+                                )}
                             </div>
                             <div>
                                 <h3 className="text-lg font-bold mb-0.5 tracking-tight">{bot.name}</h3>
