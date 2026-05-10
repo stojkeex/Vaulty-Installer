@@ -4,7 +4,7 @@ import { Bot, Check, SlidersHorizontal, ChevronDown, Eye, ArrowRight, Plus, Tren
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
-import robotImg from "@/assets/floating-robot.png";
+import robotImg from "@/assets/astronaut.png";
 import simBotImg from "@/assets/simulated-bot-icon.png";
 import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 
@@ -143,7 +143,7 @@ export default function Marketplace() {
         </div>
         <div className="w-28 h-28 -mt-8 relative z-0 mix-blend-screen opacity-90">
             <div className="absolute inset-0 bg-purple-500/20 blur-2xl rounded-full"></div>
-            <img src={robotImg} alt="AI Robot" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.4)] relative z-10" />
+            <img src={robotImg} alt="AI Astronaut" className="w-full h-full object-contain drop-shadow-[0_0_15px_rgba(168,85,247,0.4)] relative z-10" />
         </div>
       </div>
 
