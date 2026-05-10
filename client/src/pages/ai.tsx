@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import botAvatar from "@assets/1B800ADD-4D3C-4FAB-8D82-8893E729D46A_1765457083436.png";
-import vaultyLogo from "@assets/vaulty-logo-v.png";
+import vaultyLogo from "@/assets/vaulty-logo-v.png";
 
 type Message = {
   role: "user" | "assistant";

@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Home, Users, User, Compass, TrendingUp, Wallet } from "lucide-react";
-import vaultyLogoImage from "@assets/vaulty-logo-v.png";
+import vaultyLogoImage from "@/assets/vaulty-logo-v.png";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";

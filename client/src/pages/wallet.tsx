@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import creditsIcon from "@assets/vaulty-logo-v.png";
+import creditsIcon from "@/assets/vaulty-logo-v.png";
 import { cn, formatPoints } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
 import { doc, collection, query, orderBy, limit, getDocs, updateDoc } from "firebase/firestore";

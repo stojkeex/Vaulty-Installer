@@ -4,7 +4,7 @@ import { Link, useLocation } from "wouter";
 import { Sparkles, Bot, Settings, Power, ChevronRight, MessageSquare, Menu, X, Compass, Wallet, LogOut, Plus, TrendingUp, Play, Square, Activity, Send, MessageCircle, LineChart, Hexagon, Box, CircleDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import vaultyLogoImage from "@assets/vaulty-logo-v.png";
+import vaultyLogoImage from "@/assets/vaulty-logo-v.png";
 
 const MOCK_BOTS = [
   {

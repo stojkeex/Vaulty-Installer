@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation } from "wouter";
 import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import vaultyLogo from "@assets/vaulty-logo-v.png";
+import vaultyLogo from "@/assets/vaulty-logo-v.png";
 import vaultyStoryBg from "@assets/IMG_1135_1775757374085.jpeg";
 import { featuresData } from "@/lib/features-data";
 

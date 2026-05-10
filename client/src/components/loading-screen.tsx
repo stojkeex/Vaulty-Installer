@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import vaultyLogo from "@assets/vaulty-logo-v.png"; // Import the logo
+import vaultyLogo from "@/assets/vaulty-logo-v.png"; // Import the logo
 
 interface LoadingScreenProps {
   onComplete?: () => void;

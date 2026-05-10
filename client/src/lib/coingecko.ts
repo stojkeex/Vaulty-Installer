@@ -1,4 +1,4 @@
-import vaultyLogo from "@assets/vaulty-logo-v.png";
+import vaultyLogo from "@/assets/vaulty-logo-v.png";
 
 export interface Coin {
   id: string;
