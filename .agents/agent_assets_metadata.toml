@@ -18,3 +18,9 @@ id = "5RGuHSqX0eHug-xZdVbLf"
 uri = "file://client/src/assets/vaulty-logo-v.png"
 type = "image"
 title = "vaulty v modern minimalist logo"
+
+[[generated]]
+id = "yD1TN721o6ExDoaLvbH2C"
+uri = "file://client/src/assets/floating-astronaut.png"
+type = "image"
+title = "Floating astronaut black visor"
