@@ -169,10 +169,10 @@ export default function Home() {
         </div>
 
         {/* Summary Banner */}
-        <div className="grid grid-cols-3 gap-4 rounded-[24px] border border-white/5 bg-[#0a0a0f] p-5 shadow-lg">
+        <div className="flex flex-col md:grid md:grid-cols-3 gap-4 rounded-[24px] border border-white/5 bg-[#0a0a0f] p-5 shadow-lg">
             {/* Total Messages */}
-            <div className="flex items-center gap-4 border-r border-white/5 pr-4">
-                <div className="w-12 h-12 rounded-[14px] bg-[#1a0f2e] border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(107,33,168,0.2)]">
+            <div className="flex items-center gap-4 border-b md:border-b-0 md:border-r border-white/5 pb-4 md:pb-0 md:pr-4">
+                <div className="w-12 h-12 shrink-0 rounded-[14px] bg-[#1a0f2e] border border-purple-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(107,33,168,0.2)]">
                     <Send className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
@@ -187,8 +187,8 @@ export default function Home() {
             </div>
 
             {/* Credits Left */}
-            <div className="flex items-center gap-4 border-r border-white/5 px-4">
-                <div className="w-12 h-12 rounded-[14px] bg-[#0d1b2a] border border-blue-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+            <div className="flex items-center gap-4 border-b md:border-b-0 md:border-r border-white/5 pb-4 md:pb-0 md:px-4">
+                <div className="w-12 h-12 shrink-0 rounded-[14px] bg-[#0d1b2a] border border-blue-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                     <MessageSquare className="w-5 h-5 text-blue-400" />
                 </div>
                 <div>
@@ -199,8 +199,8 @@ export default function Home() {
             </div>
 
             {/* Active Bots */}
-            <div className="flex items-center gap-4 pl-4">
-                <div className="w-12 h-12 rounded-[14px] bg-[#0f291e] border border-green-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.2)]">
+            <div className="flex items-center gap-4 md:pl-4">
+                <div className="w-12 h-12 shrink-0 rounded-[14px] bg-[#0f291e] border border-green-500/20 flex items-center justify-center shadow-[0_0_15px_rgba(34,197,94,0.2)]">
                     <LineChart className="w-5 h-5 text-green-400" />
                 </div>
                 <div>
@@ -236,10 +236,10 @@ export default function Home() {
                     </button>
                 </div>
 
-                <div className="flex gap-6">
+                <div className="flex flex-col md:flex-row gap-6">
                     {/* Left Stats Column */}
-                    <div className="w-[200px] flex flex-col gap-5 shrink-0">
-                        <div>
+                    <div className="w-full md:w-[200px] flex flex-row md:flex-col gap-5 shrink-0 justify-between md:justify-start flex-wrap">
+                        <div className="w-[45%] md:w-full">
                             <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1 font-medium">Messages</p>
                             <p className="text-2xl font-bold leading-none mb-1">{bot.messages}</p>
                             {bot.messagesGrowth && (
@@ -254,26 +254,26 @@ export default function Home() {
                             )}
                         </div>
 
-                        <div>
+                        <div className="w-[45%] md:w-full">
                             <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1 font-medium">Credits Used</p>
                             <p className="text-lg font-bold leading-none mb-1">{bot.creditsUsed}</p>
                             <p className="text-[10px] text-white/40">≈ {bot.creditsPercent} of your credits</p>
                         </div>
 
-                        <div className="flex items-end justify-between">
+                        <div className="w-[45%] md:w-full flex items-end justify-between">
                             <div>
                                 <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1 font-medium">Uptime</p>
                                 <p className="text-base font-bold leading-none mb-1">{bot.uptime}</p>
                                 <p className="text-[10px] text-white/40">{bot.uptime === '—' ? 'Not started yet' : 'Last 7 days'}</p>
                             </div>
-                            <div className="mb-2">
+                            <div className="mb-2 hidden md:block">
                                 <Activity className="w-5 h-5 text-white/20" />
                             </div>
                         </div>
                     </div>
 
                     {/* Right Chart/Action Area */}
-                    <div className="flex-1 bg-[#121218] rounded-[20px] border border-white/[0.03] p-4 flex flex-col relative overflow-hidden">
+                    <div className="flex-1 bg-[#121218] rounded-[20px] border border-white/[0.03] p-4 flex flex-col relative overflow-hidden min-h-[250px]">
                         {bot.hasActivity ? (
                             <>
                                 <div className="flex items-center justify-between mb-4 z-10 relative">
@@ -354,9 +354,9 @@ export default function Home() {
                                 </div>
                             </>
                         ) : (
-                            <div className="w-full h-full flex items-center justify-between px-6">
-                                <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 relative flex items-center justify-center">
+                            <div className="w-full h-full flex flex-col md:flex-row items-center justify-center md:justify-between px-2 md:px-6 gap-6 py-6 md:py-0">
+                                <div className="flex flex-col md:flex-row items-center text-center md:text-left gap-4 md:gap-6">
+                                    <div className="w-16 h-16 relative flex items-center justify-center shrink-0">
                                         <Hexagon className="w-10 h-10 text-green-500/40 absolute -top-1 -left-2 rotate-12" />
                                         <Box className="w-12 h-12 text-green-500/60 relative z-10" />
                                         <Hexagon className="w-8 h-8 text-green-500/30 absolute -bottom-2 -right-1 -rotate-12" />
@@ -364,10 +364,10 @@ export default function Home() {
                                     </div>
                                     <div>
                                         <h4 className="text-sm font-bold text-white mb-1">This chatbot is offline</h4>
-                                        <p className="text-xs text-white/50 leading-snug">Start your chatbot to begin<br/>receiving messages.</p>
+                                        <p className="text-xs text-white/50 leading-snug">Start your chatbot to begin<br className="hidden md:block" />receiving messages.</p>
                                     </div>
                                 </div>
-                                <Button className="h-10 px-6 rounded-full bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-white shadow-[0_0_15px_rgba(34,197,94,0.15)] font-semibold">
+                                <Button className="h-10 px-6 rounded-full bg-green-500/10 hover:bg-green-500/20 border border-green-500/30 text-white shadow-[0_0_15px_rgba(34,197,94,0.15)] font-semibold w-full md:w-auto">
                                     <Play className="w-4 h-4 mr-2 fill-green-400 text-green-400" /> Start
                                 </Button>
                             </div>
