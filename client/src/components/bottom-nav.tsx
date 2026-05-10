@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Users, User, Compass, TrendingUp, Wallet } from "lucide-react";
+import { Home, Users, User, Compass, TrendingUp, Wallet, Bot } from "lucide-react";
 import vaultyLogoImage from "@/assets/vaulty-logo-v.png";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
@@ -40,6 +40,7 @@ export function BottomNav() {
         />
       </div>
     ) },
+    { href: "/ai", label: "ASTRO", icon: Bot },
     { href: "/wallet", label: "WALLET", icon: Wallet },
   ], []);
 

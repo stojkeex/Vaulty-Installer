@@ -31,7 +31,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import botAvatar from "@assets/1B800ADD-4D3C-4FAB-8D82-8893E729D46A_1765457083436.png";
+import botAvatar from "@/assets/astro-portrait.png";
 import vaultyLogo from "@/assets/vaulty-logo-v.png";
 
 type Message = {
@@ -172,14 +172,14 @@ export default function Ai() {
     // Default response
     return {
       thinking: "Analiziram vprašanje korisnika. Preverjam dostupne informacije i pripravljam odgovor.",
-      text: "# Vaulty AI Asistent\n\nHvala što ste postavili vprašanje! Mogu da vam pomognem sa sledećim temama:\n\n## Podržane Teme\n- **Bitcoin**: Digitalno zlato\n- **Ethereum**: Pametne pogodbe\n- **DeFi**: Decentralizovane finance\n- **Tržišne Analize**: Trendy i strategije\n\n## Kako Mogu Pomoći\n- Objasniti koncepte\n- Analizirati trendove\n- Dati edukativne savete\n- Odgovoriti na pitanja\n\nPitajte me bilo šta vezano za kripto i finance! 💡"
+      text: "# Vaulty Astro Asistent\n\nHvala što ste postavili vprašanje! Mogu da vam pomognem sa sledećim temama:\n\n## Podržane Teme\n- **Bitcoin**: Digitalno zlato\n- **Ethereum**: Pametne pogodbe\n- **DeFi**: Decentralizovane finance\n- **Tržišne Analize**: Trendy i strategije\n\n## Kako Mogu Pomoći\n- Objasniti koncepte\n- Analizirati trendove\n- Dati edukativne savete\n- Odgovoriti na pitanja\n\nPitajte me bilo šta vezano za kripto i finance! 💡"
     };
   };
 
   // Funkcija za klic pravog Gemini API-ja sa fallback-om
   const getRealAIResponse = async (message: string, history: Message[]) => {
     // Enhanced System Prompt for "Professional" Thinking
-    const systemPrompt = `Ti si Vaulty AI, vrhunski finančni in kripto svetovalec. 
+    const systemPrompt = `Ti si Vaulty Astro, vrhunski finančni in kripto svetovalec. 
     Tvoja naloga je zagotavljati natančne, poglobljene in strokovne analize trga, investicijske strategije in izobraževalne vsebine.
     
     NAVODILA ZA RAZMIŠLJANJE:
@@ -590,8 +590,8 @@ export default function Ai() {
         <div className="flex flex-col h-full bg-gradient-to-b from-blue-500/10 via-blue-500/50 to-slate-900/10">
           <div className="p-4 border-b border-vaulty-gradient flex justify-between items-center">
             <h2 className="font-bold text-lg tracking-wider flex items-center gap-2">
-              <img src={vaultyLogo} alt="Logo" className="w-8 h-8 object-contain" />
-              VAULTY AI
+              <img src={botAvatar} alt="Vaulty Astro" className="w-8 h-8 object-contain rounded-full bg-white/5" />
+              VAULTY ASTRO
             </h2>
             <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-white/10 rounded-full">
               <X size={20} />
@@ -831,25 +831,25 @@ export default function Ai() {
         <div ref={messagesContainerRef} onScroll={handleMessagesScroll} className="flex-1 overflow-y-auto p-4 space-y-6 scroll-smooth">
           {messages.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-700">
-              <div className="w-32 h-32 mb-8 relative">
+              <div className="w-32 h-32 mb-8 relative rounded-full overflow-hidden border-4 border-white/5 shadow-[0_0_50px_rgba(168,85,247,0.2)]">
                 <img 
-                  src={vaultyLogo} 
-                  alt="Vaulty AI" 
-                  className="w-full h-full object-contain relative z-10 cursor-pointer select-none"
+                  src={botAvatar} 
+                  alt="Vaulty Astro" 
+                  className="w-full h-full object-cover relative z-10 cursor-pointer select-none"
                   data-testid="image-vaultylogo-longpress"
                   onTouchStart={() => {
-                    longPressTimer.current = setTimeout(() => handleImageLongPress(vaultyLogo), 500);
+                    longPressTimer.current = setTimeout(() => handleImageLongPress(botAvatar), 500);
                   }}
                   onTouchEnd={() => {
                     if (longPressTimer.current) clearTimeout(longPressTimer.current);
                   }}
                   onContextMenu={(e) => {
                     e.preventDefault();
-                    handleImageLongPress(vaultyLogo);
+                    handleImageLongPress(botAvatar);
                   }}
                 />
               </div>
-              <h1 className="text-4xl font-bold tracking-tight mb-8 text-white">VAULTY AI</h1>
+              <h1 className="text-4xl font-bold tracking-tight mb-8 text-white">VAULTY ASTRO</h1>
               
               {/* SUGGESTIONS SECTION */}
               <div className="w-full max-w-md space-y-3">
