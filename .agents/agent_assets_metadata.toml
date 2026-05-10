@@ -12,3 +12,9 @@ id = "qgd1Qyo4oWmlBxU8dTr70"
 uri = "file://client/src/assets/simulated-bot-icon.png"
 type = "image"
 title = "simulated bot vaulty icon"
+
+[[generated]]
+id = "5RGuHSqX0eHug-xZdVbLf"
+uri = "file://client/src/assets/vaulty-logo-v.png"
+type = "image"
+title = "vaulty v modern minimalist logo"
