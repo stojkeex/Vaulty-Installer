@@ -115,21 +115,18 @@ export default function Marketplace() {
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
         <div className="w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/[0.02] pointer-events-auto">
-          <div className="max-w-[1200px] w-full mx-auto px-4 py-4 flex items-center justify-between">
-             <div className="flex items-center gap-4">
-                <button className="md:hidden w-10 h-10 rounded-xl border border-white/5 bg-transparent flex items-center justify-center hover:bg-white/5 transition-colors">
-                  <Menu className="w-5 h-5 text-white/80" />
-                </button>
+          <div className="w-full px-4 md:px-6 py-4 flex items-center justify-between">
+             <div className="flex items-center -ml-2">
                 <img
                     src={vaultyTextLogo}
                     alt="Vaulty"
-                    className="h-6 md:h-7 object-contain ml-1 md:ml-0"
+                    className="h-8 md:h-10 object-contain"
                 />
              </div>
              
              <Link href="/wallet">
-                 <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-[#0a0614] px-4 py-2 cursor-pointer hover:bg-purple-900/20 transition-colors">
-                     <Sparkles className="w-4 h-4 text-white" />
+                 <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl px-4 py-2 cursor-pointer hover:bg-white/10 transition-all shadow-lg">
+                     <Sparkles className="w-4 h-4 text-purple-400" />
                      <span className="text-[13px] font-bold text-white tracking-wide">{userPoints.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} VC</span>
                  </div>
              </Link>
