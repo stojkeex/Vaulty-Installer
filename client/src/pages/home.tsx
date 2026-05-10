@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link, useLocation } from "wouter";
-import { Sparkles, Bot, Settings, Power, ChevronRight, MessageSquare, Menu, X, Compass, Wallet, LogOut, Plus, TrendingUp, Play, Square, Activity, Send, MessageCircle, LineChart, Hexagon, Box } from "lucide-react";
+import { Sparkles, Bot, Settings, Power, ChevronRight, MessageSquare, Menu, X, Compass, Wallet, LogOut, Plus, TrendingUp, Play, Square, Activity, Send, MessageCircle, LineChart, Hexagon, Box, CircleDot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
@@ -61,7 +61,7 @@ const MOCK_BOTS = [
 ];
 
 export default function Home() {
-  const { user, userData, logout } = useAuth();
+  const { user, userData, signOut } = useAuth();
   const [, setLocation] = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -115,7 +115,7 @@ export default function Home() {
               </div>
 
               <div className="p-6 border-t border-white/5">
-                <button onClick={() => logout()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors font-medium">
+                <button onClick={() => signOut()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors font-medium">
                   <LogOut className="w-5 h-5" />
                   Sign Out
                 </button>
