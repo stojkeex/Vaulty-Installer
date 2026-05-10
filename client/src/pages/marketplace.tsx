@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
 import robotImg from "@/assets/astronaut.png";
-import simBotImg from "@/assets/simulated-bot-icon.png";
+import astroPortraitImg from "@/assets/astro-portrait.png";
 import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 
 const CHATBOT_TIERS = [
   {
     id: "free",
-    name: "Simulated Bot",
+    name: "Vaulty Astro",
     subtitle: "SIMULATED",
     description: "Uses simulated pre-programmed responses. Does not consume Vaulty Credits.",
     type: "free",
@@ -19,7 +19,7 @@ const CHATBOT_TIERS = [
     features: ["Pre-programmed responses", "Up to 5 intents", "Basic customization", "Standard support"],
     badge: "FREE",
     theme: "purple",
-    iconImg: simBotImg,
+    iconImg: astroPortraitImg,
     stats: [
         { label: "Usage", value: "0 CREDITS" },
         { label: "Limit", value: "5 INTENTS" },

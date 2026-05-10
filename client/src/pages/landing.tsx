@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { ArrowRight, Facebook, Twitter, Instagram, Linkedin, Mail, ChevronDown, ChevronUp, MessageSquare, Bot, X, Check } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogo from "@/assets/vaulty-logo-v.png";
+import astroPortraitImg from "@/assets/astro-portrait.png";
 import vaultyStoryBg from "@assets/IMG_1135_1775757374085.jpeg";
 import { featuresData } from "@/lib/features-data";
 
@@ -386,7 +387,7 @@ export default function Landing() {
               transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.15),transparent_50%)]" />
-              <img src={vaultyLogo} alt="Vaulty Logo" className="w-48 h-48 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)]" />
+              <img src={astroPortraitImg} alt="Vaulty Astro" className="w-48 h-48 mb-8 drop-shadow-[0_0_30px_rgba(255,255,255,0.2)] object-contain" />
               <h3 className="text-2xl font-bold mb-2 z-10">Vaulty Ecosystem</h3>
               <p className="text-white/50 text-center max-w-sm z-10 font-light">A seamless blend of AI, social networking, and demo trading capabilities.</p>
             </motion.div>
@@ -417,11 +418,11 @@ export default function Landing() {
           >
             {/* Header */}
             <div className="flex items-center gap-4 p-6 border-b border-white/5 bg-white/[0.02]">
-              <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center">
-                <Bot className="w-5 h-5 text-indigo-400" />
+              <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center overflow-hidden">
+                <img src={astroPortraitImg} alt="Vaulty Astro" className="w-full h-full object-cover" />
               </div>
               <div>
-                <h3 className="font-semibold text-white">Vaulty AI</h3>
+                <h3 className="font-semibold text-white">Vaulty Astro</h3>
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                   <span className="text-xs text-white/50">Online</span>
@@ -451,8 +452,8 @@ export default function Landing() {
                     animate={{ opacity: 1, x: 0 }}
                     className="self-start max-w-[85%] flex gap-3"
                   >
-                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-1">
-                      <Bot className="w-4 h-4 text-indigo-400" />
+                    <div className="w-8 h-8 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 mt-1 overflow-hidden">
+                      <img src={astroPortraitImg} alt="Vaulty Astro" className="w-full h-full object-cover" />
                     </div>
                     <div className="bg-[#1a1a24] border border-white/5 text-white/90 px-5 py-4 rounded-2xl rounded-tl-sm leading-relaxed text-sm">
                       {chatResponse}
@@ -711,7 +712,7 @@ export default function Landing() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Common Questions.</h2>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Answers From Vaulty Astro.</h2>
             <p className="text-xl text-white/50 font-light">Everything you need to know about Vaulty.</p>
           </motion.div>
 
