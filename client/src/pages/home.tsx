@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link, useLocation } from "wouter";
-import { Sparkles, Bot, Settings, Power, CircleDot, History, MessagesSquare, AlertCircle, ChevronRight, MessageSquare } from "lucide-react";
+import { Sparkles, Bot, Settings, Power, CircleDot, History, MessagesSquare, AlertCircle, ChevronRight, MessageSquare, Menu, X, Compass, Wallet, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "framer-motion";
+import vaultyLogoImage from "@assets/1934AF6F-6D3D-49A5-A43E-F71984228AEC_1776900057983.png";
 
 const MOCK_BOTS = [
   {
@@ -35,8 +37,9 @@ const RECENT_MESSAGES = [
 ];
 
 export default function Home() {
-  const { user, userData } = useAuth();
+  const { user, userData, logout } = useAuth();
   const [, setLocation] = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   if (!user) return <div className="min-h-screen bg-black" />;
 
@@ -44,21 +47,74 @@ export default function Home() {
 
   return (
     <div className="min-h-screen pb-32 bg-black text-white selection:bg-gray-500/30 animate-in fade-in">
+      {/* Sidebar Overlay */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[60]"
+              onClick={() => setSidebarOpen(false)}
+            />
+            <motion.div
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed top-0 left-0 bottom-0 w-[280px] bg-[#0a0a0f] border-r border-white/10 z-[70] flex flex-col"
+            >
+              <div className="p-6 border-b border-white/5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img src={vaultyLogoImage} alt="Vaulty" className="w-8 h-8 object-contain" />
+                  <span className="font-bold tracking-widest uppercase text-sm">Vaulty</span>
+                </div>
+                <button onClick={() => setSidebarOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 transition-colors">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+                <button onClick={() => { setLocation('/home'); setSidebarOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-white/10 text-white font-medium">
+                  <Bot className="w-5 h-5 text-indigo-400" />
+                  Dashboard
+                </button>
+                <button onClick={() => { setLocation('/marketplace'); setSidebarOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-white/70 hover:text-white transition-colors font-medium">
+                  <Compass className="w-5 h-5" />
+                  Store
+                </button>
+                <button onClick={() => { setLocation('/wallet'); setSidebarOpen(false); }} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-white/5 text-white/70 hover:text-white transition-colors font-medium">
+                  <Wallet className="w-5 h-5" />
+                  Wallet
+                </button>
+              </div>
+
+              <div className="p-6 border-t border-white/5">
+                <button onClick={() => logout()} className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-500/10 text-red-400 hover:text-red-300 transition-colors font-medium">
+                  <LogOut className="w-5 h-5" />
+                  Sign Out
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
       {/* Header */}
       <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
         <div className="w-full bg-black/60 backdrop-blur-xl border-b border-white/[0.05] pointer-events-auto">
           <div className="max-w-md md:max-w-2xl lg:max-w-4xl xl:max-w-5xl mx-auto p-4 flex items-center justify-between">
-             <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full border border-white/20 overflow-hidden shadow-2xl">
+             <div className="flex items-center gap-4">
+                <button onClick={() => setSidebarOpen(true)} className="w-10 h-10 rounded-full border border-white/10 bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
+                  <Menu className="w-5 h-5" />
+                </button>
+                <div className="w-10 h-10 rounded-full border border-white/20 overflow-hidden shadow-2xl flex items-center justify-center bg-black/50">
                     <img
-                        src={user.photoURL || "https://github.com/shadcn.png"}
-                        alt="Profile"
-                        className="w-full h-full object-cover"
+                        src={vaultyLogoImage}
+                        alt="Logo"
+                        className="w-6 h-6 object-contain"
                     />
-                </div>
-                <div>
-                    <h2 className="text-sm font-bold tracking-tight">Dashboard</h2>
-                    <p className="text-xs text-white/50">@{userData?.username || "user"}</p>
                 </div>
              </div>
              
