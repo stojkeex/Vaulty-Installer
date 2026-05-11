@@ -1,13 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "wouter";
-import { ArrowLeft, Monitor, Smartphone, Tablet, ExternalLink, Bot, Check, Shield, Code, Download, Zap, MessageSquare, BrainCircuit } from "lucide-react";
+import { ArrowLeft, Monitor, Smartphone, Tablet, ExternalLink, Bot, Check, Shield, Code, Zap, MessageSquare, BrainCircuit, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
-import robotImg from "@/assets/astronaut.png";
 import astroPortraitImg from "@/assets/astro-portrait.png";
 
-// Shared data, should ideally be in a shared file but keeping here for simplicity
+// Shared data
 export const CHATBOT_TIERS = [
   {
     id: "free-demo",
@@ -67,6 +66,24 @@ export default function BotDetail() {
   const [previewDevice, setPreviewDevice] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
   const [showFullPreview, setShowFullPreview] = useState(false);
 
+  // Chat Preview State
+  const [activeTab, setActiveTab] = useState<'chat' | 'faq'>('chat');
+  const [inputValue, setInputValue] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [messages, setMessages] = useState([
+    { id: 1, text: "Hi there! I'm your AI assistant. How can I help you today?", isBot: true }
+  ]);
+
+  // Reset chat when switching bots or closing preview
+  useEffect(() => {
+    if (!showFullPreview) {
+      setMessages([{ id: 1, text: "Hi there! I'm your AI assistant. How can I help you today?", isBot: true }]);
+      setInputValue('');
+      setIsTyping(false);
+      setActiveTab('chat');
+    }
+  }, [showFullPreview]);
+
   if (!bot) {
     return <div className="p-8 text-white">Bot not found</div>;
   }
@@ -86,9 +103,37 @@ export default function BotDetail() {
     }
   };
 
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputValue.trim()) return;
+
+    const newUserMsg = { id: Date.now(), text: inputValue, isBot: false };
+    setMessages(prev => [...prev, newUserMsg]);
+    setInputValue('');
+    setIsTyping(true);
+
+    setTimeout(() => {
+      setIsTyping(false);
+      
+      let replyText = "I'm a simulated demo bot, so I don't connect to a real AI engine right now! In production, I'd give you a perfect answer.";
+      
+      if (bot.id === 'premium') {
+          replyText = "With the Premium AI Engine, I can remember context, type like a human, and provide highly accurate answers based on your custom knowledge base.";
+      } else if (bot.id === 'starter') {
+          replyText = "Starter AI response: Thank you for your message. I can assist with general inquiries and support routing.";
+      }
+
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
+        text: replyText,
+        isBot: true
+      }]);
+    }, 1500 + Math.random() * 1000); // Random typing delay
+  };
+
   if (showFullPreview) {
     return (
-      <div className="fixed inset-0 z-[100] bg-zinc-900 flex flex-col">
+      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col font-sans">
         {/* Preview Header */}
         <div className="h-14 bg-zinc-950 border-b border-white/10 flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-4">
@@ -123,107 +168,227 @@ export default function BotDetail() {
         </div>
 
         {/* Preview Canvas */}
-        <div className="flex-1 bg-zinc-800/50 p-4 md:p-8 flex items-center justify-center overflow-hidden">
+        <div className="flex-1 bg-zinc-900/50 p-4 md:p-8 flex items-center justify-center overflow-hidden">
           <div 
-            className={`bg-white rounded-xl shadow-2xl relative overflow-hidden transition-all duration-300 ${
-              previewDevice === 'mobile' ? 'w-[375px] h-[812px]' : 
-              previewDevice === 'tablet' ? 'w-[768px] h-[1024px]' : 
-              'w-full max-w-[1200px] h-full'
+            className={`bg-white shadow-2xl relative overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+              previewDevice === 'mobile' ? 'w-[375px] h-[812px] border-[8px] border-zinc-800 rounded-[40px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
+              previewDevice === 'tablet' ? 'w-[768px] h-[1024px] border-[8px] border-zinc-800 rounded-[32px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
+              'w-full max-w-[1400px] h-full rounded-xl border border-white/10'
             }`}
           >
-            {/* Fake Website Content */}
-            <div className="w-full h-full bg-slate-50 flex flex-col">
-              <header className="h-16 bg-white border-b flex items-center px-6">
-                <div className="w-32 h-6 bg-slate-200 rounded"></div>
-                <div className="ml-auto flex gap-4">
-                  <div className="w-16 h-4 bg-slate-200 rounded"></div>
-                  <div className="w-16 h-4 bg-slate-200 rounded"></div>
-                  <div className="w-16 h-4 bg-slate-200 rounded"></div>
+            {/* Professional Mock Website */}
+            <div className="w-full h-full bg-[#f8fafc] flex flex-col overflow-y-auto">
+              {/* Mock Header */}
+              <header className="h-16 bg-white border-b flex items-center px-6 sticky top-0 z-10 shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-purple-600 rounded flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="font-bold text-slate-800 text-lg tracking-tight">Vaulty Official</span>
                 </div>
+                <div className="ml-auto hidden md:flex gap-8">
+                  <span className="text-sm font-semibold text-slate-600 hover:text-slate-900 cursor-pointer">Products</span>
+                  <span className="text-sm font-semibold text-slate-600 hover:text-slate-900 cursor-pointer">Solutions</span>
+                  <span className="text-sm font-semibold text-slate-600 hover:text-slate-900 cursor-pointer">Pricing</span>
+                </div>
+                {previewDevice !== 'desktop' && (
+                  <div className="ml-auto w-6 h-4 flex flex-col justify-between">
+                     <div className="w-full h-0.5 bg-slate-400 rounded"></div>
+                     <div className="w-full h-0.5 bg-slate-400 rounded"></div>
+                     <div className="w-full h-0.5 bg-slate-400 rounded"></div>
+                  </div>
+                )}
               </header>
-              <main className="p-8 md:p-12 flex-1 overflow-y-auto">
-                <div className="w-3/4 h-12 bg-slate-200 rounded mb-6"></div>
-                <div className="w-1/2 h-6 bg-slate-200 rounded mb-4"></div>
-                <div className="w-full h-64 bg-slate-200 rounded-xl"></div>
-              </main>
+              
+              {/* Mock Hero Section */}
+              <div className="bg-white py-16 md:py-24 px-6 text-center border-b">
+                <div className="inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold mb-6 border border-blue-100">NEW: AI Platform 2.0</div>
+                <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight max-w-3xl mx-auto">Welcome to the Future of Finance & AI</h1>
+                <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">Experience seamless transactions, AI-driven insights, and unparalleled security with Vaulty's next-generation platform for creators and businesses.</p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <button className="bg-slate-900 hover:bg-slate-800 transition-colors text-white rounded-full px-8 py-3.5 font-bold shadow-lg">Get Started Free</button>
+                  <button className="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 transition-colors rounded-full px-8 py-3.5 font-bold">Explore Features</button>
+                </div>
+              </div>
+
+              {/* Mock Content Grid */}
+              <div className="p-6 md:p-12 max-w-6xl mx-auto w-full grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 pb-32">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                  <div key={i} className="bg-white p-6 md:p-8 rounded-2xl shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-slate-100 hover:shadow-lg transition-shadow cursor-pointer">
+                    <div className="w-12 h-12 bg-slate-100 rounded-xl mb-6"></div>
+                    <div className="w-3/4 h-5 bg-slate-800 rounded mb-4"></div>
+                    <div className="w-full h-2.5 bg-slate-200 rounded mb-3"></div>
+                    <div className="w-full h-2.5 bg-slate-200 rounded mb-3"></div>
+                    <div className="w-5/6 h-2.5 bg-slate-200 rounded"></div>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Chatbot Representation */}
             {bot.id === 'premium' ? (
               // Premium Full Screen Preview
-              <div className="absolute inset-4 md:inset-8 bg-white shadow-[0_0_50px_rgba(0,0,0,0.1)] rounded-2xl border border-zinc-200 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500">
-                <div className="h-16 border-b flex items-center justify-between px-6 bg-blue-50/50">
-                   <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                        <Bot className="w-5 h-5 text-blue-600" />
+              <div className="absolute inset-4 md:inset-8 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-2xl border border-slate-200 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500 z-50">
+                <div className="h-16 md:h-20 border-b flex items-center justify-between px-4 md:px-8 bg-gradient-to-r from-blue-600 to-indigo-700 shrink-0">
+                   <div className="flex items-center gap-3 md:gap-4">
+                     <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shadow-inner">
+                        <Bot className="w-5 h-5 md:w-6 md:h-6 text-white" />
                      </div>
                      <div>
-                       <h4 className="font-bold text-slate-800">AI Assistant</h4>
-                       <p className="text-[10px] text-blue-600 font-medium">Online</p>
+                       <h4 className="font-bold text-white text-base md:text-lg leading-tight">Vaulty AI Assistant</h4>
+                       <div className="flex items-center gap-1.5 mt-0.5">
+                         <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.5)]"></span>
+                         <p className="text-[11px] md:text-xs text-blue-100 font-medium">Online & Ready</p>
+                       </div>
                      </div>
                    </div>
-                   <div className="flex gap-4">
-                     <span className="text-sm font-medium text-slate-500 border-b-2 border-blue-600 pb-1">Chat</span>
-                     <span className="text-sm font-medium text-slate-400">FAQ</span>
+                   <div className="flex gap-1 bg-black/20 p-1 md:p-1.5 rounded-xl backdrop-blur-sm">
+                     <button 
+                       onClick={() => setActiveTab('chat')}
+                       className={`px-3 py-1.5 md:px-5 md:py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'chat' ? 'bg-white text-blue-700 shadow-sm' : 'text-white/70 hover:text-white'}`}
+                     >
+                       Chat
+                     </button>
+                     <button 
+                       onClick={() => setActiveTab('faq')}
+                       className={`px-3 py-1.5 md:px-5 md:py-2 rounded-lg text-xs md:text-sm font-bold transition-all ${activeTab === 'faq' ? 'bg-white text-blue-700 shadow-sm' : 'text-white/70 hover:text-white'}`}
+                     >
+                       FAQ
+                     </button>
                    </div>
                 </div>
-                <div className="flex-1 p-6 bg-slate-50 flex flex-col gap-4 overflow-y-auto">
-                   <div className="bg-blue-600 text-white p-3 rounded-2xl rounded-tl-sm self-start max-w-[80%] shadow-sm">
-                      Hi there! I'm your premium AI assistant. How can I help you today?
-                   </div>
-                   <div className="bg-white border text-slate-700 p-3 rounded-2xl rounded-tr-sm self-end max-w-[80%] shadow-sm">
-                      Can you show me the typing animation?
-                   </div>
-                   <div className="flex gap-1 items-center bg-white border p-3 rounded-2xl rounded-tl-sm self-start shadow-sm text-slate-400">
-                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce"></span>
-                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce delay-75"></span>
-                      <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce delay-150"></span>
-                   </div>
-                </div>
-                <div className="p-4 bg-white border-t">
-                  <div className="h-12 bg-slate-100 rounded-full flex items-center px-4">
-                    <span className="text-slate-400 text-sm">Type a message...</span>
+                
+                {activeTab === 'chat' ? (
+                  <>
+                    <div className="flex-1 p-4 md:p-8 bg-slate-50 flex flex-col gap-4 overflow-y-auto">
+                       {messages.map(msg => (
+                         <div key={msg.id} className={`max-w-[85%] md:max-w-[75%] p-3.5 md:p-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed ${msg.isBot ? 'bg-white border text-slate-700 rounded-tl-sm self-start' : 'bg-blue-600 text-white rounded-tr-sm self-end'}`}>
+                            {msg.text}
+                         </div>
+                       ))}
+                       {isTyping && (
+                         <div className="flex gap-1.5 items-center bg-white border p-4 md:p-5 rounded-2xl rounded-tl-sm self-start shadow-sm text-slate-400">
+                            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-400 animate-bounce"></span>
+                            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-400 animate-bounce delay-75"></span>
+                            <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-400 animate-bounce delay-150"></span>
+                         </div>
+                       )}
+                    </div>
+                    <div className="p-4 md:p-6 bg-white border-t shrink-0">
+                      <form onSubmit={handleSendMessage} className="relative flex items-center max-w-4xl mx-auto">
+                        <input 
+                          type="text" 
+                          value={inputValue}
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder="Type a message..."
+                          className="w-full h-12 md:h-14 bg-slate-100 rounded-full pl-6 pr-14 text-sm md:text-base text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border border-transparent focus:border-blue-200 focus:bg-white"
+                        />
+                        <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:bg-blue-700 shadow-md">
+                          <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        </button>
+                      </form>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex-1 bg-slate-50 p-6 md:p-10 overflow-y-auto">
+                    <div className="max-w-3xl mx-auto">
+                        <h3 className="font-black text-slate-800 mb-6 text-xl md:text-2xl">Frequently Asked Questions</h3>
+                        <div className="space-y-4">
+                        {[
+                            { q: "What are Vaulty Credits used for?", a: "Vaulty Credits are used to power our premium AI engine. Each AI response consumes a small amount of credits based on the complexity of the query." },
+                            { q: "Can I customize the chatbot's appearance?", a: "Yes! You can change colors, icons, welcome messages, and placement from the Bot Settings dashboard to match your brand." },
+                            { q: "How do I install this on my website?", a: "If you're renting, just copy the embed script from your dashboard and paste it before the closing </body> tag of your site." },
+                            { q: "Is the source code included?", a: "If you purchase the lifetime license, you will receive the full source code allowing you to host the bot on your own servers and modify it freely." }
+                        ].map((faq, i) => (
+                            <div key={i} className="bg-white border rounded-xl p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                            <h4 className="font-bold text-slate-800 text-sm md:text-base mb-2">{faq.q}</h4>
+                            <p className="text-slate-500 text-sm leading-relaxed">{faq.a}</p>
+                            </div>
+                        ))}
+                        </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             ) : bot.id === 'starter' ? (
               // Starter 1/4 screen preview
               <>
-                <div className="absolute bottom-6 right-6 w-[350px] h-[500px] bg-white shadow-2xl rounded-2xl border border-zinc-200 overflow-hidden flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100vh-100px)]">
-                  <div className="h-14 bg-green-500 flex items-center px-4">
-                     <h4 className="font-bold text-white">Chat with us</h4>
-                  </div>
-                  <div className="flex-1 p-4 bg-slate-50">
-                     <div className="bg-white border text-slate-700 p-3 rounded-xl rounded-tl-sm self-start text-sm shadow-sm">
-                        Hello! Let me know if you have any questions.
+                <div className="absolute bottom-6 right-6 w-[350px] md:w-[400px] h-[500px] md:h-[600px] bg-white shadow-2xl rounded-2xl border border-zinc-200 overflow-hidden flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100vh-100px)] z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
+                  <div className="h-16 bg-gradient-to-r from-green-500 to-emerald-600 flex items-center px-5 shrink-0 shadow-sm z-10">
+                     <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm">
+                        <MessageSquare className="w-4 h-4 text-white" />
                      </div>
+                     <h4 className="font-bold text-white text-base">Chat with us</h4>
                   </div>
-                  <div className="p-3 border-t bg-white">
-                    <div className="h-10 border rounded-lg flex items-center px-3">
-                      <span className="text-slate-400 text-sm">Message...</span>
-                    </div>
+                  <div className="flex-1 p-5 bg-slate-50 overflow-y-auto flex flex-col gap-4">
+                     {messages.map(msg => (
+                         <div key={msg.id} className={`max-w-[85%] p-3.5 rounded-xl text-sm shadow-sm leading-relaxed ${msg.isBot ? 'bg-white border text-slate-700 rounded-tl-sm self-start' : 'bg-green-600 text-white rounded-tr-sm self-end'}`}>
+                            {msg.text}
+                         </div>
+                     ))}
+                     {isTyping && (
+                         <div className="flex gap-1.5 items-center bg-white border p-4 rounded-xl rounded-tl-sm self-start shadow-sm text-slate-400">
+                            <span className="w-2 h-2 rounded-full bg-green-400 animate-bounce"></span>
+                            <span className="w-2 h-2 rounded-full bg-green-400 animate-bounce delay-75"></span>
+                            <span className="w-2 h-2 rounded-full bg-green-400 animate-bounce delay-150"></span>
+                         </div>
+                     )}
+                  </div>
+                  <div className="p-4 border-t bg-white shrink-0">
+                    <form onSubmit={handleSendMessage} className="relative flex items-center">
+                      <input 
+                        type="text" 
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        placeholder="Type a message..."
+                        className="w-full h-11 bg-slate-100 rounded-lg pl-4 pr-12 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-green-500/50 transition-all border border-transparent focus:border-green-200 focus:bg-white"
+                      />
+                      <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 w-8 h-8 bg-green-600 hover:bg-green-700 transition-colors rounded-md flex items-center justify-center disabled:opacity-50 shadow-sm">
+                        <ArrowRight className="w-4 h-4 text-white" />
+                      </button>
+                    </form>
                   </div>
                 </div>
-                <div className="absolute bottom-6 right-[380px] w-14 h-14 bg-green-500 rounded-full shadow-lg hidden md:flex items-center justify-center cursor-pointer">
-                  <MessageSquare className="w-6 h-6 text-white" />
+                {/* Floating Action Button */}
+                <div className="absolute bottom-6 right-[380px] md:right-[430px] w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-full shadow-xl hidden sm:flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+                  <MessageSquare className="w-6 h-6 md:w-7 md:h-7 text-white" />
                 </div>
               </>
             ) : (
               // Demo Free preview
               <>
-                <div className="absolute bottom-6 right-6 w-[300px] h-[400px] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col">
-                  <div className="h-12 bg-purple-600 flex items-center px-4">
+                <div className="absolute bottom-6 right-6 w-[300px] md:w-[320px] h-[400px] md:h-[450px] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in">
+                  <div className="h-12 bg-purple-600 flex items-center px-4 shrink-0 shadow-sm z-10">
+                     <Bot className="w-4 h-4 text-white/80 mr-2" />
                      <h4 className="font-bold text-white text-sm">Demo Bot</h4>
                   </div>
-                  <div className="flex-1 p-4 bg-slate-50">
-                     <div className="bg-purple-100 text-purple-900 p-2.5 rounded-lg rounded-tl-sm self-start text-xs">
-                        I am a simulated demo bot. I only know ~20 responses!
-                     </div>
+                  <div className="flex-1 p-4 bg-slate-50 overflow-y-auto flex flex-col gap-3">
+                     {messages.map(msg => (
+                         <div key={msg.id} className={`max-w-[90%] p-3 rounded-lg text-xs shadow-sm leading-relaxed ${msg.isBot ? 'bg-purple-50 border border-purple-100 text-purple-900 rounded-tl-sm self-start' : 'bg-purple-600 text-white rounded-tr-sm self-end'}`}>
+                            {msg.text}
+                         </div>
+                     ))}
+                     {isTyping && (
+                         <div className="flex gap-1.5 items-center bg-white border p-3 rounded-lg rounded-tl-sm self-start shadow-sm">
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce delay-75"></span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce delay-150"></span>
+                         </div>
+                     )}
                   </div>
-                  <div className="p-3 border-t bg-white">
-                    <div className="h-8 border rounded flex items-center px-2">
-                      <span className="text-slate-400 text-xs">Reply...</span>
-                    </div>
+                  <div className="p-3 border-t bg-white shrink-0">
+                    <form onSubmit={handleSendMessage} className="flex gap-2">
+                      <input 
+                        type="text" 
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        placeholder="Reply..."
+                        className="flex-1 h-9 bg-slate-100 border-transparent focus:bg-white rounded px-3 text-xs text-slate-700 outline-none focus:border-purple-400 border transition-all"
+                      />
+                      <button type="submit" disabled={!inputValue.trim()} className="h-9 px-4 bg-purple-600 hover:bg-purple-700 transition-colors text-white rounded text-xs font-bold disabled:opacity-50">
+                        Send
+                      </button>
+                    </form>
                   </div>
                 </div>
               </>
@@ -307,14 +472,16 @@ export default function BotDetail() {
                   </div>
                 </div>
                 
-                <div className="aspect-video bg-black/50 rounded-xl border border-white/10 mb-4 overflow-hidden relative">
+                <div className="aspect-video bg-black/50 rounded-xl border border-white/10 mb-4 overflow-hidden relative cursor-pointer group-hover:border-purple-500/50 transition-colors" onClick={() => setShowFullPreview(true)}>
                    {/* Mini placeholder preview */}
-                   <div className="absolute inset-0 p-4 flex flex-col opacity-50">
-                     <div className="w-full h-4 bg-white/10 rounded mb-4"></div>
-                     <div className="w-2/3 h-4 bg-white/10 rounded mb-4"></div>
-                     <div className="w-full flex-1 bg-white/5 rounded"></div>
+                   <div className="absolute inset-0 bg-slate-900">
+                     <div className="w-full h-8 bg-slate-800 border-b border-white/5"></div>
+                     <div className="p-4 opacity-30">
+                       <div className="w-3/4 h-3 bg-slate-700 rounded mb-2"></div>
+                       <div className="w-1/2 h-3 bg-slate-700 rounded"></div>
+                     </div>
                    </div>
-                   <div className="absolute bottom-4 right-4 bg-purple-500 w-8 h-8 rounded-full flex items-center justify-center shadow-lg">
+                   <div className={`absolute bottom-3 right-3 bg-${bot.theme}-500 w-8 h-8 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform`}>
                       <MessageSquare className="w-4 h-4 text-white" />
                    </div>
                 </div>
