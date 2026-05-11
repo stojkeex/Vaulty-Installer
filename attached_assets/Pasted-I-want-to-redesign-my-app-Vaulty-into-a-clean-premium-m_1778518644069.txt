@@ -1,0 +1,174 @@
+I want to redesign my app “Vaulty” into a clean, premium, modern AI SaaS platform.
+
+IMPORTANT STYLE:
+Do NOT make it futuristic, cyberpunk, neon, gaming, sci-fi, or overdesigned.
+Make it clean like Revolut / Linear / Apple / Stripe.
+Use black background, dark matte cards, subtle glass effect, white text, soft gray borders, smooth shadows, lots of spacing, clean icons, premium typography.
+No purple neon overload. No flashy gradients. No heavy glow.
+Use only subtle accent colors: white, gray, soft blue, soft green for online status.
+
+APP CONCEPT:
+Vaulty is a SaaS platform where businesses can create, rent, buy, manage and embed AI chatbots / AI agents into their websites or apps.
+Users have Vaulty Credits (VC), agents, analytics, message history, wallet, billing, and an official assistant called Vaulty Astro Agent.
+
+MAIN GOAL:
+Simplify the entire UI and make it feel like a real premium business tool, not a gaming app.
+
+NAVIGATION:
+Mobile app should use a floating bottom bar.
+Tabs:
+- Store
+- Home
+- Astro
+- Wallet
+- Profile
+
+No sidebar on mobile.
+
+HOME PAGE:
+Create a clean dashboard screen with:
+Top header:
+- VAULTY wordmark on left
+- Vaulty Credits pill on right: “543,474.47 VC”
+- optional notification icon
+
+Hero card:
+- Text: “Your AI agents. Your business. Simplified.”
+- Subtitle: “Manage, monitor and grow your AI assistants in one place.”
+- Button: “Add New Agent”
+- Use Vaulty Astro image/placeholder on the right, but subtle and clean, not colorful or futuristic.
+
+Stats card:
+- Total Messages: 1,290
+- Credits Left: 543,474
+- Active Bots: 2 / 3
+- Use small simple line charts, very minimal.
+
+Agents section:
+List:
+- Customer Support Pro — Online — 1,240 messages
+- Sales Assistant — Online — 896 messages
+- FAQ Bot — Offline — 354 messages
+- Add New Agent
+Each list item should be clean, rounded, dark, with subtle borders.
+
+Quick action cards:
+- Analytics
+- Integrations
+- Security
+- Billing
+
+ASTRO CHAT PAGE:
+Make this page like ChatGPT style.
+No bottom bar on chat screen.
+No big dashboard hero.
+Clean chat interface only.
+
+Header:
+- back button
+- small Astro avatar
+- “Vaulty Astro”
+- status: Online
+- small menu/history icon
+
+Center empty state:
+- large text: “How can I help you today?”
+- subtitle: “Ask Vaulty Astro anything about your agents, credits or business.”
+- suggestion chips:
+  - Analyze my agents
+  - Check my credits
+  - Create new agent
+  - View recent activity
+  - How does Vaulty work?
+
+Chat messages:
+- User bubbles aligned right
+- Astro bubbles aligned left
+- Clean dark bubbles, subtle border
+- Include one example analytics response card inside chat.
+
+Input:
+Fixed at bottom:
+- rounded message input
+- placeholder: “Message Vaulty Astro…”
+- attachment icon
+- send button
+- clean iOS-like style.
+
+STORE / MARKETPLACE:
+Clean marketplace page:
+- title: “AI Agents”
+- tabs: All / Rent / Buy
+- search bar
+- filters
+- cards for agents:
+  1. Simulated Bot — Free
+  2. Customer Support AI — 20 VC/month
+  3. Lead Generation Pro — 49 VC/month
+Cards should be clean and business-like, not neon.
+Each card includes:
+- description
+- features
+- price
+- Preview button
+- Add/Rent button
+
+WALLET:
+Clean wallet page:
+- VC balance
+- top up button
+- pricing packages:
+  - 100 VC — $9.99
+  - 500 VC — $39.99
+  - 1000 VC — $69.99
+- transaction history
+- invoices
+- usage by agent
+
+PROFILE:
+Clean profile/settings page:
+- user profile card
+- plan status
+- credits
+- joined date
+- agents count
+- settings list:
+  - Account Settings
+  - Billing & Subscription
+  - Usage & Limits
+  - Security
+  - API & Integrations
+  - Notifications
+  - Log Out
+
+DESIGN RULES:
+- Keep everything mobile-first.
+- Use responsive layout.
+- Rounded corners: 24px to 32px.
+- Background: #050505 or near black.
+- Cards: #111111 / #151515 with subtle border #242424.
+- Text: white and gray.
+- Use subtle blue accent only when needed.
+- Do not use too much purple.
+- Make spacing premium and breathable.
+- Make it feel like a real App Store quality SaaS product.
+
+FUNCTIONALITY:
+Use mock data for now.
+Buttons can be non-functional but should look clickable.
+Use reusable components:
+- Card
+- StatCard
+- AgentRow
+- BottomNav
+- Header
+- ChatBubble
+- SuggestionChip
+- WalletBalance
+- MarketplaceCard
+
+FINAL RESULT:
+Redesign the existing Vaulty app into this clean premium style.
+Remove old finance app elements.
+Remove rank system, 3D cards, fake gaming features, unnecessary clutter.
+Focus on AI agents, chatbots, credits, dashboard, wallet and Astro assistant.

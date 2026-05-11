@@ -5,7 +5,6 @@ import {
   ArrowUpRight, 
   ArrowDownLeft, 
   RefreshCw, 
-  History, 
   Wallet, 
   CreditCard,
   ChevronRight,
@@ -14,13 +13,11 @@ import {
   Loader2,
   Smartphone,
   Delete,
-  Bot
+  Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import creditsIcon from "@/assets/vaulty-logo-v.png";
-import { cn, formatPoints } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/auth-context";
 import { doc, collection, query, orderBy, limit, getDocs, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
@@ -28,10 +25,9 @@ import { Input } from "@/components/ui/input";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const PACKAGES = [
-  { credits: 1000, price: 9.99, label: "Starter" },
-  { credits: 5000, price: 39.99, label: "Pro" },
-  { credits: 15000, price: 99.99, label: "Ultra" },
-  { credits: 50000, price: 299.99, label: "Max" },
+  { credits: 100, price: 9.99, label: "Starter" },
+  { credits: 500, price: 39.99, label: "Pro" },
+  { credits: 1000, price: 69.99, label: "Ultra" },
 ];
 
 export default function WalletPage() {
@@ -140,8 +136,12 @@ export default function WalletPage() {
           if (!snapshot.empty) {
             setTransactions(snapshot.docs.map(d => ({ id: d.id, ...d.data() })));
           } else {
-             // If no real transactions, we keep empty or use a placeholder message
-             setTransactions([]); 
+             // If no real transactions, we mock for clean style view
+             setTransactions([
+                { id: "1", type: "deposit", title: "Vaulty Credits Add", timestamp: { seconds: Date.now()/1000 - 86400 }, amount: 500 },
+                { id: "2", type: "purchase", title: "Customer Support Pro", timestamp: { seconds: Date.now()/1000 - 86400*3 }, amount: -20 },
+                { id: "3", type: "purchase", title: "Sales Assistant", timestamp: { seconds: Date.now()/1000 - 86400*7 }, amount: -49 },
+             ]); 
           }
         } catch (e) {
           console.error("Error fetching transactions", e);
@@ -158,7 +158,7 @@ export default function WalletPage() {
   const handleAction = () => {
     toast({
       title: "Coming Soon!",
-      description: "Future Coming Soon... Is under construction!",
+      description: "Feature is under construction.",
     });
   };
 
@@ -175,40 +175,40 @@ export default function WalletPage() {
   // SETUP MODE
   if (showSetup) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 selection:bg-white/20">
         <div className="w-full max-w-sm space-y-8">
             <div className="text-center space-y-2">
-                <div className="w-16 h-16 bg-gray-500/20 rounded-full flex items-center justify-center mx-auto text-gray-400 mb-4">
+                <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mx-auto text-white/70 mb-4 border border-white/5">
                     <Lock className="w-8 h-8" />
                 </div>
-                <h1 className="text-2xl font-bold">Set up Wallet PIN</h1>
-                <p className="text-gray-400">Create a 4-digit PIN to secure your assets.</p>
+                <h1 className="text-2xl font-semibold tracking-tight">Set up Wallet PIN</h1>
+                <p className="text-[15px] text-white/50">Create a 4-digit PIN to secure your assets.</p>
             </div>
 
             <div className="space-y-4">
                 <div className="space-y-2">
-                    <label className="text-xs text-gray-500 uppercase font-bold ml-1">Create PIN</label>
+                    <label className="text-[11px] text-white/50 uppercase font-semibold ml-1 tracking-wider">Create PIN</label>
                     <Input 
                         type="password" 
                         maxLength={4}
                         value={setupPin}
                         onChange={(e) => setSetupPin(e.target.value.replace(/[^0-9]/g, ''))}
-                        className="bg-white/5 border-white/10 text-center text-2xl tracking-[1em] h-14"
+                        className="bg-[#0a0a0a] border-white/5 text-center text-2xl tracking-[1em] h-14 rounded-xl"
                         placeholder="••••"
                     />
                 </div>
                 <div className="space-y-2">
-                    <label className="text-xs text-gray-500 uppercase font-bold ml-1">Confirm PIN</label>
+                    <label className="text-[11px] text-white/50 uppercase font-semibold ml-1 tracking-wider">Confirm PIN</label>
                     <Input 
                         type="password" 
                         maxLength={4}
                         value={setupConfirm}
                         onChange={(e) => setSetupConfirm(e.target.value.replace(/[^0-9]/g, ''))}
-                        className="bg-white/5 border-white/10 text-center text-2xl tracking-[1em] h-14"
+                        className="bg-[#0a0a0a] border-white/5 text-center text-2xl tracking-[1em] h-14 rounded-xl"
                         placeholder="••••"
                     />
                 </div>
-                <Button onClick={handleSetupSubmit} className="w-full h-12 text-lg font-bold bg-gray-600 hover:bg-gray-700">
+                <Button onClick={handleSetupSubmit} className="w-full h-12 text-[15px] font-semibold bg-white text-black hover:bg-gray-200 rounded-xl">
                     Set PIN
                 </Button>
             </div>
@@ -220,13 +220,9 @@ export default function WalletPage() {
   // LOCKED MODE
   if (!isUnlocked) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden">
-         {/* Background Elements */}
-         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-purple-500/10 to-black z-0 pointer-events-none" />
-         <div className="absolute top-[-20%] right-[-20%] w-[500px] h-[500px] bg-gray-500/10 rounded-full blur-[100px] pointer-events-none" />
-
+      <div className="min-h-screen bg-black text-white flex flex-col relative overflow-hidden selection:bg-white/20">
          <Link href="/home">
-            <Button variant="ghost" size="icon" className="absolute top-6 left-6 text-gray-400 hover:text-white z-20">
+            <Button variant="ghost" size="icon" className="absolute top-6 left-6 text-white/50 hover:text-white hover:bg-white/5 z-20">
               <ArrowLeft className="w-6 h-6" />
             </Button>
          </Link>
@@ -234,43 +230,43 @@ export default function WalletPage() {
          {isAuthenticating ? (
              <div className="flex-1 flex flex-col items-center justify-center gap-6 animate-in fade-in zoom-in z-10">
                  <div className="relative">
-                    <div className="w-24 h-24 rounded-full border-4 border-gray-500/30 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                        <Smartphone className="w-12 h-12 text-gray-400" />
+                    <div className="w-24 h-24 rounded-[32px] border border-white/10 flex items-center justify-center bg-[#0a0a0a]">
+                        <Smartphone className="w-10 h-10 text-white/70" />
                     </div>
-                    <div className="absolute inset-0 border-4 border-gray-500 border-t-transparent rounded-full animate-spin" />
+                    <div className="absolute inset-0 border-2 border-white/20 border-t-white rounded-[32px] animate-spin" />
                  </div>
-                 <p className="text-gray-400 font-medium tracking-wide">Face ID</p>
+                 <p className="text-white/60 font-medium tracking-wide text-[15px]">Face ID</p>
              </div>
          ) : (
             <div className="flex-1 flex flex-col items-center pt-24 pb-8 px-6 animate-in fade-in slide-in-from-bottom-8 duration-500 z-10">
                 
                 {/* Profile Section */}
                 <div className="flex flex-col items-center gap-4 mb-12">
-                    <Avatar className="w-24 h-24 border-4 border-white/10 shadow-2xl ring-4 ring-black/50">
-                        <AvatarImage src={user?.photoURL || ""} alt={user?.displayName || "User"} className="object-cover" />
-                        <AvatarFallback className="bg-gradient-to-br from-[#00d8ff] via-[#8b00ff] to-[#ff00ea] text-2xl font-bold text-white">
+                    <Avatar className="w-20 h-20 border border-white/10 shadow-xl bg-[#0a0a0a]">
+                        <AvatarImage src={user?.photoURL || ""} alt={user?.displayName || "User"} className="object-cover filter grayscale" />
+                        <AvatarFallback className="bg-[#0a0a0a] text-xl font-medium text-white">
                             {user?.displayName?.charAt(0) || "U"}
                         </AvatarFallback>
                     </Avatar>
                     
                     <div className="text-center space-y-1">
-                        <h1 className="text-2xl font-bold text-white tracking-tight">
+                        <h1 className="text-[22px] font-semibold text-white tracking-tight">
                             Hello, {user?.displayName?.split(' ')[0] || "User"}
                         </h1>
-                        <p className="text-sm text-gray-400">Enter your PIN to access Vaulty</p>
+                        <p className="text-[14px] text-white/50">Enter your PIN to access Vaulty</p>
                     </div>
                 </div>
 
                 {/* PIN Dots Display */}
-                <div className="flex gap-4 mb-12">
+                <div className="flex gap-6 mb-16">
                     {[0, 1, 2, 3].map((i) => (
                         <div 
                             key={i} 
                             className={cn(
-                                "w-4 h-4 rounded-full transition-all duration-300",
+                                "w-3 h-3 rounded-full transition-all duration-300",
                                 i < pinInput.length 
-                                    ? "bg-gray-400 shadow-[0_0_10px_rgba(34,211,238,0.5)] scale-110" 
-                                    : "bg-white/10 border-vaulty-gradient"
+                                    ? "bg-white scale-110" 
+                                    : "bg-white/10 border border-white/5"
                             )}
                         />
                     ))}
@@ -280,12 +276,12 @@ export default function WalletPage() {
                 <div className="flex-1" />
 
                 {/* Custom Number Pad */}
-                <div className="w-full max-w-[320px] grid grid-cols-3 gap-x-8 gap-y-6 mb-8">
+                <div className="w-full max-w-[280px] grid grid-cols-3 gap-x-6 gap-y-4 mb-8">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
                         <button
                             key={num}
                             onClick={() => handlePinDigit(num.toString())}
-                            className="w-16 h-16 rounded-full text-2xl font-medium text-white hover:bg-white/10 transition-colors flex items-center justify-center active:scale-95"
+                            className="w-16 h-16 rounded-full text-[26px] font-medium text-white hover:bg-white/10 transition-colors flex items-center justify-center active:scale-95 mx-auto"
                         >
                             {num}
                         </button>
@@ -293,19 +289,19 @@ export default function WalletPage() {
                     <div className="w-16 h-16" /> {/* Empty slot */}
                     <button
                         onClick={() => handlePinDigit("0")}
-                        className="w-16 h-16 rounded-full text-2xl font-medium text-white hover:bg-white/10 transition-colors flex items-center justify-center active:scale-95"
+                        className="w-16 h-16 rounded-full text-[26px] font-medium text-white hover:bg-white/10 transition-colors flex items-center justify-center active:scale-95 mx-auto"
                     >
                         0
                     </button>
                     <button
                         onClick={handleBackspace}
-                        className="w-16 h-16 rounded-full text-white hover:bg-white/10 transition-colors flex items-center justify-center active:scale-95"
+                        className="w-16 h-16 rounded-full text-white/70 hover:bg-white/10 hover:text-white transition-colors flex items-center justify-center active:scale-95 mx-auto"
                     >
                         <Delete className="w-6 h-6" />
                     </button>
                 </div>
 
-                <div className="text-xs text-gray-500 font-medium cursor-pointer hover:text-white transition-colors">
+                <div className="text-[13px] text-white/40 font-medium cursor-pointer hover:text-white transition-colors">
                     Forgot PIN?
                 </div>
             </div>
@@ -316,180 +312,140 @@ export default function WalletPage() {
 
   // UNLOCKED WALLET
   return (
-    <div className="min-h-screen bg-black text-white pb-24 animate-in fade-in">
+    <div className="min-h-screen bg-black text-white pb-32 animate-in fade-in selection:bg-white/20">
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-md mx-auto p-4 flex items-center justify-between">
-          <Link href="/home">
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-              <ArrowLeft className="w-6 h-6" />
-            </Button>
-          </Link>
-          <h1 className="text-lg font-bold">Vaulty Wallet</h1>
-          <Link href="/wallet/settings">
-            <Button variant="ghost" size="icon" className="text-gray-400 hover:text-white">
-              <Settings className="w-6 h-6" />
-            </Button>
-          </Link>
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
+        <div className="w-full bg-black/80 backdrop-blur-xl border-b border-white/5 pointer-events-auto">
+          <div className="w-full px-4 md:px-6 py-4 flex items-center justify-between">
+            <Link href="/home">
+              <Button variant="ghost" size="icon" className="text-white/50 hover:text-white hover:bg-white/5">
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+            </Link>
+            <h1 className="text-[16px] font-medium tracking-wide">Wallet</h1>
+            <Link href="/settings">
+              <Button variant="ghost" size="icon" className="text-white/50 hover:text-white hover:bg-white/5">
+                <Settings className="w-5 h-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-md mx-auto pt-20 px-4 space-y-6">
+      <div className="max-w-[1200px] mx-auto pt-24 px-5 space-y-6">
+        
         {/* Balance Card */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-500 to-black border-vaulty-gradient p-6">
-          <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-gray-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 -mb-4 -ml-4 w-32 h-32 bg-white/10/20 rounded-full blur-3xl" />
-          
-          <div className="relative z-10 flex flex-col items-center text-center space-y-4">
-            <div className="w-16 h-16 rounded-full bg-black/50 border-vaulty-gradient p-2 flex items-center justify-center shadow-lg shadow-[rgba(0,204,255,0.3)]">
-              <img src={creditsIcon} alt="Vaulty Credits" className="w-full h-full object-contain" />
+        <div className="rounded-[24px] bg-[#0a0a0a] border border-white/5 p-8 flex flex-col items-center justify-center text-center">
+            <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-4">
+                <Sparkles className="w-5 h-5 text-white/70" />
             </div>
-            <div>
-              <p className="text-gray-400 text-sm font-medium uppercase tracking-wider">Vaulty Credit Balance</p>
-              <h2 className="text-4xl font-bold text-white mt-1">
-                 {userData?.vaultyPoints ? userData.vaultyPoints.toLocaleString() : "0"}
-              </h2>
-            </div>
-          </div>
+            <p className="text-[12px] text-white/50 uppercase tracking-widest font-semibold mb-2">Vaulty Credits</p>
+            <h2 className="text-[40px] font-semibold tracking-tight text-white leading-none">
+                {userData?.vaultyPoints ? userData.vaultyPoints.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : "0.00"}
+            </h2>
         </div>
 
         {/* Actions */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-4">
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-3 p-5 rounded-[20px] bg-[#0a0a0a] border border-white/5 hover:bg-white/[0.02] transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-white/5 text-white flex items-center justify-center">
               <ArrowDownLeft className="w-5 h-5" />
             </div>
-            <span className="text-xs font-medium text-gray-300">Deposit</span>
+            <span className="text-[13px] font-medium text-white/70">Deposit</span>
           </button>
           
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-3 p-5 rounded-[20px] bg-[#0a0a0a] border border-white/5 hover:bg-white/[0.02] transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-white/5 text-white flex items-center justify-center">
               <ArrowUpRight className="w-5 h-5" />
             </div>
-            <span className="text-xs font-medium text-gray-300">Withdraw</span>
+            <span className="text-[13px] font-medium text-white/70">Withdraw</span>
           </button>
 
           <button 
             onClick={handleAction}
-            className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient transition-all active:scale-95"
+            className="flex flex-col items-center justify-center gap-3 p-5 rounded-[20px] bg-[#0a0a0a] border border-white/5 hover:bg-white/[0.02] transition-colors"
           >
-            <div className="w-10 h-10 rounded-full bg-gray-500/20 text-gray-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-white/5 text-white flex items-center justify-center">
               <RefreshCw className="w-5 h-5" />
             </div>
-            <span className="text-xs font-medium text-gray-300">Exchange</span>
+            <span className="text-[13px] font-medium text-white/70">Exchange</span>
           </button>
         </div>
 
         {/* Credit Packages */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white">Top Up Credits</h3>
-            <span className="text-xs text-gray-500 bg-white/5 px-2 py-1 rounded-full">Secure Payment</span>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-3">
+        <div>
+          <h3 className="text-[18px] font-medium text-white mb-4 px-1">Top Up Packages</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {PACKAGES.map((pkg, index) => (
               <button
                 key={index}
                 onClick={handlePurchase}
-                className="relative group overflow-hidden rounded-2xl bg-white/5 hover:bg-white/10 border-vaulty-gradient p-4 transition-all text-left active:scale-95"
+                className="rounded-[20px] bg-[#0a0a0a] border border-white/5 p-5 text-left hover:bg-white/[0.02] transition-colors flex items-center justify-between"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                
-                <div className="relative z-10 flex flex-col h-full justify-between gap-3">
-                  <div className="flex items-start justify-between">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
-                       <img src={creditsIcon} alt="C" className="w-5 h-5 object-contain" />
-                    </div>
-                    {index === 1 && <span className="text-[10px] font-bold bg-gradient-to-r from-blue-500 to-purple-500 text-black px-1.5 py-0.5 rounded-sm">POPULAR</span>}
-                  </div>
-                  
                   <div>
-                    <p className="text-xl font-bold text-white">{pkg.credits}</p>
-                    <p className="text-xs text-gray-400">Vaulty Credits</p>
+                    <p className="text-[20px] font-semibold text-white mb-1">{pkg.credits} <span className="text-[14px] text-white/40 font-normal">VC</span></p>
+                    <p className="text-[13px] text-white/50">{pkg.label} Package</p>
                   </div>
-                  
-                  <div className="pt-2 border-t border-vaulty-gradient flex items-center justify-between">
-                    <span className="font-bold text-white">${pkg.price}</span>
-                    <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-gray-500 group-hover:text-black transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="font-semibold text-white text-[16px]">${pkg.price}</span>
+                    <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center">
                       <ChevronRight className="w-4 h-4" />
                     </div>
                   </div>
-                </div>
               </button>
             ))}
           </div>
         </div>
 
         {/* Recent Transactions */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-white">Recent Transactions</h3>
-            <Button variant="ghost" size="sm" className="h-8 text-xs text-gray-400 hover:text-white">
+        <div>
+          <div className="flex items-center justify-between mb-4 px-1">
+            <h3 className="text-[18px] font-medium text-white">Recent Activity</h3>
+            <button className="text-[13px] text-white/50 hover:text-white transition-colors">
               View All
-            </Button>
+            </button>
           </div>
 
-          <div className="space-y-2">
+          <div className="rounded-[24px] border border-white/5 bg-[#0a0a0a] overflow-hidden flex flex-col">
             {loadingTx ? (
-              <div className="flex justify-center p-4">
-                <Loader2 className="animate-spin text-gray-500" />
+              <div className="flex justify-center p-8">
+                <Loader2 className="animate-spin text-white/30 w-6 h-6" />
               </div>
             ) : transactions.length > 0 ? (
-              transactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border-vaulty-gradient">
-                  <div className="flex items-center gap-3">
-                    <div className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center",
-                      tx.type === 'deposit' ? "bg-green-500/10 text-green-400" :
-                      tx.type === 'purchase' ? "bg-white/10/10 text-white" :
-                      "bg-gray-500/10 text-gray-400"
-                    )}>
-                      {tx.type === 'deposit' ? <ArrowDownLeft className="w-5 h-5" /> :
-                       tx.type === 'purchase' ? <CreditCard className="w-5 h-5" /> :
-                       <RefreshCw className="w-5 h-5" />}
+              transactions.map((tx, i) => (
+                <div key={tx.id} className={`flex items-center justify-between p-5 ${i !== transactions.length - 1 ? 'border-b border-white/5' : ''}`}>
+                  <div className="flex items-center gap-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center bg-white/5 text-white/70`}>
+                      {tx.type === 'deposit' ? <ArrowDownLeft className="w-4 h-4" /> :
+                       tx.type === 'purchase' ? <CreditCard className="w-4 h-4" /> :
+                       <RefreshCw className="w-4 h-4" />}
                     </div>
                     <div>
-                      <p className="font-medium text-white text-sm">{tx.title || "Transaction"}</p>
-                      <p className="text-xs text-gray-500">
+                      <p className="font-medium text-white text-[15px] mb-0.5">{tx.title || "Transaction"}</p>
+                      <p className="text-[12px] text-white/40">
                         {tx.timestamp ? new Date(tx.timestamp.seconds * 1000).toLocaleDateString() : "Date Unknown"}
                       </p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={cn(
-                      "font-bold text-sm",
-                      tx.amount > 0 ? "text-green-400" : "text-white"
-                    )}>
+                    <p className={`font-semibold text-[16px] ${tx.amount > 0 ? "text-white" : "text-white/60"}`}>
                       {tx.amount > 0 ? '+' : ''}{tx.amount}
                     </p>
-                    <p className="text-xs text-gray-500">Credits</p>
+                    <p className="text-[12px] text-white/40">VC</p>
                   </div>
                 </div>
               ))
             ) : (
-                <div className="text-center p-6 text-gray-500 bg-white/5 rounded-xl border border-white/5">
-                    <p className="text-sm">No recent transactions</p>
+                <div className="text-center p-8 text-white/50">
+                    <p className="text-[14px]">No recent transactions</p>
                 </div>
             )}
-            
-             <div onClick={handleAction} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border-vaulty-gradient opacity-50 cursor-not-allowed">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gray-500/10 text-gray-400 flex items-center justify-center">
-                    <History className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white text-sm">More history</p>
-                    <p className="text-xs text-gray-500">Coming soon</p>
-                  </div>
-                </div>
-             </div>
           </div>
         </div>
 
