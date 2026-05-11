@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link, useLocation } from "wouter";
-import { Sparkles, Settings, ChevronRight, MessageSquare, TrendingUp, Play, Square, Activity, Send, CircleDot, Plus } from "lucide-react";
+import { Sparkles, Settings, ChevronRight, MessageSquare, TrendingUp, Play, Square, Activity, Send, CircleDot, Plus, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import vaultyLogoImage from "@/assets/vaulty-logo-v.png";

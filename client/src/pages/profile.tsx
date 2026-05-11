@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link, useLocation } from "wouter";
-import { Sparkles, Edit2, ChevronRight, User, CreditCard, Activity, Shield, Code, Bell, LogOut, Crown } from "lucide-react";
+import { Sparkles, Edit2, ChevronRight, User, CreditCard, Activity, Shield, Code, Bell, LogOut, Crown, Plus } from "lucide-react";
 import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 import astronautImage from "@/assets/astronaut_no_bg.png";
 import { Button } from "@/components/ui/button";
