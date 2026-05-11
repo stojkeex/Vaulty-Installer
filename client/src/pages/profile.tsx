@@ -1,235 +1,160 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
-import { useLocation, Link } from "wouter";
-import { Settings, Info, Calendar, MapPin, Globe, Twitter, Instagram, LogOut, Grid, Heart, Edit2, Lock, TrendingUp, Palette } from "lucide-react";
-import { db } from "@/lib/firebase";
-import { doc, onSnapshot, collection, query, where, orderBy, getDocs } from "firebase/firestore";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { ProfileCard } from "@/components/profile/ProfileCard";
-import { useToast } from "@/hooks/use-toast";
-import { PointsBalanceCard } from "@/components/points-balance-card";
-import { DailyGiftSection } from "@/components/daily-gift-section";
-import { PostCard } from "@/components/post-card";
-import { RankTab } from "@/components/profile/RankTab";
-import { isVerifiedEmail } from "@/lib/admins";
-
-// Icons for scroll
-import shopIcon from "@assets/6D8C3B21-C2D5-4F7C-84B8-1BE2AF208C70_1766145309438.png";
-import goalsIcon from "@assets/6FFA4DC9-2AB3-4363-9FA9-E55F7E506612_1766145309438.png";
-import academyIcon from "@assets/92F9DDCA-EF7B-462B-8D09-B7BEE7D6525B_1766145309438.png";
-import leaderboardIcon from "@assets/B497626C-B5E2-47ED-A0ED-5529962CEDB8_1766145309438.png";
+import { Link, useLocation } from "wouter";
+import { Sparkles, Edit2, ChevronRight, User, CreditCard, Activity, Shield, Code, Bell, LogOut, Crown } from "lucide-react";
+import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
+import astronautImage from "@/assets/astronaut_no_bg.png";
+import { Button } from "@/components/ui/button";
 
 export default function Profile() {
-  const { user, signOut } = useAuth();
-  const { toast } = useToast();
-  const [location, setLocation] = useLocation();
-  const [userData, setUserData] = useState<any>(null);
-  const [userPosts, setUserPosts] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState("overview");
-  
-  useEffect(() => {
-    // Real-time listener for user data
-    if (user) {
-      const unsub = onSnapshot(doc(db, "users", user.uid), (doc) => {
-        if (doc.exists()) {
-            const data = doc.data();
-            const badges = data.badges || [];
-            const normalizedData = isVerifiedEmail(data.email) && !badges.includes("verified")
-              ? { ...data, badges: [...badges, "verified"], isVerified: true }
-              : data;
-            setUserData(normalizedData);
-        }
-      });
-      return () => unsub();
-    }
-  }, [user]);
+  const { user, userData, signOut } = useAuth();
+  const [, setLocation] = useLocation();
 
-  // Fetch user posts
-  useEffect(() => {
-    if (user) {
-        const q = query(collection(db, "posts"), where("userId", "==", user.uid), orderBy("timestamp", "desc"));
-        const unsub = onSnapshot(q, (snapshot) => {
-            setUserPosts(snapshot.docs.map(d => ({id: d.id, ...d.data()})));
-        });
-        return () => unsub();
-    }
-  }, [user]);
+  if (!user) return <div className="min-h-screen bg-[#050505]" />;
 
-  const handleSignOut = async () => {
-    await signOut();
-    setLocation("/login");
-  };
-
-  if (!user) return null;
-
-  const hasPro = userData?.badges?.includes("premium-pro") || userData?.badges?.includes("premium-ultra") || userData?.badges?.includes("premium-max") || userData?.badges?.includes("premium-team");
-  const customStyle = userData?.cardStyle ? {
-      color: userData.cardStyle.color,
-      scale: (userData.cardStyle.size || 100) / 100,
-      gradientTo: userData.cardStyle.gradientTo
-  } : undefined;
-
-  const horizontalItems = [
-      { label: "Goals", icon: goalsIcon, href: "/goals" },
-      { label: "Shop", icon: shopIcon, href: "/shop" },
-      { label: "Academy", icon: academyIcon, href: "/academy" },
-      { label: "Leaderboard", icon: leaderboardIcon, href: "/home/leaderboard" },
-  ];
+  const userPoints = userData?.vaultyPoints || 543474.47;
 
   return (
-    <div className="min-h-screen bg-black text-white pb-24">
-      {/* Header controls */}
-      <div className="flex justify-between items-center p-4 z-20 relative">
-         <div className="flex gap-2">
-           <button 
-             onClick={() => setLocation("/customization")}
-             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border-vaulty-gradient hover:bg-black/70 transition-colors flex items-center gap-1"
-             data-testid="button-customize-card"
-           >
-             <Palette size={12} /> Customize
-           </button>
-         </div>
-         <div className="flex gap-2">
-           <button 
-             onClick={() => setLocation("/edit-profile")}
-             className="bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-bold text-white border-vaulty-gradient hover:bg-black/70 transition-colors flex items-center gap-1"
-           >
-             <Edit2 size={12} /> Edit
-           </button>
-           
-           <button 
-             onClick={() => setLocation("/settings")}
-             className="bg-black/50 backdrop-blur-md p-2 rounded-full text-white border-vaulty-gradient hover:bg-black/70 transition-colors"
-           >
-             <Settings size={16} />
-           </button>
-         </div>
-      </div>
-      <div className="p-4 pt-0 space-y-8">
-        
-        {/* Tabs */}
-        <div className="flex gap-4 border-b border-zinc-800 px-2">
-          <button
-            onClick={() => setActiveTab("overview")}
-            className={`pb-3 px-2 font-semibold text-sm transition-colors ${
-              activeTab === "overview"
-                ? "text-gray-400 border-b-2 border-gray-400"
-                : "text-zinc-500 hover:text-white"
-            }`}
-          >
-            Overview
-          </button>
-          <button
-            onClick={() => setActiveTab("rank")}
-            className={`pb-3 px-2 font-semibold text-sm transition-colors ${
-              activeTab === "rank"
-                ? "text-gray-400 border-b-2 border-gray-400"
-                : "text-zinc-500 hover:text-white"
-            }`}
-          >
-            Rank
-          </button>
-          <button
-            onClick={() => setActiveTab("card")}
-            className={`pb-3 px-2 font-semibold text-sm transition-colors ${
-              activeTab === "card"
-                ? "text-gray-400 border-b-2 border-gray-400"
-                : "text-zinc-500 hover:text-white"
-            }`}
-          >
-            Profile Card
-          </button>
-        </div>
-
-        {/* Profile Card Tab */}
-        {activeTab === "card" && (
-          <div className="flex justify-center">
-            <ProfileCard 
-                user={userData || user} 
-                isOwner={true} 
-                hideControls={true} 
-                customStyle={customStyle}
-            />
-          </div>
-        )}
-
-        {/* Rank Tab */}
-        {activeTab === "rank" && (
-          <RankTab />
-        )}
-
-        {/* Overview Tab */}
-        {activeTab === "overview" && (
-          <>
-        {/* 1. 3D Profile Card (removed from here) */}
-
-        {/* 2. Overview / Balance */}
-        <div className="space-y-4">
-            <PointsBalanceCard />
-            <DailyGiftSection />
-        </div>
-
-        {/* 3. Horizontal Scrollable Cards */}
-        <div className="space-y-2">
-            <h3 className="text-sm font-bold text-gray-400 px-2 uppercase tracking-wider">More</h3>
-            <div className="flex gap-4 overflow-x-auto pb-4 px-2 no-scrollbar snap-x">
-                {horizontalItems.map((item, i) => (
-                    <Link key={i} href={item.href}>
-                        <div className="snap-center shrink-0 w-28 h-28 glass-card flex flex-col items-center justify-center p-4 rounded-3xl border-vaulty-gradient bg-white/5 hover:bg-white/10 transition-all cursor-pointer shadow-[0_8px_32px_rgba(0,204,255,0.15)] hover:shadow-[0_12px_40px_rgba(255,0,187,0.2)]">
-                            {/* @ts-ignore - isEmoji check */}
-                            {item.isEmoji ? (
-                                <span className="text-3xl mb-2">{item.icon}</span>
-                            ) : (
-                                <img src={item.icon as string} className="w-10 h-10 mb-2 object-contain" alt={item.label} />
-                            )}
-                            <span className="text-xs font-bold text-white">{item.label}</span>
-                        </div>
-                    </Link>
-                ))}
-            </div>
-        </div>
-
-        {/* 4. Portfolio Summary / Insights */}
-        <div className="space-y-2">
-             <div className="flex justify-between items-center px-2">
-                <h3 className="text-sm font-bold text-gray-400 uppercase tracking-wider">Portfolio</h3>
-                <Link href="/wallet">
-                    <span className="text-xs text-gray-400 font-bold cursor-pointer">Manage &rarr;</span>
-                </Link>
+    <div className="min-h-screen pb-32 bg-[#050505] text-white selection:bg-gray-500/30 animate-in fade-in font-sans">
+      {/* Header */}
+      <div className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
+        <div className="w-full bg-[#050505]/80 backdrop-blur-xl border-b border-white/[0.02] pointer-events-auto">
+          <div className="w-full px-4 md:px-6 py-4 flex items-center justify-between">
+             <div className="flex items-center -ml-2">
+                <img
+                    src={vaultyTextLogo}
+                    alt="Vaulty"
+                    className="h-6 md:h-8 object-contain"
+                />
              </div>
              
-             {/* Simple Portfolio Summary Card */}
-             <div className="glass-card p-5 rounded-3xl border-vaulty-gradient bg-white/5 shadow-[0_8px_32px_rgba(0,204,255,0.15)]">
-                <div className="flex items-center justify-between mb-4">
-                    <span className="text-gray-400 text-sm">Total Assets</span>
-                    <span className="text-green-400 text-sm font-bold flex items-center gap-1">
-                        <TrendingUp size={14} /> +2.5%
-                    </span>
-                </div>
-                <div className="text-3xl font-bold mb-1 text-[#00CCFF]">$0.00</div>
-                <p className="text-xs text-gray-500">Start investing to see your portfolio grow.</p>
-             </div>
+             <Link href="/wallet">
+                 <div className="flex items-center gap-2 rounded-full border border-white/10 bg-[#121218] backdrop-blur-xl px-4 py-2 cursor-pointer hover:bg-white/10 transition-all shadow-lg">
+                     <Sparkles className="w-4 h-4 text-purple-400" />
+                     <span className="text-[13px] font-bold text-white tracking-wide">{userPoints.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})} VC</span>
+                 </div>
+             </Link>
+          </div>
         </div>
+      </div>
 
-        {/* 5. My Posts */}
-        <div className="space-y-4">
-            <h3 className="text-sm font-bold text-gray-400 px-2 uppercase tracking-wider">My Posts</h3>
-            <div className="grid grid-cols-1 gap-4">
-                {userPosts.length > 0 ? (
-                    userPosts.map(post => (
-                        <PostCard key={post.id} post={post} currentUser={user} currentUserData={userData} />
-                    ))
-                ) : (
-                    <div className="text-center py-8 text-gray-500 bg-white/5 rounded-2xl border-vaulty-gradient">
-                        <p>No posts yet</p>
+      <div className="relative z-10 p-5 max-w-[1200px] w-full mx-auto pt-24 space-y-4">
+        
+        {/* Profile Card */}
+        <div className="rounded-[24px] border border-white/5 bg-[#0a0a0f] p-5 shadow-lg flex flex-col relative overflow-hidden">
+            <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-4">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-900 to-black border border-purple-500/30 overflow-hidden flex items-center justify-center p-1 relative shadow-[0_0_20px_rgba(168,85,247,0.2)]">
+                        <img src={astronautImage} alt="Profile" className="w-full h-full object-cover rounded-full bg-black" />
                     </div>
-                )}
+                    <div>
+                        <div className="flex items-center gap-2 mb-1">
+                            <h2 className="text-2xl font-bold text-white">{userData?.displayName || 'Alex'}</h2>
+                            <div className="w-5 h-5 rounded-full bg-blue-600 flex items-center justify-center">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-white"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                        </div>
+                        <p className="text-sm text-white/50 mb-2">{userData?.email || 'alex@vaulty.ai'}</p>
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-400 text-xs font-semibold">
+                            <Crown className="w-3.5 h-3.5" /> Premium Plan
+                        </div>
+                    </div>
+                </div>
+                <button onClick={() => setLocation('/edit-profile')} className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <Edit2 className="w-4 h-4 text-white/70" />
+                </button>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4 border-t border-white/5 pt-5">
+                <div className="text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-white/40 mb-1 font-medium">JOINED</p>
+                    <p className="text-sm font-semibold">Mar 15, 2024</p>
+                </div>
+                <div className="text-center border-x border-white/5">
+                    <p className="text-[10px] uppercase tracking-wider text-white/40 mb-1 font-medium">AGENTS</p>
+                    <p className="text-sm font-semibold text-purple-400">8</p>
+                </div>
+                <div className="text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-white/40 mb-1 font-medium">TOTAL MESSAGES</p>
+                    <p className="text-sm font-semibold text-blue-400">125,430</p>
+                </div>
             </div>
         </div>
-          </>
-        )}
+
+        {/* Credits Block */}
+        <div className="rounded-[24px] border border-white/5 bg-[#0a0a0f] p-5 shadow-lg flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-[14px] bg-[#1a0f2e] border border-purple-500/20 flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                    <p className="text-[10px] uppercase tracking-wider text-white/50 mb-0.5 font-medium">Vaulty Credits</p>
+                    <p className="text-lg font-bold text-white leading-tight">543,474.47 VC</p>
+                    <p className="text-[10px] text-white/40">≈ 1.3M messages</p>
+                </div>
+            </div>
+            <Button className="h-10 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold">
+                Top Up <Plus className="w-4 h-4 ml-1" />
+            </Button>
+        </div>
+
+        {/* Plan Block */}
+        <div className="rounded-[24px] border border-white/5 bg-[#0a0a0f] p-5 shadow-lg flex items-center justify-between">
+            <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-[14px] bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
+                    <Crown className="w-5 h-5 text-purple-400" />
+                </div>
+                <div>
+                    <p className="text-[10px] uppercase tracking-wider text-white/50 mb-0.5 font-medium">Your Plan</p>
+                    <p className="text-lg font-bold text-white leading-tight">Premium</p>
+                    <p className="text-[10px] text-blue-400 font-medium">Renews on Jun 15, 2025</p>
+                </div>
+            </div>
+            <Button variant="ghost" className="h-10 px-4 rounded-xl hover:bg-white/5 text-white font-semibold">
+                Manage Plan <ChevronRight className="w-4 h-4 ml-1" />
+            </Button>
+        </div>
+
+        {/* Menu Links */}
+        <div className="rounded-[24px] border border-white/5 bg-[#0a0a0f] overflow-hidden shadow-lg">
+            <MenuLink icon={User} label="Account Settings" onClick={() => setLocation('/settings')} />
+            <MenuLink icon={CreditCard} label="Billing & Subscription" onClick={() => setLocation('/billing')} />
+            <MenuLink icon={Activity} label="Usage & Limits" onClick={() => setLocation('/usage')} />
+            <MenuLink icon={Shield} label="Security" onClick={() => setLocation('/security')} />
+            <MenuLink icon={Code} label="API & Integrations" onClick={() => setLocation('/api')} />
+            <MenuLink icon={Bell} label="Notifications" onClick={() => setLocation('/notifications')} />
+        </div>
+
+        {/* Log Out */}
+        <div className="rounded-[24px] border border-red-500/10 bg-[#0a0a0f] overflow-hidden shadow-lg mt-4">
+            <button 
+                onClick={() => signOut()}
+                className="w-full flex items-center justify-between p-5 hover:bg-red-500/5 transition-colors text-red-400"
+            >
+                <div className="flex items-center gap-4">
+                    <LogOut className="w-5 h-5" />
+                    <span className="font-semibold text-[15px]">Log Out</span>
+                </div>
+                <ChevronRight className="w-5 h-5 opacity-50" />
+            </button>
+        </div>
 
       </div>
     </div>
   );
+}
+
+function MenuLink({ icon: Icon, label, onClick }: { icon: any, label: string, onClick: () => void }) {
+    return (
+        <button 
+            onClick={onClick}
+            className="w-full flex items-center justify-between p-5 border-b border-white/5 hover:bg-white/5 transition-colors last:border-b-0"
+        >
+            <div className="flex items-center gap-4">
+                <Icon className="w-5 h-5 text-white/50" />
+                <span className="text-white font-semibold text-[15px]">{label}</span>
+            </div>
+            <ChevronRight className="w-5 h-5 text-white/30" />
+        </button>
+    );
 }

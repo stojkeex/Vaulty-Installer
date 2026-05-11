@@ -42,6 +42,7 @@ export function BottomNav() {
     ) },
     { href: "/ai", label: "ASTRO", icon: Bot },
     { href: "/wallet", label: "WALLET", icon: Wallet },
+    { href: "/profile", label: "PROFILE", icon: User },
   ], []);
 
   const shouldHide = location === "/login" || 
@@ -59,7 +60,6 @@ export function BottomNav() {
                      location === "/premium" ||
                      location.startsWith("/chat/private/") ||
                      location.startsWith("/coin/") ||
-                     location.startsWith("/wallet") ||
                      location === "/message-requests" ||
                      location === "/high-income-skills" ||
                      location.startsWith("/booklet/") ||
@@ -115,6 +115,7 @@ export function BottomNav() {
                 transition={{ type: "spring", stiffness: 500, damping: 12 }}
                 className="relative z-10 flex items-center justify-center"
               >
+                {/* @ts-ignore */}
                 <item.icon
                   className="h-5.5 w-5.5"
                   style={{
