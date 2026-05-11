@@ -375,8 +375,16 @@ export default function BotDetail() {
                       placeholder="Type your message..."
                       className="w-full h-14 md:h-16 bg-white border border-gray-200 shadow-sm rounded-full pl-6 pr-16 text-[15px] md:text-base text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all focus:border-indigo-300"
                     />
-                    <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-10 h-10 md:w-12 md:h-12 bg-indigo-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:opacity-90 shadow-md group cursor-pointer z-10">
-                      <ArrowUp className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:-translate-y-0.5 transition-transform" />
+                    <button 
+                      type="submit" 
+                      disabled={!inputValue.trim()} 
+                      className={`absolute right-2 md:right-3 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all z-10 ${
+                        inputValue.trim() 
+                          ? 'bg-indigo-600 text-white shadow-md hover:bg-indigo-700 cursor-pointer group' 
+                          : 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                      }`}
+                    >
+                      <ArrowUp className={`w-5 h-5 md:w-6 md:h-6 transition-transform ${inputValue.trim() ? 'group-hover:-translate-y-0.5' : ''}`} strokeWidth={2.5} />
                     </button>
                   </form>
                   
