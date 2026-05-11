@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useParams } from "wouter";
-import { ArrowLeft, Monitor, Smartphone, Tablet, ExternalLink, Bot, Check, Shield, Code, Zap, MessageSquare, BrainCircuit, Sparkles, ArrowRight } from "lucide-react";
+import { ArrowLeft, Monitor, Smartphone, Tablet, ExternalLink, Bot, Check, Shield, Code, Zap, MessageSquare, BrainCircuit, Sparkles, ArrowRight, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
@@ -70,6 +70,7 @@ export default function BotDetail() {
   const [activeTab, setActiveTab] = useState<'chat' | 'faq'>('chat');
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const [messages, setMessages] = useState([
     { id: 1, text: "Hi there! I'm your AI assistant. How can I help you today?", isBot: true }
   ]);
@@ -81,6 +82,7 @@ export default function BotDetail() {
       setInputValue('');
       setIsTyping(false);
       setActiveTab('chat');
+      setIsChatOpen(true);
     }
   }, [showFullPreview]);
 
@@ -231,8 +233,8 @@ export default function BotDetail() {
               <div className="absolute inset-4 md:inset-8 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-2xl border border-slate-200 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500 z-50">
                 <div className="h-16 md:h-20 border-b flex items-center justify-between px-4 md:px-8 bg-gradient-to-r from-blue-600 to-indigo-700 shrink-0">
                    <div className="flex items-center gap-3 md:gap-4">
-                     <div className="w-10 h-10 md:w-12 md:h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm shadow-inner">
-                        <Bot className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                     <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-inner overflow-hidden border-2 border-white/20">
+                        <img src={astroPortraitImg} alt="Bot" className="w-full h-full object-cover" />
                      </div>
                      <div>
                        <h4 className="font-bold text-white text-base md:text-lg leading-tight">Vaulty AI Assistant</h4>
@@ -260,7 +262,7 @@ export default function BotDetail() {
                 
                 {activeTab === 'chat' ? (
                   <>
-                    <div className="flex-1 p-4 md:p-8 bg-slate-50 flex flex-col gap-4 overflow-y-auto">
+                    <div className="flex-1 p-4 md:p-8 bg-slate-50 flex flex-col gap-4 overflow-y-auto pb-4">
                        {messages.map(msg => (
                          <div key={msg.id} className={`max-w-[85%] md:max-w-[75%] p-3.5 md:p-4 rounded-2xl shadow-sm text-sm md:text-base leading-relaxed ${msg.isBot ? 'bg-white border text-slate-700 rounded-tl-sm self-start' : 'bg-blue-600 text-white rounded-tr-sm self-end'}`}>
                             {msg.text}
@@ -273,6 +275,7 @@ export default function BotDetail() {
                             <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-400 animate-bounce delay-150"></span>
                          </div>
                        )}
+                       <div className="h-2"></div>
                     </div>
                     <div className="p-4 md:p-6 bg-white border-t shrink-0">
                       <form onSubmit={handleSendMessage} className="relative flex items-center max-w-4xl mx-auto">
@@ -283,8 +286,8 @@ export default function BotDetail() {
                           placeholder="Type a message..."
                           className="w-full h-12 md:h-14 bg-slate-100 rounded-full pl-6 pr-14 text-sm md:text-base text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border border-transparent focus:border-blue-200 focus:bg-white"
                         />
-                        <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:bg-blue-700 shadow-md">
-                          <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+                        <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:bg-blue-700 shadow-md group">
+                          <ArrowRight className="w-4 h-4 md:w-5 md:h-5 text-white group-hover:translate-x-0.5 transition-transform" />
                         </button>
                       </form>
                     </div>
@@ -300,7 +303,10 @@ export default function BotDetail() {
                             { q: "How do I install this on my website?", a: "If you're renting, just copy the embed script from your dashboard and paste it before the closing </body> tag of your site." },
                             { q: "Is the source code included?", a: "If you purchase the lifetime license, you will receive the full source code allowing you to host the bot on your own servers and modify it freely." }
                         ].map((faq, i) => (
-                            <div key={i} className="bg-white border rounded-xl p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+                            <div key={i} className="bg-white border rounded-xl p-5 md:p-6 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => {
+                                setActiveTab('chat');
+                                setInputValue(faq.q);
+                            }}>
                             <h4 className="font-bold text-slate-800 text-sm md:text-base mb-2">{faq.q}</h4>
                             <p className="text-slate-500 text-sm leading-relaxed">{faq.a}</p>
                             </div>
@@ -313,14 +319,23 @@ export default function BotDetail() {
             ) : bot.id === 'starter' ? (
               // Starter 1/4 screen preview
               <>
-                <div className="absolute bottom-6 right-6 w-[350px] md:w-[400px] h-[500px] md:h-[600px] bg-white shadow-2xl rounded-2xl border border-zinc-200 overflow-hidden flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100vh-100px)] z-50 animate-in slide-in-from-bottom-10 fade-in duration-500">
-                  <div className="h-16 bg-gradient-to-r from-green-500 to-emerald-600 flex items-center px-5 shrink-0 shadow-sm z-10">
-                     <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3 backdrop-blur-sm">
-                        <MessageSquare className="w-4 h-4 text-white" />
+                {isChatOpen && (
+                <div className="absolute bottom-24 right-6 w-[350px] md:w-[400px] h-[500px] md:h-[600px] bg-white shadow-2xl rounded-2xl border border-zinc-200 overflow-hidden flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100vh-140px)] z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 origin-bottom-right">
+                  <div className="h-16 bg-gradient-to-r from-green-500 to-emerald-600 flex items-center justify-between px-5 shrink-0 shadow-sm z-10">
+                     <div className="flex items-center">
+                         <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center mr-3 shadow-inner overflow-hidden border-2 border-green-400">
+                            <img src={astroPortraitImg} alt="Bot" className="w-full h-full object-cover" />
+                         </div>
+                         <div>
+                             <h4 className="font-bold text-white text-base leading-tight">Vaulty Assistant</h4>
+                             <p className="text-[10px] text-green-100 font-medium">Online</p>
+                         </div>
                      </div>
-                     <h4 className="font-bold text-white text-base">Chat with us</h4>
+                     <button onClick={() => setIsChatOpen(false)} className="w-8 h-8 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 rounded-full transition-colors">
+                        <X className="w-5 h-5" />
+                     </button>
                   </div>
-                  <div className="flex-1 p-5 bg-slate-50 overflow-y-auto flex flex-col gap-4">
+                  <div className="flex-1 p-5 bg-slate-50 overflow-y-auto flex flex-col gap-4 pb-4">
                      {messages.map(msg => (
                          <div key={msg.id} className={`max-w-[85%] p-3.5 rounded-xl text-sm shadow-sm leading-relaxed ${msg.isBot ? 'bg-white border text-slate-700 rounded-tl-sm self-start' : 'bg-green-600 text-white rounded-tr-sm self-end'}`}>
                             {msg.text}
@@ -333,6 +348,7 @@ export default function BotDetail() {
                             <span className="w-2 h-2 rounded-full bg-green-400 animate-bounce delay-150"></span>
                          </div>
                      )}
+                     <div className="h-2"></div>
                   </div>
                   <div className="p-4 border-t bg-white shrink-0">
                     <form onSubmit={handleSendMessage} className="relative flex items-center">
@@ -341,28 +357,37 @@ export default function BotDetail() {
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         placeholder="Type a message..."
-                        className="w-full h-11 bg-slate-100 rounded-lg pl-4 pr-12 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-green-500/50 transition-all border border-transparent focus:border-green-200 focus:bg-white"
+                        className="w-full h-12 bg-slate-100 rounded-xl pl-4 pr-12 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-green-500/50 transition-all border border-transparent focus:border-green-200 focus:bg-white"
                       />
-                      <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 w-8 h-8 bg-green-600 hover:bg-green-700 transition-colors rounded-md flex items-center justify-center disabled:opacity-50 shadow-sm">
-                        <ArrowRight className="w-4 h-4 text-white" />
+                      <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 w-9 h-9 bg-green-600 hover:bg-green-700 transition-colors rounded-lg flex items-center justify-center disabled:opacity-50 shadow-sm group">
+                        <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-0.5 transition-transform" />
                       </button>
                     </form>
                   </div>
                 </div>
+                )}
                 {/* Floating Action Button */}
-                <div className="absolute bottom-6 right-[380px] md:right-[430px] w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-full shadow-xl hidden sm:flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
-                  <MessageSquare className="w-6 h-6 md:w-7 md:h-7 text-white" />
+                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-6 right-6 w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-50 ${isChatOpen ? 'scale-90 opacity-90' : ''}`}>
+                  {isChatOpen ? <X className="w-6 h-6 md:w-7 md:h-7 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border border-green-300" />}
                 </div>
               </>
             ) : (
               // Demo Free preview
               <>
-                <div className="absolute bottom-6 right-6 w-[300px] md:w-[320px] h-[400px] md:h-[450px] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in">
-                  <div className="h-12 bg-purple-600 flex items-center px-4 shrink-0 shadow-sm z-10">
-                     <Bot className="w-4 h-4 text-white/80 mr-2" />
-                     <h4 className="font-bold text-white text-sm">Demo Bot</h4>
+                {isChatOpen && (
+                <div className="absolute bottom-20 right-6 w-[300px] md:w-[320px] h-[400px] md:h-[450px] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 origin-bottom-right">
+                  <div className="h-12 bg-purple-600 flex items-center justify-between px-4 shrink-0 shadow-sm z-10">
+                     <div className="flex items-center">
+                         <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mr-2 overflow-hidden border border-purple-400">
+                             <img src={astroPortraitImg} alt="Bot" className="w-full h-full object-cover" />
+                         </div>
+                         <h4 className="font-bold text-white text-sm">Demo Bot</h4>
+                     </div>
+                     <button onClick={() => setIsChatOpen(false)} className="w-6 h-6 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 rounded-full transition-colors">
+                        <X className="w-4 h-4" />
+                     </button>
                   </div>
-                  <div className="flex-1 p-4 bg-slate-50 overflow-y-auto flex flex-col gap-3">
+                  <div className="flex-1 p-4 bg-slate-50 overflow-y-auto flex flex-col gap-3 pb-4">
                      {messages.map(msg => (
                          <div key={msg.id} className={`max-w-[90%] p-3 rounded-lg text-xs shadow-sm leading-relaxed ${msg.isBot ? 'bg-purple-50 border border-purple-100 text-purple-900 rounded-tl-sm self-start' : 'bg-purple-600 text-white rounded-tr-sm self-end'}`}>
                             {msg.text}
@@ -375,21 +400,27 @@ export default function BotDetail() {
                             <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-bounce delay-150"></span>
                          </div>
                      )}
+                     <div className="h-2"></div>
                   </div>
                   <div className="p-3 border-t bg-white shrink-0">
-                    <form onSubmit={handleSendMessage} className="flex gap-2">
+                    <form onSubmit={handleSendMessage} className="flex gap-2 relative">
                       <input 
                         type="text" 
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         placeholder="Reply..."
-                        className="flex-1 h-9 bg-slate-100 border-transparent focus:bg-white rounded px-3 text-xs text-slate-700 outline-none focus:border-purple-400 border transition-all"
+                        className="flex-1 h-10 bg-slate-100 border-transparent focus:bg-white rounded-lg pl-3 pr-10 text-xs text-slate-700 outline-none focus:border-purple-400 border transition-all"
                       />
-                      <button type="submit" disabled={!inputValue.trim()} className="h-9 px-4 bg-purple-600 hover:bg-purple-700 transition-colors text-white rounded text-xs font-bold disabled:opacity-50">
-                        Send
+                      <button type="submit" disabled={!inputValue.trim()} className="absolute right-1 top-1 w-8 h-8 bg-purple-600 hover:bg-purple-700 transition-colors text-white rounded-md flex items-center justify-center disabled:opacity-50">
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </form>
                   </div>
+                </div>
+                )}
+                {/* Floating Action Button */}
+                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-6 right-6 w-12 h-12 bg-purple-600 rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-50 ${isChatOpen ? 'scale-90 opacity-90' : ''}`}>
+                  {isChatOpen ? <X className="w-5 h-5 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-8 h-8 object-cover rounded-full border border-purple-400" />}
                 </div>
               </>
             )}
