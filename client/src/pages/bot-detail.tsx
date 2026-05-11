@@ -271,6 +271,10 @@ export default function BotDetail() {
                      <button className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer">
                         <MoreVertical className="w-4 h-4 md:w-5 md:h-5" />
                      </button>
+                     {/* Close Button */}
+                     <button onClick={() => setShowFullPreview(false)} className="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors cursor-pointer ml-1">
+                        <X className="w-6 h-6 md:w-7 md:h-7" />
+                     </button>
                    </div>
                 </div>
                 
@@ -293,7 +297,7 @@ export default function BotDetail() {
                 
                 <div className="flex-1 p-4 md:p-8 bg-transparent flex flex-col gap-4 overflow-y-auto pb-4 relative z-10">
                    {messages.map(msg => (
-                     <div key={msg.id} className={`max-w-[85%] md:max-w-[75%] p-4 md:p-5 rounded-[24px] shadow-sm text-[15px] md:text-base leading-relaxed whitespace-pre-wrap ${msg.isBot ? 'bg-white/80 backdrop-blur-md border border-gray-100 text-slate-800 rounded-tl-[8px] self-start' : 'bg-gradient-to-br from-indigo-600 to-blue-600 text-white rounded-tr-[8px] self-end shadow-md'}`}>
+                     <div key={msg.id} className={`max-w-[85%] md:max-w-[75%] p-4 md:p-5 rounded-[24px] shadow-sm text-[15px] md:text-base leading-relaxed whitespace-pre-wrap ${msg.isBot ? 'bg-white/80 backdrop-blur-md border border-gray-100 text-slate-800 rounded-tl-[8px] self-start' : 'bg-indigo-600 text-white rounded-tr-[8px] self-end shadow-md font-medium'}`}>
                         {msg.id === 1 && msg.isBot ? (
                             <>
                                 <h3 className="text-2xl font-bold mb-3">{msg.text.split('\n')[0]}</h3>
@@ -353,10 +357,10 @@ export default function BotDetail() {
                    )}
                    
                    {isTyping && (
-                     <div className="flex gap-1.5 items-center bg-white/80 backdrop-blur-md border border-gray-100 p-5 md:p-6 rounded-[24px] rounded-tl-[8px] self-start shadow-sm text-slate-400">
-                        <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce"></span>
-                        <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce delay-75"></span>
-                        <span className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce delay-150"></span>
+                     <div className="flex gap-1.5 items-center bg-white/80 backdrop-blur-md border border-gray-100 p-5 md:p-6 rounded-[24px] rounded-tl-[8px] self-start shadow-sm">
+                        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: '300ms' }}></div>
                      </div>
                    )}
                    <div className="h-4"></div>
@@ -371,7 +375,7 @@ export default function BotDetail() {
                       placeholder="Type your message..."
                       className="w-full h-14 md:h-16 bg-white border border-gray-200 shadow-sm rounded-full pl-6 pr-16 text-[15px] md:text-base text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/30 transition-all focus:border-indigo-300"
                     />
-                    <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:opacity-90 shadow-md group cursor-pointer">
+                    <button type="submit" disabled={!inputValue.trim()} className="absolute right-2 md:right-3 w-10 h-10 md:w-12 md:h-12 bg-indigo-600 rounded-full flex items-center justify-center disabled:opacity-50 transition-opacity hover:opacity-90 shadow-md group cursor-pointer z-10">
                       <ArrowUp className="w-5 h-5 md:w-6 md:h-6 text-white group-hover:-translate-y-0.5 transition-transform" />
                     </button>
                   </form>
@@ -416,10 +420,10 @@ export default function BotDetail() {
                          </div>
                      ))}
                      {isTyping && (
-                         <div className="flex gap-1.5 items-center bg-white border border-gray-100 p-3 md:p-4 rounded-[16px] md:rounded-[20px] rounded-tl-sm self-start shadow-sm text-slate-400">
-                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce"></span>
-                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce delay-75"></span>
-                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce delay-150"></span>
+                         <div className="flex gap-1.5 items-center bg-white border border-gray-100 p-3 md:p-4 rounded-[16px] md:rounded-[20px] rounded-tl-sm self-start shadow-sm">
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                            <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }}></div>
                          </div>
                      )}
                      <div className="h-2"></div>
