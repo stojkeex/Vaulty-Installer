@@ -13,6 +13,7 @@ import WalletPage from "@/pages/wallet";
 import Landing from "@/pages/landing";
 import Ai from "@/pages/ai";
 import BotDetail from "@/pages/bot-detail";
+import Profile from "@/pages/profile";
 
 import { AuthProvider, useAuth } from "@/contexts/auth-context";
 import { BottomNav } from "@/components/bottom-nav";
@@ -44,6 +45,7 @@ function Router() {
         <Route path="/marketplace/bot/:id" component={() => <ProtectedRoute component={BotDetail} hideNav={true} />} />
         <Route path="/ai" component={() => <ProtectedRoute component={Ai} hideNav={true} />} />
         <Route path="/wallet" component={() => <ProtectedRoute component={WalletPage} hideNav={true} />} />
+        <Route path="/profile" component={() => <ProtectedRoute component={Profile} />} />
         <Route path="/bot/:id/customize" component={() => <ProtectedRoute component={ChatbotCustomization} hideNav={true} />} />
         <Route component={NotFound} />
       </Switch>
