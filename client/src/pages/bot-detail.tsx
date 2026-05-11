@@ -320,45 +320,48 @@ export default function BotDetail() {
               // Starter 1/4 screen preview
               <>
                 {isChatOpen && (
-                <div className="absolute bottom-24 right-6 w-[350px] md:w-[400px] h-[550px] md:h-[650px] bg-white shadow-2xl rounded-[32px] border border-zinc-200 overflow-hidden flex flex-col max-w-[calc(100vw-32px)] max-h-[calc(100vh-140px)] z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 origin-bottom-right">
-                  <div className="h-16 bg-white flex items-center justify-between px-5 shrink-0 border-b border-gray-100 z-10">
-                     <h4 className="font-bold text-slate-900 text-lg">Vaulty Official</h4>
-                     <button onClick={() => setIsChatOpen(false)} className="w-8 h-8 flex items-center justify-center text-slate-500 bg-slate-100 hover:bg-slate-200 hover:text-slate-800 rounded-full transition-colors">
+                <div className="absolute bottom-20 md:bottom-24 right-4 md:right-6 w-[calc(100vw-32px)] sm:w-[350px] md:w-[400px] h-[500px] md:h-[650px] max-h-[calc(100vh-140px)] bg-white shadow-[0_0_30px_rgba(34,197,94,0.3)] hover:shadow-[0_0_50px_rgba(34,197,94,0.5)] transition-shadow duration-500 rounded-[24px] md:rounded-[32px] border border-green-500/40 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in origin-bottom-right relative group">
+                  {/* Animated Color Glow Wrapper */}
+                  <div className="absolute inset-0 rounded-[24px] md:rounded-[32px] ring-[3px] ring-green-400/50 animate-pulse pointer-events-none"></div>
+
+                  <div className="h-14 md:h-16 bg-white flex items-center justify-between px-4 md:px-5 shrink-0 border-b border-gray-100 z-10 relative">
+                     <h4 className="font-bold text-slate-900 text-base md:text-lg">Vaulty Official</h4>
+                     <button onClick={() => setIsChatOpen(false)} className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center text-slate-500 bg-slate-100 hover:bg-slate-200 hover:text-slate-800 rounded-full transition-colors">
                         <X className="w-4 h-4" />
                      </button>
                   </div>
-                  <div className="flex-1 p-5 bg-[#F9FAFB] overflow-y-auto flex flex-col gap-4 pb-4">
-                     <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border-[2.5px] border-green-500 mb-2">
+                  <div className="flex-1 p-4 md:p-5 bg-[#F9FAFB] overflow-y-auto flex flex-col gap-3 md:gap-4 pb-4">
+                     <div className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center shadow-sm overflow-hidden border-[2px] md:border-[2.5px] border-green-500 mb-1 shrink-0">
                         <img src={astroPortraitImg} alt="Bot" className="w-full h-full object-cover" />
                      </div>
                      {messages.map(msg => (
-                         <div key={msg.id} className={`max-w-[85%] p-4 rounded-[20px] text-[15px] shadow-sm leading-relaxed ${msg.isBot ? 'bg-white border border-gray-100 text-slate-800 rounded-tl-sm self-start' : 'bg-black text-white rounded-tr-sm self-end'}`}>
+                         <div key={msg.id} className={`max-w-[90%] md:max-w-[85%] p-3.5 md:p-4 rounded-[18px] md:rounded-[20px] text-[14px] md:text-[15px] shadow-sm leading-relaxed ${msg.isBot ? 'bg-white border border-gray-100 text-slate-800 rounded-tl-sm self-start' : 'bg-black text-white rounded-tr-sm self-end'}`}>
                             {msg.text}
                          </div>
                      ))}
                      {isTyping && (
-                         <div className="flex gap-1.5 items-center bg-white border border-gray-100 p-4 rounded-[20px] rounded-tl-sm self-start shadow-sm text-slate-400">
-                            <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce"></span>
-                            <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-75"></span>
-                            <span className="w-2 h-2 rounded-full bg-gray-400 animate-bounce delay-150"></span>
+                         <div className="flex gap-1.5 items-center bg-white border border-gray-100 p-3.5 md:p-4 rounded-[18px] md:rounded-[20px] rounded-tl-sm self-start shadow-sm text-slate-400">
+                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce"></span>
+                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce delay-75"></span>
+                            <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-gray-400 animate-bounce delay-150"></span>
                          </div>
                      )}
                      <div className="h-2"></div>
                   </div>
-                  <div className="p-4 bg-white shrink-0 border-t border-gray-100">
-                    <form onSubmit={handleSendMessage} className="relative flex items-center mb-3">
+                  <div className="p-3 md:p-4 bg-white shrink-0 border-t border-gray-100 z-10 relative">
+                    <form onSubmit={handleSendMessage} className="relative flex items-center mb-2.5 md:mb-3">
                       <input 
                         type="text" 
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
                         placeholder="Type a message..."
-                        className="w-full h-[52px] bg-[#F5F5F7] rounded-2xl pl-4 pr-14 text-[15px] text-slate-700 outline-none transition-all border border-transparent focus:border-gray-200 focus:bg-white"
+                        className="w-full h-[44px] md:h-[52px] bg-[#F5F5F7] rounded-[16px] pl-4 pr-12 text-[14px] md:text-[15px] text-slate-700 outline-none transition-all border border-transparent focus:border-gray-200 focus:bg-white"
                       />
-                      <button type="submit" disabled={!inputValue.trim()} className={`absolute right-1.5 w-10 h-10 transition-colors rounded-[12px] flex items-center justify-center shadow-sm group ${inputValue.trim() ? 'bg-black hover:bg-gray-800' : 'bg-slate-200'}`}>
-                        <ArrowUp className={`w-5 h-5 ${inputValue.trim() ? 'text-white' : 'text-slate-400'}`} />
+                      <button type="submit" disabled={!inputValue.trim()} className={`absolute right-1.5 w-8 h-8 md:w-10 md:h-10 transition-colors rounded-[10px] md:rounded-[12px] flex items-center justify-center shadow-sm group ${inputValue.trim() ? 'bg-black hover:bg-gray-800' : 'bg-slate-200'}`}>
+                        <ArrowUp className={`w-4 h-4 md:w-5 md:h-5 ${inputValue.trim() ? 'text-white' : 'text-slate-400'}`} />
                       </button>
                     </form>
-                    <button onClick={() => setLocation('/home/overview')} className="w-full h-[56px] bg-white border border-gray-200 rounded-[28px] flex items-center justify-center font-bold text-slate-800 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm text-[16px]">
+                    <button onClick={() => setLocation('/home/overview')} className="w-full h-[44px] md:h-[56px] bg-white border border-gray-200 rounded-[22px] md:rounded-[28px] flex items-center justify-center font-bold text-slate-800 hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm text-[14px] md:text-[16px]">
                       Explore Features
                     </button>
                   </div>
