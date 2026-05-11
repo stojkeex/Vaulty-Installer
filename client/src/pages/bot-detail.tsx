@@ -135,7 +135,7 @@ export default function BotDetail() {
 
   if (showFullPreview) {
     return (
-      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col font-sans">
+      <div className="fixed inset-0 z-[100] bg-zinc-950 flex flex-col font-sans h-[100dvh] overflow-hidden">
         {/* Preview Header */}
         <div className="h-14 bg-zinc-950 border-b border-white/10 flex items-center justify-between px-4 shrink-0">
           <div className="flex items-center gap-4">
@@ -170,12 +170,12 @@ export default function BotDetail() {
         </div>
 
         {/* Preview Canvas */}
-        <div className="flex-1 bg-zinc-900/50 p-4 md:p-8 flex items-center justify-center overflow-hidden">
+        <div className="flex-1 bg-zinc-900/50 p-0 md:p-8 flex items-center justify-center overflow-hidden min-h-0 relative">
           <div 
-            className={`bg-white shadow-2xl relative overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-              previewDevice === 'mobile' ? 'w-[375px] h-[812px] border-[8px] border-zinc-800 rounded-[40px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
-              previewDevice === 'tablet' ? 'w-[768px] h-[1024px] border-[8px] border-zinc-800 rounded-[32px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
-              'w-full max-w-[1400px] h-full rounded-xl border border-white/10'
+            className={`bg-white shadow-2xl overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+              previewDevice === 'mobile' ? 'absolute inset-0 md:relative w-full h-full md:w-[375px] md:max-h-[812px] md:h-full md:border-[8px] md:border-zinc-800 md:rounded-[40px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
+              previewDevice === 'tablet' ? 'absolute inset-0 md:relative w-full h-full md:w-[768px] md:max-h-[1024px] md:h-full md:border-[8px] md:border-zinc-800 md:rounded-[32px] shadow-[0_0_50px_rgba(0,0,0,0.5)]' : 
+              'absolute inset-0 md:relative w-full max-w-[1400px] h-full md:rounded-xl md:border border-white/10'
             }`}
           >
             {/* Professional Mock Website */}
@@ -230,7 +230,7 @@ export default function BotDetail() {
             {/* Chatbot Representation */}
             {bot.id === 'premium' ? (
               // Premium Full Screen Preview
-              <div className="absolute inset-4 md:inset-8 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-2xl border border-slate-200 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500 z-50">
+              <div className="absolute inset-4 md:inset-8 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.2)] rounded-2xl border border-slate-200 overflow-hidden flex flex-col animate-in fade-in zoom-in duration-500 z-[9999]">
                 <div className="h-16 md:h-20 border-b flex items-center justify-between px-4 md:px-8 bg-gradient-to-r from-blue-600 to-indigo-700 shrink-0">
                    <div className="flex items-center gap-3 md:gap-4">
                      <div className="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center shadow-inner overflow-hidden border-2 border-white/20">
@@ -320,7 +320,7 @@ export default function BotDetail() {
               // Starter 1/4 screen preview
               <>
                 {isChatOpen && (
-                <div className="absolute bottom-20 md:bottom-24 right-4 left-4 md:left-auto md:right-6 md:w-[400px] h-[400px] md:h-[600px] max-h-[60vh] md:max-h-[calc(100vh-140px)] bg-white shadow-2xl rounded-[24px] md:rounded-[32px] border border-green-500/30 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in origin-bottom-right">
+                <div className="absolute bottom-[80px] md:bottom-24 right-4 left-4 md:left-auto md:right-6 md:w-[400px] h-[400px] md:h-[600px] max-h-[60dvh] md:max-h-[calc(100vh-140px)] bg-white shadow-2xl rounded-[24px] md:rounded-[32px] border border-green-500/30 overflow-hidden flex flex-col z-[9999] animate-in slide-in-from-bottom-5 fade-in origin-bottom-right">
                   {/* Animated Color Glow Wrapper */}
                   <div className="absolute inset-0 rounded-[24px] md:rounded-[32px] ring-2 ring-green-400/50 animate-[pulse_2s_cubic-bezier(0.4,0,0.6,1)_infinite] pointer-events-none shadow-[0_0_30px_rgba(34,197,94,0.2)] z-50"></div>
 
@@ -368,15 +368,15 @@ export default function BotDetail() {
                 </div>
                 )}
                 {/* Floating Action Button */}
-                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-12 h-12 md:w-16 md:h-16 bg-black rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-50 animate-[pulse_3s_ease-in-out_infinite] ${isChatOpen ? 'scale-90 opacity-90 animate-none shadow-xl' : ''}`}>
-                  {isChatOpen ? <X className="w-5 h-5 md:w-7 md:h-7 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border border-green-400" />}
+                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-14 h-14 md:w-16 md:h-16 bg-black rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-[99999] animate-[pulse_3s_ease-in-out_infinite] ${isChatOpen ? 'scale-90 opacity-90 animate-none shadow-xl' : ''}`}>
+                  {isChatOpen ? <X className="w-6 h-6 md:w-7 md:h-7 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border border-green-400" />}
                 </div>
               </>
             ) : (
               // Demo Free preview
               <>
                 {isChatOpen && (
-                <div className="absolute bottom-20 md:bottom-24 right-4 left-4 md:left-auto md:right-6 md:w-[320px] h-[400px] md:h-[450px] max-h-[60vh] md:max-h-[calc(100vh-140px)] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 origin-bottom-right">
+                <div className="absolute bottom-[80px] md:bottom-24 right-4 left-4 md:left-auto md:right-6 md:w-[320px] h-[400px] md:h-[450px] max-h-[60dvh] md:max-h-[calc(100vh-140px)] bg-white shadow-xl rounded-xl border border-zinc-200 overflow-hidden flex flex-col z-[9999] animate-in slide-in-from-bottom-5 fade-in duration-300 origin-bottom-right">
                   <div className="h-12 bg-purple-600 flex items-center justify-between px-4 shrink-0 shadow-sm z-10">
                      <div className="flex items-center">
                          <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center mr-2 overflow-hidden border border-purple-400">
@@ -420,8 +420,8 @@ export default function BotDetail() {
                 </div>
                 )}
                 {/* Floating Action Button */}
-                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-12 h-12 bg-purple-600 rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-50 ${isChatOpen ? 'scale-90 opacity-90' : ''}`}>
-                  {isChatOpen ? <X className="w-5 h-5 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-8 h-8 object-cover rounded-full border border-purple-400" />}
+                <div onClick={() => setIsChatOpen(!isChatOpen)} className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 w-14 h-14 md:w-16 md:h-16 bg-purple-600 rounded-full shadow-xl flex items-center justify-center cursor-pointer hover:scale-105 transition-transform z-[99999] ${isChatOpen ? 'scale-90 opacity-90' : ''}`}>
+                  {isChatOpen ? <X className="w-6 h-6 md:w-7 md:h-7 text-white" /> : <img src={astroPortraitImg} alt="Bot" className="w-10 h-10 md:w-12 md:h-12 object-cover rounded-full border border-purple-400" />}
                 </div>
               </>
             )}
