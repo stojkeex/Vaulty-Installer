@@ -10,8 +10,8 @@ import vaultyTextLogo from "@/assets/vaulty-text-logo.png";
 
 const CHATBOT_TIERS = [
   {
-    id: "free",
-    name: "Vaulty Astro",
+    id: "free-demo",
+    name: "Demo Vaulty Bot",
     subtitle: "SIMULATED",
     description: "Uses simulated pre-programmed responses. Does not consume Vaulty Credits.",
     type: "free",
@@ -27,25 +27,25 @@ const CHATBOT_TIERS = [
     ]
   },
   {
-    id: "rent-basic",
-    name: "Customer Support AI",
-    subtitle: "MONTHLY SUBSCRIPTION",
-    description: "Perfect for handling customer inquiries and support tickets.",
-    type: "rent",
-    price: 20,
-    features: ["GPT-3.5 integration", "Multi-language support", "Custom knowledge base", "Email & ticket forwarding"],
-    badge: "RENT",
+    id: "starter",
+    name: "Starter Chatbot",
+    subtitle: "MONTHLY / LIFETIME",
+    description: "Floating widget ideal for handling customer inquiries and support tickets.",
+    type: "rent", // We categorize as rent but it has buy option
+    price: 9.99,
+    features: ["1/4 Screen UI", "Embed Script or Source", "Vaulty API", "100 Free Credits/mo"],
+    badge: "STARTER",
     theme: "green"
   },
   {
-    id: "rent-pro",
-    name: "Lead Generation Pro",
-    subtitle: "PREMIUM",
-    description: "Capture leads, qualify prospects and grow your business 24/7.",
-    type: "rent",
-    price: 49,
-    features: ["GPT-4 integration", "CRM integrations", "Meeting scheduling", "Advanced analytics"],
-    badge: "RENT",
+    id: "premium",
+    name: "Premium Chatbot",
+    subtitle: "FULL SCREEN",
+    description: "Luxurious UI, FAQ tabs, human typing animations, and memory.",
+    type: "buy", // Just to spread them across tabs
+    price: 49.99,
+    features: ["Full Screen UI", "FAQ Customization", "Advanced Animations", "1000 Free Credits/mo"],
+    badge: "PREMIUM",
     theme: "blue"
   }
 ];
@@ -234,16 +234,20 @@ export default function Marketplace() {
 
                     {/* Buttons */}
                     <div className="flex gap-3 mt-auto">
-                        <Button variant="outline" className="flex-1 rounded-xl h-11 border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold shadow-none">
-                            <Eye className="w-4 h-4 mr-2 text-white/50" /> Preview Bot
-                        </Button>
-                        <Button className={`flex-1 rounded-xl h-11 text-xs font-bold shadow-none ${theme.primaryBtn}`}>
-                            {bot.price === 0 ? (
-                                <>Add to Dashboard <Plus className="w-4 h-4 ml-1.5 opacity-80" /></>
-                            ) : (
-                                <>Rent Now <ArrowRight className="w-4 h-4 ml-1.5 opacity-80" /></>
-                            )}
-                        </Button>
+                        <Link href={`/marketplace/bot/${bot.id}`} className="flex-1">
+                            <Button variant="outline" className="w-full rounded-xl h-11 border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-bold shadow-none">
+                                <Eye className="w-4 h-4 mr-2 text-white/50" /> View Details
+                            </Button>
+                        </Link>
+                        <Link href={`/marketplace/bot/${bot.id}`} className="flex-1">
+                            <Button className={`w-full rounded-xl h-11 text-xs font-bold shadow-none ${theme.primaryBtn}`}>
+                                {bot.price === 0 ? (
+                                    <>Add to Dashboard <Plus className="w-4 h-4 ml-1.5 opacity-80" /></>
+                                ) : (
+                                    <>Rent / Buy <ArrowRight className="w-4 h-4 ml-1.5 opacity-80" /></>
+                                )}
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             )
