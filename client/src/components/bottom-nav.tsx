@@ -1,6 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Users, User, Compass, TrendingUp, Wallet, Bot } from "lucide-react";
-import vaultyLogoImage from "@/assets/vaulty-logo-v.png";
+import { Home, User, Compass, Wallet, Bot, ShoppingBag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
@@ -29,20 +28,10 @@ export function BottomNav() {
   }, [user]);
 
   const items = useMemo(() => [
-    { href: "/marketplace", label: "STORE", icon: Compass },
-    { href: "/home", label: "HOME", icon: ({ className, style }: any) => (
-      <div className="flex items-center justify-center">
-        <img 
-          src={vaultyLogoImage} 
-          alt="Home" 
-          className="object-contain" 
-          style={{ width: "32px", height: "32px", filter: style?.color === "#ffffff" ? "brightness(0) invert(1)" : "brightness(0) invert(1) opacity(0.58)", transition: "all 150ms ease-in-out" }}
-        />
-      </div>
-    ) },
+    { href: "/marketplace", label: "STORE", icon: ShoppingBag },
+    { href: "/home", label: "HOME", icon: Home },
     { href: "/ai", label: "ASTRO", icon: Bot },
     { href: "/wallet", label: "WALLET", icon: Wallet },
-    { href: "/profile", label: "PROFILE", icon: User },
   ], []);
 
   const shouldHide = location === "/login" || 
@@ -50,7 +39,6 @@ export function BottomNav() {
                      location === "/landing" ||
                      location.startsWith("/feature/") ||
                      location.startsWith("/demo-trading/") ||
-                     location === "/ai" ||
                      location.startsWith("/messages/user/") ||
                      location === "/messages/global" ||
                      location.includes("/info") ||
@@ -68,7 +56,7 @@ export function BottomNav() {
 
   return (
     <div
-      className="pointer-events-none fixed bottom-10 left-1/2 z-50 w-auto -translate-x-1/2"
+      className="pointer-events-none fixed bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4"
       style={{
         opacity: shouldHide ? 0 : 1,
         pointerEvents: shouldHide ? "none" : "auto",
@@ -76,14 +64,12 @@ export function BottomNav() {
         visibility: shouldHide ? "hidden" : "visible"
       }}
     >
-      <div className="pointer-events-auto relative flex items-end justify-center gap-1 rounded-full border border-white/15 bg-black/80 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-3xl">
+      <div className="pointer-events-auto relative flex items-center justify-between gap-1 rounded-[32px] border border-white/5 bg-[#0a0a0a] px-6 py-2 shadow-2xl">
         {items.map((item) => {
           let isActive = false;
 
           if (item.href === "/home") {
             isActive = location === "/home" || location === "/";
-          } else if (item.href === "/messages") {
-            isActive = location.startsWith("/messages");
           } else {
             isActive = location.startsWith(item.href);
           }
@@ -93,7 +79,7 @@ export function BottomNav() {
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 14 }}
               className={cn(
-                "group relative flex h-14 w-16 flex-col items-center justify-center rounded-full cursor-pointer"
+                "group relative flex h-14 w-14 flex-col items-center justify-center rounded-full cursor-pointer"
               )}
               data-testid={`link-bottom-nav-${item.label.toLowerCase()}`}
             >
@@ -105,7 +91,7 @@ export function BottomNav() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.82 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute inset-0 m-auto h-14 w-14 rounded-full border border-white/20 bg-gradient-to-b from-white/25 to-white/5 shadow-[inset_0_1px_1px_rgba(255,255,255,0.4),0_4px_10px_rgba(0,0,0,0.3)] backdrop-blur-md"
+                    className="absolute inset-0 m-auto h-12 w-16 rounded-full bg-white/5 shadow-inner"
                   />
                 )}
               </AnimatePresence>
@@ -117,26 +103,26 @@ export function BottomNav() {
               >
                 {/* @ts-ignore */}
                 <item.icon
-                  className="h-5.5 w-5.5"
+                  className="h-5 w-5"
                   style={{
-                    color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.58)",
+                    color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.4)",
                     stroke: "currentColor",
-                    transition: "color 150ms ease-in-out, filter 150ms ease-in-out, opacity 150ms ease-in-out"
+                    transition: "color 150ms ease-in-out"
                   }}
                 />
               </motion.div>
 
               <span
                 className={cn(
-                  "relative z-10 mt-1 text-[9px] font-bold uppercase tracking-[0.18em] transition-colors",
-                  isActive ? "text-white" : "text-white/45"
+                  "relative z-10 mt-1 text-[9px] font-medium uppercase tracking-wider transition-colors",
+                  isActive ? "text-white" : "text-white/40"
                 )}
               >
                 {item.label}
               </span>
 
               {item.href === "/messages" && unreadCount > 0 && (
-                <div className="absolute right-2 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-[9px] font-bold text-slate-950">
+                <div className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[8px] font-bold text-black">
                   {unreadCount > 99 ? "99+" : unreadCount}
                 </div>
               )}
