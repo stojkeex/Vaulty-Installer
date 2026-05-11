@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/auth-context";
 import { Link, useLocation } from "wouter";
-import { Sparkles, Bell, Plus, MessageSquare, Wallet, Activity, ChevronRight, BarChart2, Blocks, ShieldCheck, CreditCard, ChevronDown } from "lucide-react";
+import { Sparkles, Bell, Plus, MessageSquare, Wallet, Activity, ChevronRight, BarChart2, Blocks, ShieldCheck, CreditCard, ChevronDown, Bot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import astronautImage from "@/assets/astronaut_no_bg.png";
 

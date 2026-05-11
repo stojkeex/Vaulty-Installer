@@ -53,11 +53,11 @@ function Router() {
   );
 }
 
-class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
-  state = { hasError: false };
+class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean; error: Error | null }> {
+  state = { hasError: false, error: null };
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error) {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -74,6 +74,11 @@ class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: 
             <p className="mt-2 text-sm leading-relaxed text-white/65">
               I kept the app alive, but this screen needs a refresh.
             </p>
+            {this.state.error && (
+              <div className="mt-4 text-xs text-red-400 break-all text-left bg-black/50 p-3 rounded-xl overflow-auto max-h-32">
+                {this.state.error.toString()}
+              </div>
+            )}
             <div className="mt-5 flex flex-col gap-3">
               <button
                 type="button"
@@ -85,6 +90,7 @@ class RouteErrorBoundary extends Component<{ children: ReactNode }, { hasError: 
               </button>
               <Link
                 href="/home"
+                onClick={() => this.setState({ hasError: false, error: null })}
                 className="w-full rounded-full border border-white/12 bg-white/5 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
                 data-testid="link-route-error-home"
               >

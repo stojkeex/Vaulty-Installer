@@ -56,7 +56,7 @@ export function BottomNav() {
 
   return (
     <div
-      className="pointer-events-none fixed bottom-6 left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4"
+      className="pointer-events-none fixed bottom-8 left-1/2 z-50 w-full max-w-sm -translate-x-1/2 px-4"
       style={{
         opacity: shouldHide ? 0 : 1,
         pointerEvents: shouldHide ? "none" : "auto",
@@ -64,7 +64,7 @@ export function BottomNav() {
         visibility: shouldHide ? "hidden" : "visible"
       }}
     >
-      <div className="pointer-events-auto relative flex items-center justify-between gap-1 rounded-[32px] border border-white/5 bg-[#0a0a0a] px-6 py-2 shadow-2xl">
+      <div className="pointer-events-auto relative flex items-center justify-between gap-1 rounded-full bg-[#0a0a0a] px-4 py-3 shadow-[0_0_20px_rgba(0,0,0,0.5)] border border-white/[0.05]">
         {items.map((item) => {
           let isActive = false;
 
@@ -79,7 +79,7 @@ export function BottomNav() {
               whileTap={{ scale: 0.9 }}
               transition={{ type: "spring", stiffness: 400, damping: 14 }}
               className={cn(
-                "group relative flex h-14 w-14 flex-col items-center justify-center rounded-full cursor-pointer"
+                "group relative flex h-14 w-[72px] flex-col items-center justify-center cursor-pointer overflow-hidden rounded-full"
               )}
               data-testid={`link-bottom-nav-${item.label.toLowerCase()}`}
             >
@@ -87,26 +87,26 @@ export function BottomNav() {
                 {isActive && (
                   <motion.div
                     key="bubble"
-                    initial={{ opacity: 0, scale: 0.82 }}
+                    initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.82 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute inset-0 m-auto h-12 w-16 rounded-full bg-white/5 shadow-inner"
+                    className="absolute inset-0 m-auto bg-[#1a1a1a] rounded-full shadow-inner"
                   />
                 )}
               </AnimatePresence>
 
               <motion.div
-                whileTap={{ scale: 1.08, y: -1 }}
+                whileTap={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 500, damping: 12 }}
-                className="relative z-10 flex items-center justify-center"
+                className="relative z-10 flex items-center justify-center mt-1"
               >
                 {/* @ts-ignore */}
                 <item.icon
-                  className="h-5 w-5"
+                  className="h-[22px] w-[22px]"
                   style={{
                     color: isActive ? "#ffffff" : "rgba(255, 255, 255, 0.4)",
-                    stroke: "currentColor",
+                    strokeWidth: 2,
                     transition: "color 150ms ease-in-out"
                   }}
                 />
@@ -114,7 +114,7 @@ export function BottomNav() {
 
               <span
                 className={cn(
-                  "relative z-10 mt-1 text-[9px] font-medium uppercase tracking-wider transition-colors",
+                  "relative z-10 mt-1.5 text-[9px] font-bold tracking-widest transition-colors",
                   isActive ? "text-white" : "text-white/40"
                 )}
               >
@@ -122,7 +122,7 @@ export function BottomNav() {
               </span>
 
               {item.href === "/messages" && unreadCount > 0 && (
-                <div className="absolute right-0 top-0 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[8px] font-bold text-black">
+                <div className="absolute right-2 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-white px-1 text-[8px] font-bold text-black">
                   {unreadCount > 99 ? "99+" : unreadCount}
                 </div>
               )}
